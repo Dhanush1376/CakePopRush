@@ -1,0 +1,501 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.title {
+  font-family: var(--font-family-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--admin-brown);
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.btnPrimary {
+  background-color: var(--admin-pink);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.2s;
+}
+.btnPrimary:hover { opacity: 0.9; }
+
+/* KPI Grid */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.kpiCard {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.kpiIconWrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kpiContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.kpiLabel {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.kpiValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--admin-brown);
+  line-height: 1.2;
+}
+
+.kpiTrend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+}
+
+.trendPositive { color: var(--admin-green); font-weight: 600; }
+.trendNegative { color: var(--color-error); font-weight: 600; }
+.trendText { color: var(--color-text-muted); font-weight: 400; }
+
+
+/* Toolbar */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  box-shadow: var(--shadow-sm);
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  flex: 1;
+}
+
+.searchIcon {
+  color: var(--color-text-muted);
+}
+
+.searchInput {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 13px;
+  color: var(--admin-brown);
+}
+.searchInput:focus, .searchInput:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+.searchInput::placeholder { color: var(--color-text-muted); }
+
+.filterSelect {
+  /* Inherits sizing on mobile, min-width handled by CustomSelect internally on desktop */
+}
+
+.btnOutline {
+  background-color: transparent;
+  color: var(--admin-pink);
+  border: 1px solid var(--admin-pink);
+  border-radius: var(--radius-md);
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btnOutline:hover { background-color: #FFF0F5; }
+
+
+/* Table Card */
+.tableCard {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tableTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--admin-brown);
+}
+
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.table th {
+  text-align: left;
+  padding: 1rem 1.5rem;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+/* Customer Cell */
+.customerCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.customerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.customerName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--admin-brown);
+}
+.customerContact {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+/* Location Cell */
+.locationCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--admin-brown);
+}
+
+/* Orders Cell */
+.ordersCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.orderCount {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--admin-brown);
+}
+.orderLabel {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+/* Spent Cell */
+.spentCell {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--admin-brown);
+}
+
+/* Date Cell */
+.dateCell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.datePrimary {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--admin-brown);
+}
+.dateSecondary {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+/* Status Badge */
+.badge {
+  display: inline-flex;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.badgeActive { background-color: #E8F5E9; color: var(--admin-green); }
+.badgeVIP { background-color: #F3E5F5; color: var(--admin-purple); }
+.badgeInactive { background-color: #FFEBEE; color: var(--color-error); }
+
+/* Actions */
+.actionsCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actionBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background-color: #FFF0F5;
+  color: var(--admin-pink);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.actionBtn:hover { opacity: 0.8; }
+
+.actionMenu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  z-index: 100;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.actionMenuItem {
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--admin-brown);
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.actionMenuItem:hover {
+  background-color: var(--color-surface-hover);
+}
+.dangerText {
+  color: var(--admin-pink);
+}
+.dangerText:hover {
+  background-color: #FFF0F5;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+}
+
+.pageInfo {
+  font-size: 13px;
+  color: var(--admin-brown);
+}
+
+.pageControls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pageBtn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-white);
+  color: var(--admin-brown);
+  font-size: 13px;
+  cursor: pointer;
+}
+.pageBtn.active {
+  background-color: var(--admin-pink);
+  color: var(--color-white);
+  border-color: var(--admin-pink);
+}
+.pageDots {
+  color: var(--color-text-muted);
+  padding: 0 4px;
+}
+
+
+/* Customer Card Grid View */
+.customersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+.customerCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-sm);
+}
+
+
+.hideOnDesktop {
+  display: none;
+}
+
+.mcHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.mcContact {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-left: 52px;
+  margin-top: -12px;
+  margin-bottom: 12px;
+}
+.mcStats {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--color-surface-hover);
+  padding: 12px;
+  border-radius: var(--radius-md);
+}
+.mcStatItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mcActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* Responsive */
+@media (max-width: 1440px) {
+  .kpiGrid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (max-width: 1024px) {
+  .kpiGrid { grid-template-columns: repeat(3, 1fr); }
+  
+  .toolbar { flex-wrap: wrap; }
+  .searchBox { width: 100%; min-width: 100%; }
+}
+
+@media (max-width: 768px) {
+  .header { flex-direction: column; gap: 1rem; }
+  
+  .kpiGrid { grid-template-columns: repeat(2, 1fr); }
+  
+  .toolbar { flex-direction: row; flex-wrap: wrap; }
+  .filterSelect { min-width: 0; flex: 1 1 calc(50% - 6px); }
+  .btnOutline { flex: 1 1 calc(50% - 6px); justify-content: center; }
+  
+  .tableWrapper { display: none; }
+  
+  /* Show cards as list on mobile */
+  .customersGrid, .customersGrid.hideOnDesktop {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .kpiGrid { grid-template-columns: repeat(2, 1fr); }
+  .pagination { flex-direction: column; gap: 1rem; }
+}
