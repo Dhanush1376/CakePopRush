@@ -1,0 +1,313 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(92, 51, 23, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: var(--z-drawer);
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 85vw;
+  max-width: 360px;
+  background-color: #FFFCF8; /* very light cream */
+  
+  background-size: 24px 24px;
+  background-position: center top;
+  z-index: calc(var(--z-drawer) + 1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.header {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: var(--color-chocolate);
+  cursor: pointer;
+  padding: var(--space-1);
+  transition: transform var(--duration-fast);
+}
+
+.closeButton:hover {
+  transform: scale(1.1);
+}
+
+.heroGraphic {
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-3) var(--space-2);
+}
+
+.navList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  color: var(--color-chocolate);
+  text-decoration: none;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.navIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: var(--space-3);
+  color: var(--color-text-muted);
+}
+
+.navLabel {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+}
+
+.navLink:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.active {
+  color: var(--color-brand-pink);
+}
+
+.active .navIcon {
+  color: var(--color-brand-pink);
+}
+
+.active .navLabel {
+  color: var(--color-brand-pink);
+  font-weight: var(--font-weight-bold);
+}
+
+.separator {
+  height: 1px;
+  background-color: var(--color-border);
+  margin: var(--space-3) var(--space-4);
+  opacity: 0.6;
+}
+
+/* --- Expandable Item & Grid --- */
+.expandableItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.expandIcon {
+  margin-left: auto;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+}
+
+.categoriesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2);
+  padding: 0 var(--space-4) var(--space-3) var(--space-7);
+}
+
+.categoryPill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  color: var(--color-chocolate);
+  text-decoration: none;
+  transition: all var(--duration-fast) ease;
+}
+
+.categoryPill:hover, .categoryPill.active {
+  background-color: var(--color-brand-pink);
+  color: var(--color-white);
+  border-color: var(--color-brand-pink);
+}
+
+.mascotWrapper {
+  position: absolute;
+  bottom: calc(100% - 4px);
+  right: 0;
+  width: 200px;
+  height: 120px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.mascotContainer {
+  position: absolute;
+  top: 21px;
+  right: 15px;
+  width: 140px;
+  height: 170px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.mascotContainer > div {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.mascotContainer :global(#arms),
+.mascotContainer :global(#front-arms) {
+  display: none !important;
+}
+
+.mascotHandLeft, .mascotHandRight {
+  position: absolute;
+  top: 108px;
+  width: 6px;
+  height: 12px;
+  background-color: #1c1c1c;
+  border-radius: 6px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.mascotHandLeft::before, .mascotHandLeft::after,
+.mascotHandRight::before, .mascotHandRight::after {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  width: 6px;
+  height: 9px;
+  background-color: #1c1c1c;
+  border-radius: 6px;
+}
+
+.mascotHandLeft::before, .mascotHandRight::before { left: -4px; }
+.mascotHandLeft::after, .mascotHandRight::after { left: 4px; }
+
+.mascotHandLeft {
+  right: 115px;
+}
+
+.mascotHandRight {
+  right: 55px;
+}
+
+.footer {
+  position: relative;
+  padding: var(--space-4);
+  background-color: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid var(--color-border);
+}
+
+.socialLinks {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.socialLinkPhone {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+.socialLinkPhone:hover {
+  transform: translateY(-2px);
+  background-color: #f59e0b;
+  color: var(--color-white);
+}
+
+.socialLinkMail {
+  background-color: rgba(242, 13, 111, 0.1);
+  color: var(--color-brand-pink);
+}
+.socialLinkMail:hover {
+  transform: translateY(-2px);
+  background-color: var(--color-brand-pink);
+  color: var(--color-white);
+}
+
+.socialLinkInsta {
+  background-color: rgba(20, 184, 166, 0.15);
+  color: #14b8a6;
+}
+.socialLinkInsta:hover {
+  transform: translateY(-2px);
+  background-color: #14b8a6;
+  color: var(--color-white);
+}
+
+.actionRow {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: var(--space-4);
+  margin-bottom: var(--space-1);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.actionGroup {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.actionItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-chocolate); /* Assuming chocolate or dark text */
+  text-decoration: none;
+  font-family: var(--font-family-body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  transition: opacity var(--duration-fast);
+}
+
+.actionItem:hover {
+  opacity: 0.7;
+}

@@ -1,0 +1,190 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #ffffff;
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-attachment: fixed;
+  width: 100%;
+  border-bottom: 1px solid #f0f0f0;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease-in-out;
+}
+
+.header.hidden {
+  transform: translateY(-100%);
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 24px 8px; /* Reduced top padding */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.logoWrapper {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: black;
+}
+
+.logoTextBold {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 0.8;
+  letter-spacing: -1.5px;
+}
+
+.logoTextNormal {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  margin-top: 4px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* Reduced gap between icons */
+}
+
+.iconButton, .menuButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-chocolate);
+  border-radius: 50%;
+  transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+}
+
+.iconButton:hover, .menuButton:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+  transform: translateY(-1px);
+  color: var(--color-brand-pink);
+}
+
+.cartIconWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cartBadgeWrapper {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  transform: scale(0.85);
+  pointer-events: none;
+}
+
+.desktopNav {
+  display: none; /* Hidden on mobile */
+}
+
+@media (min-width: 1024px) {
+  .desktopNav {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Reduced from 28px to fit all 7 links nicely */
+  }
+
+  .navLink {
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 15px;
+    color: var(--color-chocolate);
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: color 0.2s ease;
+  }
+
+  .navLink:hover {
+    color: var(--color-brand-pink);
+  }
+
+  .menuButton {
+    display: none; /* Hide hamburger menu on desktop since we have inline links */
+  }
+}
+
+.mobileCategories {
+  display: flex;
+  gap: 28px;
+  padding: 12px 28px 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.mobileCategories::-webkit-scrollbar {
+  display: none;
+}
+
+.category {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  color: var(--color-chocolate);
+  white-space: nowrap;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: color 0.2s ease;
+}
+
+.category:hover {
+  color: var(--color-brand-pink);
+}
+
+.desktopOnlyIcon {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .mobileCategories {
+    display: none; /* Hide the scrolling categories on desktop since they have the inline nav */
+  }
+
+  .desktopOnlyIcon {
+    display: flex;
+  }
+}
+
+.cartPageHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.backButton {
+  color: var(--color-chocolate);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.backButton:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+.cartTitleText {
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-chocolate);
+  display: flex;
+  align-items: center;
+}
