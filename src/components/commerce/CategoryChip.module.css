@@ -1,0 +1,40 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-border);
+  color: var(--color-text);
+  transition: all var(--duration-fast) var(--ease-out);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.chip:hover {
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-brand-pink);
+}
+
+.chip.active {
+  background-color: var(--color-brand-pink);
+  border-color: var(--color-brand-pink);
+  color: var(--color-white);
+  box-shadow: var(--shadow-sm);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25em;
+  height: 1.25em;
+}
+
+.label {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.02em;
+}

@@ -1,0 +1,32 @@
+.container {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: var(--font-family-price);
+}
+
+.currentPrice {
+  color: var(--color-brand-pink);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-none);
+}
+
+.compareAtPrice {
+  color: var(--color-text-muted);
+  text-decoration: line-through;
+  font-weight: var(--font-weight-regular);
+  font-size: 0.8em;
+}
+
+/* Sizes */
+.sm {
+  font-size: var(--font-size-base);
+}
+
+.md {
+  font-size: var(--font-size-lg);
+}
+
+.lg {
+  font-size: var(--font-size-2xl);
+}

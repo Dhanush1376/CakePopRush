@@ -1,0 +1,449 @@
+import React, { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Search, X, Loader2, ArrowRight, Clock, ArrowLeft, Mic, Camera, Trash2 } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { mockProducts, mockCategories, searchProducts, getBestSellingProducts } from '@/mocks/products'
+import {
+  AllItemsIcon,
+  BirthdayCakesIcon,
+  CakePopsIcon,
+  CupcakesIcon,
+  CookiesIcon,
+  CakesiclesIcon,
+  BrowniesIcon,
+  MacaronsIcon,
+  TrufflesIcon
+} from '@/components/icons/DessertIcons'
+import { Product } from '@/types/product'
+import { Button } from '../ui/Button'
+import styles from './SearchBar.module.css'
+import { createPortal } from 'react-dom'
+
+const getCategoryIcon = (id: string) => {
+  switch(id) {
+    case 'all': return <AllItemsIcon width={32} height={32} />
+    case 'cake-pops': return <CakePopsIcon width={32} height={32} />
+    case 'cakesicles': return <CakesiclesIcon width={32} height={32} />
+    case 'cookies': return <CookiesIcon width={32} height={32} />
+    case 'brownies': return <BrowniesIcon width={32} height={32} />
+    case 'cupcakes': return <CupcakesIcon width={32} height={32} />
+    case 'macarons': return <MacaronsIcon width={32} height={32} />
+    case 'truffles': return <TrufflesIcon width={32} height={32} />
+    case 'desserts': return <TrufflesIcon width={32} height={32} />
+    case 'birthday-cakes': return <BirthdayCakesIcon width={32} height={32} />
+    default: return null;
+  }
+}
+
+interface SearchBarProps {
+  isMobile?: boolean
+  onClose?: () => void
+}
+
+const POPULAR_SEARCHES = ['Cake Pops', 'Cookies', 'Cookie Dough', 'Truffles', 'Desserts']
+
+// Mock debounce function
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value)
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedValue(value), delay)
+    return () => clearTimeout(handler)
+  }, [value, delay])
+  return debouncedValue
+}
+
+export const SearchBar = ({ isMobile = false, onClose }: SearchBarProps) => {
+  const navigate = useNavigate()
+  const [query, setQuery] = useState('')
+  const [isFocused, setIsFocused] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [results, setResults] = useState<Product[]>([])
+  const [recentSearches, setRecentSearches] = useState<string[]>(['Chocolate cake pops', 'Strawberry cookies'])
+  const [activeIndex, setActiveIndex] = useState(-1)
+  
+  const inputRef = useRef<HTMLInputElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  
+  const debouncedQuery = useDebounce(query, 300)
+
+  // Focus input automatically on mobile when opened
+  useEffect(() => {
+    if (isMobile && inputRef.current) {
+      setTimeout(() => inputRef.current?.focus(), 100)
+    }
+  }, [isMobile])
+
+  // Handle click outside to close desktop dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsFocused(false)
+      }
+    }
+    if (!isMobile) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isMobile])
+
+  // Simulate search API call
+  useEffect(() => {
+    if (!debouncedQuery.trim()) {
+      setResults([])
+      setIsLoading(false)
+      setActiveIndex(-1)
+      return
+    }
+
+    setIsLoading(true)
+    // Simulate network delay
+    const timer = setTimeout(() => {
+      const lowercaseQuery = debouncedQuery.toLowerCase()
+      const filtered = searchProducts(lowercaseQuery).slice(0, 5)
+      
+      setResults(filtered)
+      setIsLoading(false)
+      setActiveIndex(-1)
+    }, 400)
+
+    return () => clearTimeout(timer)
+  }, [debouncedQuery])
+
+  // Reset loading state immediately on new input
+  useEffect(() => {
+    if (query.trim() !== debouncedQuery.trim()) {
+      setIsLoading(true)
+    }
+  }, [query, debouncedQuery])
+
+  const handleClear = () => {
+    setQuery('')
+    inputRef.current?.focus()
+  }
+
+  const handleResultClick = (product: Product) => {
+    navigate(`/product/${product.slug}`)
+    setIsFocused(false)
+    if (onClose) onClose()
+    
+    // Add to recent searches
+    if (!recentSearches.includes(product.name)) {
+      setRecentSearches(prev => [product.name, ...prev].slice(0, 4))
+    }
+  }
+
+  const handleSearchSubmit = (searchTerm: string) => {
+    if (searchTerm.trim()) {
+      navigate(`/shop?search=${encodeURIComponent(searchTerm)}`)
+      setIsFocused(false)
+      if (onClose) onClose()
+      
+      if (!recentSearches.includes(searchTerm)) {
+        setRecentSearches(prev => [searchTerm, ...prev].slice(0, 4))
+      }
+    }
+  }
+
+  const removeRecent = (e: React.MouseEvent, term: string) => {
+    e.stopPropagation()
+    setRecentSearches(prev => prev.filter(t => t !== term))
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      setIsFocused(false)
+      inputRef.current?.blur()
+      if (isMobile && onClose) onClose()
+      return
+    }
+
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      if (activeIndex >= 0 && results[activeIndex]) {
+        handleResultClick(results[activeIndex])
+      } else {
+        handleSearchSubmit(query)
+      }
+      return
+    }
+
+    if (!results.length) return
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setActiveIndex(prev => (prev < results.length - 1 ? prev + 1 : prev))
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setActiveIndex(prev => (prev > -1 ? prev - 1 : -1))
+    }
+  }
+
+  const renderContent = () => {
+    if (query.trim().length === 0) {
+      return (
+        <>
+          {recentSearches.length > 0 && (
+            <div className={styles.section}>
+              <div className={styles.sectionHeader}>
+                <div className={styles.sectionHeaderTitle}>
+                  Recent Searches
+                </div>
+                <button className={styles.clearAllBtn} onClick={() => setRecentSearches([])}>
+                  Clear all <Trash2 size={14} />
+                </button>
+              </div>
+              <ul className={styles.recentList}>
+                {recentSearches.map(term => (
+                  <li key={term}>
+                    <button className={styles.recentRow} onClick={() => handleSearchSubmit(term)}>
+                      <div className={styles.recentIconCircle}>
+                        <Clock size={16} />
+                      </div>
+                      <span className={styles.recentText}>{term}</span>
+                      <div className={styles.removeRecent} onClick={(e) => removeRecent(e, term)}>
+                        <X size={16} />
+                      </div>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          
+          <div className={styles.section}>
+            <div className={styles.sectionHeader}>
+              <div className={styles.sectionTitle} style={{ marginBottom: 0 }}>Explore Categories</div>
+              <button 
+                className={styles.viewAllBtn}
+                onClick={() => {
+                  navigate('/shop')
+                  setIsFocused(false)
+                  if (onClose) onClose()
+                }}
+              >
+                View all <ArrowRight size={14} />
+              </button>
+            </div>
+            <div className={styles.categoryScroll}>
+              {mockCategories.map((cat) => {
+                const isActive = cat.id === 'all'
+                return (
+                  <button
+                    type="button"
+                    key={cat.id}
+                    className={`${styles.categoryBtn} ${isActive ? styles.active : ''}`}
+                    onClick={() => {
+                      if (cat.id !== 'all') {
+                        navigate(`/shop?category=${cat.id}`)
+                      } else {
+                        navigate(`/shop`)
+                      }
+                      setIsFocused(false)
+                      if (onClose) onClose()
+                    }}
+                  >
+                    <div className={styles.iconContainer}>
+                      {getCategoryIcon(cat.id)}
+                    </div>
+                    <span className={styles.label}>{cat.name}</span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className={styles.section} style={{ marginTop: '32px' }}>
+            <div className={styles.sectionHeader}>
+              <div className={styles.sectionHeaderTitle} style={{ marginBottom: 0, color: '#0b7070' }}>
+                Trending Treats
+              </div>
+              <button 
+                className={styles.viewAllBtn}
+                style={{ color: '#0b7070' }}
+                onClick={() => {
+                  navigate('/shop')
+                  setIsFocused(false)
+                  if (onClose) onClose()
+                }}
+              >
+                View all <ArrowRight size={14} />
+              </button>
+            </div>
+            <div className={styles.trendingGrid}>
+              {getBestSellingProducts(3).map(product => (
+                <button 
+                  key={product.id} 
+                  className={styles.resultRow}
+                  onClick={() => {
+                    navigate(`/product/${product.slug}`)
+                    setIsFocused(false)
+                    if (onClose) onClose()
+                  }}
+                >
+                  <div className={styles.resultImageWrapper}>
+                    <img src={product.images[0].url} alt={product.name} className={styles.resultImage} />
+                  </div>
+                  <div className={styles.resultInfo}>
+                    <h4 className={styles.resultName}>{product.name}</h4>
+                    <p className={styles.resultCategory}>{product.categoryName}</p>
+                  </div>
+                  <span className={styles.resultPrice}>₹{product.basePrice / 100}</span>
+                  <ArrowRight size={18} className={styles.resultArrow} />
+                </button>
+              ))}
+            </div>
+          </div>
+        </>
+      )
+    }
+
+    if (isLoading) {
+      return null // Show loading icon in the input field instead of jumping content
+    }
+
+    if (results.length === 0) {
+      return (
+        <div className={styles.noResults}>
+          <h4 className={styles.noResultsTitle}>No treats found</h4>
+          <p className={styles.noResultsText}>Try searching for something sweeter.</p>
+          <Button variant="outline" onClick={() => handleSearchSubmit('')}>
+            Browse All Treats
+          </Button>
+        </div>
+      )
+    }
+
+    return (
+      <div className={styles.section}>
+        <div className={styles.sectionTitle}>Search Results</div>
+        <ul className={styles.resultList} role="listbox">
+          {results.map((product, index) => (
+            <li key={product.id}>
+              <button 
+                className={styles.resultRow} 
+                data-active={index === activeIndex}
+                onClick={() => handleResultClick(product)}
+                onMouseEnter={() => setActiveIndex(index)}
+                role="option"
+                aria-selected={index === activeIndex}
+              >
+                <div className={styles.resultImageWrapper}>
+                  <img src={product.images[0]?.url} alt={product.name} className={styles.resultImage} />
+                </div>
+                <div className={styles.resultInfo}>
+                  <h4 className={styles.resultName}>{product.name}</h4>
+                  <p className={styles.resultCategory}>{product.categoryName}</p>
+                </div>
+                <span className={styles.resultPrice}>₹{product.basePrice / 100}</span>
+                <ArrowRight size={18} className={styles.resultArrow} />
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  // --- MOBILE RENDER ---
+  if (isMobile) {
+    return createPortal(
+      <AnimatePresence>
+        <motion.div 
+          className={styles.mobileOverlay}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.2 }}
+          role="search"
+        >
+          <div className={styles.mobileHeader}>
+            <button className={styles.backButton} onClick={onClose} aria-label="Close search">
+              <ArrowLeft size={24} />
+            </button>
+            <div className={styles.mobileSearchField}>
+              <Search size={20} className={styles.searchIcon} style={{ marginLeft: 12, marginRight: 8 }} />
+              <input
+                ref={inputRef}
+                type="text"
+                className={styles.searchInput}
+                placeholder="Search your favorite treats..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
+                aria-label="Search products"
+              />
+              <div className={styles.actionWrapper}>
+                {isLoading && <Loader2 size={16} className={styles.loadingIcon} />}
+                {query.length > 0 && !isLoading ? (
+                  <button className={styles.clearButton} onClick={handleClear} aria-label="Clear search">
+                    <X size={14} strokeWidth={2.5} />
+                  </button>
+                ) : (
+                  <>
+                    <button className={styles.iconButton} aria-label="Voice search">
+                      <Mic size={18} strokeWidth={2} />
+                    </button>
+                    <button className={styles.iconButton} aria-label="Visual search">
+                      <Camera size={18} strokeWidth={2} />
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className={styles.mobileContent}>
+            {renderContent()}
+          </div>
+        </motion.div>
+      </AnimatePresence>,
+      document.body
+    )
+  }
+
+  // --- DESKTOP RENDER ---
+  return (
+    <div className={styles.searchContainer} ref={containerRef} role="search">
+      <div className={styles.desktopContainer}>
+        <div className={styles.searchFieldWrapper}>
+          <Search size={20} className={styles.searchIcon} />
+          <input
+            ref={inputRef}
+            type="text"
+            className={styles.searchInput}
+            placeholder="Search cake pops, cookies & more..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onFocus={() => setIsFocused(true)}
+            onKeyDown={handleKeyDown}
+            aria-label="Search products"
+            aria-expanded={isFocused}
+          />
+          <div className={styles.actionWrapper}>
+            {isLoading && <Loader2 size={16} className={styles.loadingIcon} />}
+            {query.length > 0 && !isLoading && (
+              <button className={styles.clearButton} onClick={handleClear} aria-label="Clear search">
+                <X size={14} strokeWidth={2.5} />
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {isFocused && (
+          <motion.div 
+            className={styles.dropdownPanel}
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.15 }}
+          >
+            {renderContent()}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
