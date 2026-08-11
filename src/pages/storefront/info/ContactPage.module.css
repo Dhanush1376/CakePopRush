@@ -1,0 +1,256 @@
+.pageContainer {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--color-white);
+  padding-bottom: var(--space-12);
+}
+
+.contentWrapper {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+}
+
+.header {
+  margin-bottom: var(--space-6);
+}
+
+.title {
+  font-family: var(--font-family-display);
+  font-size: 2rem;
+  color: var(--color-chocolate);
+  margin-bottom: var(--space-2);
+}
+
+.underline {
+  width: 40px;
+  height: 3px;
+  background-color: var(--color-brand-pink);
+  margin-bottom: var(--space-3);
+}
+
+.subtitle {
+  font-family: var(--font-family-body);
+  font-size: 0.95rem;
+  color: #8E8A85; /* Grayish brown */
+}
+
+/* Form Styles */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-8);
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+@media (min-width: 600px) {
+  .formRow {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.inputGroup {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.textareaGroup {
+  align-items: flex-start;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 0;
+  color: rgba(56, 30, 16, 0.5);
+  transition: color var(--duration-fast);
+}
+
+.textareaIcon {
+  position: absolute;
+  left: 0;
+  top: 16px;
+  color: rgba(56, 30, 16, 0.5);
+  transition: color var(--duration-fast);
+}
+
+.inputGroup:focus-within .inputIcon,
+.textareaGroup:focus-within .textareaIcon {
+  color: var(--color-brand-pink);
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: 16px 0 16px 36px;
+  border: none;
+  border-bottom: 2px solid rgba(56, 30, 16, 0.15);
+  border-radius: 0;
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--color-chocolate);
+  background: transparent;
+  transition: all var(--duration-fast);
+}
+
+.select {
+  appearance: none;
+  cursor: pointer;
+}
+
+.select:invalid,
+.select option[value=""] {
+  color: rgba(56, 30, 16, 0.5);
+  text-transform: uppercase;
+}
+
+.selectIcon {
+  position: absolute;
+  right: 0;
+  color: rgba(56, 30, 16, 0.5);
+  pointer-events: none;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: rgba(56, 30, 16, 0.5);
+  text-transform: uppercase;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--color-brand-pink);
+}
+
+.textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.submitBtn {
+  width: 100%;
+  margin-top: var(--space-2);
+  background-color: var(--color-brand-pink) !important;
+  color: var(--color-white) !important;
+  font-weight: var(--font-weight-bold);
+  border: none;
+  padding: 16px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-base);
+}
+
+.submitBtn:hover {
+  background-color: #E00C63 !important;
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #8E8A85;
+  font-size: 0.85rem;
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-8);
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #E5E0DB;
+}
+
+.divider span {
+  padding: 0 var(--space-4);
+}
+
+/* Cards Grid */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 900px) {
+  .cardsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: var(--color-white);
+  border: 1px solid #E5E0DB;
+  border-radius: var(--radius-lg);
+  padding: var(--space-8) var(--space-4);
+  transition: transform var(--duration-normal), box-shadow var(--duration-normal);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-sm);
+}
+
+.iconCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin-bottom: var(--space-4);
+}
+
+.pinkCircle {
+  background: rgba(242, 13, 111, 0.1);
+  color: var(--color-brand-pink);
+}
+
+.yellowCircle {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--color-brand-yellow);
+}
+
+.tealCircle {
+  background: rgba(20, 184, 166, 0.1);
+  color: #14b8a6;
+}
+
+.purpleCircle {
+  background: rgba(139, 92, 246, 0.1);
+  color: #8b5cf6;
+}
+
+.cardTitle {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-base);
+  color: var(--color-chocolate);
+  margin-bottom: var(--space-2);
+  font-weight: var(--font-weight-bold);
+}
+
+.cardText {
+  color: var(--color-chocolate);
+  font-size: var(--font-size-sm);
+  margin-bottom: 2px;
+}
+
+.cardSubtext {
+  color: #8E8A85;
+  font-size: 13px;
+}
