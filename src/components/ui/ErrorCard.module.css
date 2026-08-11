@@ -1,0 +1,107 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.iconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: var(--space-6);
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-chocolate);
+  margin: 0 0 var(--space-2) 0;
+  line-height: 1.3;
+}
+
+.description {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-8) 0;
+  line-height: var(--line-height-relaxed);
+  max-width: 360px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.primaryAction {
+  background: none;
+  border: none;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-chocolate);
+  cursor: pointer;
+  border-bottom: 2px solid var(--color-chocolate);
+  padding-bottom: 4px;
+  transition: all var(--duration-fast);
+  text-decoration: none;
+}
+
+.primaryAction span {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  transition: all var(--duration-fast);
+}
+
+.primaryAction:hover {
+  transform: translateY(-2px);
+  color: var(--color-brand-pink);
+  border-bottom-color: var(--color-brand-pink);
+}
+
+.secondaryAction {
+  color: var(--color-text-muted);
+  font-family: var(--font-family-body);
+  font-weight: var(--font-weight-medium);
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.secondaryAction:hover {
+  color: var(--color-brand-pink);
+}
+
+.errorMessage {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background-color: rgba(242, 13, 111, 0.05); /* very soft pink */
+  border: 1px solid rgba(242, 13, 111, 0.2);
+  border-radius: 12px;
+  color: var(--color-brand-pink);
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+}

@@ -1,0 +1,42 @@
+.bubble {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background-color: var(--color-white);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 999px;
+  padding: 6px 12px;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.1);
+  z-index: 10;
+}
+
+/* Add a small arrow pointing up */
+.bubble::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 16px;
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-white);
+  border-top: 1px solid rgba(239, 68, 68, 0.2);
+  border-left: 1px solid rgba(239, 68, 68, 0.2);
+  transform: rotate(45deg);
+}
+
+.icon {
+  color: var(--color-danger);
+  z-index: 1; /* above the arrow */
+}
+
+.text {
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-danger);
+  z-index: 1;
+  white-space: nowrap;
+}
