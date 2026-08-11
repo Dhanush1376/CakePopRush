@@ -1,0 +1,168 @@
+.toolbarSection {
+  background-color: transparent;
+  padding: 16px 0 8px 0;
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.productCount {
+  font-family: var(--font-primary);
+  font-size: 14px;
+  color: var(--color-chocolate);
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.productCount strong {
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.actionsBox {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background-color: var(--color-white);
+  padding: 8px 16px;
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(91, 58, 41, 0.05);
+  border: 1px solid rgba(142, 122, 110, 0.1);
+}
+
+.filterButton,
+.sortDropdown {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  font-family: var(--font-primary);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-chocolate);
+  cursor: pointer;
+  transition: color 0.2s ease;
+  padding: 0;
+  outline: none;
+}
+
+.filterButton strong,
+.sortDropdown strong {
+  font-weight: 700;
+  color: inherit;
+}
+
+.filterButton:hover,
+.filterButton:focus-visible,
+.sortDropdown:hover,
+.sortDropdown:focus-visible {
+  color: var(--color-primary);
+}
+
+.divider {
+  width: 1px;
+  height: 16px;
+  background-color: rgba(142, 122, 110, 0.2);
+}
+
+@media (max-width: 480px) {
+  .actionsBox {
+    padding: 6px 12px;
+    gap: 12px;
+  }
+
+  .filterButton span,
+  .sortDropdown span {
+    font-size: 12px;
+  }
+
+  .productCount {
+    font-size: 12px;
+  }
+}
+
+.sortWrapper {
+  position: relative;
+}
+
+.sortMenu {
+  position: absolute;
+  right: 0;
+  background-color: var(--color-white);
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(91, 58, 41, 0.12), 0 4px 12px rgba(91, 58, 41, 0.04);
+  border: 1px solid rgba(142, 122, 110, 0.1);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  z-index: 100;
+}
+
+.sortMenuBottom {
+  top: calc(100% + 12px);
+  animation: slideDown 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sortMenuTop {
+  bottom: calc(100% + 12px);
+  animation: slideUp 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sortOption {
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-family: var(--font-primary);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-chocolate);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sortOption:hover,
+.sortOption:focus-visible {
+  background-color: rgba(242, 13, 111, 0.05);
+  color: var(--color-primary);
+  outline: none;
+}
+
+.activeOption {
+  background-color: rgba(242, 13, 111, 0.08);
+  color: var(--color-primary);
+  font-weight: 700;
+}
