@@ -1,0 +1,251 @@
+/* Shared component styles for Admin Dashboard */
+
+.card {
+  background-color: var(--admin-card-bg);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  /* overflow: hidden; removed to allow decorations to pop out */
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.cardTitle {
+  font-family: var(--font-family-body);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--admin-brown);
+}
+
+.viewAll {
+  color: var(--admin-pink);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.viewAll:hover {
+  text-decoration: underline;
+}
+
+.dropdown {
+  padding: 4px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-white);
+  color: var(--admin-brown);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* StatCard specific responsive overrides */
+.statContent {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.statIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.statTitle {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--admin-brown);
+  line-height: 1;
+}
+
+.statMeta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.statGrowth {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.statComparison {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 1200px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .card.statCardMobile {
+    padding: 0.75rem !important;
+  }
+  
+  .statContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .statIcon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  /* Target the SVG inside statIcon to make it smaller on mobile */
+  .statIcon > svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .statTitle {
+    font-size: 11px;
+    margin-bottom: 2px;
+  }
+  
+  .statValue {
+    font-size: 18px;
+  }
+  
+  .statMeta {
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 4px;
+  }
+  
+.statComparison {
+    display: none; /* Hide 'vs last 7 days' to save space on mobile */
+  }
+}
+
+/* Welcome Section Responsive Styles */
+.welcomeSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.welcomeTitle {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--admin-brown);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.welcomeSubtitle {
+  color: var(--admin-brown-light);
+  font-size: 14px;
+  margin: 0;
+}
+
+.datePickerBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  color: var(--admin-brown);
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: var(--admin-shadow);
+  flex-shrink: 0;
+}
+
+.dateTextDesktop {
+  white-space: nowrap;
+}
+
+.dateTextMobile {
+  display: none;
+  white-space: nowrap;
+}
+
+@media (max-width: 576px) {
+  .welcomeSection {
+    flex-wrap: nowrap; /* Keep calendar next to text */
+  }
+  
+  .welcomeTitle {
+    font-size: 18px;
+  }
+  
+  .welcomeSubtitle {
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .datePickerBtn {
+    padding: 6px 10px;
+    font-size: 11px;
+    gap: 4px;
+  }
+  
+  .datePickerBtn > svg:first-child {
+    width: 14px !important;
+    height: 14px !important;
+  }
+  
+  .dateTextDesktop {
+    display: none;
+  }
+  
+  .dateTextMobile {
+    display: inline;
+  }
+}

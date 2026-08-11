@@ -1,0 +1,106 @@
+/* Container & Shimmer Animation */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.skeleton {
+  background: #f6f7f8;
+  background-image: linear-gradient(
+    to right,
+    #f6f7f8 0%,
+    #edeef1 20%,
+    #f6f7f8 40%,
+    #f6f7f8 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 1000px 100%; 
+  animation-duration: 2s;
+  animation-fill-mode: forwards; 
+  animation-iteration-count: infinite;
+  animation-name: shimmer;
+  animation-timing-function: linear;
+  border-radius: var(--radius-md);
+}
+
+/* Header */
+.header { margin-bottom: 8px; }
+.titleSkeleton { width: 160px; height: 32px; margin-bottom: 8px; }
+.subtitleSkeleton { width: 240px; height: 16px; }
+
+/* KPI Grid */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.kpiCard {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: var(--shadow-sm);
+}
+.kpiIconSkeleton { width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0; }
+.kpiContent { flex: 1; }
+.kpiLabelSkeleton { width: 60%; height: 12px; margin-bottom: 8px; }
+.kpiValueSkeleton { width: 80%; height: 24px; margin-bottom: 8px; border-radius: 4px; }
+.kpiTrendSkeleton { width: 50%; height: 12px; }
+
+/* Toolbar */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.searchSkeleton { flex: 1; height: 36px; border-radius: 8px; }
+.filterSkeleton { width: 140px; height: 36px; border-radius: 8px; }
+.btnSkeleton { width: 80px; height: 36px; border-radius: 8px; }
+
+/* Table */
+.tableCard {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.tableHeader { padding: 24px; border-bottom: 1px solid var(--color-border); }
+.tableTitleSkeleton { width: 120px; height: 20px; }
+
+.tableWrapper { width: 100%; }
+.tableHeaderRow, .tableRow {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1fr 1fr 0.5fr;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+  gap: 16px;
+  align-items: center;
+}
+.thSkeleton { height: 12px; width: 60%; }
+.cell { width: 100%; }
+
+.customerCell { display: flex; align-items: center; gap: 12px; }
+.avatarSkeleton { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; }
+.nameSkeleton { width: 120px; height: 14px; margin-bottom: 6px; }
+.emailSkeleton { width: 150px; height: 12px; }
+
+.textSkeleton { height: 14px; border-radius: 4px; }
+.badgeSkeleton { height: 24px; width: 60px; border-radius: 12px; }
+
+.actionsCell { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+.actionSkeleton { width: 32px; height: 32px; border-radius: 8px; }

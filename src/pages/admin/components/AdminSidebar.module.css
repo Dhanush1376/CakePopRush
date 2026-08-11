@@ -1,0 +1,310 @@
+.sidebar {
+  width: 100%;
+  height: 100vh;
+  background-color: var(--color-white);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-drawer);
+  transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+  overflow: hidden; /* Ensure content doesn't overflow during resize */
+}
+
+/* When parent grid column is 80px on desktop, collapse to icon view */
+@media (min-width: 992px) {
+  .sidebar.closed {
+    width: 80px;
+    overflow: visible; /* Allow tooltips to overflow */
+  }
+  
+  .sidebar.closed .logoImage {
+    width: 45px;
+    opacity: 1;
+    margin: 0;
+  }
+  
+  .sidebar.closed .logoContainer {
+    padding: 1.5rem 0.5rem 2.5rem;
+  }
+  
+  .sidebar.closed .navItemText {
+    position: absolute;
+    left: calc(100% + 15px);
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    visibility: hidden;
+    width: auto;
+    white-space: nowrap;
+    overflow: visible;
+    background-color: var(--color-white);
+    color: var(--admin-brown);
+    padding: 6px 12px;
+    border-radius: 6px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+    font-size: 13px;
+    font-weight: 500;
+    pointer-events: none;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    z-index: 1000;
+  }
+
+  .sidebar.closed .navItem:hover .navItemText {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .sidebar.closed .navItem {
+    padding: 0.4rem 0;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .sidebar.closed .navItem svg {
+    margin-right: 0;
+    width: 18px;
+    height: 18px;
+  }
+
+  .sidebar.closed .activeIndicator {
+    left: -0.8rem;
+  }
+
+  .sidebar.closed .userDetails,
+  .sidebar.closed .userSection > svg {
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    margin: 0;
+  }
+  
+  .sidebar.closed .userSection {
+    padding: 1rem 0;
+    justify-content: center;
+  }
+  
+  .sidebar.closed .userInfo {
+    justify-content: center;
+  }
+  .sidebar.closed .navContainer {
+    overflow: visible;
+  }
+  
+  .sidebar.closed .decorativeBottom {
+    display: none;
+  }
+}
+
+.logoContainer {
+  padding: 2rem 2rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.logoImage {
+  width: 100px;
+  height: auto;
+  display: block;
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.navContainer {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 1rem;
+  /* Hide scrollbar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.navContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0;
+  border-radius: var(--radius-md);
+  color: var(--admin-brown);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 13.5px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.navItemText {
+  white-space: nowrap;
+  overflow: hidden;
+  opacity: 1;
+  max-width: 200px;
+  transition: all 0.3s ease;
+}
+
+.navItem svg {
+  margin-right: 12px;
+  width: 16px;
+  height: 16px;
+  color: var(--color-text-muted);
+  transition: color 0.2s ease;
+}
+
+.navItem:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.navItem.active {
+  background-color: var(--admin-nav-active-bg);
+  color: var(--admin-pink);
+  font-weight: 600;
+}
+
+.navItem.active svg {
+  color: var(--admin-pink);
+}
+
+.activeIndicator {
+  position: absolute;
+  left: -1rem;
+  top: 10%;
+  height: 80%;
+  width: 4px;
+  background-color: var(--admin-pink);
+  border-radius: 0 4px 4px 0;
+}
+
+.userSection {
+  margin-top: auto;
+  padding: 1rem;
+  background-color: var(--admin-yellow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  transition: all 0.2s ease;
+}
+
+.userSection:hover {
+  filter: brightness(0.95);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--color-white);
+  color: var(--admin-brown);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+  overflow: hidden;
+  opacity: 1;
+  max-width: 200px;
+  transition: all 0.3s ease;
+}
+
+.userName {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--admin-brown);
+}
+
+.userRole {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.decorativeTop {
+  position: absolute;
+  top: -39px;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.overlay {
+  display: none;
+}
+
+.closeButton {
+  display: none;
+}
+
+/* Tablet / Mobile styles */
+@media (max-width: 991px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--admin-sidebar-width, 280px);
+    max-width: 85vw;
+    transform: translateX(-100%);
+    z-index: var(--z-drawer);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .closeButton {
+    display: flex;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    z-index: 10;
+    padding: 8px;
+  }
+  
+  .closeButton:hover {
+    color: var(--admin-pink);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(59, 33, 23, 0.4);
+    z-index: calc(var(--z-drawer) - 1);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
