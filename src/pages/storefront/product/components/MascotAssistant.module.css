@@ -1,0 +1,44 @@
+.container {
+  position: absolute;
+  top: -80px;
+  right: 0px;
+  z-index: 20;
+  display: flex;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+@media (max-width: 1023px) {
+  .container {
+    position: fixed;
+    bottom: calc(104px + env(safe-area-inset-bottom)); /* Above bottom nav */
+    right: var(--space-4);
+    top: auto;
+  }
+}
+
+.mascotWrapper {
+  width: 100px;
+  height: 100px;
+  pointer-events: auto;
+  transform-origin: bottom center;
+}
+
+.bubble {
+  background: var(--color-white);
+  border: 2px solid var(--color-brand-turquoise);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-xl);
+  border-bottom-right-radius: 4px;
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-chocolate);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 60px;
+  margin-right: -20px;
+  max-width: 150px;
+  text-align: center;
+  position: relative;
+  z-index: 21;
+}

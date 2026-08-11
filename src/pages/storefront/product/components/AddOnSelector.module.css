@@ -1,0 +1,102 @@
+.container {
+}
+
+.label {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-lg);
+  color: var(--color-chocolate);
+  margin: 0 0 var(--space-4) 0;
+  display: none; /* Hide since it's redundant with Accordion title */
+}
+
+.optionsGrid {
+  display: flex;
+  gap: var(--space-3);
+  overflow-x: auto;
+  padding: 8px 4px 16px 4px; /* extra bottom padding for shadow */
+  scrollbar-width: none;
+}
+
+.optionsGrid::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4) var(--space-3);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.2s var(--ease-out);
+  min-width: 110px;
+  flex-shrink: 0;
+  gap: var(--space-2);
+}
+
+.card:hover {
+  border-color: var(--color-brand-yellow);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+.cardSelected {
+  border-color: var(--color-brand-turquoise);
+  background: linear-gradient(135deg, rgba(7, 194, 187, 0.05) 0%, rgba(7, 194, 187, 0.15) 100%);
+  box-shadow: 0 4px 12px rgba(7, 194, 187, 0.15);
+}
+
+.checkBadge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: var(--color-brand-turquoise);
+  color: var(--color-white);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.textStack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.name {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-sm);
+  color: var(--color-chocolate);
+  text-align: center;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.2;
+}
+
+.priceTag {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--color-hero-cream);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-full);
+}
+
+.plusIcon {
+  color: var(--color-brand-pink);
+}
+
+.price {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-pink);
+}

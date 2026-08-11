@@ -1,0 +1,141 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: 0;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.subtitle {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-chocolate);
+  margin: 0;
+}
+
+.iconInfo {
+  color: #888;
+}
+
+.iconWarning {
+  color: #e53e3e;
+}
+
+.iconSuccess {
+  color: var(--color-brand-turquoise);
+}
+
+.text {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.tagsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+@media (min-width: 640px) {
+  .tagsContainer {
+    flex-direction: row;
+    gap: var(--space-8);
+  }
+}
+
+.tagGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+}
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.tagWarning {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  background: #fff5f5;
+  color: #c53030;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  border: 1px solid #fed7d7;
+}
+
+.tagSuccess {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  background: #E6F8F7; /* light turquoise */
+  color: #048C87; /* dark turquoise */
+  padding: 4px 12px;
+  border-radius: 9999px;
+  border: 1px solid #B4EBE8;
+}
+
+.nutritionSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3) var(--space-2);
+  background: var(--color-hero-cream);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.value {
+  font-family: var(--font-family-price);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-pink);
+  line-height: 1.1;
+}
+
+.label {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-xs);
+  color: var(--color-chocolate);
+  margin-top: var(--space-1);
+}
+
+.disclaimer {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-top: var(--space-4);
+}

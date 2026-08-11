@@ -1,0 +1,74 @@
+.container {
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-8);
+  padding: 0 var(--space-4);
+}
+
+.label {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-lg);
+  color: var(--color-chocolate);
+  margin: 0 0 var(--space-4) 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  text-align: center;
+}
+
+.card:hover {
+  border-color: var(--color-brand-pink);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.cardSelected {
+  border-color: var(--color-brand-pink);
+  background: rgba(242, 13, 111, 0.05);
+  box-shadow: 0 0 0 1px var(--color-brand-pink);
+}
+
+.iconWrapper {
+  color: var(--color-brand-pink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card:not(.cardSelected) .iconWrapper {
+  color: var(--color-text-muted);
+}
+
+.card:hover:not(.cardSelected) .iconWrapper {
+  color: var(--color-brand-pink);
+}
+
+.name {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-chocolate);
+  line-height: 1.2;
+}

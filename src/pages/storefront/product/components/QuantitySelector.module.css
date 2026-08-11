@@ -1,0 +1,93 @@
+.container {
+  width: 100%;
+}
+
+.optionsGrid {
+  display: flex;
+  gap: var(--space-3);
+  overflow-x: auto;
+  padding: 8px 4px 16px 4px; /* top right bottom left - extra bottom padding for shadow */
+  scrollbar-width: none;
+}
+
+.optionsGrid::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4) var(--space-3);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.2s var(--ease-out);
+  min-width: 110px;
+  flex-shrink: 0;
+  gap: var(--space-2);
+}
+
+.card:hover {
+  border-color: var(--color-brand-pink);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+}
+
+.cardSelected {
+  border-color: var(--color-brand-pink);
+  background: linear-gradient(135deg, rgba(242, 13, 111, 0.05) 0%, rgba(242, 13, 111, 0.15) 100%);
+  box-shadow: 0 4px 12px rgba(242, 13, 111, 0.15);
+}
+
+.checkBadge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: var(--color-brand-pink);
+  color: var(--color-white);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.textStack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.pieces {
+  font-family: var(--font-family-heading);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-chocolate);
+  line-height: 1.2;
+}
+
+.piecesText {
+  font-size: 12px;
+  font-weight: var(--font-weight-regular);
+}
+
+.boxLabel {
+  font-family: var(--font-family-body);
+  font-size: 11px;
+  color: #777;
+}
+
+.price {
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-pink);
+  margin-top: var(--space-1);
+}

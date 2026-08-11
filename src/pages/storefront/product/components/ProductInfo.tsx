@@ -1,0 +1,184 @@
+import React, { useRef, useEffect, useState } from 'react'
+import { Product } from '@/types/product'
+import { Star, Clock, ShieldAlert, ThermometerSun, Leaf, HeartHandshake, Coffee, Heart, Info } from 'lucide-react'
+import { formatCurrency } from '@/lib/formatters/currency'
+import { CakePopMascot } from '@/components/mascot/CakePopMascot'
+import { MascotReaction } from '@/components/mascot/reactions/reactionTypes'
+import { useInView, useMotionValue, useSpring } from 'framer-motion'
+import styles from './ProductInfo.module.css'
+
+interface ProductInfoProps {
+  product: Product
+  calculatedTotal: number
+  mascotMessage?: string | null
+}
+
+export const ProductInfo = ({ product, calculatedTotal, mascotMessage }: ProductInfoProps) => {
+  const mascotRef = useRef(null)
+  const isInView = useInView(mascotRef, { amount: 0.5 })
+  const [reaction, setReaction] = useState<MascotReaction | null>(null)
+  
+  const eyeTargetX = useMotionValue(0)
+  const eyeTargetY = useMotionValue(0)
+  const eyeSpringX = useSpring(eyeTargetX, { stiffness: 200, damping: 25 })
+  const eyeSpringY = useSpring(eyeTargetY, { stiffness: 200, damping: 25 })
+
+  useEffect(() => {
+    const handlePointerEvent = (e: PointerEvent) => {
+      if (!mascotRef.current) return
+      
+      const rect = (mascotRef.current as HTMLElement).getBoundingClientRect()
+      const mascotOriginX = rect.left + rect.width / 2
+      const mascotOriginY = rect.top + rect.height / 2
+      
+      const x = e.clientX - mascotOriginX
+      const y = e.clientY - mascotOriginY
+      
+      // Calculate normalized target
+      let targetX = (x / (window.innerWidth / 2)) * 12
+      let targetY = (y / (window.innerHeight / 2)) * 8
+      
+      // Clamp to max radius
+      const maxR = 8
+      const dist = Math.sqrt(targetX * targetX + targetY * targetY)
+      if (dist > maxR) {
+        targetX = (targetX / dist) * maxR
+        targetY = (targetY / dist) * maxR
+      }
+      
+      eyeTargetX.set(targetX)
+      eyeTargetY.set(targetY)
+    }
+
+    const handlePointerLeave = () => {
+      eyeTargetX.set(0)
+      eyeTargetY.set(0)
+    }
+
+    document.body.addEventListener('pointermove', handlePointerEvent)
+    document.body.addEventListener('pointerdown', handlePointerEvent)
+    document.body.addEventListener('pointerleave', handlePointerLeave)
+    
+    return () => {
+      document.body.removeEventListener('pointermove', handlePointerEvent)
+      document.body.removeEventListener('pointerdown', handlePointerEvent)
+      document.body.removeEventListener('pointerleave', handlePointerLeave)
+    }
+  }, [eyeTargetX, eyeTargetY])
+
+  useEffect(() => {
+    if (mascotMessage) {
+      setReaction('excited')
+    } else if (isInView) {
+      // First wink quickly after entering view
+      let timeout1 = setTimeout(() => {
+        setReaction('winking')
+      }, 500)
+      
+      // Then repeat every 10 seconds safely
+      const interval = setInterval(() => {
+        setReaction(null)
+        setTimeout(() => setReaction('winking'), 50)
+      }, 10000)
+
+      return () => {
+        clearTimeout(timeout1)
+        clearInterval(interval)
+      }
+    } else {
+      setReaction(null)
+    }
+  }, [mascotMessage, isInView])
+
+  return (
+    <div className={styles.container}>
+      {/* Small Product Image */}
+      {product.images && product.images.length > 0 && (
+        <div className={styles.productIconWrapper}>
+          <img src={product.images[0].url} alt={product.name} className={styles.productIcon} />
+        </div>
+      )}
+      
+      {/* Title & Price Row */}
+      <div className={styles.headerRow}>
+        <h1 className={styles.title}>{product.name}</h1>
+        <div className={styles.priceBlock}>
+          <div className={styles.currentPrice}>{formatCurrency(calculatedTotal)}</div>
+          <div className={styles.originalPriceRow}>
+            <span className={styles.originalPrice}>{formatCurrency(calculatedTotal + 20000)}</span>
+            <span className={styles.discountPill}>17% OFF</span>
+          </div>
+          <div className={styles.taxLabel}>Inclusive of all taxes</div>
+        </div>
+      </div>
+
+      {/* Rating & Social Proof */}
+      <div className={styles.ratingRow}>
+        <div className={styles.rating}>
+          <Star size={14} fill="currentColor" color="var(--color-warning)" />
+          <span className={styles.ratingValue}>4.8</span>
+          <span className={styles.ratingCount}>(126 reviews)</span>
+        </div>
+        <div className={styles.divider}>|</div>
+        <div className={styles.socialProof}>
+          200+ bought in last week
+        </div>
+      </div>
+
+      {/* Quick Note */}
+      <div className={styles.noteBox}>
+        <Info size={14} className={styles.noteIcon} />
+        <ul className={styles.noteList}>
+          <li>Store in a cool place.</li>
+          <li>Consume within {product.shelfLife || '3 days'}.</li>
+          <li>Add personalizations at checkout.</li>
+        </ul>
+      </div>
+
+      {/* Description */}
+      <p className={styles.description}>{product.description}</p>
+
+      {/* Features & Mascot Row */}
+      <div className={styles.featuresRow}>
+        <div className={styles.featureList}>
+          {/* Quality Features */}
+          <div className={styles.featureItem}>
+            <Coffee size={20} strokeWidth={1.5} />
+            <span>Freshly Made<br/>After Order</span>
+          </div>
+          <div className={styles.featureItem}>
+            <HeartHandshake size={20} strokeWidth={1.5} />
+            <span>Handcrafted<br/>in Small Batches</span>
+          </div>
+          <div className={styles.featureItem}>
+            <Leaf size={20} strokeWidth={1.5} />
+            <span>Premium<br/>Ingredients</span>
+          </div>
+          
+          {/* Freshness Features */}
+          <div className={styles.featureItem}>
+            <Clock size={20} strokeWidth={1.5} />
+            <span>Preparation<br/>{product.preparationTime || '4-6 hours'}</span>
+          </div>
+
+          <div className={styles.featureItem}>
+            <ThermometerSun size={20} strokeWidth={1.5} />
+            <span>{product.storage ? product.storage.split('.')[0] : 'Refrigerate'}</span>
+          </div>
+        </div>
+        
+        {/* Embedded Mascot */}
+        <div className={styles.mascotContainer} ref={mascotRef}>
+          <div className={styles.mascotClip}>
+            <div className={styles.mascotWrapper}>
+              <CakePopMascot size="medium" reaction={reaction} eyeX={eyeSpringX} eyeY={eyeSpringY} />
+            </div>
+          </div>
+          
+          <div className={styles.mascotHandLeft} />
+          <div className={styles.mascotHandRight} />
+        </div>
+      </div>
+    </div>
+  )
+}

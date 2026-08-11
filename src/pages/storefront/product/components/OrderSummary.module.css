@@ -1,0 +1,63 @@
+.container {
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-4);
+  padding: 0 var(--space-4);
+}
+
+.label {
+  display: none;
+}
+
+.summaryBox {
+  padding: var(--space-4) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  border-top: 2px dashed var(--color-border);
+  border-bottom: 2px dashed var(--color-border);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-sm);
+  color: var(--color-chocolate);
+}
+
+.itemName {
+  opacity: 0.8;
+}
+
+.itemPrice {
+  font-family: var(--font-family-price);
+  font-weight: var(--font-weight-medium);
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--color-border);
+  margin: var(--space-2) 0;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.totalLabel {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-chocolate);
+}
+
+.totalPrice {
+  font-family: var(--font-family-price);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-pink);
+  transition: all var(--duration-fast) var(--ease-out);
+}
