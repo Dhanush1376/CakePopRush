@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+<rect width="1600" height="900" fill="none"/>
+<style>
+  .o{stroke:#333;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+  .thin{stroke:#333;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+</style>
+
+<!-- Cake slice with candle -->
+<g id="cake-slice-candle" transform="translate(90 120)">
+  <path class="o" fill="#FFD9A8" d="M10 115 L145 125 L130 185 L20 170 Z"/>
+  <path class="o" fill="#FF8DB5" d="M10 115 Q35 92 58 108 Q82 125 103 108 Q126 91 145 125 L142 145 Q120 130 101 145 Q79 159 59 142 Q38 126 15 140 Z"/>
+  <path class="o" fill="#FFF0C8" d="M20 145 L140 155 L136 170 L22 158 Z"/>
+  <rect class="o" x="73" y="55" width="13" height="55" rx="3" fill="#45D4D0"/>
+  <path class="o" fill="#FFC21C" d="M79 54 C63 40 75 22 82 13 C91 30 96 43 79 54 Z"/>
+</g>
+
+<!-- Bitten cookie -->
+<g id="bitten-cookie" transform="translate(350 130)">
+  <path class="o" fill="#F4C991" d="M78 20 C115 20 145 48 148 84 C128 80 116 65 119 47 C100 51 85 42 78 20 Z M148 84 C151 126 121 160 80 162 C37 164 5 133 6 91 C7 48 38 20 78 20"/>
+  <circle cx="49" cy="65" r="8" fill="#8B4A2B"/>
+  <circle cx="83" cy="91" r="8" fill="#8B4A2B"/>
+  <circle cx="49" cy="121" r="8" fill="#8B4A2B"/>
+  <circle cx="105" cy="130" r="7" fill="#8B4A2B"/>
+</g>
+
+<!-- Birthday cake -->
+<g id="birthday-cake" transform="translate(610 120)">
+  <path class="o" fill="#FFF3E6" d="M20 105 Q80 88 145 105 L140 175 Q82 190 25 175 Z"/>
+  <path class="o" fill="#FF77AF" d="M20 105 Q80 88 145 105 L143 130 Q130 118 118 130 Q104 144 91 128 Q76 113 63 129 Q49 145 35 129 Q28 120 21 125 Z"/>
+  <path class="o" fill="#FFB6D0" d="M28 146 Q80 160 137 146 L137 166 Q80 180 28 166 Z"/>
+  <g class="thin">
+    <rect x="46" y="60" width="8" height="43" fill="#29C7D4"/><path fill="#FFC21C" d="M50 58 C41 48 48 36 52 29 C59 42 60 51 50 58Z"/>
+    <rect x="79" y="52" width="8" height="48" fill="#FFD229"/><path fill="#FFC21C" d="M83 50 C74 40 81 28 85 21 C92 34 93 43 83 50Z"/>
+    <rect x="112" y="62" width="8" height="41" fill="#29C7D4"/><path fill="#FFC21C" d="M116 60 C107 50 114 38 118 31 C125 44 126 53 116 60Z"/>
+  </g>
+</g>
+
+<!-- Chocolate cake pop -->
+<g id="cake-pop" transform="translate(900 125)">
+  <line class="o" x1="78" y1="130" x2="45" y2="215"/>
+  <circle class="o" cx="82" cy="82" r="58" fill="#8D3E25"/>
+  <path class="thin" d="M40 62 Q80 35 125 60" fill="none" stroke="#6B2B1D"/>
+  <g fill="#FFF1D7">
+    <circle cx="50" cy="55" r="5"/><circle cx="72" cy="38" r="5"/><circle cx="98" cy="46" r="5"/>
+    <circle cx="118" cy="68" r="5"/><circle cx="55" cy="88" r="5"/><circle cx="86" cy="77" r="5"/>
+    <circle cx="109" cy="101" r="5"/><circle cx="68" cy="116" r="5"/>
+  </g>
+  <g stroke="#FF4F7B" stroke-width="4"><path d="M48 72l8 4"/><path d="M92 58l8 4"/><path d="M88 105l8-4"/><path d="M118 84l7-5"/></g>
+</g>
+
+<!-- Blue frosted cake slice -->
+<g id="blue-cake-slice" transform="translate(1180 120)">
+  <path class="o" fill="#D9A65C" d="M15 112 L150 122 L142 176 L28 168 Z"/>
+  <path class="o" fill="#65D8D5" d="M15 112 Q36 92 58 106 Q80 121 101 105 Q126 88 150 122 L147 143 Q127 130 108 143 Q87 157 68 141 Q47 124 25 140 Z"/>
+  <path class="o" fill="#FFF3E1" d="M25 145 L145 153 L142 166 L28 158 Z"/>
+  <rect class="o" x="80" y="60" width="10" height="48" fill="#21C7D1"/>
+  <path class="o" fill="#FFC21C" d="M85 58 C75 47 82 34 87 26 C94 40 96 51 85 58Z"/>
+</g>
+
+<!-- Cupcake -->
+<g id="cupcake" transform="translate(120 480)">
+  <path class="o" fill="#62D7D7" d="M35 105 L135 105 L122 178 L49 178 Z"/>
+  <path class="thin" d="M58 112l5 58M84 110v62M110 112l-5 58" fill="none"/>
+  <path class="o" fill="#FFD8A3" d="M27 105 Q24 85 45 79 Q44 58 66 58 Q78 35 96 55 Q117 47 123 68 Q145 68 143 92 Q151 101 135 105 Z"/>
+  <path class="o" fill="#FF9FC0" d="M40 79 Q42 57 65 58 Q77 35 96 55 Q118 47 124 69 Q141 71 140 88 Q118 78 100 88 Q80 99 61 87 Q51 80 40 79Z"/>
+  <path class="o" fill="#FFF" d="M77 37 C67 25 78 14 86 25 C94 14 105 25 95 37 L86 45 Z"/>
+</g>
+
+<!-- Pink cake slice -->
+<g id="pink-cake-slice" transform="translate(390 500)">
+  <path class="o" fill="#FFD29A" d="M18 85 L152 102 L132 175 L35 162 Z"/>
+  <path class="o" fill="#FF9DC1" d="M18 85 L152 102 L144 126 L28 111 Z"/>
+  <path class="o" fill="#FFD84A" d="M28 111 L144 126 L139 143 L32 130 Z"/>
+  <path class="o" fill="#FF9DC1" d="M32 130 L139 143 L132 175 L35 162 Z"/>
+  <path class="o" fill="#FFF" d="M112 77 C102 65 113 54 121 65 C129 54 140 65 130 77 L121 85 Z"/>
+</g>
+
+<!-- Whole cookie -->
+<g id="cookie" transform="translate(690 490)">
+  <circle class="o" cx="85" cy="95" r="66" fill="#F4C991"/>
+  <g fill="#8B4A2B">
+    <circle cx="55" cy="65" r="8"/><circle cx="91" cy="51" r="7"/><circle cx="117" cy="75" r="8"/>
+    <circle cx="65" cy="102" r="7"/><circle cx="104" cy="116" r="8"/><circle cx="53" cy="135" r="7"/>
+  </g>
+</g>
+
+<!-- Mini cupcake -->
+<g id="mini-cupcake" transform="translate(960 500)">
+  <path class="o" fill="#63D8D8" d="M42 103 L130 103 L120 165 L52 165 Z"/>
+  <path class="o" fill="#FFE0AD" d="M35 103 Q32 85 52 78 Q53 58 72 59 Q85 39 100 58 Q121 52 126 73 Q143 78 137 96 Q136 102 130 103 Z"/>
+  <path class="o" fill="#FF9DBF" d="M48 80 Q55 59 73 60 Q84 39 101 58 Q121 53 126 75 Q107 70 92 82 Q74 94 48 80 Z"/>
+</g>
+
+<!-- Decorative sprinkle cake pop -->
+<g id="sprinkle-pop" transform="translate(1240 500)">
+  <line class="o" x1="82" y1="145" x2="52" y2="215"/>
+  <circle class="o" cx="85" cy="90" r="62" fill="#E70074"/>
+  <g fill="#FFD42A"><circle cx="55" cy="62" r="7"/><circle cx="105" cy="53" r="7"/><circle cx="78" cy="113" r="7"/></g>
+  <g fill="#39D6D2"><circle cx="82" cy="46" r="7"/><circle cx="121" cy="88" r="7"/><circle cx="49" cy="104" r="7"/></g>
+  <g fill="#8B1730"><circle cx="62" cy="83" r="7"/><circle cx="101" cy="100" r="7"/><circle cx="111" cy="125" r="7"/></g>
+</g>
+</svg>
