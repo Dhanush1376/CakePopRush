@@ -1,0 +1,36 @@
+.mascotContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Prevent interaction since it's just a visual element */
+  pointer-events: none;
+}
+
+.mascotSvg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ─── Size Variants (5:6 Aspect Ratio) ──────────── */
+.small {
+  width: 120px;
+  height: 144px;
+}
+
+.medium {
+  width: 200px;
+  height: 240px;
+}
+
+.large {
+  width: 300px;
+  height: 360px;
+}
+
+/* ─── Debug Mode ────────────────────────────────── */
+.debug {
+  border: 1px dashed rgba(255, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.9);
+}

@@ -1,0 +1,46 @@
+.adminLayout {
+  display: grid;
+  grid-template-columns: var(--admin-sidebar-width) 1fr;
+  height: 100vh;
+  background-color: var(--color-white);
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+  position: relative;
+  overflow: hidden;
+  transition: grid-template-columns 0.3s ease;
+}
+
+.adminLayout.sidebarClosed {
+  grid-template-columns: 80px 1fr;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 100%;
+  height: 100vh;  
+  position: relative;
+}
+
+.pageContent {
+  padding: 1.5rem 2rem;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Tablet / Mobile */
+@media (max-width: 991px) {
+  .adminLayout,
+  .adminLayout.sidebarClosed {
+    grid-template-columns: 1fr;
+  }
+  
+  .pageContent {
+    padding: 1rem;
+    padding-bottom: 85px; /* Account for 65px bottom nav + padding */
+  }
+}

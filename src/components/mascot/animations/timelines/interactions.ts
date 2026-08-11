@@ -1,0 +1,1 @@
+export { useSmartMascot } from '../../useSmartMascot';

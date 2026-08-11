@@ -1,0 +1,1 @@
+export { getCanonicalResetSequence } from '../animationTypes';

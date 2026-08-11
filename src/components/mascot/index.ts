@@ -1,0 +1,11 @@
+export { CakePopMascot } from './CakePopMascot';
+export type { MascotDirection, SmartMascotState } from './MascotState';
+export { INTRO_KEY } from './MascotState';
+export { useMascotController } from './useMascotController';
+export { useSmartMascot } from './useSmartMascot';
+export * from './animations/mascotAnimations';
+export * from './config/mascotConfig';
+export * from './config/mascotConstants';
+export * from './config/mascotSelectors';
+export * from './reactions/reactionRegistry';
+export type { MascotReaction, MascotRef, MascotSize, MascotState } from './reactions/reactionTypes';
