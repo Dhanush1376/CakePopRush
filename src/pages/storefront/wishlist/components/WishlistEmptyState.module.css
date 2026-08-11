@@ -1,0 +1,116 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-8) var(--space-4) var(--space-16);
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-top: var(--space-12);
+  }
+}
+
+.illustrationWrapper {
+  margin-bottom: var(--space-6);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.illustration {
+  width: 160px;
+  height: 160px;
+}
+
+@media (min-width: 768px) {
+  .illustration {
+    width: 220px;
+    height: 220px;
+  }
+  .illustrationWrapper {
+    margin-bottom: var(--space-8);
+  }
+}
+
+.textContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--space-8);
+}
+
+.title {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-chocolate);
+  margin-bottom: var(--space-2);
+  line-height: 1.3;
+  max-width: 420px;
+}
+
+.description {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-8);
+  line-height: var(--line-height-relaxed);
+  max-width: 360px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+/* PRIMARY CTA */
+.primaryAction {
+  background: none;
+  border: none;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-chocolate);
+  cursor: pointer;
+  border-bottom: 2px solid var(--color-chocolate);
+  padding-bottom: 4px;
+  transition: all var(--duration-fast);
+  text-decoration: none;
+}
+
+.primaryAction span {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  transition: all var(--duration-fast);
+}
+
+.primaryAction:hover {
+  transform: translateY(-2px);
+  color: var(--color-brand-pink);
+  border-bottom-color: var(--color-brand-pink);
+}
+
+/* SECONDARY CTA */
+.secondaryAction {
+  color: var(--color-text-muted);
+  font-family: var(--font-family-body);
+  font-weight: var(--font-weight-medium);
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.secondaryAction:hover {
+  color: var(--color-brand-pink);
+}

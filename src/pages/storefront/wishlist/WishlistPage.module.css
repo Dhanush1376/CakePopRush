@@ -1,0 +1,59 @@
+.page {
+  background-color: var(--color-background);
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+  min-height: calc(100vh - var(--header-height-mobile) - 100px);
+  padding-top: var(--space-8);
+  padding-bottom: 110px; /* Space for BottomNavigation on mobile */
+}
+
+@media (min-width: 1024px) {
+  .page {
+    min-height: calc(100vh - var(--header-height-desktop) - 300px);
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-16);
+  }
+}
+
+.skeletonGrid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .skeletonGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .skeletonGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-8);
+  }
+}
+
+@media (max-width: 429px) {
+  .skeletonGrid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+.emptyWrapper {
+  animation: fadeIn var(--duration-normal) var(--ease-out) forwards;
+}
+
+.errorWrapper {
+  padding: var(--space-8) 0;
+  animation: fadeIn var(--duration-normal) var(--ease-out) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
