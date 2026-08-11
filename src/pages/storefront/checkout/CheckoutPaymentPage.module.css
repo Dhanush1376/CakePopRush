@@ -1,0 +1,273 @@
+.page {
+  min-height: 100vh;
+  padding: 0 0 150px;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  position: relative;
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-6);
+  }
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.sidebar {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .sidebar {
+    display: block;
+    width: 380px;
+    flex-shrink: 0;
+  }
+}
+
+.stickyWrapper {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.mobileTrustWrap {
+  display: block;
+}
+
+.desktopTrustWrap {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .mobileTrustWrap, .mobileSummaryWrap {
+    display: none;
+  }
+  .desktopTrustWrap {
+    display: block;
+  }
+}
+
+.mobileSummaryWrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  margin-top: var(--space-4);
+}
+
+/* Sections */
+.plainSection {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionCard {
+  background-color: transparent;
+  border-radius: var(--radius-xl);
+  padding: 24px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  color: var(--color-brand-turquoise);
+}
+
+.sectionHeader svg {
+  width: 20px;
+  height: 20px;
+}
+
+.sectionTitle {
+  font-family: var(--font-family-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-chocolate);
+  margin: 0;
+}
+
+.sectionDesc {
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+}
+
+/* Date Picker styling */
+.dateInputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.dateInputLabel {
+  font-family: var(--font-family-body);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.dateInput {
+  width: 100%;
+  max-width: 300px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  color: var(--color-text);
+  background-color: transparent;
+  outline: none;
+  transition: all var(--duration-fast);
+}
+
+.dateInput:focus {
+  border-color: var(--color-brand-turquoise);
+  box-shadow: 0 0 0 3px rgba(7, 194, 187, 0.1);
+}
+
+/* Promo Banner */
+.promoBanner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #F0FCFB; /* Light turquoise */
+  border: 1px dashed var(--color-brand-turquoise);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  color: var(--color-brand-turquoise);
+}
+
+.promoText {
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-chocolate);
+  margin: 0;
+}
+
+.desktopTrustWrap {
+  margin-top: var(--space-4);
+}
+
+/* Payment Options */
+.paymentList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.paymentOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.paymentOption:hover {
+  background-color: #F0FCFB;
+  border-color: rgba(7, 194, 187, 0.3);
+}
+
+.paymentOption.selected {
+  border-color: var(--color-brand-turquoise);
+  background-color: #F0FCFB;
+}
+
+.paymentLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.radio {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid #D3CDC6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paymentOption.selected .radio {
+  border-color: var(--color-brand-turquoise);
+}
+
+.radioInner {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-brand-turquoise);
+}
+
+.paymentName {
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-chocolate);
+  margin: 0;
+}
+
+.paymentSubtext {
+  font-family: var(--font-family-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: #047A75;
+  margin: 0;
+}
+
+.paymentIcon {
+  color: var(--color-text-muted);
+}
+
+/* Siri Coins Info */
+.siriCoinsPromo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 12px;
+  background: linear-gradient(90deg, #FFF9EE, #FFF0F5);
+  border-radius: var(--radius-md);
+  border: 1px solid #F6A8C8;
+}
+
+.siriCoinsPromo svg {
+  color: var(--color-brand-pink);
+}
+
+.siriCoinsText {
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-chocolate);
+  margin: 0;
+}
