@@ -55,7 +55,7 @@ export const ResponsiveModal = ({ isOpen, onClose, title, children }: Responsive
           <motion.div 
             className={styles.modalContainer}
             onClick={(e) => e.stopPropagation()}
-            {...animationProps}
+            {...(animationProps as any)}
           >
             <div className={styles.header}>
               <h2 className={styles.title}>{title}</h2>
