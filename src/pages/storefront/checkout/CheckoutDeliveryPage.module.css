@@ -1,0 +1,315 @@
+.page {
+  min-height: 100vh;
+  padding: 0 0 150px;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  position: relative;
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-6);
+  }
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.mobileTrustWrap {
+  display: block;
+}
+
+.desktopTrustWrap {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .mobileTrustWrap {
+    display: none;
+  }
+  .desktopTrustWrap {
+    display: block;
+  }
+}
+
+/* Empty State Styles */
+.emptyStateCard {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.emptyIconWrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #F8F5F2; /* Soft beige background */
+  color: var(--color-brand-pink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.emptyTitle {
+  font-family: var(--font-family-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-chocolate);
+  margin: 0 0 8px 0;
+}
+
+.emptyText {
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: 0 0 20px 0;
+}
+
+/* Saved Addresses Styles */
+.savedAddressesSection {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.savedHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.savedTitle {
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--color-chocolate);
+  margin: 0;
+}
+
+.addNewBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: transparent;
+  border: 1px solid #C4A478;
+  color: #5C3317;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-family: var(--font-family-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.addNewBtn:hover {
+  background-color: #FDF7F0;
+}
+
+.addressList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.addressCard {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.selectedCard {
+  border-color: #E5DCD3;
+  box-shadow: 0 4px 20px rgba(92, 51, 23, 0.08);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.radioRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.radio {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid #D3CDC6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.radioSelected {
+  border-color: #8E7A6E;
+}
+
+.radioInner {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #8E7A6E;
+}
+
+.cardName {
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-chocolate);
+  margin: 0;
+}
+
+.defaultBadge {
+  background-color: #F5F1ED;
+  color: #6B5B50;
+  font-family: var(--font-family-body);
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.homeBadge {
+  border: 1px solid #A3782C;
+  color: #5C3317;
+  font-family: var(--font-family-body);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.editIconBtn {
+  background: none;
+  border: none;
+  color: #8E7A6E;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.editIconBtn:hover {
+  color: #5C3317;
+}
+
+.addressDetails {
+  padding-left: 32px;
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: #3A2E24;
+  margin-bottom: 16px;
+}
+
+.addressDetails p {
+  margin: 0;
+}
+
+.mobileContact {
+  padding-left: 32px;
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  color: #6B5B50;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.mobileContact strong {
+  color: #1A1818;
+}
+
+.phoneIcon {
+  color: #8E7A6E;
+}
+
+/* .cardActions and .actionOutlineBtn have been removed */
+
+.actionMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 140px;
+  z-index: 10;
+}
+
+.actionMenuItem {
+  background: transparent;
+  border: none;
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text);
+  padding: 8px 12px;
+  text-align: left;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.actionMenuItem:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.actionMenuItem.danger {
+  color: var(--color-error);
+}
+
+/* Disabled Summaries */
+.disabledSummary button {
+  background-color: #E6E0D8;
+  color: #A39B93;
+  pointer-events: none;
+}
+
+.disabledMobileBar button {
+  background-color: #E6E0D8;
+  color: #A39B93;
+  pointer-events: none;
+}
