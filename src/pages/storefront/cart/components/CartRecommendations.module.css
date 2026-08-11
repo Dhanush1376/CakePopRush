@@ -1,0 +1,44 @@
+.container {
+  /* Margins removed to rely on flex layout gaps */
+}
+
+.scrollContainer {
+  margin: 0 calc(var(--space-4) * -1);
+  padding: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scrollContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.productGrid {
+  display: flex;
+  gap: var(--space-4);
+  width: max-content;
+  padding: 0 var(--space-4);
+}
+
+/* This creates a fake invisible element at the end so the scroll padding works in all browsers */
+.productGrid::after {
+  content: '';
+  width: 1px;
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .scrollContainer {
+    margin: 0;
+    padding: 0;
+  }
+  .productGrid {
+    padding: 0;
+  }
+}
+
+.productWrapper {
+  width: 220px;
+  flex-shrink: 0;
+}

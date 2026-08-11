@@ -1,0 +1,138 @@
+.card {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--space-4);
+  background-color: var(--color-surface);
+  border: 1px solid #E5DCD3;
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  box-shadow: var(--shadow-sm);
+}
+
+.imageContainer {
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background-color: var(--color-hero-cream);
+  margin-top: 4px;
+}
+
+@media (min-width: 768px) {
+  .imageContainer {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-bottom: var(--space-1);
+}
+
+.name {
+  font-family: var(--font-family-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-chocolate);
+  margin: 0;
+  line-height: var(--line-height-tight);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.variant {
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-1) 0;
+}
+
+.removeBtn {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: #8E7A6E;
+  cursor: pointer;
+  padding: 2px;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.removeBtn:hover {
+  color: var(--color-error);
+}
+
+.removeText {
+  display: none;
+}
+
+.priceRow {
+  margin-bottom: var(--space-3);
+}
+
+.controlsRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+
+.infoRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.infoBadge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-family-body);
+  font-size: 11px;
+  color: #5C3317;
+  background-color: #FDF7F0;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  width: fit-content;
+}
+
+.footer {
+  margin-top: auto;
+  border-top: 1px solid #F0EAE3;
+  padding-top: 12px;
+}
+
+.wishlistBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  color: #5C3317;
+  font-family: var(--font-family-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 8px 4px 4px 4px;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.wishlistBtn:hover {
+  color: var(--color-brand-pink);
+}

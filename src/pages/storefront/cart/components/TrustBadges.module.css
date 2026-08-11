@@ -1,0 +1,47 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+}
+
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+    justify-content: space-around;
+    padding: var(--space-5) var(--space-4);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: var(--space-4);
+  }
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: #5C4D42;
+}
+
+.icon {
+  color: var(--color-brand-yellow);
+  flex-shrink: 0;
+}
+
+.text {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.turquoise .icon {
+  color: var(--color-brand-turquoise);
+}

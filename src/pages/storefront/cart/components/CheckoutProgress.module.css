@@ -1,0 +1,152 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--container-max-width, 1200px);
+  margin: var(--space-4) auto var(--space-6) auto;
+  padding: 0 var(--space-4);
+}
+
+.secureHeader {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  color: #059669; /* emerald-600 */
+  font-family: var(--font-family-body);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-2);
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  position: relative;
+  z-index: 2;
+}
+
+.clickable {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.clickable:hover {
+  transform: translateY(-2px);
+}
+.clickable:hover .circleRing {
+  transform: scale(1.05);
+}
+
+.circleRing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: transparent;
+  transition: all var(--duration-normal) ease;
+}
+
+.circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #F0EEEB;
+  color: #8E8A85;
+  font-size: 13px;
+  font-family: var(--font-family-heading);
+  font-weight: 900;
+  transition: all var(--duration-normal) ease;
+}
+
+.label {
+  font-family: var(--font-family-body);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #8E8A85;
+  transition: all var(--duration-normal) ease;
+}
+
+/* Inactive default state */
+.step:not(.active):not(.past) .circleRing {
+  background-color: transparent;
+}
+
+/* Active specific colors */
+.step.active.yellowStep .circleRing {
+  background-color: rgba(245, 158, 11, 0.2);
+}
+.step.active.yellowStep .circle {
+  background-color: var(--color-brand-yellow);
+  color: var(--color-chocolate);
+}
+.step.active.yellowStep .label {
+  color: var(--color-chocolate);
+}
+
+.step.active.pinkStep .circleRing {
+  background-color: rgba(242, 13, 111, 0.2);
+}
+.step.active.pinkStep .circle {
+  background-color: var(--color-brand-pink);
+  color: var(--color-white);
+}
+.step.active.pinkStep .label {
+  color: var(--color-chocolate);
+}
+
+.step.active.turquoiseStep .circleRing {
+  background-color: rgba(20, 184, 166, 0.2);
+}
+.step.active.turquoiseStep .circle {
+  background-color: #14b8a6;
+  color: var(--color-white);
+}
+.step.active.turquoiseStep .label {
+  color: var(--color-chocolate);
+}
+
+/* Past state colors */
+.step.past.yellowStep .circle {
+  background-color: var(--color-brand-yellow);
+  color: var(--color-chocolate);
+}
+.step.past.pinkStep .circle {
+  background-color: var(--color-brand-pink);
+  color: var(--color-white);
+}
+
+.line {
+  flex: 1;
+  height: 0;
+  border-top: 2px dashed #E5E0DB;
+  margin: 0 8px;
+  margin-bottom: 20px; /* offset for label */
+  transition: border-color var(--duration-normal) ease;
+}
+
+.line.yellowStep {
+  border-top-color: var(--color-brand-yellow);
+  border-top-style: solid;
+}
+.line.pinkStep {
+  border-top-color: var(--color-brand-pink);
+  border-top-style: solid;
+}

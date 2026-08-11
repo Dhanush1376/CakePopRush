@@ -1,0 +1,54 @@
+.sectionCard {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
+.sectionTitle {
+  font-family: var(--font-family-body);
+  font-weight: var(--font-weight-bold);
+  font-size: 11px;
+  color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.actionLink {
+  font-family: var(--font-family-body);
+  font-size: 10px;
+  color: var(--color-brand-pink);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  background: none;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.actionLink:hover {
+  opacity: 0.8;
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--color-border);
+  margin: var(--space-4) 0;
+  border: none;
+}
+
+@media (min-width: 1024px) {
+  .sectionCard {
+    padding: var(--space-6);
+  }
+}

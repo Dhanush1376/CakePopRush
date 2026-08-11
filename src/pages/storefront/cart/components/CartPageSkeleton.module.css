@@ -1,0 +1,87 @@
+.skeletonLayout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding: var(--space-4) 0;
+}
+
+@media (min-width: 1024px) {
+  .skeletonLayout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+.skeletonMain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.skeletonSidebar {
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .skeletonSidebar {
+    width: 380px;
+    flex-shrink: 0;
+  }
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
+.cartItemCard {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 4px 12px rgba(92, 51, 23, 0.05);
+  margin-bottom: var(--space-4);
+}
+
+.itemDetails {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-2);
+}
+
+.itemFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--space-4);
+}
+
+.summaryCard {
+  background: var(--color-white);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6);
+  box-shadow: 0 12px 40px rgba(92, 51, 23, 0.08);
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
+.summaryDivider {
+  margin: var(--space-4) 0;
+}
