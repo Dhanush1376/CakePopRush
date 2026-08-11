@@ -1,0 +1,234 @@
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ArrowRight, UploadCloud, ChevronLeft, ChevronRight } from 'lucide-react'
+import styles from './HomePage.module.css'
+import { Container } from '@/components/layout/Container'
+import { Button } from '@/components/ui/Button'
+import { ProductCard } from '@/components/commerce/ProductCard'
+import { CategoryChip } from '@/components/commerce/CategoryChip'
+import { mockProducts, mockCategories, getBestSellingProducts } from '@/mocks/products'
+
+export const ShopByCategorySection = () => {
+  const navigate = useNavigate()
+
+  return (
+    <section className={styles.section}>
+      <Container>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>Shop by Category</h2>
+          <button onClick={() => navigate('/shop')} style={{ background: 'none', border: 'none', borderBottom: '1px solid var(--color-chocolate)', fontSize: '9px', textTransform: 'uppercase', letterSpacing: '0.5px', padding: 0, paddingBottom: '2px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--color-chocolate)', fontWeight: 600 }}>
+            VIEW ALL
+            <ArrowRight size={10} strokeWidth={2} />
+          </button>
+        </div>
+        <div className={styles.categoryGrid}>
+          {mockCategories.slice(1).map((category) => {
+            const categoryProduct = mockProducts.find(p => p.categoryName === category.name);
+            const imageUrl = categoryProduct?.images[0]?.url || '/images/Products/White choclate cakepops.jpeg';
+            return (
+              <div 
+                key={category.id} 
+                className={styles.categoryCardImage}
+                onClick={() => navigate(`/shop?category=${category.id}`)}
+              >
+                <div className={styles.categoryImageWrapper}>
+                  <img src={imageUrl} alt={category.name} className={styles.categoryImage} />
+                  <div className={styles.categoryImageOverlay} />
+                </div>
+                <h3 className={styles.categoryImageTitle}>{category.name}</h3>
+              </div>
+            )
+          })}
+        </div>
+      </Container>
+    </section>
+  )
+}
+
+export const NewLaunchSection = () => {
+  const navigate = useNavigate()
+  const newLaunches = mockProducts.filter(p => p.isNew)
+
+  if (newLaunches.length === 0) return null;
+
+  return (
+    <section className={styles.section}>
+      <Container>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>New Launches</h2>
+          <button onClick={() => navigate('/shop?filter=new')} style={{ background: 'none', border: 'none', borderBottom: '1px solid var(--color-chocolate)', fontSize: '9px', textTransform: 'uppercase', letterSpacing: '0.5px', padding: 0, paddingBottom: '2px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--color-chocolate)', fontWeight: 600 }}>
+            VIEW ALL
+            <ArrowRight size={10} strokeWidth={2} />
+          </button>
+        </div>
+        <div className={styles.productHorizontalScroll}>
+          {newLaunches.map(product => (
+            <div key={product.id} className={styles.horizontalScrollItem}>
+              <ProductCard product={product} />
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  )
+}
+
+export const BestSellersSection = () => {
+  const navigate = useNavigate()
+  const bestSellers = getBestSellingProducts(8)
+  return (
+    <section className={styles.section}>
+      <Container>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>Our Best Sellers</h2>
+          <button onClick={() => navigate('/shop')} style={{ background: 'none', border: 'none', borderBottom: '1px solid var(--color-chocolate)', fontSize: '9px', textTransform: 'uppercase', letterSpacing: '0.5px', padding: 0, paddingBottom: '2px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--color-chocolate)', fontWeight: 600 }}>
+            VIEW ALL
+            <ArrowRight size={10} strokeWidth={2} />
+          </button>
+        </div>
+        <div className={styles.productGrid}>
+          {bestSellers.map(product => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </Container>
+    </section>
+  )
+}
+
+export const OccasionSection = () => {
+  const navigate = useNavigate()
+
+  return (
+    <section className={styles.occasionSection}>
+      <Container>
+        <div className={styles.occasionContent}>
+          <p className={styles.occasionEyebrow}>MAKE IT MEMORABLE</p>
+          <h2 className={styles.occasionTitle}>Celebrate with Cake Pops</h2>
+          <p className={styles.occasionDesc}>
+            From intimate birthdays to grand weddings, our custom creations bring a pop of joy to every celebration.
+          </p>
+          <Button variant="primary" onClick={() => navigate('/shop')}>
+            Explore Occasions
+          </Button>
+        </div>
+      </Container>
+    </section>
+  )
+}
+
+export const FestiveOccasionsSection = () => {
+  const navigate = useNavigate()
+  
+  const occasions = [
+    { id: 'diwali', name: 'Diwali', image: '/images/Products/asorted flavours of cookies.jpeg' },
+    { id: 'rakhi', name: 'Rakhi', image: '/images/Products/Milk choclate cakepops.jpeg' },
+    { id: 'birthdays', name: 'Birthdays', image: '/images/Products/Dark choclate cakepops.jpeg' },
+    { id: 'christmas', name: 'Christmas', image: '/images/Products/Red velvet cookies.jpeg' },
+    { id: 'weddings', name: 'Weddings', image: '/images/Products/White choclate cakepops.jpeg' },
+    { id: 'valentines', name: 'Valentines', image: '/images/Products/mini valentine cake.jpeg' },
+    { id: 'baby-showers', name: 'Baby Showers', image: '/images/Products/Oreo pops.jpeg' },
+  ]
+
+  return (
+    <section className={styles.section}>
+      <Container>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>Shop by Occasion</h2>
+          <button onClick={() => navigate('/shop')} style={{ background: 'none', border: 'none', borderBottom: '1px solid var(--color-chocolate)', fontSize: '9px', textTransform: 'uppercase', letterSpacing: '0.5px', padding: 0, paddingBottom: '2px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--color-chocolate)', fontWeight: 600 }}>
+            VIEW ALL
+            <ArrowRight size={10} strokeWidth={2} />
+          </button>
+        </div>
+        <div className={styles.asymmetricalScroll}>
+          {occasions.map((occasion) => (
+            <div 
+              key={occasion.id} 
+              className={styles.asymmetricalCard}
+              onClick={() => navigate(`/shop?occasion=${occasion.id}`)}
+            >
+              <img src={occasion.image} alt={occasion.name} className={styles.asymmetricalImage} />
+              <span className={styles.asymmetricalTitle}>{occasion.name}</span>
+            </div>
+          ))}
+        </div>
+      </Container>
+    </section>
+  )
+}
+
+export const BrandStorySection = () => {
+  return (
+    <section className={styles.section}>
+      <Container>
+        <div className={styles.brandStoryGrid}>
+          <div className={styles.brandStoryImageWrapper}>
+            <img 
+              src="/images/Products/Oreo pops.jpeg" 
+              alt="Handcrafting cake pops" 
+              className={styles.brandStoryImage} 
+              loading="lazy"
+            />
+          </div>
+          <div className={styles.brandStoryContent}>
+            <h2 className={styles.sectionTitle}>Handcrafted with Love</h2>
+            <p className={styles.brandStoryText}>
+              At CakePopRush, we believe that the best things come in small packages. 
+              Every single pop is baked fresh, hand-rolled, and carefully dipped by our artisan bakers 
+              using only the finest ingredients.
+            </p>
+            <p className={styles.brandStoryText}>
+              No shortcuts. Just pure, bite-sized happiness.
+            </p>
+          </div>
+        </div>
+      </Container>
+    </section>
+  )
+}
+
+export const CustomOrderSection = () => {
+  return (
+    <section className={styles.customOrderSection}>
+      <Container>
+        <div className={styles.customOrderHeader}>
+          <h2 className={styles.customOrderTitle}>Want Something Unique?</h2>
+          <p className={styles.customOrderSubtitle}>Request a custom order in 2 simple steps</p>
+        </div>
+
+        <div className={styles.customOrderFlow}>
+          <div className={styles.flowStep}>
+            <div className={styles.flowCard}>
+              <div className={styles.stepIndicator}>Step 1 of 2</div>
+              <div className={styles.uploadArea} onClick={() => alert('Upload functionality coming soon!')}>
+                <UploadCloud className={styles.uploadIcon} size={32} strokeWidth={1.5} />
+                <span className={styles.uploadText}>Click to upload or drag & drop</span>
+                <span className={styles.uploadSubtext}>PNG, JPG or GIF (max. 5MB)</span>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.flowArrow}>
+            <ArrowRight size={32} strokeWidth={1.5} />
+          </div>
+
+          <div className={styles.flowStep}>
+            <div className={styles.flowCard}>
+              <div className={styles.stepIndicator}>Step 2 of 2</div>
+              <textarea 
+                className={styles.textArea} 
+                placeholder="E.g., It's for a baby shower. I need 2 dozen cake pops in pastel pink and white with vanilla flavor..."
+              />
+
+              <div className={styles.stepNavTwo}>
+                <Button variant="primary" style={{ flex: 1, marginTop: '16px' }} onClick={() => { alert('Quote request submitted!'); }}>
+                  Submit Request
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  )
+}
