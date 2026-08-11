@@ -25,7 +25,7 @@ export function AdminAnalyticsSkeleton() {
                 <div className={`${styles.skeleton} ${styles.kpiTrendSkeleton}`} />
               </div>
             </div>
-            <div className={`${styles.skeleton} ${styles.sparklineSkeleton}`} />
+
           </div>
         ))}
       </div>

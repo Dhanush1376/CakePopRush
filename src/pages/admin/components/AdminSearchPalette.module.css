@@ -21,7 +21,7 @@
 
 .paletteContainer {
   background-color: var(--color-white);
-  width: 100%;
+  width: calc(100% - 32px);
   max-width: 520px;
   border-radius: var(--radius-2xl);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
@@ -57,6 +57,9 @@
   color: var(--admin-brown);
   background: transparent;
   font-family: inherit;
+}
+.searchInput:focus, .searchInput:focus-visible {
+  outline: none;
 }
 .searchInput::placeholder {
   color: var(--color-text-muted);

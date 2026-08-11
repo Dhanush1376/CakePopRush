@@ -27,7 +27,7 @@ export const ShopHero = ({ isHeaderHidden = false }: ShopHeroProps) => {
 
       const x = e.clientX - mascotCenterX;
       const y = e.clientY - mascotCenterY;
-      
+
       let targetX = (x / 200) * 8;
       let targetY = (y / 200) * 8;
 
@@ -52,7 +52,7 @@ export const ShopHero = ({ isHeaderHidden = false }: ShopHeroProps) => {
 
   const [heroHeight, setHeroHeight] = useState(700);
   const heroRef = useRef<HTMLElement>(null);
-  
+
   useEffect(() => {
     if (heroRef.current) {
       setHeroHeight(heroRef.current.clientHeight);
@@ -174,10 +174,10 @@ export const ShopHero = ({ isHeaderHidden = false }: ShopHeroProps) => {
         </div>
 
         {/* Right Middle Yellow Balloon */}
-        <motion.div className={styles.balloonRight} style={{ y: scrollUp }}>
+        <motion.div className={styles.balloonRight}>
           <svg viewBox="-20 -20 140 240" className={styles.balloonSvg}>
             {/* String */}
-            <path d="M 50 100 Q 40 150 45 200" fill="none" stroke="var(--hero-string)" strokeWidth="2" strokeLinecap="round" />
+<path d="M 50 100 L 50 150" fill="none" stroke="var(--hero-string)" strokeWidth="2" strokeLinecap="round" />
             {/* Balloon Body */}
             <path d="M 50 100 C 15 100 0 50 15 20 C 30 -15 70 -15 85 20 C 100 50 85 100 50 100 Z" fill="var(--hero-yellow-balloon)" />
             {/* Highlight */}
@@ -185,17 +185,19 @@ export const ShopHero = ({ isHeaderHidden = false }: ShopHeroProps) => {
             {/* Bow */}
             <path d="M 50 100 L 35 110 L 45 115 Z" fill="var(--hero-yellow-balloon)" stroke="var(--hero-string)" strokeWidth="1.5" strokeLinejoin="round" />
             <path d="M 50 100 L 65 110 L 55 115 Z" fill="var(--hero-yellow-balloon)" stroke="var(--hero-string)" strokeWidth="1.5" strokeLinejoin="round" />
-            {/* Mascot Arm and Hand Holding String */}
+            {/* Mascot Hand Holding String */}
             <g>
-              <motion.path 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                d="M -150 230 Q -50 240 40 148 L 48 153 Q -50 280 -150 290 Z" 
-                fill="#1c1c1c" 
-              />
-              <g transform="translate(44, 150) rotate(-30)">
-                <motion.g 
+              <g className={styles.laptopHiddenArm}>
+                <motion.path
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  d="M -150 230 Q -50 240 40 148 L 48 153 Q -50 280 -150 320 Z"
+                  fill="var(--hero-charcoal, #1c1c1c)"
+                />
+              </g>
+              <g transform="translate(50, 150) rotate(0)">
+                <motion.g
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.7 }}
@@ -210,15 +212,15 @@ export const ShopHero = ({ isHeaderHidden = false }: ShopHeroProps) => {
         </motion.div>
 
         {/* Mascot Peeking from Wave */}
-        <motion.div className={styles.mascotWrapper} style={{ y: scrollUp }}>
-          <motion.div 
+        <motion.div className={styles.mascotWrapper}>
+          <motion.div
             className={styles.mascotHandLeft}
             initial={{ y: 90 }}
             animate={{ y: 0 }}
-            transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.45 }}
+            transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.6 }}
           />
-          <motion.div 
-            className={styles.mascotContainer} 
+          <motion.div
+            className={styles.mascotContainer}
             ref={mascotRef}
             initial={{ y: 150 }}
             animate={{ y: 0 }}

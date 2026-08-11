@@ -27,9 +27,9 @@
 }
 
 .title {
-  font-family: var(--font-family-display);
-  font-size: 15px;
-  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: 700;
   color: var(--color-chocolate);
 }
 

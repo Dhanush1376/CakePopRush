@@ -211,37 +211,76 @@
 .mascotContainer {
   position: absolute;
   bottom: 0;
-  right: -5px;
-  width: 140px;
+  right: 12px;
+  width: 90px;
   height: 100%;
-  pointer-events: none; /* Let clicks pass through if it overlaps text */
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.speechBubble {
+  position: absolute;
+  top: -38px;
+  right: -10px;
+  z-index: 30;
+  background: #FFFFFF;
+  border: 1.5px solid var(--color-brand-pink);
+  border-radius: var(--radius-full);
+  padding: 4px 10px;
+  box-shadow: 0 4px 14px rgba(246, 168, 200, 0.35);
+  white-space: nowrap;
+  animation: speechPop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.speechBubble span {
+  font-family: var(--font-family-body);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-chocolate);
+}
+
+.speechBubble::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  right: 24px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid var(--color-brand-pink);
+}
+
+@keyframes speechPop {
+  from { opacity: 0; transform: scale(0.7) translateY(6px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .mascotClip {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 140px;
-  height: 120px; /* Limits height so it gets cut off cleanly at the bottom */
+  width: 90px;
+  height: 75px;
   overflow: hidden;
 }
 
 .mascotWrapper {
   position: absolute;
-  bottom: -75px; /* Push it down further so it rests lower */
-  left: 0;
-  width: 140px;
-  height: 175px; /* Matches size="md" */
+  bottom: -66px;
+  left: -15px;
+  width: 120px;
+  height: 144px;
   pointer-events: auto;
 }
 
 .mascotHandLeft, .mascotHandRight {
   position: absolute;
-  bottom: -3px; /* Hang slightly over the bottom edge */
-  width: 10px;
-  height: 14px;
+  bottom: -4px;
+  width: 8px;
+  height: 11px;
   background-color: #1c1c1c;
-  border-radius: 8px;
+  border-radius: 6px;
   z-index: 10;
   pointer-events: none;
 }
@@ -251,17 +290,17 @@
   content: '';
   position: absolute;
   bottom: 1px;
-  width: 10px;
-  height: 12px;
+  width: 8px;
+  height: 10px;
   background-color: #1c1c1c;
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
-.mascotHandLeft::before, .mascotHandRight::before { left: -5px; }
-.mascotHandLeft::after, .mascotHandRight::after { left: 5px; }
+.mascotHandLeft::before, .mascotHandRight::before { left: -4px; }
+.mascotHandLeft::after, .mascotHandRight::after { left: 4px; }
 
-.mascotHandLeft { right: 100px; }
-.mascotHandRight { right: 30px; }
+.mascotHandLeft { right: 62px; }
+.mascotHandRight { right: 18px; }
 
 /* Hide the SVG's built-in arms, legs, and shadow */
 .mascotWrapper :global(#arms),

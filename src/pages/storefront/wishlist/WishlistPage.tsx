@@ -19,12 +19,16 @@ export const WishlistPage = () => {
       <div className={styles.page}>
         <Container>
           <WishlistHeader itemCount={0} />
-          <div className={styles.skeletonGrid}>
-            {Array.from({ length: 8 }).map((_, i) => (
-              <WishlistSkeleton key={i} />
-            ))}
-          </div>
         </Container>
+        <div className={styles.gridSection}>
+          <Container>
+            <div className={styles.skeletonGrid}>
+              {Array.from({ length: 8 }).map((_, i) => (
+                <WishlistSkeleton key={i} />
+              ))}
+            </div>
+          </Container>
+        </div>
       </div>
     );
   }
@@ -61,8 +65,12 @@ export const WishlistPage = () => {
     <div className={styles.page}>
       <Container>
         <WishlistHeader itemCount={items.length} />
-        <WishlistGrid />
       </Container>
+      <div className={styles.gridSection}>
+        <Container>
+          <WishlistGrid />
+        </Container>
+      </div>
     </div>
   );
 };

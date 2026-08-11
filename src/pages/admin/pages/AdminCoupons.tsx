@@ -2,7 +2,7 @@ import React from 'react'
 import { 
   Search, Plus, Download, ChevronDown, Filter,
   Ticket, Tag, Calendar, Wallet, Gift,
-  MoreVertical, Edit2, ChevronLeft, ChevronRight 
+  MoreVertical, Edit2, Trash2, ChevronLeft, ChevronRight 
 } from 'lucide-react'
 import styles from './AdminCoupons.module.css'
 import { CustomSelect } from '../components/CustomSelect'
@@ -54,10 +54,15 @@ export function AdminCoupons() {
     return () => clearTimeout(timer);
   }, []);
 
+  const [coupons, setCoupons] = React.useState(couponsData);
   const [statusFilter, setStatusFilter] = React.useState('all');
   const [typeFilter, setTypeFilter] = React.useState('all');
   const [expiryFilter, setExpiryFilter] = React.useState('all');
   const [view, setView] = React.useState<'list' | 'grid'>('list');
+
+  const handleDelete = (id: number) => {
+    setCoupons(prev => prev.filter(c => c.id !== id));
+  };
 
   if (isLoading) return <AdminCouponsSkeleton />;
 
@@ -156,7 +161,7 @@ export function AdminCoupons() {
                 </tr>
               </thead>
               <tbody>
-                {couponsData.map((coupon) => {
+                {coupons.map((coupon) => {
                   const typeClass = coupon.type === 'Percentage' ? styles.percentage : 
                                    coupon.type === 'Shipping' ? styles.shipping : styles.fixed;
                                    
@@ -190,7 +195,7 @@ export function AdminCoupons() {
                           {coupon.type}
                         </span>
                       </td>
-                      <td>
+                      <td style={{ whiteSpace: 'nowrap' }}>
                         <div className={styles.cellText}>{coupon.minOrder}</div>
                       </td>
                       <td>
@@ -206,7 +211,7 @@ export function AdminCoupons() {
                           </div>
                         </div>
                       </td>
-                      <td>
+                      <td style={{ whiteSpace: 'nowrap' }}>
                         <div className={styles.cellText}>{coupon.validityRange}</div>
                         <div className={`${styles.cellSubtext} ${isWarning ? styles.error : ''}`}>
                           {coupon.validityTimeLeft}
@@ -219,6 +224,16 @@ export function AdminCoupons() {
                       </td>
                       <td>
                         <div className={styles.actionsCell}>
+                          {coupon.status === 'Expired' && (
+                            <button 
+                              className={styles.deleteCouponBtn} 
+                              aria-label="Delete Coupon"
+                              title="Delete Expired Coupon"
+                              onClick={() => handleDelete(coupon.id)}
+                            >
+                              <Trash2 size={14} /> Delete
+                            </button>
+                          )}
                           <button className={styles.actionBtn} aria-label="Edit Coupon"><Edit2 size={16} /></button>
                           <button className={styles.actionBtn} aria-label="More Actions"><MoreVertical size={16} /></button>
                         </div>
@@ -233,7 +248,7 @@ export function AdminCoupons() {
 
         {view === 'grid' && (
           <div className={styles.itemsGrid}>
-            {couponsData.map((coupon) => {
+            {coupons.map((coupon) => {
               const typeClass = coupon.type === 'Percentage' ? styles.percentage : 
                                coupon.type === 'Shipping' ? styles.shipping : styles.fixed;
                                
@@ -288,6 +303,16 @@ export function AdminCoupons() {
                   </div>
 
                   <div className={styles.actionsCell} style={{ marginTop: 'auto', paddingTop: '12px', borderTop: '1px solid var(--color-border)', justifyContent: 'flex-end' }}>
+                    {coupon.status === 'Expired' && (
+                      <button 
+                        className={styles.deleteCouponBtn} 
+                        aria-label="Delete Coupon"
+                        title="Delete Expired Coupon"
+                        onClick={() => handleDelete(coupon.id)}
+                      >
+                        <Trash2 size={14} /> Delete
+                      </button>
+                    )}
                     <button className={styles.actionBtn} aria-label="Edit Coupon"><Edit2 size={16} /></button>
                     <button className={styles.actionBtn} aria-label="More Actions"><MoreVertical size={16} /></button>
                   </div>
@@ -299,7 +324,7 @@ export function AdminCoupons() {
 
         {/* Mobile View */}
         <div className={styles.mobileCards}>
-          {couponsData.map((coupon) => {
+          {coupons.map((coupon) => {
             const typeClass = coupon.type === 'Percentage' ? styles.percentage : 
                              coupon.type === 'Shipping' ? styles.shipping : styles.fixed;
                              
@@ -354,6 +379,16 @@ export function AdminCoupons() {
                 </div>
 
                 <div className={styles.actionsCell} style={{ marginTop: 'auto', paddingTop: '12px', borderTop: '1px solid var(--color-border)', justifyContent: 'flex-end' }}>
+                  {coupon.status === 'Expired' && (
+                    <button 
+                      className={styles.deleteCouponBtn} 
+                      aria-label="Delete Coupon"
+                      title="Delete Expired Coupon"
+                      onClick={() => handleDelete(coupon.id)}
+                    >
+                      <Trash2 size={14} /> Delete
+                    </button>
+                  )}
                   <button className={styles.actionBtn} aria-label="Edit Coupon"><Edit2 size={16} /></button>
                   <button className={styles.actionBtn} aria-label="More Actions"><MoreVertical size={16} /></button>
                 </div>

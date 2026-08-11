@@ -70,6 +70,28 @@ export function AdminProductsSkeleton() {
             </div>
           ))}
         </div>
+
+        {/* Mobile Cards Skeleton */}
+        <div className={styles.mobileCards}>
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={`mc-${i}`} className={styles.mobileCard}>
+              <div className={styles.mcHeader}>
+                <div className={styles.customerCell}>
+                  <div className={`${styles.skeleton} ${styles.avatarSkeleton}`} />
+                  <div>
+                    <div className={`${styles.skeleton} ${styles.nameSkeleton}`} />
+                    <div className={`${styles.skeleton} ${styles.emailSkeleton}`} />
+                  </div>
+                </div>
+                <div className={`${styles.skeleton} ${styles.badgeSkeleton}`} style={{ width: '60px' }} />
+              </div>
+              <div className={styles.mcRow}>
+                <div className={`${styles.skeleton} ${styles.textSkeleton}`} style={{ width: '40%' }} />
+                <div className={`${styles.skeleton} ${styles.textSkeleton}`} style={{ width: '30%' }} />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -13,6 +13,7 @@
   border: 1.5px solid #EAE6DF !important;
   color: var(--color-chocolate) !important;
   font-weight: 600 !important;
+  font-size: 13px !important;
   background: var(--color-white) !important;
   box-shadow: none !important;
   transition: all var(--duration-fast) !important;
@@ -20,8 +21,8 @@
 
 .saveBtn :global(svg) {
   flex-shrink: 0 !important;
-  width: 18px !important;
-  height: 18px !important;
+  width: 16px !important;
+  height: 16px !important;
 }
 
 .saveBtn:hover {
@@ -41,6 +42,8 @@
   background-color: var(--color-brand-yellow) !important;
   color: var(--color-chocolate) !important;
   font-weight: 700 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.04em !important;
   border: none !important;
   box-shadow: 0 4px 12px rgba(255, 199, 0, 0.2) !important;
   transition: all var(--duration-fast) !important;

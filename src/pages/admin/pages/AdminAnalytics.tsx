@@ -1,6 +1,6 @@
 import React from 'react'
-import { 
-  Calendar, ChevronDown, ShoppingBag, ShoppingCart, 
+import {
+  Calendar, ChevronDown, ShoppingBag, ShoppingCart,
   Users, Heart, Eye, UserPlus, Tag
 } from 'lucide-react'
 import styles from './AdminAnalytics.module.css'
@@ -34,11 +34,11 @@ const trafficSources = [
 ];
 
 const bestSellingProducts = [
-  { id: 1, name: 'Strawberry Bliss Pops', sales: 512, img: '/images/cp_strawberry_bliss_1786233527953.png' },
-  { id: 2, name: 'Chocolate Crunch Pops', sales: 498, img: '/images/cp_chocolate_crunch_1786233536606.png' },
-  { id: 3, name: 'Cute Chick Pops', sales: 423, img: '/images/cp_cute_chick_1786233547978.png' },
-  { id: 4, name: 'Lavender Love Pops', sales: 310, img: '/images/cp_lavender_love_1786233556807.png' },
-  { id: 5, name: 'Red Velvet Pops', sales: 298, img: '/images/hero_assorted_pops.png' },
+  { id: 1, name: 'Strawberry Bliss Pops', sales: 512, img: '/images/Products/mini valentine cake.jpeg' },
+  { id: 2, name: 'Chocolate Crunch Pops', sales: 498, img: '/images/Products/Dark choclate cakepops.jpeg' },
+  { id: 3, name: 'Cute Chick Pops', sales: 423, img: '/images/Products/vanilla mango cupcakes.jpeg' },
+  { id: 4, name: 'Lavender Love Pops', sales: 310, img: '/images/Products/White choclate cakepops.jpeg' },
+  { id: 5, name: 'Red Velvet Pops', sales: 298, img: '/images/Products/Red velvet cookies.jpeg' },
 ];
 
 const userActivity = [
@@ -48,7 +48,6 @@ const userActivity = [
   { id: 4, label: 'Wishlist Adds', sub: 'This week', value: '2,350', trend: '14.2%', icon: Heart, color: 'var(--admin-pink)', bg: '#FFF0F5' },
   { id: 5, label: 'Coupons Used', sub: 'This week', value: '532', trend: '16.3%', icon: Tag, color: '#5C3317', bg: '#F5F5DC' },
 ];
-
 
 const Sparkline = ({ data, color }: { data: number[], color: string }) => {
   const max = Math.max(...data);
@@ -103,7 +102,7 @@ const DonutChart = ({ data, centerText, centerLabel }: any) => {
           <span className={styles.donutCenterLabel}>{centerLabel}</span>
         </div>
       </div>
-      
+
       <div className={styles.donutLegend}>
         {data.map((d: any, i: number) => (
           <div key={i} className={styles.donutLegendItem}>
@@ -228,6 +227,15 @@ const BarChart = ({ data }: { data: number[] }) => {
 
 
 export function AdminAnalytics() {
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) return <AdminAnalyticsSkeleton />;
+
   return (
     <div className={styles.container}>
       {/* Header */}

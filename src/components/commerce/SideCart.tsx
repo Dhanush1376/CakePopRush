@@ -11,15 +11,16 @@ import { QuantitySelector } from './QuantitySelector';
 import { formatCurrency } from '@/lib/formatters/currency';
 import { ProductImage } from './ProductImage';
 import { CakePopMascot } from '@/components/mascot/CakePopMascot';
+import { MascotReaction } from '@/components/mascot/reactions/reactionTypes';
 const MASCOT_MESSAGES = [
-  "Yummy choice!", "Perfect!", "Sweet!", "So good!", "I love this one!", 
+  "Yummy choice!", "Perfect!", "Sweet!", "So good!", "I love this one!",
   "Delicious!", "Great pick!", "Can't wait!", "Mmm...", "Treat yourself!",
   "Fantastic!", "Awesome!", "Yasss!", "Sugar rush!", "Sprinkles!",
   "My favorite!", "Oh yeah!", "A classic!", "You'll love it!", "Excellent!",
   "Get in my belly!", "Taste explosion!", "So tasty!", "Cravings satisfied!",
-  "A sweet treat!", "Wow!", "Superb!", "Delish!", "I'm drooling!", 
-  "Good choice!", "So yummy!", "Treat time!", "Just for you!", 
-  "Love at first bite!", "Perfection!", "Gimme gimme!", "Yum yum!", 
+  "A sweet treat!", "Wow!", "Superb!", "Delish!", "I'm drooling!",
+  "Good choice!", "So yummy!", "Treat time!", "Just for you!",
+  "Love at first bite!", "Perfection!", "Gimme gimme!", "Yum yum!",
   "Scrumptious!", "You deserve it!", "Can't go wrong!", "Best ever!"
 ];
 const SAD_MESSAGES = [
@@ -54,7 +55,7 @@ export const SideCart = () => {
 
       const x = e.clientX - mascotCenterX;
       const y = e.clientY - mascotCenterY;
-      
+
       let targetX = (x / 200) * 8;
       let targetY = (y / 200) * 8;
 
@@ -96,11 +97,28 @@ export const SideCart = () => {
 
       prevTotalItems.current = totalItems;
     }
-    
+
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, [totalItems]);
+
+  const handleMascotClick = () => {
+    const HAPPY_REACTIONS: { reaction: MascotReaction; message: string }[] = [
+      { reaction: 'love', message: 'Sweetest cart ever!' },
+      { reaction: 'party', message: 'Ready to checkout?' },
+      { reaction: 'laughing', message: 'Sugar rush time!' },
+      { reaction: 'winking', message: 'You deserve a treat!' },
+    ];
+    const pick = HAPPY_REACTIONS[Math.floor(Math.random() * HAPPY_REACTIONS.length)];
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setMascotMessage(pick.message);
+    setMascotReaction(pick.reaction);
+    timeoutRef.current = setTimeout(() => {
+      setMascotMessage(null);
+      setMascotReaction(null);
+    }, 3500);
+  };
 
   // Close on Escape key
   useEffect(() => {
@@ -177,7 +195,7 @@ export const SideCart = () => {
                   </div>
                   <h3 className={styles.emptyTitle}>Your bag is empty</h3>
                   <p className={styles.emptyText}>Looks like you haven't added any sweet treats yet.</p>
-                  <button 
+                  <button
                     className={styles.exploreLink}
                     onClick={() => {
                       closeCart();
@@ -216,12 +234,15 @@ export const SideCart = () => {
                           <p className={styles.itemVariant}>Variant: {item.variantName}</p>
                         )}
 
-                        <div className={styles.itemFooter}>
+                        <div className={styles.priceRow}>
                           <Price
                             amount={item.product.basePrice}
                             compareAtAmount={item.product.compareAtPrice || Math.round(item.product.basePrice * 1.25)}
-                            size="sm"
+                            size="md"
                           />
+                        </div>
+
+                        <div className={styles.itemFooter}>
                           <QuantitySelector
                             quantity={item.quantity}
                             onChange={(q) => {
@@ -263,9 +284,10 @@ export const SideCart = () => {
 
             {items.length > 0 && (
               <div className={styles.footer}>
-                <motion.div 
-                  className={styles.mascotContainer} 
+                <motion.div
+                  className={styles.mascotContainer}
                   ref={mascotRef}
+                  onClick={handleMascotClick}
                   initial={{ y: 150 }}
                   animate={{ y: 0 }}
                   transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.2 }}
@@ -284,13 +306,13 @@ export const SideCart = () => {
                   </AnimatePresence>
                   <CakePopMascot size="large" reaction={mascotReaction} eyeX={eyeSpringX} eyeY={eyeSpringY} />
                 </motion.div>
-                <motion.div 
+                <motion.div
                   className={styles.mascotHandLeft}
                   initial={{ y: 150 }}
                   animate={{ y: 0 }}
                   transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.2 }}
                 />
-                <motion.div 
+                <motion.div
                   className={styles.mascotHandRight}
                   initial={{ y: 150 }}
                   animate={{ y: 0 }}
@@ -318,10 +340,10 @@ export const SideCart = () => {
                   <Button size="sm" variant="outline" className={`${styles.actionBtn} ${styles.viewCartBtn}`} onClick={handleViewCart}>
                     Cart
                   </Button>
-                  <Button 
+                  <Button
                     size="sm"
-                    className={styles.actionBtn} 
-                    variant="primary" 
+                    className={styles.actionBtn}
+                    variant="primary"
                     onClick={handleCheckout}
                     rightIcon={<ArrowRight size={16} />}
                   >

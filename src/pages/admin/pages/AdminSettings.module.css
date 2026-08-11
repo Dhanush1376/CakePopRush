@@ -535,3 +535,19 @@ input:checked + .slider:before {
   .uploadSection { flex-direction: column; align-items: stretch; }
   .currentLogo { align-self: center; }
 }
+
+@media (max-width: 768px) {
+  .tableCard {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .mobileCards {
+    padding: 0 !important;
+  }
+  .mobileCard {
+    background-color: var(--color-white) !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+}
+

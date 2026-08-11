@@ -22,6 +22,13 @@
   .heroSection {
     margin-top: calc(-1 * var(--header-height-desktop, 80px));
     padding-top: var(--header-height-desktop, 80px);
+    min-height: 500px;
+  }
+  
+  .balloonRight {
+    top: auto;
+    bottom: 10px;
+    right: calc(15% - 80px);
   }
 
   .decorationsLayer {
@@ -29,9 +36,12 @@
   }
 
   .buntingContainer {
-    top: 6%;
-    /* Moved down from 0 */
+    top: 15%;
     right: 0;
+  }
+
+  .laptopHiddenArm {
+    display: none;
   }
 }
 
@@ -227,8 +237,8 @@
   right: -2%;
   width: clamp(80px, 14vw, 160px);
   aspect-ratio: 160 / 260;
-  transform: rotate(30deg);
-  /* Tilted outward right */
+
+  /* Removed rotation to make balloon and string straight */
 }
 
 /* Wave */
@@ -340,13 +350,19 @@
 /* Mascot Positioning */
 .mascotWrapper {
   position: absolute;
-  bottom: 71px;
+  bottom: 48px;
   right: 15%;
   width: 200px;
   height: 120px;
   overflow: hidden;
   pointer-events: none;
   z-index: 10;
+}
+
+@media (min-width: 1024px) {
+  .mascotWrapper {
+    bottom: 48px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -376,7 +392,7 @@
   }
 }
 
-.mascotContainer > div {
+.mascotContainer>div {
   width: 100% !important;
   height: 100% !important;
 }
@@ -397,7 +413,8 @@
   pointer-events: none;
 }
 
-.mascotHandLeft::before, .mascotHandLeft::after {
+.mascotHandLeft::before,
+.mascotHandLeft::after {
   content: '';
   position: absolute;
   bottom: 1px;
@@ -407,8 +424,13 @@
   border-radius: 6px;
 }
 
-.mascotHandLeft::before { left: -4px; }
-.mascotHandLeft::after { left: 4px; }
+.mascotHandLeft::before {
+  left: -4px;
+}
+
+.mascotHandLeft::after {
+  left: 4px;
+}
 
 .mascotHandLeft {
   right: 115px;
@@ -439,7 +461,8 @@
   left: 0;
   width: 100%;
   bottom: 0;
-  z-index: 30; /* Above darkOverlay */
+  z-index: 30;
+  /* Above darkOverlay */
   pointer-events: none;
 }
 

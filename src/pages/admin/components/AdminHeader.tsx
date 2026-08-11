@@ -88,13 +88,28 @@ export function AdminHeader({ onMenuClick, isOpen }: AdminHeaderProps) {
       
       <div className={styles.right}>
         {/* Search Modal Trigger */}
-        <div className={styles.dropdownContainer}>
+        <div className={`${styles.dropdownContainer} ${styles.searchContainer}`}>
+          {/* Mobile Search Bar */}
           <button 
-            className={styles.iconButton}
+            className={styles.searchBarMobile}
             aria-label="Search"
             onClick={() => setIsSearchOpen(true)}
           >
-            <Search size={20} strokeWidth={2} />
+            <Search size={18} strokeWidth={2} className={styles.searchIconMuted} />
+            <span className={styles.searchPlaceholder}>Search admin...</span>
+          </button>
+          
+          {/* Desktop / Laptop Extended Search Bar */}
+          <button 
+            className={styles.searchBarDesktop}
+            aria-label="Search"
+            onClick={() => setIsSearchOpen(true)}
+          >
+            <div className={styles.searchLeft}>
+              <Search size={18} strokeWidth={2} className={styles.searchIconMuted} />
+              <span className={styles.searchPlaceholder}>Search orders, products, customers...</span>
+            </div>
+            <kbd className={styles.shortcutKey}>Ctrl K</kbd>
           </button>
         </div>
         
@@ -162,7 +177,7 @@ export function AdminHeader({ onMenuClick, isOpen }: AdminHeaderProps) {
               <div className={styles.profileHeader}>
                 <div className={styles.profileAvatar}><User size={24} color="var(--admin-pink)" /></div>
                 <div className={styles.profileInfo}>
-                  <span className={styles.profileName}>Admin User</span>
+                  <span className={styles.profileName}>Priyanka</span>
                   <span className={styles.profileRole}>Super Admin</span>
                 </div>
               </div>

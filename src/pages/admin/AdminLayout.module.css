@@ -1,4 +1,6 @@
 .adminLayout {
+  --font-family-display: 'Times New Roman', Times, serif;
+  --font-family-heading: 'Times New Roman', Times, serif;
   display: grid;
   grid-template-columns: var(--admin-sidebar-width) 1fr;
   height: 100vh;
@@ -10,6 +12,13 @@
   position: relative;
   overflow: hidden;
   transition: grid-template-columns 0.3s ease;
+}
+
+.adminLayout h1,
+.adminLayout h2,
+.adminLayout h3,
+.adminLayout [class*="title"] {
+  font-family: 'Times New Roman', Times, serif !important;
 }
 
 .adminLayout.sidebarClosed {
@@ -40,7 +49,6 @@
   }
   
   .pageContent {
-    padding: 1rem;
-    padding-bottom: 85px; /* Account for 65px bottom nav + padding */
+    padding: 0.5rem 6px 85px 6px; /* Account for 65px bottom nav + minimal side gap */
   }
 }

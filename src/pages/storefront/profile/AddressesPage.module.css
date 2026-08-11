@@ -65,8 +65,8 @@
 
 .helpBtn:hover { opacity: 0.7; }
 
-.content {
-  padding: var(--space-4);
+.modalContent {
+  padding: var(--space-2) 0; /* Let the modal container handle side padding */
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
@@ -96,7 +96,8 @@
 
 .defaultBadge {
   position: absolute;
-  top: -1px;
+  top: 0;
+  transform: translateY(-50%);
   right: var(--space-4);
   background: var(--color-brand-pink);
   color: white;

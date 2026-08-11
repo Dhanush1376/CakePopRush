@@ -25,6 +25,11 @@ html, body {
   color: var(--color-white);
 }
 
+/* Global placeholder styling */
+::placeholder {
+  font-size: 10px;
+}
+
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   *,

@@ -11,23 +11,23 @@ import { AdminUsersSkeleton } from '../components/AdminUsersSkeleton';
 
 // KPI Data
 const kpiData = [
-  { id: 1, label: 'TOTAL USERS', value: '12', trend: '20.0%', isPositive: true, isNeutral: false, icon: Users, color: 'var(--admin-pink)', bg: '#FFF0F5' },
-  { id: 2, label: 'ACTIVE USERS', value: '10', trend: '16.7%', isPositive: true, isNeutral: false, icon: Shield, color: '#F59E0B', bg: '#FFF8E1' },
-  { id: 3, label: 'ADMINISTRATORS', value: '3', trend: '50.0%', isPositive: true, isNeutral: false, icon: Shield, color: 'var(--admin-cyan)', bg: '#E0FAFC' },
-  { id: 4, label: 'EDITORS', value: '5', trend: '25.0%', isPositive: true, isNeutral: false, icon: Edit, color: 'var(--admin-purple)', bg: '#F3E5F5' },
-  { id: 5, label: 'VIEWERS', value: '4', trend: '0.0%', isPositive: true, isNeutral: true, icon: Key, color: '#5C3317', bg: '#F5F5DC' },
+  { id: 1, label: 'TOTAL USERS', value: '3', trend: '0.0%', isPositive: true, isNeutral: true, icon: Users, color: 'var(--admin-pink)', bg: '#FFF0F5' },
+  { id: 2, label: 'ACTIVE USERS', value: '3', trend: '100%', isPositive: true, isNeutral: false, icon: Shield, color: '#F59E0B', bg: '#FFF8E1' },
+  { id: 3, label: 'ADMINISTRATORS', value: '1', trend: '33.3%', isPositive: true, isNeutral: false, icon: Shield, color: 'var(--admin-cyan)', bg: '#E0FAFC' },
+  { id: 4, label: 'EDITORS', value: '1', trend: '33.3%', isPositive: true, isNeutral: false, icon: Edit, color: 'var(--admin-purple)', bg: '#F3E5F5' },
+  { id: 5, label: 'SUPER ADMINS', value: '1', trend: '33.3%', isPositive: true, isNeutral: false, icon: Key, color: '#5C3317', bg: '#F5F5DC' },
 ];
 
 // Mock Users
 const users = [
   {
     id: 1,
-    name: 'Admin User',
-    email: 'admin@cakepoprush.com',
-    initials: 'AU',
+    name: 'Priyanka',
+    email: 'priyanka@cakepoprush.com',
+    initials: 'PR',
     avatarBg: '#FFF0F5',
     avatarColor: 'var(--admin-pink)',
-    isYou: true,
+    isYou: false,
     role: 'Super Admin',
     status: 'Active',
     lastLoginDate: 'May 24, 2025',
@@ -37,9 +37,9 @@ const users = [
   },
   {
     id: 2,
-    name: 'Rahul Sharma',
-    email: 'rahul.sharma@cakepoprush.com',
-    initials: 'RS',
+    name: 'Sravani',
+    email: 'sravani@cakepoprush.com',
+    initials: 'SR',
     avatarBg: '#FFF8E1',
     avatarColor: '#F59E0B',
     isYou: false,
@@ -52,93 +52,18 @@ const users = [
   },
   {
     id: 3,
-    name: 'Priya Patel',
-    email: 'priya.patel@cakepoprush.com',
-    initials: 'PP',
+    name: 'Dhanush',
+    email: 'dhanush@cakepoprush.com',
+    initials: 'DH',
     avatarBg: '#E0FAFC',
     avatarColor: 'var(--admin-cyan)',
-    isYou: false,
+    isYou: true,
     role: 'Editor',
     status: 'Active',
     lastLoginDate: 'May 24, 2025',
     lastLoginTime: '08:45 AM',
     joinDate: 'Jan 15, 2024',
     joinTime: '02:20 PM'
-  },
-  {
-    id: 4,
-    name: 'Amit Singh',
-    email: 'amit.singh@cakepoprush.com',
-    initials: 'AS',
-    avatarBg: '#F3E5F5',
-    avatarColor: 'var(--admin-purple)',
-    isYou: false,
-    role: 'Editor',
-    status: 'Active',
-    lastLoginDate: 'May 23, 2025',
-    lastLoginTime: '06:20 PM',
-    joinDate: 'Jan 18, 2024',
-    joinTime: '10:10 AM'
-  },
-  {
-    id: 5,
-    name: 'Neha Kapoor',
-    email: 'neha.kapoor@cakepoprush.com',
-    initials: 'NK',
-    avatarBg: '#F5F5DC',
-    avatarColor: '#5C3317',
-    isYou: false,
-    role: 'Viewer',
-    status: 'Active',
-    lastLoginDate: 'May 23, 2025',
-    lastLoginTime: '04:10 PM',
-    joinDate: 'Jan 20, 2024',
-    joinTime: '01:45 PM'
-  },
-  {
-    id: 6,
-    name: 'Manoj Jaiswal',
-    email: 'manoj.jaiswal@cakepoprush.com',
-    initials: 'MJ',
-    avatarBg: '#E0FAFC',
-    avatarColor: 'var(--admin-cyan)',
-    isYou: false,
-    role: 'Administrator',
-    status: 'Active',
-    lastLoginDate: 'May 23, 2025',
-    lastLoginTime: '03:05 PM',
-    joinDate: 'Jan 22, 2024',
-    joinTime: '11:25 AM'
-  },
-  {
-    id: 7,
-    name: 'Sneha Kulkarni',
-    email: 'sneha.kulkarni@cakepoprush.com',
-    initials: 'SK',
-    avatarBg: '#FFF0F5',
-    avatarColor: 'var(--admin-pink)',
-    isYou: false,
-    role: 'Editor',
-    status: 'Inactive',
-    lastLoginDate: 'May 21, 2025',
-    lastLoginTime: '02:35 PM',
-    joinDate: 'Jan 25, 2024',
-    joinTime: '03:15 PM'
-  },
-  {
-    id: 8,
-    name: 'Vikas Bansal',
-    email: 'vikas.bansal@cakepoprush.com',
-    initials: 'VB',
-    avatarBg: '#E0FAFC',
-    avatarColor: 'var(--admin-cyan)',
-    isYou: false,
-    role: 'Viewer',
-    status: 'Active',
-    lastLoginDate: 'May 20, 2025',
-    lastLoginTime: '11:50 AM',
-    joinDate: 'Jan 28, 2024',
-    joinTime: '09:40 AM'
   }
 ];
 
@@ -395,7 +320,7 @@ export function AdminUsers() {
         </div>
 
         <div className={styles.pagination}>
-          <span className={styles.pageInfo}>Showing 1 to 8 of 12 users</span>
+          <span className={styles.pageInfo}>Showing 1 to 3 of 3 users</span>
           <div className={styles.pageControls}>
             <button className={styles.pageBtn}><ChevronLeft size={16} /></button>
             <button className={`${styles.pageBtn} ${styles.active}`}>1</button>

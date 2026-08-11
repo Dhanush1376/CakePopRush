@@ -66,16 +66,17 @@ export const ProductInfo = ({ product, calculatedTotal, mascotMessage }: Product
     }
   }, [eyeTargetX, eyeTargetY])
 
+  const [activeBubble, setActiveBubble] = useState<string | null>(null)
+
   useEffect(() => {
     if (mascotMessage) {
       setReaction('excited')
+      setActiveBubble(mascotMessage)
     } else if (isInView) {
-      // First wink quickly after entering view
       let timeout1 = setTimeout(() => {
         setReaction('winking')
       }, 500)
       
-      // Then repeat every 10 seconds safely
       const interval = setInterval(() => {
         setReaction(null)
         setTimeout(() => setReaction('winking'), 50)
@@ -89,6 +90,24 @@ export const ProductInfo = ({ product, calculatedTotal, mascotMessage }: Product
       setReaction(null)
     }
   }, [mascotMessage, isInView])
+
+  const triggerTapReaction = () => {
+    const REACTION_LIST: { reaction: MascotReaction; speech: string }[] = [
+      { reaction: 'excited', speech: 'Gimme gimme! 😋' },
+      { reaction: 'laughing', speech: 'So sweet! 🍭' },
+      { reaction: 'love', speech: 'Handcrafted with love! ❤️' },
+      { reaction: 'silly', speech: 'Yummy in my tummy! 🤪' },
+      { reaction: 'party', speech: 'Freshly baked daily! ✨' },
+      { reaction: 'winking', speech: 'Best choice ever! 😉' }
+    ]
+    const nextItem = REACTION_LIST[Math.floor(Math.random() * REACTION_LIST.length)]
+    setReaction(nextItem.reaction)
+    setActiveBubble(nextItem.speech)
+    setTimeout(() => {
+      setActiveBubble(null)
+      setReaction(null)
+    }, 2800)
+  }
 
   return (
     <div className={styles.container}>
@@ -168,10 +187,15 @@ export const ProductInfo = ({ product, calculatedTotal, mascotMessage }: Product
         </div>
         
         {/* Embedded Mascot */}
-        <div className={styles.mascotContainer} ref={mascotRef}>
+        <div className={styles.mascotContainer} ref={mascotRef} onClick={triggerTapReaction}>
+          {activeBubble && (
+            <div className={styles.speechBubble}>
+              <span>{activeBubble}</span>
+            </div>
+          )}
           <div className={styles.mascotClip}>
             <div className={styles.mascotWrapper}>
-              <CakePopMascot size="medium" reaction={reaction} eyeX={eyeSpringX} eyeY={eyeSpringY} />
+              <CakePopMascot size="small" reaction={reaction} eyeX={eyeSpringX} eyeY={eyeSpringY} />
             </div>
           </div>
           

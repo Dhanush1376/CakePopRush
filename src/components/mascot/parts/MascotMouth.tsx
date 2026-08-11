@@ -34,6 +34,7 @@ export const MascotMouth: React.FC<MascotMouthProps> = ({ shape = 'neutral' }) =
       <g transform={`translate(${MOUTH.cx}, ${MOUTH.cy})`}>
         {/* Morphing Smile/Frown */}
         <motion.path
+          d="M -16 -4 Q 0 14 16 -4"
           animate={{
             d: shape === 'frown' ? "M -7 4 Q 0 -2 7 4" :
                shape === 'tiredFrown' ? "M -9 4 Q 0 -4 9 4" :

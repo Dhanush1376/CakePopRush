@@ -99,14 +99,77 @@
   color: white;
   font-size: 10px;
   font-weight: 700;
-  min-width: 16px;
-  height: 16px;
-  border-radius: 8px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 4px;
-  border: 2px solid var(--admin-bg);
+  border: 2px solid var(--color-white);
+}
+
+.searchBarDesktop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 380px;
+  height: 42px;
+  padding: 0 16px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(59, 33, 23, 0.05);
+  transition: all 0.2s ease;
+}
+
+.searchBarDesktop:hover {
+  border-color: var(--admin-pink);
+  box-shadow: 0 4px 12px rgba(247, 37, 103, 0.12);
+  transform: translateY(-1px);
+}
+
+.searchLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.searchIconMuted {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.searchPlaceholder {
+  color: var(--color-text-muted);
+  font-size: 13px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.shortcutKey {
+  background-color: #F3F4F6;
+  color: #6B7280;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: inherit;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
+}
+
+.searchBarMobile {
+  display: none;
+}
+
+@media (max-width: 1200px) {
+  .searchBarDesktop {
+    width: 280px;
+  }
 }
 
 .profileButton {
@@ -334,8 +397,51 @@
   .menuButton {
     display: flex;
   }
+
+  .breadcrumbs {
+    display: none;
+  }
   
   .right {
     gap: 0.75rem;
+    flex: 1;
+    justify-content: flex-end;
+  }
+
+  .searchContainer {
+    flex: 1;
+    display: flex;
+  }
+
+  .searchBarDesktop {
+    display: none;
+  }
+
+  .searchBarMobile {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    padding: 8px 16px;
+    width: 100%;
+    cursor: text;
+    transition: all 0.2s;
+  }
+  
+  .searchBarMobile:focus-visible {
+    outline: none;
+  }
+  
+  .notificationsDropdown {
+    width: 320px;
+    right: -50px;
+    max-width: calc(100vw - 32px);
+  }
+  
+  .searchDropdown {
+    width: 320px;
+    right: -100px;
+    max-width: calc(100vw - 32px);
   }
 }

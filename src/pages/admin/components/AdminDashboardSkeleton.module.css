@@ -138,7 +138,22 @@
     align-items: flex-start; 
     gap: 1rem; 
   }
+  .statsGrid { 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 10px;
+  }
+  .statCard:first-child {
+    grid-column: 1 / -1;
+  }
 }
+
 @media (max-width: 576px) {
-  .statsGrid { grid-template-columns: 1fr; }
+  .statsGrid { 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 8px;
+  }
+  .statCard {
+    padding: 1rem;
+    height: auto;
+  }
 }

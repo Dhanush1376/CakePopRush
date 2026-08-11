@@ -68,21 +68,7 @@ export const AddressesPage = () => {
   }
 
   return (
-    <div className={styles.page}>
-      <div className={styles.blob} />
-
-      <header className={styles.header}>
-        <Link to="/profile" className={styles.backBtn}>
-          <ChevronLeft size={20} strokeWidth={2.5} />
-          <span>BACK</span>
-        </Link>
-        <button className={styles.helpBtn}>
-          <MessageCircle size={18} strokeWidth={2} />
-          <span>NEED HELP?</span>
-        </button>
-      </header>
-
-      <div className={styles.content}>
+    <div className={styles.modalContent}>
         {addresses.map(addr => (
           <div key={addr.id} className={`${styles.card} ${addr.isDefault ? styles.cardDefault : ''}`}>
             {addr.isDefault && (
@@ -119,7 +105,6 @@ export const AddressesPage = () => {
           <Plus size={18} />
           Add New Address
         </button>
-      </div>
 
       <AddressDrawer 
         isOpen={isDrawerOpen} 

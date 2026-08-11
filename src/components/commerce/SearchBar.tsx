@@ -12,7 +12,9 @@ import {
   CakesiclesIcon,
   BrowniesIcon,
   MacaronsIcon,
-  TrufflesIcon
+  TrufflesIcon,
+  CakeJarsIcon,
+  GiftBoxesIcon
 } from '@/components/icons/DessertIcons'
 import { Product } from '@/types/product'
 import { Button } from '../ui/Button'
@@ -31,6 +33,8 @@ const getCategoryIcon = (id: string) => {
     case 'truffles': return <TrufflesIcon width={32} height={32} />
     case 'desserts': return <TrufflesIcon width={32} height={32} />
     case 'birthday-cakes': return <BirthdayCakesIcon width={32} height={32} />
+    case 'cake-jars': return <CakeJarsIcon width={32} height={32} />
+    case 'gift-boxes': return <GiftBoxesIcon width={32} height={32} />
     default: return null;
   }
 }
@@ -256,12 +260,11 @@ export const SearchBar = ({ isMobile = false, onClose }: SearchBarProps) => {
 
           <div className={styles.section} style={{ marginTop: '32px' }}>
             <div className={styles.sectionHeader}>
-              <div className={styles.sectionHeaderTitle} style={{ marginBottom: 0, color: '#0b7070' }}>
+              <div className={styles.sectionTitle} style={{ marginBottom: 0 }}>
                 Trending Treats
               </div>
               <button 
                 className={styles.viewAllBtn}
-                style={{ color: '#0b7070' }}
                 onClick={() => {
                   navigate('/shop')
                   setIsFocused(false)

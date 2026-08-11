@@ -200,3 +200,55 @@ export const TrufflesIcon = ({ width = 160, height = 160, className = '' }: Icon
     </g>
   </svg>
 )
+
+export const CakeJarsIcon = ({ width = 160, height = 160, className = '' }: IconProps) => (
+  <svg width={width} height={height} viewBox="0 0 160 180" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <g transform="translate(15, 10)">
+      {/* Lid */}
+      <rect {...oStyle} x="45" y="15" width="50" height="15" rx="4" fill="#FFD8A3" />
+      <rect {...oStyle} x="40" y="27" width="60" height="8" rx="2" fill="#E8C396" />
+      
+      {/* Jar Body */}
+      <path {...oStyle} d="M35 35 L105 35 Q115 35 115 45 L115 145 Q115 155 105 155 L35 155 Q25 155 25 145 L25 45 Q25 35 35 35 Z" fill="#FFF3E6" />
+      
+      {/* Layers inside Jar */}
+      <path d="M26 130 L114 130 Q114 154 104 154 L36 154 Q26 154 26 130 Z" fill="#5B291A" />
+      <path d="M26 105 L114 105 L114 130 L26 130 Z" fill="#FF77AF" />
+      <path d="M26 80 L114 80 L114 105 L26 105 Z" fill="#FFD8A3" />
+      <path d="M26 50 L114 50 L114 80 L26 80 Z" fill="#FFB6D0" />
+      
+      {/* Whipped Cream Top */}
+      <path {...oStyle} fill="#FFF" d="M40 50 Q50 35 60 50 Q70 35 80 50 Q90 35 100 50 Z" />
+      {/* Cherry on top */}
+      <circle cx="70" cy="38" r="8" fill="#FF4F7B" stroke="#333" strokeWidth="3" />
+      
+      {/* Outer Jar Outline */}
+      <path {...oStyle} d="M35 35 L105 35 Q115 35 115 45 L115 145 Q115 155 105 155 L35 155 Q25 155 25 145 L25 45 Q25 35 35 35 Z" fill="none" />
+    </g>
+  </svg>
+)
+
+export const GiftBoxesIcon = ({ width = 160, height = 160, className = '' }: IconProps) => (
+  <svg width={width} height={height} viewBox="0 0 160 180" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <g transform="translate(15, 20)">
+      {/* Box Body */}
+      <rect {...oStyle} x="30" y="65" width="80" height="80" rx="6" fill="#FF77AF" />
+      
+      {/* Box Lid */}
+      <rect {...oStyle} x="22" y="45" width="96" height="22" rx="4" fill="#FFB6D0" />
+      
+      {/* Vertical Ribbon */}
+      <rect x="62" y="45" width="16" height="100" fill="#62D7D7" stroke="#333" strokeWidth="4" />
+      
+      {/* Horizontal Ribbon */}
+      <rect x="22" y="80" width="96" height="16" fill="#62D7D7" stroke="#333" strokeWidth="4" />
+      
+      {/* Bow Left Loop */}
+      <path {...oStyle} fill="#62D7D7" d="M70 45 C45 25 35 35 60 45 Z" />
+      {/* Bow Right Loop */}
+      <path {...oStyle} fill="#62D7D7" d="M70 45 C95 25 105 35 80 45 Z" />
+      {/* Bow Center Knot */}
+      <circle cx="70" cy="45" r="7" fill="#29C7D4" stroke="#333" strokeWidth="4" />
+    </g>
+  </svg>
+)

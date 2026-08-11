@@ -8,6 +8,10 @@ import {
 } from 'lucide-react'
 import styles from './ProfilePage.module.css'
 import { CakePopMascot } from '@/components/mascot/CakePopMascot'
+import { ResponsiveModal } from '@/components/ui/ResponsiveModal'
+import { MyDetailsPage } from './MyDetailsPage'
+import { AddressesPage } from './AddressesPage'
+import { NotificationsPage } from './NotificationsPage'
 
 const Sprinkles = () => (
   <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '200px', overflow: 'hidden', zIndex: 0, pointerEvents: 'none' }}>
@@ -109,20 +113,6 @@ const ProfileCard = () => (
       </div>
     </div>
     
-    <div className={styles.rewardsBanner}>
-      <div className={styles.rewardsLeft}>
-        <div className={styles.rewardsIconWrapper}>
-          <Gift size={24} color="var(--color-brand-pink)" />
-        </div>
-        <div className={styles.rewardsText}>
-          <h3>Sweet Rewards</h3>
-          <p className={styles.rewardsPoints}>350 <span><Star size={14} fill="currentColor" strokeWidth={0} style={{ display: 'inline', verticalAlign: 'middle' }} /></span></p>
-        </div>
-      </div>
-      <button className={styles.viewRewardsBtn}>
-        View Rewards <ChevronRight size={14} />
-      </button>
-    </div>
   </div>
 )
 
@@ -168,7 +158,7 @@ const OrdersSection = () => {
   )
 }
 
-const MenuSection = ({ title, items }: { title: string, items: { icon: React.ReactNode, label: string, to?: string }[] }) => (
+const MenuSection = ({ title, items }: { title: string, items: { icon: React.ReactNode, label: string, to?: string, onClick?: () => void }[] }) => (
   <section>
     <div className={styles.sectionTitleRow}>
       <h3 className={styles.sectionTitle}>{title}</h3>
@@ -182,7 +172,7 @@ const MenuSection = ({ title, items }: { title: string, items: { icon: React.Rea
             <ChevronRight size={18} className={styles.menuChevron} />
           </Link>
         ) : (
-          <div key={index} className={styles.menuItem}>
+          <div key={index} className={styles.menuItem} onClick={item.onClick} style={{ cursor: item.onClick ? 'pointer' : 'default' }}>
             <div className={styles.menuIcon}>{item.icon}</div>
             <span className={styles.menuText}>{item.label}</span>
             <ChevronRight size={18} className={styles.menuChevron} />
@@ -194,17 +184,19 @@ const MenuSection = ({ title, items }: { title: string, items: { icon: React.Rea
 )
 
 export const ProfilePage = () => {
+  const [activeModal, setActiveModal] = React.useState<'details' | 'addresses' | 'notifications' | null>(null)
+
   const accountItems = [
-    { icon: <User size={20} strokeWidth={1.5} />,       label: 'My Details',               to: '/profile/details' },
-    { icon: <MapPin size={20} strokeWidth={1.5} />,     label: 'Addresses',                to: '/profile/addresses' },
-    { icon: <Bell size={20} strokeWidth={1.5} />,       label: 'Notification Preferences', to: '/profile/notifications' },
+    { icon: <User size={20} strokeWidth={1.5} />,       label: 'My Details',               onClick: () => setActiveModal('details') },
+    { icon: <MapPin size={20} strokeWidth={1.5} />,     label: 'Addresses',                onClick: () => setActiveModal('addresses') },
+    { icon: <Bell size={20} strokeWidth={1.5} />,       label: 'Notification Preferences', onClick: () => setActiveModal('notifications') },
   ]
   
   const moreItems = [
     { icon: <Headphones size={20} strokeWidth={1.5} />, label: 'Help & Support' },
     { icon: <Info size={20} strokeWidth={1.5} />, label: 'About CakePopRush' },
-    { icon: <FileText size={20} strokeWidth={1.5} />, label: 'Terms & Conditions' },
-    { icon: <Shield size={20} strokeWidth={1.5} />, label: 'Privacy Policy' },
+    { icon: <FileText size={20} strokeWidth={1.5} />, label: 'Terms & Conditions', to: '/terms' },
+    { icon: <Shield size={20} strokeWidth={1.5} />, label: 'Privacy Policy', to: '/privacy' },
   ]
 
   const heroRef = React.useRef<HTMLElement>(null);
@@ -249,6 +241,16 @@ export const ProfilePage = () => {
           </div>
         </div>
       </div>
+      
+      <ResponsiveModal 
+        isOpen={activeModal !== null} 
+        onClose={() => setActiveModal(null)}
+        title={activeModal === 'details' ? 'My Details' : activeModal === 'addresses' ? 'Addresses' : activeModal === 'notifications' ? 'Notification Preferences' : ''}
+      >
+        {activeModal === 'details' && <MyDetailsPage />}
+        {activeModal === 'addresses' && <AddressesPage />}
+        {activeModal === 'notifications' && <NotificationsPage />}
+      </ResponsiveModal>
     </div>
   )
 }

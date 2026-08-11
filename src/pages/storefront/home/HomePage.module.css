@@ -18,9 +18,16 @@
   justify-content: center;
   align-items: flex-end;
   padding-bottom: 95px;
-  /* Fine-tuned to avoid merging with nav while keeping gap small */
+  /* Accounts for mobile bottom nav */
   overflow: hidden;
   background-color: #000;
+}
+
+@media (min-width: 768px) {
+  .rwdyHero {
+    padding-bottom: 24px;
+    /* Small gap on desktop where there is no bottom nav */
+  }
 }
 
 .heroScrollingBackground {
@@ -72,7 +79,8 @@
   width: 220px;
   object-fit: cover;
   flex-shrink: 0;
-  opacity: 0.85; /* Moved from container */
+  opacity: 0.85;
+  /* Moved from container */
   transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1), filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
   cursor: pointer;
 }
@@ -82,16 +90,18 @@
 }
 
 @media (min-width: 1024px) {
+
   /* Dim all images slightly when the container is hovered */
   .heroScrollingBackground:hover .scrollingImage {
     filter: brightness(0.7);
   }
-  
+
   /* Expand and brighten the hovered image */
   .imageLink:hover .scrollingImage {
     width: 400px;
     filter: brightness(1.1);
-    opacity: 1; /* Restore full opacity on hover */
+    opacity: 1;
+    /* Restore full opacity on hover */
   }
 
   .imageOverlayName {
@@ -100,7 +110,7 @@
     left: 0;
     width: 100%;
     padding: 60px 24px 24px;
-    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
     color: #ffffff !important;
     font-family: var(--font-family-display);
     font-weight: 800;
@@ -112,14 +122,14 @@
     pointer-events: none;
     display: flex;
     align-items: flex-end;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
     z-index: 10;
   }
 
   .imageOverlayName span {
     color: #ffffff !important;
   }
-  
+
   .imageLink:hover .imageOverlayName {
     opacity: 1;
   }
@@ -177,14 +187,19 @@
 .offerBannerContainer {
   background-color: #ffffff;
   color: var(--color-brand-pink);
-  padding: 14px 0;
-  /* Increased padding to make the banner taller */
+  padding: 10px 0;
   overflow: hidden;
   position: relative;
   width: 100%;
   display: flex;
   align-items: center;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+@media (min-width: 768px) {
+  .offerBannerContainer {
+    padding: 14px 0;
+  }
 }
 
 .offerBannerTrack {
@@ -197,12 +212,19 @@
 
 .offerBannerTrack span {
   font-family: system-ui, -apple-system, sans-serif;
-  font-size: 12px;
-  /* Smaller text */
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  /* Slightly wider spacing for small text */
-  margin-right: 40px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-right: 20px;
+}
+
+@media (min-width: 768px) {
+  .offerBannerTrack span {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    margin-right: 40px;
+  }
 }
 
 @keyframes scrollBanner {
@@ -518,7 +540,7 @@
 }
 
 .sectionTitle {
-  font-family: var(--font-family-price);
+  font-family: var(--font-family-body);
   font-size: 14px;
   font-weight: 700;
   text-transform: uppercase;
@@ -893,9 +915,9 @@
 }
 
 .customOrderTitle {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: var(--font-family-body);
   font-size: 18px;
-  font-weight: 400;
+  font-weight: 700;
   color: var(--color-chocolate);
   margin-bottom: 8px;
 }
@@ -922,7 +944,8 @@
 }
 
 .flowArrow svg {
-  transform: rotate(90deg); /* Down arrow on mobile */
+  transform: rotate(90deg);
+  /* Down arrow on mobile */
 }
 
 .flowStep {
@@ -944,20 +967,22 @@
     max-width: 900px;
     margin: 0 auto;
   }
-  
+
   .flowArrow {
     margin: 0;
-    align-self: center; /* Center the arrow vertically */
+    align-self: center;
+    /* Center the arrow vertically */
   }
 
   .flowArrow svg {
-    transform: rotate(0deg); /* Right arrow on laptop */
+    transform: rotate(0deg);
+    /* Right arrow on laptop */
   }
-  
+
   .flowStep {
     max-width: none;
   }
-  
+
   .flowCard {
     height: 100%;
   }

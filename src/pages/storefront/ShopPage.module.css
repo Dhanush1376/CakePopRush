@@ -26,8 +26,8 @@
   padding-bottom: 4px;
   padding-top: 16px;
   /* space for the notch */
-  margin-top: -72px;
-  /* Pull it up over the hero by default */
+  margin-top: -48px;
+  /* Pulls category section up to overlap the hero bottom edge */
   transition: top 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-radius 0.4s ease, padding-top 0.4s ease;
 
   /* Sheet styling */

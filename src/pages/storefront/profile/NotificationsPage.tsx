@@ -57,20 +57,7 @@ export const NotificationsPage = () => {
   }
 
   return (
-    <div className={styles.page}>
-      <div className={styles.blob} />
-
-      <header className={styles.header}>
-        <Link to="/profile" className={styles.backBtn}>
-          <ChevronLeft size={20} strokeWidth={2.5} />
-          <span>BACK</span>
-        </Link>
-        <button className={styles.helpBtn}>
-          <MessageCircle size={18} strokeWidth={2} />
-          <span>NEED HELP?</span>
-        </button>
-      </header>
-
+    <div className={styles.modalContent}>
       {/* Master toggle */}
       <div className={styles.masterCard}>
         <div className={styles.masterLeft}>

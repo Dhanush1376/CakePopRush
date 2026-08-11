@@ -81,9 +81,11 @@
 }
 
 .sectionCard {
-  background-color: transparent;
+  background-color: var(--color-white);
   border-radius: var(--radius-xl);
   padding: 24px;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
 .sectionHeader {
@@ -139,7 +141,7 @@
   font-family: var(--font-family-body);
   font-size: 14px;
   color: var(--color-text);
-  background-color: transparent;
+  background-color: var(--color-white);
   outline: none;
   transition: all var(--duration-fast);
 }
@@ -185,20 +187,24 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px;
+  background-color: var(--color-white);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
   transition: all 0.2s;
 }
 
 .paymentOption:hover {
   background-color: #F0FCFB;
-  border-color: rgba(7, 194, 187, 0.3);
+  border-color: rgba(7, 194, 187, 0.4);
+  box-shadow: 0 4px 12px rgba(7, 194, 187, 0.08);
 }
 
 .paymentOption.selected {
   border-color: var(--color-brand-turquoise);
   background-color: #F0FCFB;
+  box-shadow: 0 4px 12px rgba(7, 194, 187, 0.1);
 }
 
 .paymentLeft {

@@ -393,12 +393,40 @@
   .header { flex-direction: column; gap: 1rem; }
   .datePicker { width: 100%; justify-content: space-between; }
   
-  .kpiGrid { grid-template-columns: repeat(2, 1fr); }
+  .kpiGrid { 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 10px;
+  }
+  .kpiCard:first-child {
+    grid-column: 1 / -1;
+  }
   
   .chartsRow1, .chartsRow2 { grid-template-columns: 1fr; }
   .chartCard:first-child { grid-column: auto; }
 }
 
-@media (max-width: 480px) {
-  .kpiGrid { grid-template-columns: 1fr; }
+@media (max-width: 576px) {
+  .kpiGrid { 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 8px;
+  }
+  .kpiCard {
+    padding: 12px 10px;
+  }
 }
+
+@media (max-width: 768px) {
+  .tableCard {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .mobileCards {
+    padding: 0 !important;
+  }
+  .mobileCard {
+    background-color: var(--color-white) !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+}
+

@@ -3,8 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Prevent interaction since it's just a visual element */
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .mascotSvg {

@@ -6,22 +6,65 @@ export function AdminNotificationsSkeleton() {
     <div className={styles.container}>
       <div className={styles.header}>
         <div>
-          <div className={styles.skeleton + ' ' + styles.titleSkeleton} />
-          <div className={styles.skeleton + ' ' + styles.subtitleSkeleton} />
+          <div className={`${styles.skeleton} ${styles.titleSkeleton}`} />
+          <div className={`${styles.skeleton} ${styles.subtitleSkeleton}`} />
         </div>
       </div>
-      <div className={styles.toolbar}>
-        <div className={styles.skeleton + ' ' + styles.searchSkeleton} />
-        <div className={styles.skeleton + ' ' + styles.btnSkeleton} />
-        <div className={styles.skeleton + ' ' + styles.btnSkeleton} />
-      </div>
-      <div className={styles.contentBlock}>
+
+      <div className={styles.statsGrid}>
         {Array.from({ length: 5 }).map((_, i) => (
-          <div key={i}>
-            <div className={styles.skeleton + ' ' + styles.contentLine} />
-            <div className={styles.skeleton + ' ' + styles.contentLineShort} style={{ marginBottom: '32px' }} />
+          <div key={`stat-${i}`} className={styles.statCard}>
+            <div className={`${styles.skeleton} ${styles.statIconSkeleton}`} />
+            <div className={styles.statContent}>
+              <div className={`${styles.skeleton} ${styles.statLabelSkeleton}`} />
+              <div className={`${styles.skeleton} ${styles.statValueSkeleton}`} />
+            </div>
           </div>
         ))}
+      </div>
+
+      <div className={styles.toolbar}>
+        <div className={`${styles.skeleton} ${styles.searchSkeleton}`} />
+        <div className={`${styles.skeleton} ${styles.filterSkeleton}`} />
+        <div className={`${styles.skeleton} ${styles.btnSkeleton}`} />
+      </div>
+
+      <div className={styles.contentBlock}>
+        <div className={styles.tableWrapper}>
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className={styles.row}>
+              <div className={styles.notifCell}>
+                <div className={`${styles.skeleton} ${styles.iconSkeleton}`} />
+                <div>
+                  <div className={`${styles.skeleton} ${styles.titleLine}`} />
+                  <div className={`${styles.skeleton} ${styles.subLine}`} />
+                </div>
+              </div>
+              <div className={`${styles.skeleton} ${styles.badgeSkeleton}`} />
+              <div className={`${styles.skeleton} ${styles.textSkeleton}`} />
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.mobileCards}>
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={`mc-${i}`} className={styles.mobileCard}>
+              <div className={styles.mcHeader}>
+                <div className={styles.notifCell}>
+                  <div className={`${styles.skeleton} ${styles.iconSkeleton}`} />
+                  <div>
+                    <div className={`${styles.skeleton} ${styles.titleLine}`} />
+                    <div className={`${styles.skeleton} ${styles.subLine}`} />
+                  </div>
+                </div>
+              </div>
+              <div className={styles.mcRow}>
+                <div className={`${styles.skeleton} ${styles.badgeSkeleton}`} style={{ width: '60px' }} />
+                <div className={`${styles.skeleton} ${styles.textSkeleton}`} style={{ width: '30%' }} />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

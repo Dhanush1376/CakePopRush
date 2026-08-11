@@ -17,7 +17,9 @@ import {
   CakesiclesIcon,
   BrowniesIcon,
   MacaronsIcon,
-  TrufflesIcon
+  TrufflesIcon,
+  CakeJarsIcon,
+  GiftBoxesIcon
 } from '@/components/icons/DessertIcons'
 
 // Helper to render product cover photos based on category id
@@ -43,6 +45,10 @@ const getCategoryIcon = (id: string) => {
       return <TrufflesIcon width={52} height={52} />
     case 'birthday-cakes':
       return <BirthdayCakesIcon width={52} height={52} />
+    case 'cake-jars':
+      return <CakeJarsIcon width={52} height={52} />
+    case 'gift-boxes':
+      return <GiftBoxesIcon width={52} height={52} />
     default:
       return null;
   }

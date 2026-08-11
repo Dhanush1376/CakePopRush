@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { 
-  Search, Plus, Download, ChevronDown, Filter, Calendar,
+  Search, Download, ChevronDown, Filter, Calendar,
   Send, Bell, Mail, Eye, Gift, Heart, AlertTriangle, Smartphone,
   MoreVertical, Edit2, ChevronLeft, ChevronRight 
 } from 'lucide-react'
@@ -49,10 +49,18 @@ const channelOptions = [
 ];
 
 export function AdminNotifications() {
+  const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('All Notifications');
   const [typeFilter, setTypeFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
   const [channelFilter, setChannelFilter] = useState('all');
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) return <AdminNotificationsSkeleton />;
 
   return (
     <div className={styles.container}>
@@ -67,10 +75,6 @@ export function AdminNotifications() {
             <span>May 18 - May 24, 2025</span>
             <ChevronDown size={14} className={styles.dateIcon} />
           </div>
-          <button className={styles.addBtn}>
-            <Plus size={18} strokeWidth={2.5} />
-            Send New Notification
-          </button>
         </div>
       </div>
 
@@ -79,7 +83,7 @@ export function AdminNotifications() {
           <Search size={16} className={styles.searchIcon} />
           <input type="text" placeholder="Search notifications by title or message..." className={styles.searchInput} />
         </div>
-        
+
         <CustomSelect
           options={typeOptions}
           value={typeFilter}

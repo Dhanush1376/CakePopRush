@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Search, LayoutDashboard, ShoppingCart, Users, Package, Star, Settings, ClipboardList, BarChart2, Ticket, Bell, HelpCircle, CornerDownLeft } from 'lucide-react';
+import { Search, LayoutDashboard, ShoppingCart, Users, Package, Star, Settings, ClipboardList, BarChart2, Ticket, Bell, HelpCircle, CornerDownLeft, Monitor } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import styles from './AdminSearchPalette.module.css';
 
@@ -18,6 +18,7 @@ const searchItems = [
   { id: 'analytics', title: 'Analytics & Reports', subtitle: 'Navigation section', icon: BarChart2, path: '/admin/analytics' },
   { id: 'coupons', title: 'Coupons & Offers', subtitle: 'Navigation section', icon: Ticket, path: '/admin/coupons' },
   { id: 'custom-orders', title: 'Custom Orders', subtitle: 'Navigation section', icon: ClipboardList, path: '/admin/custom-orders' },
+  { id: 'cms', title: 'Storefront CMS', subtitle: 'Banners & Layout Editor', icon: Monitor, path: '/admin/storefront-cms' },
   { id: 'notifications', title: 'System Notifications', subtitle: 'Navigation section', icon: Bell, path: '/admin/notifications' },
   { id: 'settings', title: 'Admin Settings', subtitle: 'Navigation section', icon: Settings, path: '/admin/settings' },
   { id: 'support', title: 'Help & Support', subtitle: 'Navigation section', icon: HelpCircle, path: '/admin/support' },

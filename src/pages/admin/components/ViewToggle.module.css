@@ -23,3 +23,9 @@
   border-color: var(--color-border);
   background-color: var(--color-white);
 }
+
+@media (max-width: 768px) {
+  .viewToggles {
+    display: none !important;
+  }
+}

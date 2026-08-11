@@ -19,9 +19,6 @@ import { PrivacyPage } from '@/pages/storefront/legal/PrivacyPage'
 import { ContactPage } from '@/pages/storefront/info/ContactPage'
 import { OrdersPage } from '@/pages/storefront/orders/OrdersPage'
 import { OrderTrackingPage } from '@/pages/storefront/orders/OrderTrackingPage'
-import { MyDetailsPage } from '@/pages/storefront/profile/MyDetailsPage'
-import { AddressesPage } from '@/pages/storefront/profile/AddressesPage'
-import { NotificationsPage } from '@/pages/storefront/profile/NotificationsPage'
 import { AdminLayout } from '@/pages/admin/AdminLayout'
 import { AdminDashboard } from '@/pages/admin/AdminDashboard'
 import { AdminOrders } from '@/pages/admin/pages/AdminOrders'
@@ -36,6 +33,7 @@ import { AdminBanners } from '@/pages/admin/pages/AdminBanners'
 import { AdminSettings } from '@/pages/admin/pages/AdminSettings'
 import { AdminUsers } from '@/pages/admin/pages/AdminUsers'
 import { AdminNotifications } from '@/pages/admin/pages/AdminNotifications'
+import { AdminStorefrontCMS } from '@/pages/admin/pages/AdminStorefrontCMS'
 import { AdminErrorBoundary } from '@/pages/admin/components/AdminErrorBoundary'
 
 export const router = createBrowserRouter([
@@ -84,18 +82,7 @@ export const router = createBrowserRouter([
         path: 'orders/:id',
         element: <OrderTrackingPage />,
       },
-      {
-        path: 'profile/details',
-        element: <MyDetailsPage />,
-      },
-      {
-        path: 'profile/addresses',
-        element: <AddressesPage />,
-      },
-      {
-        path: 'profile/notifications',
-        element: <NotificationsPage />,
-      },
+
       {
         path: 'product/:id/reviews',
         element: <ProductReviewsPage />,
@@ -147,6 +134,7 @@ export const router = createBrowserRouter([
       { path: 'settings', element: <AdminSettings /> },
       { path: 'users', element: <AdminUsers /> },
       { path: 'notifications', element: <AdminNotifications /> },
+      { path: 'storefront-cms', element: <AdminStorefrontCMS /> },
       { path: 'errors', element: <ErrorTrackingPanel /> },
     ]
   }

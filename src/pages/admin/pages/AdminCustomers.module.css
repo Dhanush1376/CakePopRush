@@ -468,34 +468,70 @@
   .kpiGrid { grid-template-columns: repeat(4, 1fr); }
 }
 
-@media (max-width: 1024px) {
-  .kpiGrid { grid-template-columns: repeat(3, 1fr); }
-  
-  .toolbar { flex-wrap: wrap; }
-  .searchBox { width: 100%; min-width: 100%; }
-}
-
 @media (max-width: 768px) {
-  .header { flex-direction: column; gap: 1rem; }
+  .header { flex-direction: column; gap: 1rem; align-items: stretch; }
+  .addBtn, .btnPrimary { width: 100%; justify-content: center; padding: 12px 16px; }
   
-  .kpiGrid { grid-template-columns: repeat(2, 1fr); }
-  
-  .toolbar { flex-direction: row; flex-wrap: wrap; }
-  .filterSelect { min-width: 0; flex: 1 1 calc(50% - 6px); }
-  .btnOutline { flex: 1 1 calc(50% - 6px); justify-content: center; }
-  
-  .tableWrapper { display: none; }
-  
-  /* Show cards as list on mobile */
-  .customersGrid, .customersGrid.hideOnDesktop {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
+  .kpiGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .toolbar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding: 10px;
+  }
+  .searchBox, .searchWrapper {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+  .filterSelect, .select {
+    grid-column: span 2;
+    width: 100%;
+  }
+  .btnOutline, .filterBtn, .exportBtn {
+    grid-column: span 1;
+    width: 100%;
+    justify-content: center;
+    padding: 8px 4px;
+    font-size: 12px;
+  }
+  .customersGrid {
+    padding: 0;
+  }
+  .customerCard {
+    background-color: var(--color-white) !important;
+    box-shadow: var(--shadow-sm) !important;
   }
 }
 
-@media (max-width: 480px) {
-  .kpiGrid { grid-template-columns: repeat(2, 1fr); }
-  .pagination { flex-direction: column; gap: 1rem; }
+@media (max-width: 576px) {
+  .kpiGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .kpiCard {
+    padding: 12px 8px;
+  }
+  .kpiIconWrapper {
+    width: 36px;
+    height: 36px;
+  }
+  .kpiIconWrapper > svg {
+    width: 16px;
+    height: 16px;
+  }
+  .kpiValue {
+    font-size: 18px;
+  }
+  .kpiLabel {
+    font-size: 10px;
+    text-align: center;
+  }
+  .kpiTrend {
+    font-size: 10px;
+  }
 }
+
+

@@ -14,7 +14,7 @@
   width: 75vw;
   max-width: 420px;
   background-color: var(--color-white);
-  
+
   background-size: 32px 32px;
   box-shadow: -12px 0 40px rgba(92, 51, 23, 0.12);
   z-index: calc(var(--z-drawer) + 1);
@@ -32,7 +32,7 @@
 }
 
 .title {
-  font-family: var(--font-family-display);
+  font-family: var(--font-family-body);
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-chocolate);
@@ -228,14 +228,16 @@
   margin: 4px 0 0;
 }
 
+.priceRow {
+  margin-top: 4px;
+  margin-bottom: 6px;
+}
+
 .itemFooter {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  margin-top: var(--space-3);
-  gap: var(--space-2);
-  flex-wrap: wrap;
-  /* Allows quantity and price to wrap if not enough space */
+  margin-top: 2px;
 }
 
 .footer {
@@ -313,27 +315,31 @@
 
 .mascotContainer {
   position: absolute;
-  top: -95px;
+  top: -100px;
   right: -10px;
   width: 140px;
   height: 170px;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
   z-index: -2;
 }
 
-.mascotContainer > div:not(.speechBubble) {
+.mascotContainer>div:not(.speechBubble) {
   width: 100% !important;
   height: 100% !important;
 }
 
 .mascotContainer :global(#arms),
-.mascotContainer :global(#front-arms) {
+.mascotContainer :global(#front-arms),
+.mascotContainer :global(#legs),
+.mascotContainer :global(#stick),
+.mascotContainer :global(#mascot-shadow) {
   display: none !important;
 }
 
 .speechBubble {
   position: absolute;
-  top: 5px;
+  top: -30px;
   right: 95px;
   background: white;
   padding: 6px 14px;
@@ -345,7 +351,7 @@
   transform: rotate(-3deg);
   border: 2px solid var(--color-brand-pink);
   pointer-events: none;
-  z-index: 2;
+  z-index: 20;
   white-space: nowrap;
 }
 
@@ -362,19 +368,22 @@
   transform: rotate(45deg);
 }
 
-.mascotHandLeft, .mascotHandRight {
+.mascotHandLeft,
+.mascotHandRight {
   position: absolute;
-  top: -8px;
+  top: -4px;
   width: 6px;
   height: 12px;
   background-color: #1c1c1c;
   border-radius: 6px;
-  z-index: 1;
+  z-index: 10;
   pointer-events: none;
 }
 
-.mascotHandLeft::before, .mascotHandLeft::after,
-.mascotHandRight::before, .mascotHandRight::after {
+.mascotHandLeft::before,
+.mascotHandLeft::after,
+.mascotHandRight::before,
+.mascotHandRight::after {
   content: '';
   position: absolute;
   bottom: 1px;
@@ -384,8 +393,15 @@
   border-radius: 6px;
 }
 
-.mascotHandLeft::before, .mascotHandRight::before { left: -4px; }
-.mascotHandLeft::after, .mascotHandRight::after { left: 4px; }
+.mascotHandLeft::before,
+.mascotHandRight::before {
+  left: -4px;
+}
+
+.mascotHandLeft::after,
+.mascotHandRight::after {
+  left: 4px;
+}
 
 .mascotHandLeft {
   right: 90px;

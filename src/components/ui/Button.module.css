@@ -74,18 +74,18 @@
 
 /* Sizes */
 .sm {
-  padding: var(--space-1) var(--space-3);
-  font-size: var(--font-size-sm);
+  padding: 6px 14px;
+  font-size: 11px;
 }
 
 .md {
-  padding: var(--space-2) var(--space-6);
-  font-size: var(--font-size-base);
+  padding: 10px 20px;
+  font-size: 13px;
 }
 
 .lg {
-  padding: var(--space-3) var(--space-8);
-  font-size: var(--font-size-lg);
+  padding: 12px 24px;
+  font-size: 14px;
 }
 
 /* Modifiers */

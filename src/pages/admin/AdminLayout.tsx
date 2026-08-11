@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import styles from './AdminLayout.module.css'
 import { AdminSidebar } from './components/AdminSidebar'
@@ -8,6 +8,17 @@ import { AdminBottomNav } from './components/AdminBottomNav'
 export function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 992)
   const location = useLocation()
+  const pageContentRef = useRef<HTMLElement>(null)
+
+  // Scroll page content container and window to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+    if (pageContentRef.current) {
+      pageContentRef.current.scrollTop = 0
+    }
+  }, [location.pathname])
 
   // Close sidebar on navigation on mobile only
   useEffect(() => {
@@ -34,7 +45,7 @@ export function AdminLayout() {
       
       <div className={styles.mainContent}>
         <AdminHeader isOpen={sidebarOpen} onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
-        <main className={styles.pageContent}>
+        <main className={styles.pageContent} ref={pageContentRef}>
           <Outlet />
         </main>
         <AdminBottomNav onMenuClick={() => setSidebarOpen(true)} />

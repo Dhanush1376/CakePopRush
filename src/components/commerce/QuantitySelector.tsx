@@ -1,8 +1,6 @@
 import React from 'react'
 import { Minus, Plus, Trash2 } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
 import styles from './QuantitySelector.module.css'
-import { IconButton } from '../ui/IconButton'
 
 interface QuantitySelectorProps {
   quantity: number
@@ -24,6 +22,8 @@ export const QuantitySelector = ({
     e.stopPropagation()
     if (quantity > min) {
       onChange(quantity - 1)
+    } else if (min === 0 && quantity === 1) {
+      onChange(0)
     }
   }
 
@@ -45,40 +45,19 @@ export const QuantitySelector = ({
 
   return (
     <div className={`${styles.container} ${className}`}>
-      <IconButton
-        icon={
-          <AnimatePresence mode="wait" initial={false}>
-            {min === 0 && quantity === 1 ? (
-              <motion.div
-                key="trash"
-                initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                exit={{ opacity: 0, scale: 0.5, rotate: 45 }}
-                transition={{ duration: 0.15 }}
-                style={{ display: 'flex' }}
-              >
-                <Trash2 size={12} />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="minus"
-                initial={{ opacity: 0, scale: 0.5, rotate: 45 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                exit={{ opacity: 0, scale: 0.5, rotate: -45 }}
-                transition={{ duration: 0.15 }}
-                style={{ display: 'flex' }}
-              >
-                <Minus size={12} />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        }
-        size="sm"
-        variant="ghost"
+      <button
+        type="button"
+        className={styles.stepBtn}
         onClick={handleDecrement}
-        disabled={quantity <= min}
+        disabled={quantity < min}
         aria-label={min === 0 && quantity === 1 ? "Remove item" : "Decrease quantity"}
-      />
+      >
+        {min === 0 && quantity === 1 ? (
+          <Trash2 size={11} strokeWidth={2} />
+        ) : (
+          <Minus size={11} strokeWidth={2.5} />
+        )}
+      </button>
       
       <input
         type="number"
@@ -90,14 +69,15 @@ export const QuantitySelector = ({
         aria-label="Quantity"
       />
       
-      <IconButton
-        icon={<Plus size={12} />}
-        size="sm"
-        variant="ghost"
+      <button
+        type="button"
+        className={styles.stepBtn}
         onClick={handleIncrement}
         disabled={quantity >= max}
         aria-label="Increase quantity"
-      />
+      >
+        <Plus size={11} strokeWidth={2.5} />
+      </button>
     </div>
   )
 }

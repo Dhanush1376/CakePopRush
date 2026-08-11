@@ -82,7 +82,7 @@ export function ShopPage() {
 
   return (
     <div className={styles.shopPage}>
-      <ShopHero isHeaderHidden={isHeaderHidden} />
+      <ShopHero />
       
       <div 
         id="shop-sticky-header"

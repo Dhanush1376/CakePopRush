@@ -131,7 +131,11 @@ export const AddressModal = ({ isOpen, onClose, onSave, initialData }: AddressMo
           </div>
 
           <div className={styles.mapPlaceholder}>
-            <MapContainer center={[21.1458, 79.0882]} zoom={13} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
+            <div className={styles.mapBadge}>
+              <LocateFixed size={13} className={styles.badgeIcon} />
+              <span>Tap or drag to pin exact delivery location</span>
+            </div>
+            <MapContainer center={[21.1458, 79.0882]} zoom={14} scrollWheelZoom={false} style={{ height: '100%', width: '100%' }}>
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -142,6 +146,7 @@ export const AddressModal = ({ isOpen, onClose, onSave, initialData }: AddressMo
 
           <div className={styles.formGrid}>
             <Input label="PINCODE*" name="pincode" value={formData.pincode} onChange={handleChange} placeholder="e.g. 560001" />
+            <Input label="FLAT / HOUSE NO. / FLOOR*" name="houseNo" value={formData.houseNo} onChange={handleChange} placeholder="e.g. Flat 302, 3rd Floor" />
             
             <div className={styles.fullWidth}>
               <Input label="STREET / BUILDING NAME*" name="street" value={formData.street} onChange={handleChange} placeholder="e.g. MG Road, Brigade Residency" />

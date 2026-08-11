@@ -220,13 +220,20 @@ export const useMascotController = (speedMultiplier: number = 1, loop: boolean =
     playRef.current = play;
   }, [play]);
 
-  // Start idle on mount
+  // Start idle on mount or when state returns to IDLE
   useEffect(() => {
     if (state === 'IDLE') {
       playIdle();
     }
+    // We do NOT return () => stop() here because play() already calls stop() synchronously.
+    // If we return () => stop() here, React will run the cleanup when state changes from IDLE to PLAYING_REACTION,
+    // which will abort the NEW animation controller created by play()!
+  }, [playIdle, state]);
+
+  // Clean up on unmount
+  useEffect(() => {
     return () => stop();
-  }, [playIdle, state, stop]);
+  }, [stop]);
 
   return {
     scope,

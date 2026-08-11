@@ -144,7 +144,7 @@
   font-family: var(--font-family-body);
   font-size: 15px;
   font-weight: 700;
-  color: #f20d6f; /* var(--color-brand-pink) */
+  color: var(--color-chocolate);
   margin-bottom: 12px;
   padding: 0;
 }
@@ -214,7 +214,7 @@
 .viewAllBtn {
   background: none;
   border: none;
-  color: #f20d6f;
+  color: var(--color-chocolate);
   font-size: 13px;
   font-weight: 600;
   display: flex;
@@ -531,6 +531,10 @@
 /* MOBILE OVERLAY                            */
 /* ========================================= */
 
+/* ========================================= */
+/* MOBILE OVERLAY                            */
+/* ========================================= */
+
 .mobileOverlay {
   position: fixed;
   top: 0;
@@ -538,7 +542,7 @@
   width: 100vw;
   height: 100vh;
   height: 100dvh;
-  background-color: #fff5f7; /* Light pink colored theme */
+  background-color: #ffffff; /* Clean white background */
   
   background-size: 24px 24px;
   background-position: center top;
@@ -551,8 +555,8 @@
   display: flex;
   align-items: center;
   padding: 12px 24px 12px 16px;
-  border-bottom: 1px solid rgba(242, 13, 111, 0.1); /* Subtle pink border instead of default border */
-  background: #fff5f7; /* Light pink */
+  border-bottom: 1px solid var(--color-border);
+  background: #ffffff;
   gap: 4px;
 }
 
@@ -575,13 +579,13 @@
   background: var(--color-white);
   border-radius: 999px;
   height: 48px;
-  border: 1px solid #dcd1c4;
+  border: 1px solid var(--color-border);
   transition: all 0.2s ease;
 }
 
 .mobileSearchField:focus-within {
-  border-color: #f43f5e; /* match exact pink */
-  box-shadow: none;
+  border-color: var(--color-chocolate);
+  box-shadow: 0 0 0 2px rgba(91, 58, 41, 0.1);
 }
 
 .iconButton {
@@ -591,16 +595,16 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #fff0f5; /* Light pink background */
-  color: #f20d6f; /* Pink icon color */
+  background: #f5f2eb;
+  color: var(--color-chocolate);
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .iconButton:hover {
-  background: #ffe4f0; /* Slightly darker pink on hover */
-  color: #d10056; /* Darker pink on hover */
+  background: #eae4d8;
+  color: var(--color-chocolate);
 }
 
 .mobileContent {
@@ -637,8 +641,8 @@
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background-color: #fff0f5; /* Light pink circle */
-  border: 1px solid #f6a8c8; /* Soft pink border */
+  background-color: #faf8f5;
+  border: 1px solid var(--color-border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -647,7 +651,7 @@
 
 .categoryBtn:hover .iconContainer {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(242, 13, 111, 0.15);
+  box-shadow: 0 4px 12px rgba(91, 58, 41, 0.1);
 }
 
 .categoryBtn .label {
