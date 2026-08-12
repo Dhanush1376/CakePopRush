@@ -201,6 +201,7 @@ export const ProfilePage = () => {
   ]
 
   const heroRef = React.useRef<HTMLElement>(null);
+  const mascotRef = React.useRef<HTMLDivElement>(null);
   const mascotControlRef = React.useRef<MascotRef>(null);
 
   const handleMascotClick = () => {
@@ -209,7 +210,7 @@ export const ProfilePage = () => {
     mascotControlRef.current?.play(random);
   };
 
-  const mascotProps = useSmartMascot({ heroRef, disableScrollHide: true, stayVisible: true, startY: 0 });
+  const mascotProps = useSmartMascot({ heroRef, mascotRef, disableScrollHide: true, stayVisible: true, startY: 0 });
 
   return (
     <div className={styles.pageContainer} ref={heroRef as any}>
@@ -222,7 +223,7 @@ export const ProfilePage = () => {
           <div className={styles.leftCol}>
             <div className={styles.mascotContainer}>
               <AnimatedSpeechBubble />
-              <motion.div className={styles.mascotLayer} style={{ y: mascotProps.mascotY }} onClick={handleMascotClick}>
+              <motion.div ref={mascotRef} className={styles.mascotLayer} style={{ y: mascotProps.mascotY }} onClick={handleMascotClick}>
                 <CakePopMascot 
                   ref={mascotControlRef}
                   size="large" 

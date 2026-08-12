@@ -12,8 +12,8 @@
   top: 0;
   right: 0;
   bottom: 0;
-  width: 85vw;
-  max-width: 420px;
+  width: 50vw;
+  min-width: 280px;
   background-color: var(--color-white);
   background-size: 32px 32px;
   box-shadow: -12px 0 40px rgba(92, 51, 23, 0.12);
@@ -24,8 +24,8 @@
 
 @media (max-width: 640px) {
   .drawer {
-    width: 100vw;
-    max-width: 100%;
+    width: 50vw;
+    min-width: 280px;
   }
 
   .drawer::after {
@@ -390,7 +390,7 @@
 .mascotHandLeft,
 .mascotHandRight {
   position: absolute;
-  top: 2px;
+  top: -10px;
   width: 6px;
   height: 14px;
   background-color: #1c1c1c;
@@ -424,10 +424,10 @@
 
 .mascotHandLeft {
   right: 98px;
-  transform: rotate(-12deg);
+  transform: rotate(168deg);
 }
 
 .mascotHandRight {
   right: 18px;
-  transform: rotate(12deg);
+  transform: rotate(192deg);
 }

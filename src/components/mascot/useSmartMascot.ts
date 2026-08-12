@@ -4,17 +4,18 @@ import { SmartMascotState, MascotDirection, INTRO_KEY } from './MascotState';
 
 interface SmartMascotOptions {
   heroRef: RefObject<HTMLElement | null>;
+  mascotRef?: RefObject<HTMLElement | null>;
   disableScrollHide?: boolean;
   stayVisible?: boolean;
   startY?: number;
 }
 
-export function useSmartMascot({ heroRef, disableScrollHide = false, stayVisible = false, startY = 200 }: SmartMascotOptions) {
+export function useSmartMascot({ heroRef, mascotRef, disableScrollHide = false, stayVisible = false, startY = 200 }: SmartMascotOptions) {
   const [state, setState] = useState<SmartMascotState>('hidden');
   const [direction, setDirection] = useState<MascotDirection>('center');
   
-  const eyeTargetX = useMotionValue(-8);
-  const eyeTargetY = useMotionValue(-6);
+  const eyeTargetX = useMotionValue(0);
+  const eyeTargetY = useMotionValue(0);
   const mascotTargetY = useMotionValue(startY); // Start hidden below the drawer
 
   const introDone = useRef(false);
@@ -48,7 +49,7 @@ export function useSmartMascot({ heroRef, disableScrollHide = false, stayVisible
     const startIntroSequence = () => {
       const hasShown = sessionStorage.getItem(INTRO_KEY) === 'true';
       
-      if (hasShown) {
+      if (hasShown || stayVisible) {
         introDone.current = true;
         mascotTargetY.set(0); // Pop up immediately
         setState('idle'); // Skip the wink, just be present to observe
@@ -95,12 +96,9 @@ export function useSmartMascot({ heroRef, disableScrollHide = false, stayVisible
 
   // Phase 2: Eye Tracking Blending
   
-  // Track pointer
+  // Track pointer across window (mouse move, clicks, touch taps)
   useEffect(() => {
-    const hero = heroRef.current;
-    if (!hero) return;
-    
-    const handlePointerMove = (e: PointerEvent) => {
+    const handlePointerMove = (e: MouseEvent | TouchEvent | PointerEvent) => {
       // If intro is not done, don't interrupt
       if (!introDone.current) return;
 
@@ -109,22 +107,34 @@ export function useSmartMascot({ heroRef, disableScrollHide = false, stayVisible
         mascotTargetY.set(0);
         setState('idle');
       }
+
+      const clientX = 'touches' in e && e.touches.length > 0 ? e.touches[0].clientX : (e as PointerEvent).clientX;
+      const clientY = 'touches' in e && e.touches.length > 0 ? e.touches[0].clientY : (e as PointerEvent).clientY;
+
+      if (clientX === undefined || clientY === undefined) return;
       
-      const rect = hero.getBoundingClientRect();
+      let mascotCenterX = 0;
+      let mascotCenterY = 0;
+
+      const targetRef = mascotRef?.current || heroRef.current;
+      if (!targetRef) return;
+
+      const rect = targetRef.getBoundingClientRect();
+      if (mascotRef?.current) {
+        mascotCenterX = rect.left + rect.width / 2;
+        mascotCenterY = rect.top + rect.height / 2;
+      } else {
+        mascotCenterX = rect.left + rect.width * 0.8;
+        mascotCenterY = rect.top + rect.height * 0.8;
+      }
       
-      // Calculate cursor position relative to the mascot's approximate physical location
-      // Mascot is positioned at the bottom-right (roughly 80% width, 80% height of hero)
-      const mascotOriginX = rect.left + rect.width * 0.8;
-      const mascotOriginY = rect.top + rect.height * 0.8;
+      const x = clientX - mascotCenterX;
+      const y = clientY - mascotCenterY;
       
-      const x = e.clientX - mascotOriginX;
-      const y = e.clientY - mascotOriginY;
-      
-      let targetX = (x / (rect.width / 2)) * 12;
-      let targetY = (y / (rect.height / 2)) * 8;
+      let targetX = (x / 200) * 8;
+      let targetY = (y / 200) * 8;
       
       // Mathematically constrain to the eye socket (max radius 8px)
-      // scleraR (27) - pupilR (19) = 8px max movement without bleeding
       const maxR = 8;
       const dist = Math.sqrt(targetX * targetX + targetY * targetY);
       if (dist > maxR) {
@@ -137,20 +147,24 @@ export function useSmartMascot({ heroRef, disableScrollHide = false, stayVisible
     };
     
     const handlePointerLeave = () => {
-      eyeTargetX.set(-8);
-      eyeTargetY.set(-6);
+      eyeTargetX.set(0);
+      eyeTargetY.set(0);
     };
 
-    document.body.addEventListener('pointermove', handlePointerMove);
-    document.body.addEventListener('pointerdown', handlePointerMove);
-    document.body.addEventListener('pointerleave', handlePointerLeave);
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerdown', handlePointerMove);
+    window.addEventListener('touchmove', handlePointerMove, { passive: true });
+    window.addEventListener('touchstart', handlePointerMove, { passive: true });
+    window.addEventListener('pointerleave', handlePointerLeave);
     
     return () => {
-      document.body.removeEventListener('pointermove', handlePointerMove);
-      document.body.removeEventListener('pointerdown', handlePointerMove);
-      document.body.removeEventListener('pointerleave', handlePointerLeave);
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerdown', handlePointerMove);
+      window.removeEventListener('touchmove', handlePointerMove);
+      window.removeEventListener('touchstart', handlePointerMove);
+      window.removeEventListener('pointerleave', handlePointerLeave);
     };
-  }, [eyeTargetX, eyeTargetY, heroRef, state, scrollY]);
+  }, [eyeTargetX, eyeTargetY, heroRef, mascotRef, state, scrollY]);
 
   // Carousel Callbacks
   const onCarouselSwipe = useCallback((direction: 'left' | 'right', fast = false) => {
@@ -175,10 +189,8 @@ export function useSmartMascot({ heroRef, disableScrollHide = false, stayVisible
     setTimeout(() => {
       setState('idle');
       setDirection('center');
-      // Default idle look target (also clamped)
-      const idleDist = Math.sqrt((-8)*(-8) + (-6)*(-6)); // 10
-      eyeTargetX.set((-8 / idleDist) * maxR);
-      eyeTargetY.set((-6 / idleDist) * maxR);
+      eyeTargetX.set(0);
+      eyeTargetY.set(0);
     }, fast ? 950 : 600);
   }, [eyeTargetX, eyeTargetY, mascotTargetY]);
 

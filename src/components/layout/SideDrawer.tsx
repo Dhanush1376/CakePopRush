@@ -200,7 +200,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, onClose }) => {
                                       <span style={{ background: '#E8C396' }} />
                                       <span style={{ background: '#B892FF' }} />
                                     </span>
-                                    <span>{cat.name}</span>
+                                    <span className={styles.categoryName}>{cat.name}</span>
                                   </NavLink>
                                 )
                               }
@@ -213,7 +213,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, onClose }) => {
                                   className={`${styles.categoryPill} ${active ? styles.activeCategory : ''}`}
                                 >
                                   <span className={styles.categoryDot} style={{ background: color }} />
-                                  <span>{cat.name}</span>
+                                  <span className={styles.categoryName}>{cat.name}</span>
                                 </NavLink>
                               )
                             })}
