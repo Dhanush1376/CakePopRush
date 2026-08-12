@@ -15,9 +15,18 @@ const Eye = ({
   eyeX?: MotionValue<number>;
   eyeY?: MotionValue<number>;
   clipId: string;
-}) => (
+}) => {
+  return (
   <motion.g id={`${id}-eye-container`} style={{ originX: '50%', originY: '50%' }}>
+    <defs>
+      <clipPath id={clipId}>
+        <circle cx={geo.cx} cy={geo.cy} r={geo.scleraR} />
+      </clipPath>
+    </defs>
     <g id={`${id}-eye`} className="eye">
+      {/* Invisible bounding box to lock the 50% transform origin exactly to cx,cy */}
+      <rect x={geo.cx - 75} y={geo.cy - 75} width={150} height={150} fill="transparent" />
+      
       {/* Normal open eye */}
       <motion.g id={`${id}-eye-normal`}>
         {/* Sclera (white outer circle) */}
@@ -111,6 +120,7 @@ const Eye = ({
     </g>
   </motion.g>
 );
+};
 
 export const MascotEyes = ({ eyeX, eyeY }: { eyeX?: MotionValue<number>, eyeY?: MotionValue<number> }) => {
   const uniqueId = useId();
@@ -118,14 +128,6 @@ export const MascotEyes = ({ eyeX, eyeY }: { eyeX?: MotionValue<number>, eyeY?: 
   const cleanId = uniqueId.replace(/:/g, '-');
   return (
     <g id="eyes">
-      <defs>
-        <clipPath id={`left-clip-${cleanId}`}>
-          <circle cx={LEFT_EYE.cx} cy={LEFT_EYE.cy} r={LEFT_EYE.scleraR} />
-        </clipPath>
-        <clipPath id={`right-clip-${cleanId}`}>
-          <circle cx={RIGHT_EYE.cx} cy={RIGHT_EYE.cy} r={RIGHT_EYE.scleraR} />
-        </clipPath>
-      </defs>
       <Eye id="left" geo={LEFT_EYE} eyeX={eyeX} eyeY={eyeY} clipId={`left-clip-${cleanId}`} />
       <Eye id="right" geo={RIGHT_EYE} eyeX={eyeX} eyeY={eyeY} clipId={`right-clip-${cleanId}`} />
     </g>

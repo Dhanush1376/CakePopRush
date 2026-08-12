@@ -125,7 +125,7 @@ const MOCK_ORDER_DETAILS: Record<string, OrderDetail> = {
     totalProducts: 2,
     totalQuantity: 3,
     address: {
-      recipientName: 'Dhanush Kumar',
+      recipientName: 'Dhanush',
       phone: '+91 98765 43210',
       houseNo: '12A',
       building: 'Sunshine Towers',
@@ -180,7 +180,7 @@ const MOCK_ORDER_DETAILS: Record<string, OrderDetail> = {
     totalProducts: 1,
     totalQuantity: 3,
     address: {
-      recipientName: 'Dhanush Kumar',
+      recipientName: 'Dhanush',
       phone: '+91 98765 43210',
       houseNo: '12A',
       building: 'Sunshine Towers',
@@ -239,7 +239,7 @@ const MOCK_ORDER_DETAILS: Record<string, OrderDetail> = {
     totalProducts: 2,
     totalQuantity: 4,
     address: {
-      recipientName: 'Dhanush Kumar',
+      recipientName: 'Dhanush',
       phone: '+91 98765 43210',
       houseNo: '12A',
       building: 'Sunshine Towers',
@@ -291,7 +291,7 @@ const MOCK_ORDER_DETAILS: Record<string, OrderDetail> = {
     totalProducts: 1,
     totalQuantity: 4,
     address: {
-      recipientName: 'Dhanush Kumar',
+      recipientName: 'Dhanush',
       phone: '+91 98765 43210',
       houseNo: '12A',
       building: 'Sunshine Towers',

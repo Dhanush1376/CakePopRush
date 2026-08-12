@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapPinOff, Plus, Edit2 } from 'lucide-react';
+import { MapPinOff, Plus, Edit2, Phone } from 'lucide-react';
 import styles from './CheckoutDeliveryPage.module.css';
 import { Container } from '@/components/layout/Container';
 import { CheckoutProgress } from '@/pages/storefront/cart/components/CheckoutProgress';
@@ -169,7 +169,8 @@ export const CheckoutDeliveryPage = () => {
                         </div>
 
                         <div className={styles.mobileContact}>
-                          <span className={styles.phoneIcon}>📞</span> Mobile: <strong>{addr.phone}</strong>
+                          <Phone size={14} color="var(--color-brand-pink)" style={{ marginRight: '6px' }} />
+                          <span>Mobile: <strong>{addr.phone}</strong></span>
                         </div>
                       </div>
                     );

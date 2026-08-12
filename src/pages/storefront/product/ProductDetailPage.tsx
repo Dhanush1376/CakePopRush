@@ -169,6 +169,8 @@ export function ProductDetailPage() {
               <div className={styles.purchaseActionsWrapper}>
                 <PurchaseActions
                   onAddToCart={actions.addToCart}
+                  onToggleSave={actions.toggleWishlist}
+                  isSaved={state.isWishlisted}
                   isOutOfStock={isOutOfStock}
                 />
               </div>

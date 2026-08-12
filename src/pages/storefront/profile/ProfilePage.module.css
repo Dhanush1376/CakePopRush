@@ -114,7 +114,8 @@
   width: 140px;
   height: 170px;
   z-index: 0;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .mascotLayer > div:not(.mascotHandLeft):not(.mascotHandRight) {
@@ -161,9 +162,9 @@
   position: absolute;
   top: -8px;
   width: 6px;
-  height: 12px;
+  height: 14px;
   background-color: #1c1c1c;
-  border-radius: 6px;
+  border-radius: 6px 6px 3px 3px;
   z-index: 10;
   pointer-events: none;
 }
@@ -173,15 +174,21 @@
   position: absolute;
   bottom: 1px;
   width: 6px;
-  height: 9px;
+  height: 10px;
   background-color: #1c1c1c;
   border-radius: 6px;
 }
 .mascotHandLeft::before, .mascotHandRight::before { left: -4px; }
 .mascotHandLeft::after, .mascotHandRight::after { left: 4px; }
 
-.mascotHandLeft { right: 90px; }
-.mascotHandRight { right: 30px; }
+.mascotHandLeft {
+  right: 98px;
+  transform: rotate(-12deg);
+}
+.mascotHandRight {
+  right: 18px;
+  transform: rotate(12deg);
+}
 
 
 

@@ -34,6 +34,7 @@
     align-items: flex-end;
     padding: 0;
   }
+
   .modal {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
@@ -43,7 +44,7 @@
 .dragIndicator {
   width: 48px;
   height: 4px;
-  background-color: var(--color-hero-cream);
+  background-color: rgba(56, 30, 16, 0.15);
   border-radius: 2px;
   margin: 16px auto;
 }
@@ -73,13 +74,13 @@
 }
 
 .content {
-  padding: 0 var(--space-8) var(--space-10);
+  padding: 0 var(--space-8) var(--space-8);
   position: relative;
   z-index: 2;
 }
 
 .title {
-  font-family: var(--font-family-body);
+  font-family: var(--font-family-display);
   font-size: var(--font-size-xl);
   font-weight: 700;
   color: var(--color-chocolate);
@@ -87,16 +88,25 @@
   letter-spacing: -0.02em;
 }
 
+.successTitle {
+  font-family: var(--font-family-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-chocolate);
+  margin: 24px 0 8px 0;
+  letter-spacing: -0.02em;
+}
+
 .subtitle {
   color: var(--color-text-muted);
   font-family: var(--font-family-body);
   font-size: var(--font-size-sm);
-  margin: 0 0 var(--space-8) 0;
+  margin: 0 0 var(--space-6) 0;
 }
 
 .inputGroup {
   position: relative;
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-6);
 }
 
 .inputIcon {
@@ -122,7 +132,7 @@
   border-bottom: 2px solid rgba(56, 30, 16, 0.15);
   border-radius: 0;
   font-family: var(--font-family-body);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   letter-spacing: 1px;
   color: var(--color-text);
@@ -148,7 +158,7 @@
   padding: 12px 24px;
   font-family: var(--font-family-body);
   font-weight: 700;
-  font-size: 13px;
+  font-size: 11px;
   letter-spacing: 1px;
   display: flex;
   align-items: center;
@@ -156,7 +166,7 @@
   gap: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-6);
 }
 
 .primaryButton:disabled {
@@ -165,7 +175,8 @@
 }
 
 .primaryButton:not(:disabled):hover {
-  background-color: #d60b61; /* slightly darker pink */
+  background-color: #d60b61;
+  /* slightly darker pink */
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(242, 13, 111, 0.2);
 }
@@ -174,7 +185,7 @@
   display: flex;
   align-items: center;
   text-align: center;
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-6);
   color: var(--color-text-muted);
   font-size: 11px;
   font-weight: 600;
@@ -205,7 +216,7 @@
   padding: 12px 24px;
   font-family: var(--font-family-body);
   font-weight: 700;
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 1px;
   display: flex;
   align-items: center;
@@ -270,12 +281,41 @@
   border-bottom-color: var(--color-brand-pink);
 }
 
+.closeButton:disabled {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
 .successContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   padding: var(--space-8) 0;
+  min-height: 240px;
+  /* keep consistent height */
+  justify-content: center;
+}
+
+.tickPhase,
+.mascotPhase {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.tickCircle {
+  width: 64px;
+  height: 64px;
+  background-color: #00d25b;
+  /* Vibrant green from screenshot */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Halo/ripple effect */
+  box-shadow: 0 0 0 14px rgba(0, 210, 91, 0.15);
 }
 
 .mascotSuccessWrap {
@@ -306,43 +346,56 @@
   left: 0;
   width: 140px;
   height: 170px;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
-.mascotContainer > div {
+.mascotContainer>div {
   width: 100% !important;
   height: 100% !important;
 }
 
-.mascotHandLeft, .mascotHandRight {
+.mascotHandLeft,
+.mascotHandRight {
   position: absolute;
   bottom: -6px;
   width: 6px;
-  height: 12px;
+  height: 14px;
   background-color: #1c1c1c;
-  border-radius: 6px;
+  border-radius: 6px 6px 3px 3px;
   z-index: 2;
   pointer-events: none;
 }
 
-.mascotHandLeft::before, .mascotHandLeft::after,
-.mascotHandRight::before, .mascotHandRight::after {
+.mascotHandLeft::before,
+.mascotHandLeft::after,
+.mascotHandRight::before,
+.mascotHandRight::after {
   content: '';
   position: absolute;
   bottom: 1px;
   width: 6px;
-  height: 9px;
+  height: 10px;
   background-color: #1c1c1c;
   border-radius: 6px;
 }
 
-.mascotHandLeft::before, .mascotHandRight::before { left: -4px; }
-.mascotHandLeft::after, .mascotHandRight::after { left: 4px; }
+.mascotHandLeft::before,
+.mascotHandRight::before {
+  left: -4px;
+}
+
+.mascotHandLeft::after,
+.mascotHandRight::after {
+  left: 4px;
+}
 
 .mascotHandLeft {
-  left: 30px;
+  left: 22px;
+  transform: rotate(-12deg);
 }
 
 .mascotHandRight {
-  right: 30px;
+  right: 22px;
+  transform: rotate(12deg);
 }

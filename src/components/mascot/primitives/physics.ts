@@ -75,3 +75,28 @@ export const spawnImpactLines = (ctx: ReactionContext) => {
 export const clearEffects = (ctx: ReactionContext) => {
   ctx.setActiveParticles([]);
 };
+
+export const spawnBonkStars = (ctx: ReactionContext) => {
+  if (ctx.prefersReducedMotion) return;
+  ctx.setActiveParticles((prev: ParticleType[]) => [...prev, 'bonkStars']);
+  setTimeout(() => {
+    ctx.setActiveParticles((prev: ParticleType[]) => prev.filter(p => p !== 'bonkStars'));
+  }, 1000);
+};
+
+export const spawnFountainTears = (ctx: ReactionContext) => {
+  ctx.setActiveParticles((prev: ParticleType[]) => {
+    if (!prev.includes('cryingFountainTears')) {
+      return [...prev, 'cryingFountainTears'];
+    }
+    return prev;
+  });
+};
+
+export const spawnKissHeart = (ctx: ReactionContext) => {
+  if (ctx.prefersReducedMotion) return;
+  ctx.setActiveParticles((prev: ParticleType[]) => [...prev, 'kissHeart']);
+  setTimeout(() => {
+    ctx.setActiveParticles((prev: ParticleType[]) => prev.filter(p => p !== 'kissHeart'));
+  }, 1500);
+};

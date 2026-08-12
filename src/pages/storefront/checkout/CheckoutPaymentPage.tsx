@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
-import { CalendarClock, Tag, CreditCard, Banknote, ShieldCheck, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { CalendarClock, Tag, CreditCard, Banknote, ShieldCheck, ChevronRight, Loader2, X } from 'lucide-react';
 import styles from './CheckoutPaymentPage.module.css';
 import { Container } from '@/components/layout/Container';
 import { CheckoutProgress } from '@/pages/storefront/cart/components/CheckoutProgress';
@@ -8,14 +10,30 @@ import { OrderSummary } from '@/pages/storefront/cart/components/OrderSummary';
 import { MobileCheckoutBar } from '@/pages/storefront/cart/components/MobileCheckoutBar';
 import { TrustBadges } from '@/pages/storefront/cart/components/TrustBadges';
 import { useCart } from '@/lib/cartStore';
+import { formatCurrency } from '@/lib/formatters/currency';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { CheckoutPaymentSkeleton } from './components/CheckoutPaymentSkeleton';
 
 export const CheckoutPaymentPage = () => {
-  const { items, total, isLoading, clearCart } = useCart();
+  const { items, totalItems, subtotal, totalDiscount, couponDiscountValue, shippingFee, total, isLoading, clearCart } = useCart();
+  const isShippingCalculated = shippingFee > 0 || totalItems === 0;
   const navigate = useNavigate();
   const [selectedPayment, setSelectedPayment] = useState<string>('razorpay');
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [paymentPhase, setPaymentPhase] = useState<'idle' | 'loading' | 'success'>('idle');
+  const [otpValue, setOtpValue] = useState('');
+  const [isOtpVerified, setIsOtpVerified] = useState(false);
+  const [isOtpLoading, setIsOtpLoading] = useState(false);
+
+  // Reset OTP state if payment method changes
+  useEffect(() => {
+    if (selectedPayment !== 'cod') {
+      setIsOtpVerified(false);
+      setIsOtpLoading(false);
+      setOtpValue('');
+    }
+  }, [selectedPayment]);
 
   const siriCoins = Math.round(total * 0.10);
   const cashback = Math.round(total * 0.02);
@@ -41,10 +59,25 @@ export const CheckoutPaymentPage = () => {
   }
 
   const handlePlaceOrder = () => {
-    // In a real app, this would submit the order to the backend
-    // For now, we'll clear the cart and redirect to the orders page
-    clearCart();
-    navigate('/orders');
+    setIsDrawerOpen(true);
+    setPaymentPhase('idle');
+  };
+
+  const processPayment = () => {
+    setPaymentPhase('loading');
+    
+    // Simulate Razorpay / backend processing
+    setTimeout(() => {
+      setPaymentPhase('success');
+      
+      // Navigate to success page after tick is shown
+      setTimeout(() => {
+        const newOrderId = `CPR-${Math.floor(10000 + Math.random() * 90000)}`;
+        setIsDrawerOpen(false);
+        navigate(`/order-success/${newOrderId}`, { state: { fromCheckout: true } });
+        setTimeout(() => clearCart(), 100);
+      }, 1500);
+    }, 2000);
   };
 
   return (
@@ -55,7 +88,7 @@ export const CheckoutPaymentPage = () => {
           <div className={styles.mainContent}>
             
             {/* Required Delivery Date */}
-            <div className={styles.plainSection}>
+            <div className={styles.sectionCard}>
               <div className={styles.sectionHeader}>
                 <CalendarClock strokeWidth={2.5} />
                 <h2 className={styles.sectionTitle}>Required Delivery Date</h2>
@@ -67,17 +100,13 @@ export const CheckoutPaymentPage = () => {
                   type="date"
                   name="deliveryDate"
                   placeholder="dd-mm-yyyy"
+                  className={styles.customDateInput}
                   required
                 />
                 <span className={styles.sectionDesc} style={{ display: 'block', marginTop: '8px' }}>Helps us prioritize your order preparation.</span>
               </div>
             </div>
 
-            {/* Promo Banner */}
-            <div className={styles.promoBanner}>
-              <Tag size={20} strokeWidth={2.5} />
-              <p className={styles.promoText}>Have a promo code? Check the price details sidebar to apply & save!</p>
-            </div>
 
             {/* Payment Options */}
             <div className={styles.plainSection}>
@@ -120,6 +149,75 @@ export const CheckoutPaymentPage = () => {
                   <Banknote className={styles.paymentIcon} size={20} />
                 </div>
 
+                {/* OTP Verification Section for COD */}
+                <AnimatePresence>
+                  {selectedPayment === 'cod' && (
+                    <motion.div 
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      style={{ overflow: 'hidden' }}
+                    >
+                      <div className={styles.otpSection}>
+                        <AnimatePresence mode="wait">
+                          {!isOtpVerified ? (
+                            <motion.div 
+                              key="input"
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -10 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <p className={styles.otpLabel}>Enter OTP sent to your mail</p>
+                              <div className={styles.otpInputGroup}>
+                                <div style={{ flex: 1 }}>
+                                  <Input 
+                                    type="text" 
+                                    placeholder="Enter 4-digit OTP" 
+                                    maxLength={4}
+                                    value={otpValue}
+                                    onChange={(e) => setOtpValue(e.target.value.replace(/\D/g, ''))}
+                                    className={styles.otpInput}
+                                    fullWidth
+                                    disabled={isOtpLoading}
+                                  />
+                                </div>
+                                <Button 
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (otpValue.length === 4) {
+                                      setIsOtpLoading(true);
+                                      setTimeout(() => {
+                                        setIsOtpLoading(false);
+                                        setIsOtpVerified(true);
+                                      }, 1200);
+                                    }
+                                  }}
+                                  disabled={otpValue.length !== 4 || isOtpLoading}
+                                  isLoading={isOtpLoading}
+                                  className={styles.verifyBtn}
+                                >
+                                  {isOtpLoading ? 'Verifying' : 'Verify'}
+                                </Button>
+                              </div>
+                            </motion.div>
+                          ) : (
+                            <motion.div 
+                              key="success"
+                              initial={{ opacity: 0, scale: 0.95 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              className={styles.otpSuccess}
+                            >
+                              <ShieldCheck size={18} />
+                              <span>OTP Verified Successfully</span>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
               </div>
             </div>
 
@@ -146,13 +244,133 @@ export const CheckoutPaymentPage = () => {
       </Container>
 
       <MobileCheckoutBar 
-        buttonText="Pay & Place Order" 
+        buttonText={selectedPayment === 'cod' && !isOtpVerified ? "Verify OTP to Place Order" : "Pay & Place Order"}
         nextRoute="/orders" 
-        variant="turquoise" 
+        variant="yellow" 
         showBack={true}
         onBack={() => navigate(-1)}
         onNext={handlePlaceOrder}
+        disabled={selectedPayment === 'cod' && !isOtpVerified}
       />
+
+      {/* Payment Drawer Portal */}
+      {createPortal(
+        <AnimatePresence>
+          {isDrawerOpen && (
+            <motion.div 
+              className={styles.paymentDrawerOverlay}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => paymentPhase === 'idle' && setIsDrawerOpen(false)}
+            >
+              <motion.div 
+                className={styles.paymentDrawer}
+                initial={{ y: '100%' }}
+                animate={{ y: 0 }}
+                exit={{ y: '100%' }}
+                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {paymentPhase !== 'success' ? (
+                  <>
+                    <div className={styles.drawerDragHandle} />
+                    <div className={styles.drawerHeaderRow}>
+                      <h2 className={styles.drawerHeader}>Confirm Payment</h2>
+                      <button 
+                        className={styles.drawerCloseBtn} 
+                        onClick={() => setIsDrawerOpen(false)}
+                        aria-label="Close payment drawer"
+                      >
+                        <X size={20} />
+                      </button>
+                    </div>
+                    
+                    <div className={styles.summaryDetails}>
+                      <div className={styles.summaryRow}>
+                        <span className={styles.summaryLabel}>Product Cost ({totalItems} item{totalItems !== 1 ? 's' : ''})</span>
+                        <span className={styles.summaryValue}>{formatCurrency(subtotal)}</span>
+                      </div>
+                      
+                      {(totalDiscount > 0 || couponDiscountValue > 0) && (
+                        <div className={styles.summaryRow}>
+                          <span className={styles.summaryLabel}>Promo Discount</span>
+                          <span className={`${styles.summaryValue} ${styles.discountValue}`}>- {formatCurrency(totalDiscount + couponDiscountValue)}</span>
+                        </div>
+                      )}
+                      
+                      <div className={styles.summaryRow}>
+                        <span className={styles.summaryLabel}>Delivery Fee</span>
+                        <span className={styles.summaryValue}>
+                          {isShippingCalculated ? (shippingFee === 0 ? <span style={{ color: 'var(--color-brand-turquoise)', fontWeight: 'bold' }}>FREE</span> : formatCurrency(shippingFee)) : <span style={{ color: 'var(--color-text-muted)', fontSize: '11px' }}>Calculated at checkout</span>}
+                        </span>
+                      </div>
+                      
+                      <div className={styles.summaryRow}>
+                        <span className={styles.summaryLabel}>Tax</span>
+                        <span className={styles.summaryValue} style={{ color: '#6B5B50', fontWeight: '500' }}>Included</span>
+                      </div>
+                    </div>
+
+                    <hr className={styles.summaryDivider} />
+
+                    <div className={styles.summaryTotalRow}>
+                      <span className={styles.summaryTotalLabel}>Total</span>
+                      <span className={styles.summaryTotalValue}>{formatCurrency(total)}</span>
+                    </div>
+
+                    <button 
+                      className={styles.payButton} 
+                      onClick={processPayment}
+                      disabled={paymentPhase === 'loading'}
+                    >
+                      {paymentPhase === 'loading' ? (
+                        <>
+                          <Loader2 size={18} className="animate-spin" />
+                          Processing...
+                        </>
+                      ) : (
+                        `Pay ${formatCurrency(total + 49)} securely`
+                      )}
+                    </button>
+                  </>
+                ) : (
+                  <motion.div 
+                    className={styles.tickContainer}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                  >
+                    <motion.div 
+                      className={styles.tickCircle}
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: 'spring', damping: 15, stiffness: 150 }}
+                    >
+                      <motion.svg 
+                        width="36" 
+                        height="36" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="white" 
+                        strokeWidth="3" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                        transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </motion.svg>
+                    </motion.div>
+                    <h2 className={styles.tickTitle}>Payment Successful!</h2>
+                  </motion.div>
+                )}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   );
 };

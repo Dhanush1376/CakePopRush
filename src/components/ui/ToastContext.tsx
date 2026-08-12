@@ -27,7 +27,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
 
   const toast = useCallback(({ type, title, message, duration = 2500, action }: Omit<ToastMessage, 'id'>) => {
     const id = Math.random().toString(36).substring(2, 9)
-    setToasts((prev) => [...prev, { id, type, title, message, duration, action }])
+    setToasts([{ id, type, title, message, duration, action }])
   }, [])
 
   const removeToast = useCallback((id: string) => {

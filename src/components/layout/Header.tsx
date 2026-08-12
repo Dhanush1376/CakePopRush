@@ -67,7 +67,7 @@ export const Header = () => {
             <Heart size={20} strokeWidth={1.5} />
           </Link>
 
-          <button className={styles.iconButton} aria-label="Cart" onClick={openCart}>
+          <button className={styles.iconButton} aria-label="Cart" onClick={() => { if (location.pathname !== '/cart') openCart(); }}>
             <div className={styles.cartIconWrapper}>
               <ShoppingBag size={20} strokeWidth={1.5} />
               {totalItems > 0 && (
@@ -101,7 +101,7 @@ export const Header = () => {
     </header>
 
     <SideDrawer isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
-    {isSearchOpen && <SearchBar isMobile={true} onClose={() => setIsSearchOpen(false)} />}
+    {isSearchOpen && <SearchBar isOpen={true} onClose={() => setIsSearchOpen(false)} />}
     <SideCart />
   </>
   )

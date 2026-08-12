@@ -71,6 +71,12 @@ import { playClapping } from './clapping';
 import { partyPose } from '../poses/partyPose';
 import { playParty } from './party';
 import { playSad } from './sad';
+import { bonkPose } from '../poses/bonkPose';
+import { playBonk } from './bonk';
+import { cryingFountainPose } from '../poses/cryingFountainPose';
+import { playCryingFountain } from './cryingFountain';
+import { blowKissPose } from '../poses/blowKissPose';
+import { playBlowKiss } from './blowKiss';
 
 export interface ReactionDefinition {
   id: MascotReaction;
@@ -116,4 +122,7 @@ export const REACTIONS: Record<MascotReaction, ReactionDefinition> = {
   clapping: { id: 'clapping', label: '29 Clapping', duration: 2300, category: 'celebration', intensity: 'major', priority: 2, pose: clappingPose, playFn: playClapping },
   party: { id: 'party', label: '30 Party', duration: 3500, category: 'celebration', intensity: 'major', priority: 2, pose: partyPose, playFn: playParty },
   sad: { id: 'sad', label: '31 Sad', duration: 2800, category: 'negative', intensity: 'medium', priority: 3, pose: tiredPose, playFn: playSad },
+  bonk: { id: 'bonk', label: '32 Bonk', duration: 350, category: 'playful', intensity: 'micro', priority: 1, pose: bonkPose, playFn: playBonk },
+  cryingFountain: { id: 'cryingFountain', label: '33 Crying Fountain', duration: 4500, category: 'negative', intensity: 'major', priority: 3, pose: cryingFountainPose, playFn: playCryingFountain },
+  blowKiss: { id: 'blowKiss', label: '34 Blow Kiss', duration: 1400, category: 'social', intensity: 'medium', priority: 1, pose: blowKissPose, playFn: playBlowKiss },
 };

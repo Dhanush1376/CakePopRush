@@ -55,6 +55,8 @@ export const HeroSection = () => {
               alt="Assorted Cake Pops in a mug" 
               className={styles.heroImage}
               loading="eager"
+              fetchPriority="high"
+              decoding="async"
             />
             {/* Freshly Made Stamp (simplified with CSS for now) */}
             <div className={styles.freshlyMadeStamp}>

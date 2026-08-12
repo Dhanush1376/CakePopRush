@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import styles from './ProfilePage.module.css'
 import { CakePopMascot } from '@/components/mascot/CakePopMascot'
+import { MascotReaction, MascotRef } from '@/components/mascot/reactions/reactionTypes'
 import { ResponsiveModal } from '@/components/ui/ResponsiveModal'
 import { MyDetailsPage } from './MyDetailsPage'
 import { AddressesPage } from './AddressesPage'
@@ -94,7 +95,7 @@ const ProfileCard = () => (
       </div>
       <div className={styles.userInfo}>
         <div className={styles.userNameRow}>
-          <h2>Hey! <span className={styles.highlightName}>Guest!</span></h2>
+          <h2>Hey! {' '}<span className={styles.highlightName}>Guest!</span></h2>
           <div className={styles.chevronRightWrapper}>
             <ChevronRight size={18} className={styles.chevronRight} strokeWidth={2.5} />
           </div>
@@ -200,7 +201,15 @@ export const ProfilePage = () => {
   ]
 
   const heroRef = React.useRef<HTMLElement>(null);
-  const mascotProps = useSmartMascot({ heroRef, disableScrollHide: true, stayVisible: true });
+  const mascotControlRef = React.useRef<MascotRef>(null);
+
+  const handleMascotClick = () => {
+    const TAP_REACTIONS: MascotReaction[] = ['cool', 'blowKiss', 'love', 'excited', 'laughing', 'winking', 'silly', 'party', 'tada', 'happy'];
+    const random = TAP_REACTIONS[Math.floor(Math.random() * TAP_REACTIONS.length)];
+    mascotControlRef.current?.play(random);
+  };
+
+  const mascotProps = useSmartMascot({ heroRef, disableScrollHide: true, stayVisible: true, startY: 0 });
 
   return (
     <div className={styles.pageContainer} ref={heroRef as any}>
@@ -213,13 +222,15 @@ export const ProfilePage = () => {
           <div className={styles.leftCol}>
             <div className={styles.mascotContainer}>
               <AnimatedSpeechBubble />
-              <motion.div className={styles.mascotLayer} style={{ y: mascotProps.mascotY }}>
+              <motion.div className={styles.mascotLayer} style={{ y: mascotProps.mascotY }} onClick={handleMascotClick}>
                 <CakePopMascot 
+                  ref={mascotControlRef}
                   size="large" 
                   smartState={mascotProps.state}
                   direction={mascotProps.direction}
                   eyeX={mascotProps.eyeX}
                   eyeY={mascotProps.eyeY}
+                  hideArms={true}
                 />
               </motion.div>
             </div>

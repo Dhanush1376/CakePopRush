@@ -339,8 +339,8 @@
 
 .speechBubble {
   position: absolute;
-  top: -30px;
-  right: 95px;
+  top: -10px;
+  right: 85px;
   background: white;
   padding: 6px 14px;
   border-radius: 16px;
@@ -371,11 +371,11 @@
 .mascotHandLeft,
 .mascotHandRight {
   position: absolute;
-  top: -4px;
+  top: -6px;
   width: 6px;
-  height: 12px;
+  height: 14px;
   background-color: #1c1c1c;
-  border-radius: 6px;
+  border-radius: 6px 6px 3px 3px;
   z-index: 10;
   pointer-events: none;
 }
@@ -388,7 +388,7 @@
   position: absolute;
   bottom: 1px;
   width: 6px;
-  height: 9px;
+  height: 10px;
   background-color: #1c1c1c;
   border-radius: 6px;
 }
@@ -404,9 +404,11 @@
 }
 
 .mascotHandLeft {
-  right: 90px;
+  right: 98px;
+  transform: rotate(-12deg);
 }
 
 .mascotHandRight {
-  right: 30px;
+  right: 18px;
+  transform: rotate(12deg);
 }

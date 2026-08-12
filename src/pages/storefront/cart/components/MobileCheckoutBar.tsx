@@ -13,15 +13,17 @@ interface MobileCheckoutBarProps {
   showBack?: boolean;
   onBack?: () => void;
   onNext?: () => void;
+  disabled?: boolean;
 }
 
 export const MobileCheckoutBar = ({ 
   buttonText = 'CHECKOUT', 
   nextRoute = '/checkout', 
-  variant = 'pink',
+  variant = 'yellow',
   showBack = false,
   onBack,
-  onNext
+  onNext,
+  disabled = false
 }: MobileCheckoutBarProps = {}) => {
   const { total, items, isCartOpen } = useCart();
   const navigate = useNavigate();
@@ -42,8 +44,9 @@ export const MobileCheckoutBar = ({
             </button>
           )}
           <button 
-            onClick={onNext || (() => navigate(nextRoute))}
-            className={`${styles.checkoutBtn} ${styles[variant]}`}
+            onClick={disabled ? undefined : (onNext || (() => navigate(nextRoute)))}
+            className={`${styles.checkoutBtn} ${styles[variant]} ${disabled ? styles.disabled : ''}`}
+            disabled={disabled}
           >
             {buttonText} <ArrowRight size={16} strokeWidth={2.5} />
           </button>

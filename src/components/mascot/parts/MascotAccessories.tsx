@@ -41,7 +41,7 @@ export const MascotAccessories: React.FC<MascotAccessoriesProps> = ({
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: -20, opacity: 0, scale: 0 }}
           >
-            <g transform="translate(175, 35) rotate(20)">
+            <g transform="translate(175, 52) rotate(20)">
               {/* Yellow base cone */}
               <polygon points="-22,0 0,-55 22,0" fill="#FFE7A3" />
               {/* Purple bottom stripe */}
@@ -63,19 +63,19 @@ export const MascotAccessories: React.FC<MascotAccessoriesProps> = ({
             initial={{ scaleX: 0, opacity: 0 }}
             animate={{ scaleX: 1, opacity: 1 }}
             exit={{ scaleX: 0, opacity: 0 }}
-            style={{ transformOrigin: '145px 174px' }}
+            style={{ transformOrigin: '145px 182px' }}
           >
             {/* The straight tube */}
-            <path d="M 145 174 L 80 174" stroke="#582A72" strokeWidth="14" strokeLinecap="round" />
+            <path d="M 145 182 L 80 182" stroke="#582A72" strokeWidth="14" strokeLinecap="round" />
             {/* The tightly rolled coil at the end */}
-            <circle cx="76" cy="174" r="12" fill="#582A72" />
+            <circle cx="76" cy="182" r="12" fill="#582A72" />
             {/* Spiral illusion inside the coil */}
-            <path d="M 76 182 A 8 8 0 1 1 84 174" fill="none" stroke="#FFE7A3" strokeWidth="3" strokeLinecap="round" />
-            <circle cx="76" cy="174" r="2.5" fill="#4DB9E6" />
+            <path d="M 76 200 A 8 8 0 1 1 84 182" fill="none" stroke="#FFE7A3" strokeWidth="3" strokeLinecap="round" />
+            <circle cx="76" cy="182" r="2.5" fill="#4DB9E6" />
             {/* Confetti decorations on the tube */}
-            <rect x="130" y="169" width="5" height="8" fill="#4DB9E6" rx="1" transform="rotate(-15 132 173)" />
-            <rect x="110" y="169" width="6" height="7" fill="#FFE7A3" rx="1" transform="rotate(25 113 172)" />
-            <rect x="92" y="170" width="5" height="7" fill="#4DB9E6" rx="1" transform="rotate(-10 94 173)" />
+            <rect x="130" y="187" width="5" height="8" fill="#4DB9E6" rx="1" transform="rotate(-15 132 191)" />
+            <rect x="110" y="187" width="6" height="7" fill="#FFE7A3" rx="1" transform="rotate(25 113 190)" />
+            <rect x="92" y="188" width="5" height="7" fill="#4DB9E6" rx="1" transform="rotate(-10 94 191)" />
           </motion.g>
         )}
       </AnimatePresence>

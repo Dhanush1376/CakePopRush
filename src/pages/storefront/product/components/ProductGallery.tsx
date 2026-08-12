@@ -102,6 +102,8 @@ export const ProductGallery = ({
             }}
             onClick={() => setModalOpen(true)}
             loading="eager"
+            fetchPriority="high"
+            decoding="async"
           />
         </AnimatePresence>
 
@@ -165,7 +167,7 @@ export const ProductGallery = ({
                   aria-label={`View image ${idx + 1}`}
                   aria-current={idx === activeIndex}
                 >
-                  <img src={img.url} alt={img.alt || `${productName} thumbnail ${idx + 1}`} />
+                  <img src={img.url} alt={img.alt || `${productName} thumbnail ${idx + 1}`} loading="lazy" decoding="async" />
                   {isVideo && (
                     <div className={styles.videoOverlay}>
                       <div className={styles.playIconWrapper}>

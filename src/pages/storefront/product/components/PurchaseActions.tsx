@@ -6,10 +6,11 @@ import styles from './PurchaseActions.module.css'
 interface PurchaseActionsProps {
   onAddToCart: () => void
   isOutOfStock?: boolean
+  isSaved?: boolean
+  onToggleSave?: () => void
 }
 
-export const PurchaseActions = ({ onAddToCart, isOutOfStock }: PurchaseActionsProps) => {
-  const [isSaved, setIsSaved] = useState(false)
+export const PurchaseActions = ({ onAddToCart, isOutOfStock, isSaved = false, onToggleSave }: PurchaseActionsProps) => {
 
   if (isOutOfStock) {
     return (
@@ -27,7 +28,7 @@ export const PurchaseActions = ({ onAddToCart, isOutOfStock }: PurchaseActionsPr
       <Button 
         variant="outline" 
         className={`${styles.saveBtn} ${isSaved ? styles.saved : ''}`}
-        onClick={() => setIsSaved(!isSaved)}
+        onClick={onToggleSave}
         leftIcon={<Heart size={18} fill={isSaved ? "currentColor" : "none"} color={isSaved ? "var(--color-brand-pink)" : "currentColor"} />}
       >
         {isSaved ? 'Saved' : 'Save'}

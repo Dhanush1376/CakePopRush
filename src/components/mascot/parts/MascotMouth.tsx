@@ -22,8 +22,8 @@ export const MascotMouth: React.FC<MascotMouthProps> = ({ shape = 'neutral' }) =
   return (
     <motion.g id="mouth">
 
-      {/* Happy — The canonical SVG path */}
-      <motion.g id="mouth-happy" variants={v} initial="off" animate={shape === 'happy' ? 'on' : 'off'} transition={t}>
+      {/* Happy — The canonical SVG path (now used for all wide/open smiles) */}
+      <motion.g id="mouth-happy" variants={v} initial="off" animate={['happy', 'openSmile', 'laugh'].includes(shape) ? 'on' : 'off'} transition={t}>
         <path
           d="M 129.2 178.4 C 131 170, 142 176, 149.5 176 C 157 176, 168 170, 169.8 178.4 C 169 192, 160 201.6, 149.5 201.6 C 139 201.6, 130 192, 129.2 178.4 Z"
           fill={LIMB_BLACK}
@@ -49,19 +49,7 @@ export const MascotMouth: React.FC<MascotMouthProps> = ({ shape = 'neutral' }) =
           fill="none" stroke={LIMB_BLACK} strokeLinecap="round"
         />
 
-        {/* Open Smile — filled crescent */}
-        <motion.path
-          d="M -14 -2 Q 0 12 14 -2 Z"
-          fill={LIMB_BLACK} stroke={LIMB_BLACK} strokeWidth="1.5" strokeLinejoin="round"
-          variants={v} initial="off" animate={shape === 'openSmile' ? 'on' : 'off'} transition={t}
-        />
-
-        {/* Laugh — very wide open */}
-        <motion.path
-          d="M -18 -5 Q 0 18 18 -5 Z"
-          fill={LIMB_BLACK} stroke={LIMB_BLACK} strokeWidth="1.5" strokeLinejoin="round"
-          variants={v} initial="off" animate={shape === 'laugh' ? 'on' : 'off'} transition={t}
-        />
+        {/* Removed the 'triangle' shaped openSmile and laugh variants here, they are now mapped to 'happy' above */}
 
         {/* O-Mouth (Surprised) */}
         <motion.circle

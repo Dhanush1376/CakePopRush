@@ -1,18 +1,30 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export type ParticleType = 'hearts' | 'sparkles' | 'confetti' | 'questionMarks' | 'sleepZ' | 'thoughtDots' | 'excitementLines' | 'impactLines' | 'tears';
+export type ParticleType = 'hearts' | 'sparkles' | 'confetti' | 'questionMarks' | 'sleepZ' | 'thoughtDots' | 'excitementLines' | 'impactLines' | 'tears' | 'bonkStars' | 'cryingFountainTears' | 'kissHeart';
 
 interface ParticleEffectsProps {
   activeEffects: ParticleType[];
 }
+
+// Pre-generate random offsets so they don't change on re-render and reset the animation
+const LEFT_TEAR_OFFSETS = Array.from({ length: 12 }).map(() => ({
+  yTop: 90 - Math.random() * 40,
+  xMid1: 80 - Math.random() * 30,
+  xMid2: 50 - Math.random() * 20
+}));
+
+const RIGHT_TEAR_OFFSETS = Array.from({ length: 12 }).map(() => ({
+  yTop: 90 - Math.random() * 40,
+  xMid1: 220 + Math.random() * 30,
+  xMid2: 250 + Math.random() * 20
+}));
 
 export const ParticleEffects: React.FC<ParticleEffectsProps> = ({ activeEffects }) => {
   // To handle re-triggering the same effect, we use keys based on render cycles,
   // but for simplicity we rely on Framer Motion AnimatePresence and state.
   return (
     <motion.g id="particle-effects-group" style={{ pointerEvents: 'none' }}>
-      <AnimatePresence>
         {activeEffects.includes('hearts') && (
           <motion.g key="hearts-effect">
             {[
@@ -23,13 +35,12 @@ export const ParticleEffects: React.FC<ParticleEffectsProps> = ({ activeEffects 
             ].map((h) => (
               <motion.path
                 key={`heart-${h.id}`}
-                d="M 0 5 A 5 5 0 0 1 10 -5 A 5 5 0 0 1 20 5 Q 20 15 10 25 Q 0 15 0 5 Z"
-                fill="#FF4B72"
-                style={{ originX: '50%', originY: '50%' }}
-                initial={{ opacity: 0, y: h.y + 15, x: h.x, scale: 0, rotate: h.rotate }}
+                d="M 10 30 A 20 20 0 0 1 50 30 A 20 20 0 0 1 90 30 Q 90 60 50 90 Q 10 60 10 30 Z"
+                fill="#F20D6F"
+                initial={{ x: h.x, y: h.y, scale: 0, rotate: h.rotate, opacity: 0 }}
                 animate={{ 
-                  opacity: [0, 1, 1, 0], 
-                  y: [h.y + 15, h.y, h.y - 10, h.y - 20],
+                  opacity: [0, 1, 1, 1, 0],
+                  y: [h.y, h.y - 20, h.y - 30, h.y - 40, h.y - 50],
                   scale: [0, h.scale, h.scale, h.scale * 1.1] 
                 }}
                 transition={{ duration: 2.5, delay: h.delay, repeat: Infinity, repeatDelay: 0.5 }}
@@ -234,7 +245,132 @@ export const ParticleEffects: React.FC<ParticleEffectsProps> = ({ activeEffects 
             ))}
           </motion.g>
         )}
-      </AnimatePresence>
+
+        {activeEffects.includes('bonkStars') && (
+          <motion.g key="bonk-effect">
+            {[
+              { id: 1, angle: -30, x: 100, y: 70 },
+              { id: 2, angle: 10, x: 150, y: 55 },
+              { id: 3, angle: 45, x: 200, y: 70 }
+            ].map((star) => (
+              <motion.path
+                key={`bonkstar-${star.id}`}
+                d="M 0 -8 L 2 -2 L 8 -2 L 3 2 L 5 8 L 0 4 L -5 8 L -3 2 L -8 -2 L -2 -2 Z"
+                fill="#FAD23C"
+                initial={{ opacity: 0, scale: 0.2, x: star.x, y: star.y + 20, rotate: star.angle }}
+                animate={{
+                  opacity: [0, 1, 0],
+                  scale: [0.5, 1.2, 0],
+                  y: [star.y + 10, star.y - 15, star.y - 5],
+                  rotate: [star.angle, star.angle + 45, star.angle + 90]
+                }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+              />
+            ))}
+          </motion.g>
+        )}
+
+        {activeEffects.includes('cryingFountainTears') && (
+          <motion.g key="crying-fountain-effect">
+            {/* Left Eye Solid Waterfall */}
+            <motion.path
+              d="M 115 155 Q 100 165, 80 280 L 110 280 Q 125 170, 115 155 Z"
+              fill="#4DC0F0"
+              initial={{ scaleY: 0, opacity: 0 }}
+              animate={{ scaleY: [0, 1, 1, 0], opacity: [0, 0.8, 0.8, 0] }}
+              style={{ originY: '155px', originX: '100px' }}
+              transition={{ duration: 0.6, repeat: Infinity, ease: 'linear' }}
+            />
+            {/* Left Eye Waterfall Flow Lines (to give illusion of motion) */}
+            <motion.path
+              d="M 105 160 L 95 200 M 110 180 L 100 220 M 100 230 L 90 270"
+              stroke="#E0F7FA"
+              strokeWidth="3"
+              strokeLinecap="round"
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 50, opacity: [0, 1, 1, 0] }}
+              transition={{ duration: 0.4, repeat: Infinity, ease: 'linear' }}
+            />
+
+            {/* Right Eye Solid Waterfall */}
+            <motion.path
+              d="M 185 155 Q 200 165, 220 280 L 190 280 Q 175 170, 185 155 Z"
+              fill="#4DC0F0"
+              initial={{ scaleY: 0, opacity: 0 }}
+              animate={{ scaleY: [0, 1, 1, 0], opacity: [0, 0.8, 0.8, 0] }}
+              style={{ originY: '155px', originX: '200px' }}
+              transition={{ duration: 0.6, repeat: Infinity, ease: 'linear', delay: 0.1 }}
+            />
+            {/* Right Eye Waterfall Flow Lines */}
+            <motion.path
+              d="M 195 160 L 205 200 M 190 180 L 200 220 M 200 230 L 210 270"
+              stroke="#E0F7FA"
+              strokeWidth="3"
+              strokeLinecap="round"
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 50, opacity: [0, 1, 1, 0] }}
+              transition={{ duration: 0.4, repeat: Infinity, ease: 'linear', delay: 0.1 }}
+            />
+            
+            {/* Puddle */}
+            <motion.ellipse
+              cx="150"
+              cy="255"
+              rx="40"
+              ry="8"
+              fill="#4DC0F0"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: [0, 0.4, 0], scale: [0, 1, 1.2] }}
+              transition={{ duration: 1.2, repeat: Infinity, ease: "easeOut", delay: 0.5 }}
+            />
+          </motion.g>
+        )}
+
+        {activeEffects.includes('kissHeart') && (
+          <motion.g key="kiss-heart-effect">
+            {/* The Hearts */}
+            {[0, 1, 2].map((i) => (
+              <motion.path
+                key={`kissheart-multi-${i}`}
+                d="M 0 6 C 0 1, 5 -3, 10 2 C 15 -3, 20 1, 20 6 C 20 13, 10 20, 10 20 C 10 20, 0 13, 0 6 Z"
+                fill="#FFFFFF"
+                initial={{ x: 150, y: 190, scale: 0.6, opacity: 0 }}
+                animate={{ 
+                  x: [150, 125 - i * 15, 90 - i * 20, 70 - i * 25], 
+                  y: [190, 160 + i * 5, 120 + i * 15, 100 + i * 20],
+                  scale: [0.6, 1.5 - i * 0.2, 2 - i * 0.3, 1.8 - i * 0.3], 
+                  opacity: [0, 1, 1, 0],
+                  rotate: [0, -5 - i*5, -10 - i*10, -15 - i*10]
+                }}
+                transition={{ 
+                  duration: 0.8, 
+                  delay: i * 0.15, // stagger them by 150ms
+                  times: [0, 0.2, 0.6, 1],
+                  ease: "easeOut" 
+                }}
+              />
+            ))}
+            {/* Tiny Sparkles */}
+            {[
+              { id: 1, x: 70, y: 90, delay: 0.6 },
+              { id: 2, x: 90, y: 110, delay: 0.65 },
+              { id: 3, x: 60, y: 120, delay: 0.7 }
+            ].map(sparkle => (
+              <motion.path
+                key={`kissparkle-${sparkle.id}`}
+                d="M 0 -4 L 1 -1 L 4 0 L 1 1 L 0 4 L -1 1 L -4 0 L -1 -1 Z"
+                fill="#FFD700"
+                initial={{ x: sparkle.x, y: sparkle.y, scale: 0, opacity: 0, rotate: 0 }}
+                animate={{ 
+                  scale: [0, 1.5, 0], 
+                  opacity: [0, 1, 0],
+                  rotate: [0, -45, -90]
+                }}
+                transition={{ duration: 0.35, delay: sparkle.delay, ease: "easeInOut" }}
+              />
+            ))}
+          </motion.g>
+        )}
     </motion.g>
   );
 };

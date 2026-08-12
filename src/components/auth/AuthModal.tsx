@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Mail, ArrowRight, ArrowLeft } from 'lucide-react';
+import { X, Mail, ArrowRight, ArrowLeft, Check } from 'lucide-react';
 import styles from './AuthModal.module.css';
 import { CakePopMascot } from '@/components/mascot/CakePopMascot';
+import { MascotReaction, MascotRef } from '@/components/mascot/reactions/reactionTypes';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -12,6 +13,13 @@ interface AuthModalProps {
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSignIn }) => {
+  const mascotControlRef = React.useRef<MascotRef>(null);
+
+  const handleMascotClick = () => {
+    const TAP_REACTIONS: MascotReaction[] = ['cool', 'blowKiss', 'love', 'excited', 'laughing', 'winking', 'silly', 'party', 'tada', 'happy'];
+    const random = TAP_REACTIONS[Math.floor(Math.random() * TAP_REACTIONS.length)];
+    mascotControlRef.current?.play(random);
+  };
   // Prevent body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
@@ -25,6 +33,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSignIn 
   }, [isOpen]);
 
   const [step, setStep] = React.useState<'email' | 'verification' | 'success'>('email');
+  const [successPhase, setSuccessPhase] = React.useState<'tick' | 'mascot'>('tick');
   const [email, setEmail] = React.useState('');
   const [otp, setOtp] = React.useState(['', '', '', '']);
   const otpRefs = [React.useRef<HTMLInputElement>(null), React.useRef<HTMLInputElement>(null), React.useRef<HTMLInputElement>(null), React.useRef<HTMLInputElement>(null)];
@@ -33,10 +42,27 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSignIn 
   useEffect(() => {
     if (isOpen) {
       setStep('email');
+      setSuccessPhase('tick');
       setEmail('');
       setOtp(['', '', '', '']);
     }
   }, [isOpen]);
+
+  // Auto-close on success flow
+  useEffect(() => {
+    if (step === 'success') {
+      const phaseTimer = setTimeout(() => {
+        setSuccessPhase('mascot');
+        
+        // After showing mascot, wait a bit before closing
+        setTimeout(() => {
+          onClose();
+        }, 3500);
+      }, 1500); // show tick for 1.5s
+      
+      return () => clearTimeout(phaseTimer);
+    }
+  }, [step, onClose]);
 
   const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,8 +103,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSignIn 
   };
 
   const handleGoogleSignIn = () => {
+    setStep('success');
     onSignIn();
-    onClose();
   };
 
   const GoogleLogo = () => (
@@ -110,7 +136,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSignIn 
             role="dialog"
             aria-modal="true"
           >
-            <button className={styles.closeButton} onClick={onClose} aria-label="Close modal">
+            <button 
+              className={styles.closeButton} 
+              onClick={onClose} 
+              aria-label="Close modal"
+              disabled={step === 'success'}
+            >
               <X size={20} strokeWidth={1.5} />
             </button>
             
@@ -140,7 +171,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSignIn 
                     </button>
                   </form>
                   
-                  <div className={styles.divider}>OR</div>
+                  <div className={styles.divider}>
+                    <span>OR</span>
+                  </div>
                   
                   <button 
                     type="button" 
@@ -154,11 +187,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSignIn 
 
               {step === 'verification' && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                  <button className={styles.backButton} onClick={() => setStep('email')}>
-                    <ArrowLeft size={16} /> Back
-                  </button>
-                  <h2 className={styles.title}>Verify Email</h2>
-                  <p className={styles.subtitle}>Enter the 4-digit code sent to <strong>{email}</strong></p>
+                  <div className={styles.backHeader}>
+                    <button className={styles.backButton} onClick={() => setStep('email')}>
+                      <ArrowLeft size={20} strokeWidth={2} />
+                    </button>
+                    <h2 className={styles.title}>Verify Email</h2>
+                  </div>
+                  <p className={styles.subtitle}>Enter the 4-digit code sent to<br/><strong>{email}</strong></p>
                   
                   <form onSubmit={handleVerifySubmit}>
                     <div className={styles.otpContainer}>
@@ -167,6 +202,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSignIn 
                           key={index}
                           ref={otpRefs[index]}
                           type="text"
+                          inputMode="numeric"
+                          pattern="[0-9]*"
                           maxLength={1}
                           className={styles.otpInput}
                           value={digit}
@@ -186,31 +223,63 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSignIn 
 
               {step === 'success' && (
                 <motion.div 
-                  initial={{ opacity: 0, scale: 0.9 }} 
-                  animate={{ opacity: 1, scale: 1 }} 
                   className={styles.successContainer}
                 >
-                  <motion.div 
-                    initial={{ y: 20, scale: 0.8 }} 
-                    animate={{ y: 0, scale: 1 }} 
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    className={styles.mascotSuccessWrap}
-                  >
-                    <div className={styles.mascotClip}>
+                  <AnimatePresence mode="wait">
+                    {successPhase === 'tick' ? (
                       <motion.div 
-                        className={styles.mascotContainer}
-                        initial={{ y: 50 }}
-                        animate={{ y: [-4, 4, -4] }}
-                        transition={{ repeat: Infinity, duration: 0.8, ease: "easeInOut" }}
+                        key="tick"
+                        initial={{ opacity: 0, scale: 0.8 }} 
+                        animate={{ opacity: 1, scale: 1 }} 
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        className={styles.tickPhase}
                       >
-                        <CakePopMascot size="large" reaction="party" loop={true} />
+                        <motion.div 
+                          className={styles.tickCircle}
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.1 }}
+                        >
+                          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <motion.path 
+                              d="M5 13L9 17L19 7"
+                              initial={{ pathLength: 0 }}
+                              animate={{ pathLength: 1 }}
+                              transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 }}
+                            />
+                          </svg>
+                        </motion.div>
+                        <h2 className={styles.successTitle}>Verification Successful!</h2>
                       </motion.div>
-                    </div>
-                    <motion.div className={styles.mascotHandRight} />
-                    <motion.div className={styles.mascotHandLeft} />
-                  </motion.div>
-                  <h2 className={styles.title}>Welcome to CakePopRush!</h2>
-                  <p className={styles.subtitle}>You have successfully logged in.</p>
+                    ) : (
+                      <motion.div 
+                        key="mascot"
+                        initial={{ opacity: 0, scale: 0.9 }} 
+                        animate={{ opacity: 1, scale: 1 }} 
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                        className={styles.mascotPhase}
+                      >
+                        <div className={styles.mascotSuccessWrap}>
+                          <div className={styles.mascotClip}>
+                            <motion.div 
+                              className={styles.mascotContainer}
+                              initial={{ y: 50 }}
+                              animate={{ y: 0 }}
+                              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                              onClick={handleMascotClick}
+                            >
+                              <CakePopMascot ref={mascotControlRef} size="large" reaction="blowKiss" loop={false} />
+                            </motion.div>
+                          </div>
+                          <motion.div className={styles.mascotHandRight} />
+                          <motion.div className={styles.mascotHandLeft} />
+                        </div>
+                        <h2 className={styles.title}>Welcome to CakePopRush!</h2>
+                        <p className={styles.subtitle}>You have successfully logged in.</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </motion.div>
               )}
             </div>

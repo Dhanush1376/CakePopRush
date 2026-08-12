@@ -663,3 +663,399 @@
   max-width: 76px;
   line-height: 1.2;
 }
+
+/* ========================================= */
+/* DESKTOP SPOTLIGHT SEARCH MODAL            */
+/* ========================================= */
+
+.compactSearchTrigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  padding: 8px 16px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 280px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(91, 58, 41, 0.04);
+}
+
+.compactSearchTrigger:hover {
+  border-color: var(--color-brand-pink);
+  box-shadow: 0 4px 12px rgba(242, 13, 111, 0.1);
+  background: #FFFBF9;
+}
+
+.triggerSearchIcon {
+  color: var(--color-chocolate);
+  opacity: 0.6;
+}
+
+.triggerPlaceholder {
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  color: var(--color-text-muted);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cmdKBadge {
+  font-family: var(--font-family-body);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  background: rgba(91, 58, 41, 0.06);
+  border: 1px solid rgba(91, 58, 41, 0.1);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+/* Modal Overlay & Dialog Card */
+.desktopModalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(35, 20, 15, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 100000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10vh;
+}
+
+.desktopModalCard {
+  width: 92vw;
+  max-width: 660px;
+  background: #FAF7F2;
+  border-radius: 28px;
+  box-shadow: 0 24px 64px rgba(40, 20, 10, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+}
+
+.modalHeaderRow {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--color-border);
+  gap: 12px;
+}
+
+.modalSearchIcon {
+  color: var(--color-chocolate);
+  flex-shrink: 0;
+}
+
+.modalSearchInput {
+  flex: 1;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-chocolate);
+}
+
+.modalSearchInput:focus,
+.modalSearchInput:active,
+.modalSearchInput:focus-visible {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.modalSearchInput::placeholder {
+  color: #B0A8A0;
+}
+
+.modalHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modalIconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #F3EFE9;
+  color: var(--color-chocolate);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modalIconButton:hover {
+  background: var(--color-brand-pink);
+  color: #ffffff;
+}
+
+.escBadge {
+  font-family: var(--font-family-body);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  background: rgba(91, 58, 41, 0.06);
+  border: 1px solid rgba(91, 58, 41, 0.12);
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.modalBodyScroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Popular Searches */
+.popularSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.popularTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.popularIcon {
+  font-size: 14px;
+  color: #F59E0B;
+}
+
+.popularHeading {
+  font-family: var(--font-family-body);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #D97706;
+  text-transform: uppercase;
+}
+
+.popularChipsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.popularPillChip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid rgba(91, 58, 41, 0.1);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-chocolate);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.popularPillChip:hover {
+  background: var(--color-brand-yellow);
+  border-color: var(--color-brand-yellow);
+  transform: translateY(-1px);
+}
+
+/* Dual Column Grid */
+.dualColumnGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.columnLeft, .columnRight {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.columnHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.columnIcon {
+  font-size: 14px;
+}
+
+.columnTitle {
+  font-family: var(--font-family-body);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.collectionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.collectionItemRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.collectionItemRow:hover {
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.collectionIconBox {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #F4EFEA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.collectionName {
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-chocolate);
+}
+
+.trendingCardsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.trendingCardRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.trendingCardRow:hover {
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.trendingThumbBox {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #F4EFEA;
+}
+
+.trendingThumbBox img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.newTag {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  background: var(--color-brand-pink);
+  color: #ffffff;
+  font-size: 8px;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 4px;
+  z-index: 2;
+}
+
+.trendingCardDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.trendingCardTitle {
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-chocolate);
+}
+
+.trendingCardPrice {
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-brand-pink);
+}
+
+.modalFooterBar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  padding: 12px 24px;
+  background: #ffffff;
+  border-top: 1px solid var(--color-border);
+}
+
+.footerHotkey {
+  font-family: var(--font-family-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footerHotkey kbd {
+  background: rgba(91, 58, 41, 0.06);
+  border: 1px solid rgba(91, 58, 41, 0.12);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--color-chocolate);
+}

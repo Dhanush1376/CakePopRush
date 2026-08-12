@@ -35,6 +35,7 @@ export const ARM_PATHS = {
   rightCheekHold: "M 0 0 C 45 50 30 50 5 12",
   leftHoldBlower: "M 0 0 C 15 15 25 5 35 -13",
   leftHoldBlowerCurled: "M 0 0 C 10 10 20 0 25 -8",
+  leftHidden: "M 0 0 L 0 0",
   rightHidden: "M 0 0 L 0 0"
 };
 

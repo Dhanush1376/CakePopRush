@@ -1,6 +1,8 @@
 import { useState, useMemo, useCallback } from 'react'
 import { Product } from '@/types/product'
 import { useToast } from '@/components/ui/ToastContext'
+import { useCart } from '@/lib/cartStore'
+import { useWishlist } from '@/lib/wishlistStore'
 
 export interface PDPState {
   selectedFlavourId: string | null
@@ -30,8 +32,12 @@ export const usePDPState = (product: Product | undefined) => {
   const [pincode, setPincode] = useState('')
   const [deliveryAvailable, setDeliveryAvailable] = useState<boolean | null>(null)
   const [isCheckingDelivery, setIsCheckingDelivery] = useState(false)
-  const [isWishlisted, setIsWishlisted] = useState(false)
   const [mascotMessage, setMascotMessage] = useState<string | null>(null)
+
+  const { addItem: addCartItem, openCart } = useCart()
+  const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist()
+  
+  const isWishlisted = product ? isInWishlist(product.id) : false
 
   const handleToggleAddOn = useCallback((id: string) => {
     setSelectedAddOns(prev => {
@@ -58,29 +64,6 @@ export const usePDPState = (product: Product | undefined) => {
     }, 1200)
   }, [])
 
-  const handleAddToCart = useCallback(() => {
-    toast({
-      type: 'success',
-      title: 'Added to your sweet box!'
-    })
-    setMascotMessage('Yay! Added to your cart!')
-    setTimeout(() => setMascotMessage(null), 3000)
-  }, [product, toast])
-
-  const handleToggleWishlist = useCallback(() => {
-    setIsWishlisted(prev => {
-      const next = !prev
-      if (next) {
-        toast({
-          type: 'success',
-          title: 'Added to Wishlist',
-          message: 'We saved this for later.'
-        })
-      }
-      return next
-    })
-  }, [toast])
-
   const calculatedTotal = useMemo(() => {
     if (!product) return 0
     let total = product.basePrice
@@ -97,14 +80,55 @@ export const usePDPState = (product: Product | undefined) => {
 
     product.addOns?.forEach(addon => {
       if (selectedAddOns.has(addon.id)) {
-        // Multiply addon price by quantity pieces if appropriate, 
-        // but for now let's just add it as a flat fee per box
         total += addon.price
       }
     })
 
     return total
   }, [product, selectedFlavourId, selectedQuantityId, selectedAddOns])
+
+  const handleAddToCart = useCallback(() => {
+    if (!product) return
+
+    const selectedFlavour = product.flavours?.find(f => f.id === selectedFlavourId)
+    addCartItem({
+      product: product,
+      quantity: 1,
+      variantName: selectedFlavour?.name
+    })
+    
+    toast({
+      type: 'success',
+      title: 'Added to your sweet box!'
+    })
+    setMascotMessage('Yay! Added to your cart!')
+    setTimeout(() => setMascotMessage(null), 3000)
+    
+    openCart()
+  }, [product, calculatedTotal, addCartItem, openCart, toast])
+
+  const handleToggleWishlist = useCallback(() => {
+    if (!product) return
+
+    if (isWishlisted) {
+      removeFromWishlist(product.id)
+      toast({
+        type: 'info',
+        title: 'Removed from Wishlist'
+      })
+    } else {
+      addToWishlist(product)
+      toast({
+        type: 'success',
+        title: 'Added to Wishlist',
+        message: 'We saved this for later.'
+      })
+      setMascotMessage('Ooh, saving it for a special day!')
+      setTimeout(() => setMascotMessage(null), 3000)
+    }
+  }, [product, isWishlisted, addToWishlist, removeFromWishlist, toast])
+
+
 
   // Mascot interactions
   const handleFlavourChange = useCallback((id: string | null) => {

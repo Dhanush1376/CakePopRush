@@ -85,7 +85,7 @@ export const playParty = async (ctx: ReactionContext) => {
 
   const hopPeak = ctx.animate([
     ['#left-eye-closed, #right-eye-closed', { opacity: 0 }, { duration: 0 }],
-    ['#left-eye-normal, #right-eye-normal', { opacity: 1 }, { duration: 0 }],
+    ['#left-eye-squeezed, #right-eye-squeezed', { opacity: 1 }, { duration: 0 }],
     [
       '#mascot-root',
       { scaleY: 1.08, scaleX: 0.92, y: -14, x: -4, rotate: 0 },
@@ -119,7 +119,6 @@ export const playParty = async (ctx: ReactionContext) => {
     return ctx.animate([
       ['#left-leg', { rotate: 48, y: -22, x: -10 }, { duration: 0.18 / sm, ease: 'backOut' }],
       ['#right-leg', { rotate: -18, y: 0, x: 10 }, { duration: 0.18 / sm, ease: 'backOut' }],
-      ['#left-pupil-group, #right-pupil-group', { scale: 1.1, x: 6, y: -8 }, { duration: 0.1 / sm }],
       ['#left-eyebrow', { rotate: 15, y: -6 }, { duration: 0.1 / sm }],
       ['#right-eyebrow', { rotate: -15, y: -6 }, { duration: 0.1 / sm }],
       ['#left-cheek, #right-cheek', { opacity: 1, scale: 1 }, { duration: 0.12 / sm }],

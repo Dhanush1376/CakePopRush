@@ -19,6 +19,7 @@ import { PrivacyPage } from '@/pages/storefront/legal/PrivacyPage'
 import { ContactPage } from '@/pages/storefront/info/ContactPage'
 import { OrdersPage } from '@/pages/storefront/orders/OrdersPage'
 import { OrderTrackingPage } from '@/pages/storefront/orders/OrderTrackingPage'
+import { OrderSuccessPage } from '@/pages/storefront/orders/OrderSuccessPage'
 import { AdminLayout } from '@/pages/admin/AdminLayout'
 import { AdminDashboard } from '@/pages/admin/AdminDashboard'
 import { AdminOrders } from '@/pages/admin/pages/AdminOrders'
@@ -81,6 +82,10 @@ export const router = createBrowserRouter([
       {
         path: 'orders/:id',
         element: <OrderTrackingPage />,
+      },
+      {
+        path: 'order-success/:id',
+        element: <OrderSuccessPage />,
       },
 
       {

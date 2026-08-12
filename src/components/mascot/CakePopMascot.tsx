@@ -1,5 +1,5 @@
 import React, { forwardRef, useImperativeHandle, useState, useEffect } from 'react';
-import { motion, useMotionValue, useTransform, useSpring, MotionValue } from 'framer-motion';
+import { motion, useMotionValue, useTransform, useSpring, MotionValue, AnimatePresence } from 'framer-motion';
 import { MascotReaction, MascotSize, MascotRef } from './reactions/reactionTypes';
 import { SmartMascotState, MascotDirection } from './MascotState';
 import { VIEWBOX, BODY, SHADOW } from './config/mascotConfig';
@@ -31,9 +31,10 @@ interface CakePopMascotProps {
   direction?: MascotDirection;
   eyeX?: MotionValue<number>;
   eyeY?: MotionValue<number>;
+  hideArms?: boolean;
 }
 
-const TAP_REACTIONS: MascotReaction[] = ['excited', 'laughing', 'love', 'silly', 'party'];
+const TAP_REACTIONS: MascotReaction[] = ['cool', 'excited', 'laughing', 'love', 'silly', 'party', 'blowKiss', 'winking', 'tada', 'happy'];
 
 export const CakePopMascot = forwardRef<MascotRef, CakePopMascotProps>(({
   reaction = null,
@@ -46,7 +47,8 @@ export const CakePopMascot = forwardRef<MascotRef, CakePopMascotProps>(({
   smartState,
   direction = 'center',
   eyeX,
-  eyeY
+  eyeY,
+  hideArms = false
 }, ref) => {
   const {
     scope,
@@ -72,7 +74,8 @@ export const CakePopMascot = forwardRef<MascotRef, CakePopMascotProps>(({
   const torsoTranslateY = useTransform(actualEyeY, [-15, 15], [-2, 3]);
 
   const handleTap = () => {
-    if (staticMode || state === 'PLAYING_REACTION') return;
+    if (staticMode) return;
+    if (reaction) return; // Don't trigger tap reactions if parent is forcefully controlling it
     const randomReaction = TAP_REACTIONS[Math.floor(Math.random() * TAP_REACTIONS.length)];
     play(randomReaction);
   };
@@ -171,14 +174,14 @@ export const CakePopMascot = forwardRef<MascotRef, CakePopMascotProps>(({
             }}
           >
             {/* 4. Arms (behind body, but moves with torso) */}
-            <MascotArms />
+            {!hideArms && <MascotArms />}
 
             {/* 5. Body circle + sprinkles */}
             <MascotBody />
 
             {/* 6. Face elements (in front of body) */}
             <MascotCheeks />
-            <MascotFrontArms />
+            {!hideArms && <MascotFrontArms />}
             <MascotEyes eyeX={actualEyeX} eyeY={actualEyeY} />
             <MascotEyebrows />
             <MascotMouth shape={mouthShape} />

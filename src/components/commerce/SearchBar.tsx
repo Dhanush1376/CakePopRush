@@ -41,6 +41,7 @@ const getCategoryIcon = (id: string) => {
 
 interface SearchBarProps {
   isMobile?: boolean
+  isOpen?: boolean
   onClose?: () => void
 }
 
@@ -56,26 +57,47 @@ function useDebounce<T>(value: T, delay: number): T {
   return debouncedValue
 }
 
-export const SearchBar = ({ isMobile = false, onClose }: SearchBarProps) => {
+export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: SearchBarProps) => {
   const navigate = useNavigate()
   const [query, setQuery] = useState('')
-  const [isFocused, setIsFocused] = useState(false)
+  const [isFocused, setIsFocused] = useState(isOpen)
   const [isLoading, setIsLoading] = useState(false)
   const [results, setResults] = useState<Product[]>([])
   const [recentSearches, setRecentSearches] = useState<string[]>(['Chocolate cake pops', 'Strawberry cookies'])
   const [activeIndex, setActiveIndex] = useState(-1)
-  
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024)
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  // Mobile layout only applies if screen width < 768px
+  const isMobile = forcedMobile !== undefined ? (forcedMobile && windowWidth < 768) : windowWidth < 768
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsFocused(true)
+    }
+  }, [isOpen])
+
+  const handleClose = () => {
+    setIsFocused(false)
+    if (onClose) onClose()
+  }
+
   const inputRef = useRef<HTMLInputElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   
   const debouncedQuery = useDebounce(query, 300)
 
-  // Focus input automatically on mobile when opened
+  // Focus input automatically when opened
   useEffect(() => {
-    if (isMobile && inputRef.current) {
+    if (isFocused && inputRef.current) {
       setTimeout(() => inputRef.current?.focus(), 100)
     }
-  }, [isMobile])
+  }, [isFocused])
 
   // Handle click outside to close desktop dropdown
   useEffect(() => {
@@ -349,6 +371,18 @@ export const SearchBar = ({ isMobile = false, onClose }: SearchBarProps) => {
     )
   }
 
+  // Global Cmd+K / Ctrl+K keyboard shortcut to open search modal
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsFocused(true);
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, []);
+
   // --- MOBILE RENDER ---
   if (isMobile) {
     return createPortal(
@@ -405,48 +439,169 @@ export const SearchBar = ({ isMobile = false, onClose }: SearchBarProps) => {
     )
   }
 
-  // --- DESKTOP RENDER ---
+  // --- DESKTOP SPOTLIGHT MODAL RENDER ---
   return (
     <div className={styles.searchContainer} ref={containerRef} role="search">
-      <div className={styles.desktopContainer}>
-        <div className={styles.searchFieldWrapper}>
-          <Search size={20} className={styles.searchIcon} />
-          <input
-            ref={inputRef}
-            type="text"
-            className={styles.searchInput}
-            placeholder="Search cake pops, cookies & more..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onFocus={() => setIsFocused(true)}
-            onKeyDown={handleKeyDown}
-            aria-label="Search products"
-            aria-expanded={isFocused}
-          />
-          <div className={styles.actionWrapper}>
-            {isLoading && <Loader2 size={16} className={styles.loadingIcon} />}
-            {query.length > 0 && !isLoading && (
-              <button className={styles.clearButton} onClick={handleClear} aria-label="Clear search">
-                <X size={14} strokeWidth={2.5} />
-              </button>
-            )}
-          </div>
-        </div>
+      {/* Header Compact Trigger Bar */}
+      <div 
+        className={styles.compactSearchTrigger} 
+        onClick={() => setIsFocused(true)}
+      >
+        <Search size={16} className={styles.triggerSearchIcon} />
+        <span className={styles.triggerPlaceholder}>Search cake pops, cookies...</span>
+        <span className={styles.cmdKBadge}>⌘K</span>
       </div>
 
-      <AnimatePresence>
-        {isFocused && (
-          <motion.div 
-            className={styles.dropdownPanel}
-            initial={{ opacity: 0, y: -4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.15 }}
-          >
-            {renderContent()}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Floating Desktop Search Modal */}
+      {createPortal(
+        <AnimatePresence>
+          {isFocused && (
+            <motion.div 
+              className={styles.desktopModalOverlay}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setIsFocused(false)}
+            >
+              <motion.div 
+                className={styles.desktopModalCard}
+                initial={{ opacity: 0, scale: 0.95, y: -20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: -20 }}
+                transition={{ type: 'spring', damping: 26, stiffness: 340 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Search Input Bar */}
+                <div className={styles.modalHeaderRow}>
+                  <Search size={22} className={styles.modalSearchIcon} />
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    className={styles.modalSearchInput}
+                    placeholder="Search cake pops, cookies & more..."
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    autoFocus
+                  />
+                  <div className={styles.modalHeaderActions}>
+                    {isLoading && <Loader2 size={18} className={styles.loadingIcon} />}
+                    {query.length > 0 && !isLoading ? (
+                      <button className={styles.clearButton} onClick={handleClear} aria-label="Clear search">
+                        <X size={16} />
+                      </button>
+                    ) : (
+                      <>
+                        <button className={styles.modalIconButton} title="Voice Search">
+                          <Mic size={18} />
+                        </button>
+                        <button className={styles.modalIconButton} title="Visual Search">
+                          <Camera size={18} />
+                        </button>
+                        <button className={styles.escBadge} onClick={() => setIsFocused(false)}>
+                          ESC
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {/* Modal Content Scroll Area */}
+                <div className={styles.modalBodyScroll}>
+                  {query.trim().length === 0 ? (
+                    <>
+                      {/* POPULAR SEARCHES */}
+                      <div className={styles.popularSection}>
+                        <div className={styles.popularTitleRow}>
+                          <span className={styles.popularHeading}>POPULAR SEARCHES</span>
+                        </div>
+                        <div className={styles.popularChipsGrid}>
+                          {POPULAR_SEARCHES.map((term) => (
+                            <button
+                              key={term}
+                              className={styles.popularPillChip}
+                              onClick={() => handleSearchSubmit(term)}
+                            >
+                              <Search size={14} />
+                              <span>{term}</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* DUAL COLUMN SECTION */}
+                      <div className={styles.dualColumnGrid}>
+                        {/* Left: Explore Collections */}
+                        <div className={styles.columnLeft}>
+                          <div className={styles.columnHeader}>
+                            <span className={styles.columnTitle}>EXPLORE COLLECTIONS</span>
+                          </div>
+                          <div className={styles.collectionsList}>
+                            {mockCategories.slice(0, 5).map((cat) => (
+                              <button
+                                key={cat.id}
+                                className={styles.collectionItemRow}
+                                onClick={() => {
+                                  navigate(cat.id === 'all' ? '/shop' : `/shop?category=${cat.id}`);
+                                  setIsFocused(false);
+                                }}
+                              >
+                                <div className={styles.collectionIconBox}>
+                                  {getCategoryIcon(cat.id)}
+                                </div>
+                                <span className={styles.collectionName}>{cat.name}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Right: New Arrivals */}
+                        <div className={styles.columnRight}>
+                          <div className={styles.columnHeader}>
+                            <span className={styles.columnTitle}>NEW ARRIVALS</span>
+                          </div>
+                          <div className={styles.trendingCardsList}>
+                            {getBestSellingProducts(3).map((product) => (
+                              <button
+                                key={product.id}
+                                className={styles.trendingCardRow}
+                                onClick={() => {
+                                  navigate(`/product/${product.slug}`);
+                                  setIsFocused(false);
+                                }}
+                              >
+                                <div className={styles.trendingThumbBox}>
+                                  <span className={styles.newTag}>NEW</span>
+                                  <img src={product.images[0]?.url} alt={product.name} />
+                                </div>
+                                <div className={styles.trendingCardDetails}>
+                                  <span className={styles.trendingCardTitle}>{product.name}</span>
+                                  <span className={styles.trendingCardPrice}>₹{product.basePrice / 100}</span>
+                                </div>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    renderContent()
+                  )}
+                </div>
+
+                {/* Modal Footer Hotkeys */}
+                <div className={styles.modalFooterBar}>
+                  <span className={styles.footerHotkey}><kbd>↑↓</kbd> NAVIGATE</span>
+                  <span className={styles.footerHotkey}><kbd>↵</kbd> SELECT</span>
+                  <span className={styles.footerHotkey}><kbd>ESC</kbd> CLOSE</span>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   )
 }

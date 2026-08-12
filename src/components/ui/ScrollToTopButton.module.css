@@ -1,0 +1,28 @@
+.scrollToTopWrapper {
+  position: fixed;
+  bottom: 156px; /* Sits nicely above the WhatsApp button */
+  right: 29px; /* Center it relative to the 48px WhatsApp button (24 + (48-38)/2) */
+  z-index: 50;
+  display: flex;
+  pointer-events: auto;
+}
+
+.scrollToTopButton {
+  width: 38px;
+  height: 38px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: #1c1c1c;
+}
+
+.scrollToTopButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}

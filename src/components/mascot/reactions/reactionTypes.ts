@@ -4,7 +4,7 @@ export type MascotReaction =
   | 'confused' | 'shrug' | 'cool' | 'sleeping' | 'tired'
   | 'yawning' | 'love' | 'grateful' | 'cheeky' | 'silly'
   | 'proud' | 'determined' | 'shy' | 'peeking' | 'hiding'
-  | 'wave' | 'goodbye' | 'tada' | 'clapping' | 'party' | 'sad';
+  | 'wave' | 'goodbye' | 'tada' | 'clapping' | 'party' | 'sad' | 'bonk' | 'cryingFountain' | 'blowKiss';
 
 export type MascotState = 'IDLE' | 'ENTERING_REACTION' | 'PLAYING_REACTION' | 'RECOVERING';
 

@@ -7,11 +7,16 @@ import { ToastContainer } from '@/components/ui/Toast'
 import { GlobalHeartAnimation } from '@/components/ui/GlobalHeartAnimation'
 import { SplashScreen } from '@/components/ui/SplashScreen'
 import { WhatsAppButton } from '@/components/ui/WhatsAppButton'
+import { ScrollToTopButton } from '@/components/ui/ScrollToTopButton'
 import { AnimatePresence } from 'framer-motion'
 
 function App() {
   const { pathname } = useLocation()
-  const [showSplash, setShowSplash] = useState(true)
+  const [showSplash, setShowSplash] = useState(() => {
+    // Only play full-screen logo intro animation on initial app opening/launch
+    return !sessionStorage.getItem('cpr_intro_seen')
+  })
+  const [isWhatsAppVisible, setIsWhatsAppVisible] = useState(true)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -19,10 +24,15 @@ function App() {
     document.body.scrollTop = 0
   }, [pathname])
 
+  const handleSplashComplete = () => {
+    sessionStorage.setItem('cpr_intro_seen', 'true')
+    setShowSplash(false)
+  }
+
   return (
     <>
       <AnimatePresence>
-        {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
+        {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
       </AnimatePresence>
 
       <div className="app-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -34,7 +44,12 @@ function App() {
         <Footer />
         <BottomNavigation />
         <ToastContainer />
-        {!showSplash && <WhatsAppButton />}
+        {!showSplash && (
+          <>
+            {isWhatsAppVisible && <WhatsAppButton onClose={() => setIsWhatsAppVisible(false)} />}
+            <ScrollToTopButton isWhatsAppVisible={isWhatsAppVisible} />
+          </>
+        )}
       </div>
     </>
   )

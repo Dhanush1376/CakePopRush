@@ -3,11 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import styles from './WhatsAppButton.module.css';
 
-export const WhatsAppButton: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(true);
+interface WhatsAppButtonProps {
+  onClose?: () => void;
+}
 
-  if (!isVisible) return null;
-
+export const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ onClose }) => {
   return (
     <AnimatePresence>
       <motion.div
@@ -22,7 +22,7 @@ export const WhatsAppButton: React.FC = () => {
             className={styles.closeButton}
             onClick={(e) => {
               e.preventDefault();
-              setIsVisible(false);
+              if (onClose) onClose();
             }}
             aria-label="Close WhatsApp"
           >

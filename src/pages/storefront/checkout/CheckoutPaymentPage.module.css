@@ -70,7 +70,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
-  margin-top: var(--space-4);
 }
 
 /* Sections */
@@ -102,10 +101,12 @@
 }
 
 .sectionTitle {
-  font-family: var(--font-family-display);
-  font-size: 16px;
-  font-weight: 700;
+  font-family: var(--font-family-body);
+  font-weight: var(--font-weight-bold);
+  font-size: 11px;
   color: var(--color-chocolate);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   margin: 0;
 }
 
@@ -117,38 +118,21 @@
 }
 
 /* Date Picker styling */
-.dateInputWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 16px;
+.customDateInput input {
+  background-color: var(--color-hero-cream) !important;
+  padding: 10px 14px !important;
+  border-radius: var(--radius-md) !important;
+  border: 1px solid rgba(92, 51, 23, 0.12) !important;
+  font-family: var(--font-family-body) !important;
+  font-size: 13px !important;
+  color: var(--color-chocolate) !important;
+  transition: all 0.2s ease !important;
 }
 
-.dateInputLabel {
-  font-family: var(--font-family-body);
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-}
-
-.dateInput {
-  width: 100%;
-  max-width: 300px;
-  padding: 12px 16px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border);
-  font-family: var(--font-family-body);
-  font-size: 14px;
-  color: var(--color-text);
-  background-color: var(--color-white);
-  outline: none;
-  transition: all var(--duration-fast);
-}
-
-.dateInput:focus {
-  border-color: var(--color-brand-turquoise);
-  box-shadow: 0 0 0 3px rgba(7, 194, 187, 0.1);
+.customDateInput input:focus {
+  background-color: var(--color-white) !important;
+  border-color: var(--color-brand-turquoise) !important;
+  box-shadow: 0 0 0 3px rgba(7, 194, 187, 0.12) !important;
 }
 
 /* Promo Banner */
@@ -254,6 +238,54 @@
   color: var(--color-text-muted);
 }
 
+.otpSection {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-top: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.otpLabel {
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+  margin-top: 0;
+}
+
+.otpInputGroup {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.verifyBtn {
+  background-color: var(--color-brand-turquoise) !important;
+  color: var(--color-white) !important;
+  border-radius: 8px !important;
+}
+
+.verifyBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.otpInput input:focus {
+  border-bottom-color: var(--color-brand-turquoise) !important;
+}
+
+.otpSuccess {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #00d25b;
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 0;
+}
+
 /* Siri Coins Info */
 .siriCoinsPromo {
   display: flex;
@@ -276,4 +308,211 @@
   font-weight: 700;
   color: var(--color-chocolate);
   margin: 0;
+}
+
+/* ─── Payment Drawer ────────────────────────────────────────── */
+.paymentDrawerOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(56, 30, 16, 0.4);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .paymentDrawerOverlay {
+    align-items: center;
+    padding: var(--space-4);
+  }
+}
+
+.paymentDrawer {
+  background: var(--color-white);
+  border-radius: 32px 32px 0 0;
+  width: 100%;
+  max-width: 500px;
+  padding: 24px var(--space-6) 40px;
+  box-shadow: 0 -8px 40px rgba(92, 51, 23, 0.15);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .paymentDrawer {
+    border-radius: var(--radius-xl);
+    padding: var(--space-8) var(--space-6) var(--space-6);
+  }
+}
+
+.drawerDragHandle {
+  width: 40px;
+  height: 4px;
+  background-color: var(--color-border);
+  border-radius: 4px;
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.drawerHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 8px 0 20px 0; /* reduced top margin */
+}
+
+.drawerHeader {
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-chocolate);
+  margin: 0;
+  text-align: left;
+}
+
+.drawerCloseBtn {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  margin-right: -4px; /* to align with edge padding */
+}
+
+.drawerCloseBtn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--color-chocolate);
+}
+
+.summaryDetails {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+  width: 100%;
+}
+
+.summaryLabel {
+  color: var(--color-text-muted);
+  font-family: var(--font-family-body);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.summaryValue {
+  color: var(--color-chocolate);
+  font-weight: 600;
+  font-family: var(--font-family-body);
+  font-size: 14px;
+}
+
+.discountValue {
+  color: #07c2bb; /* match order summary discount green/turquoise */
+}
+
+.summaryDivider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: var(--space-4) 0;
+  width: 100%;
+}
+
+.summaryTotalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-6);
+  width: 100%;
+}
+
+.summaryTotalLabel {
+  font-family: var(--font-family-display);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-chocolate);
+}
+
+.summaryTotalValue {
+  font-family: var(--font-family-display);
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-chocolate);
+}
+
+.payButton {
+  width: 100%;
+  background-color: var(--color-brand-yellow);
+  color: var(--color-chocolate);
+  border: none;
+  border-radius: 100px;
+  padding: 12px 32px;
+  font-family: var(--font-family-body);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-self: center; /* Center it since it's no longer 100% width */
+}
+
+.payButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.payButton:not(:disabled):hover {
+  filter: brightness(0.95);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(246, 212, 67, 0.3);
+}
+
+/* Tick phase */
+.tickContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) 0;
+  width: 100%;
+}
+
+.tickCircle {
+  width: 80px;
+  height: 80px;
+  background-color: #00d25b;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 16px rgba(0, 210, 91, 0.15);
+  margin-bottom: var(--space-6);
+}
+
+.tickTitle {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-xl);
+  color: var(--color-chocolate);
+  text-align: center;
 }

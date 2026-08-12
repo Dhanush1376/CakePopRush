@@ -1,4 +1,6 @@
 :root {
+  color-scheme: light;
+  
   /* Brand */
   --color-brand-yellow: #FFC700;
   --color-brand-pink: #F20D6F;

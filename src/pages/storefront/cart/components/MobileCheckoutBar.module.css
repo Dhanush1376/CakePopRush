@@ -78,9 +78,15 @@
   color: var(--color-white);
 }
 
-.checkoutBtn:hover {
+.checkoutBtn:hover:not(:disabled) {
   opacity: 0.9;
   transform: translateY(-1px);
+}
+
+.checkoutBtn.disabled, .checkoutBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .backBtn {

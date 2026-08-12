@@ -6,15 +6,16 @@ interface SmartMascotOptions {
   heroRef: RefObject<HTMLElement | null>;
   disableScrollHide?: boolean;
   stayVisible?: boolean;
+  startY?: number;
 }
 
-export function useSmartMascot({ heroRef, disableScrollHide = false, stayVisible = false }: SmartMascotOptions) {
+export function useSmartMascot({ heroRef, disableScrollHide = false, stayVisible = false, startY = 200 }: SmartMascotOptions) {
   const [state, setState] = useState<SmartMascotState>('hidden');
   const [direction, setDirection] = useState<MascotDirection>('center');
   
   const eyeTargetX = useMotionValue(-8);
   const eyeTargetY = useMotionValue(-6);
-  const mascotTargetY = useMotionValue(200); // Start hidden below the drawer
+  const mascotTargetY = useMotionValue(startY); // Start hidden below the drawer
 
   const introDone = useRef(false);
 

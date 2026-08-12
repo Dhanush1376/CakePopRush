@@ -51,6 +51,7 @@ export const ProductImage = ({
           className={`${styles.image} ${isLoaded ? styles.loaded : ''}`}
           loading={priority ? 'eager' : 'lazy'}
           fetchPriority={priority ? 'high' : 'auto'}
+          decoding="async"
           onLoad={handleLoad}
           onError={handleError}
           {...props}

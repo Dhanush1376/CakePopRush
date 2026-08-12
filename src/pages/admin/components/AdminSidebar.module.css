@@ -118,7 +118,7 @@
 .navContainer {
   flex: 1;
   overflow-y: auto;
-  padding: 0 1rem;
+  padding: 0 1rem 40px 1rem;
   /* Hide scrollbar */
   scrollbar-width: none;
   -ms-overflow-style: none;

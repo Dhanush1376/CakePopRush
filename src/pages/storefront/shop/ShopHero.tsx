@@ -4,6 +4,7 @@ import { Heart } from 'lucide-react';
 import styles from './ShopHero.module.css';
 import { Container } from '@/components/layout/Container';
 import { CakePopMascot } from '@/components/mascot/CakePopMascot';
+import { MascotReaction, MascotRef } from '@/components/mascot/reactions/reactionTypes';
 
 interface ShopHeroProps {
   isHeaderHidden?: boolean;
@@ -13,10 +14,17 @@ export const ShopHero = ({ isHeaderHidden = false }: ShopHeroProps) => {
   const { scrollY } = useScroll();
 
   const mascotRef = useRef<HTMLDivElement>(null);
+  const mascotControlRef = useRef<MascotRef>(null);
   const eyeTargetX = useMotionValue(0);
   const eyeTargetY = useMotionValue(0);
   const eyeSpringX = useSpring(eyeTargetX, { stiffness: 200, damping: 25 });
   const eyeSpringY = useSpring(eyeTargetY, { stiffness: 200, damping: 25 });
+
+  const handleMascotClick = () => {
+    const TAP_REACTIONS: MascotReaction[] = ['cool', 'blowKiss', 'love', 'excited', 'laughing', 'winking', 'silly', 'party', 'tada', 'happy'];
+    const random = TAP_REACTIONS[Math.floor(Math.random() * TAP_REACTIONS.length)];
+    mascotControlRef.current?.play(random);
+  };
 
   useEffect(() => {
     const handlePointerEvent = (e: PointerEvent) => {
@@ -163,21 +171,12 @@ export const ShopHero = ({ isHeaderHidden = false }: ShopHeroProps) => {
 
       {/* Foreground elements that should not get darker */}
       <div className={styles.foregroundDecorationsLayer}>
-        {/* Bottom White Wave (Static at the bottom so it doesn't cover text) */}
-        <div className={styles.bottomWaveContainer}>
-          <svg className={styles.waveSvg} viewBox="0 0 1440 200" preserveAspectRatio="none">
-            <path
-              fill="#FFFFFF"
-              d="M 0,200 L 0,100 C 300,160 600,180 1000,100 C 1200,60 1350,40 1440,20 L 1440,200 Z"
-            />
-          </svg>
-        </div>
 
         {/* Right Middle Yellow Balloon */}
         <motion.div className={styles.balloonRight}>
           <svg viewBox="-20 -20 140 240" className={styles.balloonSvg}>
             {/* String */}
-<path d="M 50 100 L 50 150" fill="none" stroke="var(--hero-string)" strokeWidth="2" strokeLinecap="round" />
+            <path d="M 50 100 Q 45 150 20 200" fill="none" stroke="var(--hero-string)" strokeWidth="2" strokeLinecap="round" />
             {/* Balloon Body */}
             <path d="M 50 100 C 15 100 0 50 15 20 C 30 -15 70 -15 85 20 C 100 50 85 100 50 100 Z" fill="var(--hero-yellow-balloon)" />
             {/* Highlight */}
@@ -185,39 +184,22 @@ export const ShopHero = ({ isHeaderHidden = false }: ShopHeroProps) => {
             {/* Bow */}
             <path d="M 50 100 L 35 110 L 45 115 Z" fill="var(--hero-yellow-balloon)" stroke="var(--hero-string)" strokeWidth="1.5" strokeLinejoin="round" />
             <path d="M 50 100 L 65 110 L 55 115 Z" fill="var(--hero-yellow-balloon)" stroke="var(--hero-string)" strokeWidth="1.5" strokeLinejoin="round" />
-            {/* Mascot Hand Holding String */}
-            <g>
-              <g className={styles.laptopHiddenArm}>
-                <motion.path
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.5 }}
-                  d="M -150 230 Q -50 240 40 148 L 48 153 Q -50 280 -150 320 Z"
-                  fill="var(--hero-charcoal, #1c1c1c)"
-                />
-              </g>
-              <g transform="translate(50, 150) rotate(0)">
-                <motion.g
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.7 }}
-                >
-                  <rect x="-4" y="-7" width="8" height="14" rx="4" fill="#1c1c1c" />
-                  <rect x="-9" y="-5" width="8" height="11" rx="4" fill="#1c1c1c" />
-                  <rect x="1" y="-5" width="8" height="11" rx="4" fill="#1c1c1c" />
-                </motion.g>
-              </g>
-            </g>
           </svg>
         </motion.div>
 
         {/* Mascot Peeking from Wave */}
-        <motion.div className={styles.mascotWrapper}>
+        <motion.div className={styles.mascotWrapper} onClick={handleMascotClick}>
           <motion.div
             className={styles.mascotHandLeft}
             initial={{ y: 90 }}
             animate={{ y: 0 }}
-            transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.6 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.45 }}
+          />
+          <motion.div
+            className={styles.mascotHandRight}
+            initial={{ y: 90 }}
+            animate={{ y: 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.45 }}
           />
           <motion.div
             className={styles.mascotContainer}
@@ -226,7 +208,7 @@ export const ShopHero = ({ isHeaderHidden = false }: ShopHeroProps) => {
             animate={{ y: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.6 }}
           >
-            <CakePopMascot size="large" eyeX={eyeSpringX} eyeY={eyeSpringY} />
+            <CakePopMascot ref={mascotControlRef} size="large" eyeX={eyeSpringX} eyeY={eyeSpringY} />
           </motion.div>
         </motion.div>
       </div>

@@ -167,7 +167,6 @@
   font-size: 15px;
 }
 
-/* Footer */
 .footer {
   display: flex;
   align-items: center;
@@ -175,6 +174,18 @@
   padding: 16px 24px;
   background-color: var(--admin-bg);
   border-top: 1px solid var(--color-border);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+@media (max-width: 500px) {
+  .footer {
+    justify-content: center;
+    flex-direction: column-reverse;
+  }
+  .shortcuts {
+    justify-content: center;
+  }
 }
 
 .shortcuts {

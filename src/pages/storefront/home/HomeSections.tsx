@@ -32,7 +32,7 @@ export const ShopByCategorySection = () => {
                 onClick={() => navigate(`/shop?category=${category.id}`)}
               >
                 <div className={styles.categoryImageWrapper}>
-                  <img src={imageUrl} alt={category.name} className={styles.categoryImage} />
+                  <img src={imageUrl} alt={category.name} className={styles.categoryImage} loading="lazy" decoding="async" />
                   <div className={styles.categoryImageOverlay} />
                 </div>
                 <h3 className={styles.categoryImageTitle}>{category.name}</h3>
@@ -147,7 +147,7 @@ export const FestiveOccasionsSection = () => {
               className={styles.asymmetricalCard}
               onClick={() => navigate(`/shop?occasion=${occasion.id}`)}
             >
-              <img src={occasion.image} alt={occasion.name} className={styles.asymmetricalImage} />
+              <img src={occasion.image} alt={occasion.name} className={styles.asymmetricalImage} loading="lazy" decoding="async" />
               <span className={styles.asymmetricalTitle}>{occasion.name}</span>
             </div>
           ))}
@@ -168,6 +168,7 @@ export const BrandStorySection = () => {
               alt="Handcrafting cake pops" 
               className={styles.brandStoryImage} 
               loading="lazy"
+              decoding="async"
             />
           </div>
           <div className={styles.brandStoryContent}>

@@ -9,10 +9,10 @@ import { ReactionContext, getCanonicalResetSequence } from './animations/animati
 import { REACTIONS } from './reactions/reactionRegistry';
 
 const getTransitionSequence = () => [
-  ['#torso-group', { x: 0, y: 0, scaleX: 1, scaleY: 1, rotate: 0 }, { duration: 0.16, ease: 'easeOut' }],
-  ['#left-arm, #right-arm', { y: 0, x: 0 }, { duration: 0.16, ease: 'easeOut' }],
-  ['#left-leg, #right-leg', { y: 0, x: 0, rotate: 0 }, { duration: 0.16, ease: 'easeOut' }],
-  ['#mascot-shadow', { scaleX: 1, scaleY: 1, opacity: 0.08 }, { duration: 0.16, ease: 'easeOut' }]
+  ['#torso-group', { x: 0, y: 0, scaleX: 1, scaleY: 1, rotate: 0 }, { duration: 0.01, ease: 'easeOut' }],
+  ['#left-arm, #right-arm', { y: 0, x: 0 }, { duration: 0.01, ease: 'easeOut' }],
+  ['#left-leg, #right-leg', { y: 0, x: 0, rotate: 0 }, { duration: 0.01, ease: 'easeOut' }],
+  ['#mascot-shadow', { scaleX: 1, scaleY: 1, opacity: 0.08 }, { duration: 0.01, ease: 'easeOut' }]
 ] as AnimationSequence;
 
 export const useMascotController = (speedMultiplier: number = 1, loop: boolean = false) => {
@@ -152,15 +152,6 @@ export const useMascotController = (speedMultiplier: number = 1, loop: boolean =
 
     const nextDefinition = REACTIONS[reaction];
     const activeDefinition = currentReactionRef.current ? REACTIONS[currentReactionRef.current] : null;
-
-    if (
-      stateRef.current === 'PLAYING_REACTION' &&
-      activeDefinition &&
-      nextDefinition &&
-      nextDefinition.priority > activeDefinition.priority
-    ) {
-      return;
-    }
     
     stop();
     
@@ -178,7 +169,7 @@ export const useMascotController = (speedMultiplier: number = 1, loop: boolean =
     
     try {
       await animate(getTransitionSequence());
-      await animate(getCanonicalResetSequence());
+      await animate(getCanonicalResetSequence(0.01));
     } catch {
       // Aborted early
     }

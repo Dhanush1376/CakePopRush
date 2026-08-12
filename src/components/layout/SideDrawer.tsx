@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { createPortal } from 'react-dom'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import { X, Home, ShoppingBag, Edit3, Package, Heart, Users, Phone, Mail, ChevronDown, ChevronUp, LogIn, LogOut, User } from 'lucide-react'
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion'
 import styles from './SideDrawer.module.css'
@@ -8,6 +8,7 @@ import { Logo } from '@/assets/brand/Logo'
 import { InstagramIcon } from '@/components/ui/InstagramIcon'
 import { useCart } from '@/lib/cartStore'
 import { CakePopMascot } from '@/components/mascot/CakePopMascot'
+import { MascotReaction, MascotRef } from '@/components/mascot/reactions/reactionTypes'
 import { AuthModal } from '@/components/auth/AuthModal'
 
 interface SideDrawerProps {
@@ -20,8 +21,16 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, onClose }) => {
   const [isSignedIn, setIsSignedIn] = useState(false)
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const { openCart } = useCart()
+  const location = useLocation()
 
   const mascotRef = useRef<HTMLDivElement>(null)
+  const mascotControlRef = useRef<MascotRef>(null)
+
+  const handleMascotClick = () => {
+    const TAP_REACTIONS: MascotReaction[] = ['cool', 'blowKiss', 'love', 'excited', 'laughing', 'winking', 'silly', 'party', 'tada', 'happy']
+    const random = TAP_REACTIONS[Math.floor(Math.random() * TAP_REACTIONS.length)]
+    mascotControlRef.current?.play(random)
+  }
   const eyeTargetX = useMotionValue(0)
   const eyeTargetY = useMotionValue(0)
   const eyeSpringX = useSpring(eyeTargetX, { stiffness: 200, damping: 25 })
@@ -189,7 +198,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, onClose }) => {
         </div>
 
         <div className={styles.footer}>
-          <div className={styles.mascotWrapper}>
+          <div className={styles.mascotWrapper} onClick={handleMascotClick}>
             <motion.div 
               className={styles.mascotHandRight}
               initial={{ y: 90 }}
@@ -209,7 +218,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, onClose }) => {
               animate={{ y: 0 }}
               transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.6 }}
             >
-              <CakePopMascot size="large" eyeX={eyeSpringX} eyeY={eyeSpringY} />
+              <CakePopMascot ref={mascotControlRef} size="large" eyeX={eyeSpringX} eyeY={eyeSpringY} />
             </motion.div>
           </div>
           
@@ -219,7 +228,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, onClose }) => {
                 <Heart size={20} strokeWidth={1.5} />
                 <span>WISHLIST</span>
               </NavLink>
-              <button className={styles.actionItem} onClick={() => { openCart(); onClose(); }}>
+              <button className={styles.actionItem} onClick={() => { if (location.pathname !== '/cart') openCart(); onClose(); }}>
                 <ShoppingBag size={20} strokeWidth={1.5} />
                 <span>BAG</span>
               </button>

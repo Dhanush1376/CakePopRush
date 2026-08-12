@@ -18,15 +18,8 @@ export const CartRecommendations = () => {
 
   if (recommendedProducts.length === 0) return null;
 
-  const handleAddToCart = (productId: string) => {
-    const product = recommendedProducts.find(p => p.id === productId);
-    if (product) {
-      addItem({ product, quantity: 1 });
-      toast({
-        type: 'success',
-        title: 'Added to bag'
-      });
-    }
+  const handleAddToCart = (_productId: string) => {
+    // ProductCard directly handles addItem and displaying the toast notification
   };
 
   return (

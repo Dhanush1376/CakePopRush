@@ -16,8 +16,9 @@
   bottom: 0;
   width: 85vw;
   max-width: 360px;
-  background-color: #FFFCF8; /* very light cream */
-  
+  background-color: #FFFCF8;
+  /* very light cream */
+
   background-size: 24px 24px;
   background-position: center top;
   z-index: calc(var(--z-drawer) + 1);
@@ -150,7 +151,8 @@
   transition: all var(--duration-fast) ease;
 }
 
-.categoryPill:hover, .categoryPill.active {
+.categoryPill:hover,
+.categoryPill.active {
   background-color: var(--color-brand-pink);
   color: var(--color-white);
   border-color: var(--color-brand-pink);
@@ -163,7 +165,8 @@
   width: 200px;
   height: 120px;
   overflow: hidden;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
   z-index: 0;
 }
 
@@ -173,11 +176,12 @@
   right: 15px;
   width: 140px;
   height: 170px;
-  pointer-events: none;
+  pointer-events: auto;
+  cursor: pointer;
   z-index: -1;
 }
 
-.mascotContainer > div {
+.mascotContainer>div {
   width: 100% !important;
   height: 100% !important;
 }
@@ -187,37 +191,49 @@
   display: none !important;
 }
 
-.mascotHandLeft, .mascotHandRight {
+.mascotHandLeft,
+.mascotHandRight {
   position: absolute;
-  top: 108px;
+  top: 105px;
   width: 6px;
-  height: 12px;
+  height: 14px;
   background-color: #1c1c1c;
-  border-radius: 6px;
+  border-radius: 6px 6px 3px 3px;
   z-index: 1;
   pointer-events: none;
 }
 
-.mascotHandLeft::before, .mascotHandLeft::after,
-.mascotHandRight::before, .mascotHandRight::after {
+.mascotHandLeft::before,
+.mascotHandLeft::after,
+.mascotHandRight::before,
+.mascotHandRight::after {
   content: '';
   position: absolute;
   bottom: 1px;
   width: 6px;
-  height: 9px;
+  height: 10px;
   background-color: #1c1c1c;
   border-radius: 6px;
 }
 
-.mascotHandLeft::before, .mascotHandRight::before { left: -4px; }
-.mascotHandLeft::after, .mascotHandRight::after { left: 4px; }
+.mascotHandLeft::before,
+.mascotHandRight::before {
+  left: -4px;
+}
+
+.mascotHandLeft::after,
+.mascotHandRight::after {
+  left: 4px;
+}
 
 .mascotHandLeft {
-  right: 115px;
+  right: 126px;
+  transform: rotate(-12deg);
 }
 
 .mascotHandRight {
-  right: 55px;
+  right: 44px;
+  transform: rotate(12deg);
 }
 
 .footer {
@@ -252,6 +268,7 @@
   background-color: rgba(245, 158, 11, 0.15);
   color: #f59e0b;
 }
+
 .socialLinkPhone:hover {
   transform: translateY(-2px);
   background-color: #f59e0b;
@@ -262,6 +279,7 @@
   background-color: rgba(242, 13, 111, 0.1);
   color: var(--color-brand-pink);
 }
+
 .socialLinkMail:hover {
   transform: translateY(-2px);
   background-color: var(--color-brand-pink);
@@ -272,6 +290,7 @@
   background-color: rgba(20, 184, 166, 0.15);
   color: #14b8a6;
 }
+
 .socialLinkInsta:hover {
   transform: translateY(-2px);
   background-color: #14b8a6;
@@ -300,7 +319,8 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--color-chocolate); /* Assuming chocolate or dark text */
+  color: var(--color-chocolate);
+  /* Assuming chocolate or dark text */
   text-decoration: none;
   font-family: var(--font-family-body);
   font-size: 10px;

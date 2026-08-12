@@ -16,8 +16,8 @@ export const applyPose = async (ctx: ReactionContext, pose: MascotPose) => {
     // Let's map pose.body to torso-group instead to match how animations work.
   ];
 
-  // Wait, let's fix body mapping. In animations we usually animate #torso-group for squash/stretch.
-  seq.push(['#torso-group', { scaleX: pose.body.scaleX, scaleY: pose.body.scaleY, y: pose.body.y || 0, x: pose.body.x || 0, rotate: pose.body.rotate || 0 }, { duration: 0.3, ease: 'easeOut' }]);
+  // Let's map pose.body to mascot-root to avoid animating an element with bound MotionValues
+  seq.push(['#mascot-root', { scaleX: pose.body.scaleX, scaleY: pose.body.scaleY, rotate: pose.body.rotate || 0, x: pose.body.x || 0, y: pose.body.y || 0 }, { duration: 0.3, ease: 'easeOut' }]);
 
   // Arms
   const lArmId = pose.leftArm.isFront ? '#left-arm-front' : '#left-arm';
@@ -55,9 +55,9 @@ export const applyPose = async (ctx: ReactionContext, pose: MascotPose) => {
     seq.push([`#right-eye-${shape}`, { opacity: isVisibleRight ? 1 : 0 }, { duration: 0.3, ease: 'easeOut' }]);
   });
 
-  // Pupils
-  seq.push(['#left-pupil-group', { scale: pose.leftPupil.scale, y: pose.leftPupil.y, x: pose.leftPupil.x }, { duration: 0.3, ease: 'easeOut' }]);
-  seq.push(['#right-pupil-group', { scale: pose.rightPupil.scale, y: pose.rightPupil.y, x: pose.rightPupil.x }, { duration: 0.3, ease: 'easeOut' }]);
+  // Pupils (Don't animate x and y because they track mouse in SideCart)
+  seq.push(['#left-pupil-group', { scale: pose.leftPupil.scale }, { duration: 0.3, ease: 'easeOut' }]);
+  seq.push(['#right-pupil-group', { scale: pose.rightPupil.scale }, { duration: 0.3, ease: 'easeOut' }]);
 
   // Eyebrows
   seq.push(['#left-eyebrow', { rotate: pose.leftEyebrow.rotate, y: pose.leftEyebrow.y + fy, x: pose.leftEyebrow.x + fx }, { duration: 0.3, ease: 'easeOut' }]);
@@ -78,9 +78,14 @@ export const applyPose = async (ctx: ReactionContext, pose: MascotPose) => {
     seq.push(['#party-blower', { x: fx, y: fy }, { duration: 0.3, ease: 'easeOut' }]);
   }
 
-  try {
-    await animate(seq);
-  } catch (e) {
-    console.error("Framer Motion animation failed", e);
-  }
+  // Execute animations individually so one failure doesn't abort the entire pose
+  await Promise.all(
+    seq.map(async (item: any) => {
+      try {
+        await animate(item[0], item[1], item[2]);
+      } catch (e) {
+        console.warn(`Failed to animate ${item[0]}:`, e);
+      }
+    })
+  );
 };
