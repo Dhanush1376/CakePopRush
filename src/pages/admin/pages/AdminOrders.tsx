@@ -67,6 +67,18 @@ export function AdminOrders() {
   const [paymentFilter, setPaymentFilter] = React.useState('all');
   const [dateFilter, setDateFilter] = React.useState('7days');
 
+  React.useEffect(() => {
+    if (!activeActionMenu) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest(`.${styles.actionMenuWrapper}`) && !target.closest(`.${styles.mcActions}`)) {
+        setActiveActionMenu(null);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [activeActionMenu]);
+
   if (isLoading) {
     return <AdminOrdersSkeleton />;
   }

@@ -95,7 +95,7 @@ export const Header = () => {
           <Link to="/shop?category=cookies" className={styles.category}>Cookies</Link>
           <Link to="/shop?category=brownies" className={styles.category}>Brownies</Link>
           <Link to="/shop?category=desserts" className={styles.category}>Desserts</Link>
-          <Link to="/shop?category=birthday-cakes" className={styles.category}>Birthday Cakes</Link>
+          <Link to="/shop?category=cakes" className={styles.category}>Cakes</Link>
         </div>
       )}
     </header>

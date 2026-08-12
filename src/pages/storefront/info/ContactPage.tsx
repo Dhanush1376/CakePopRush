@@ -50,7 +50,7 @@ export const ContactPage = () => {
         <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.formRow}>
             <div className={styles.inputGroup}>
-              <User className={styles.inputIcon} size={20} strokeWidth={1.5} />
+              <User className={styles.inputIcon} size={16} strokeWidth={1.5} />
               <input
                 type="text"
                 name="name"
@@ -62,7 +62,7 @@ export const ContactPage = () => {
               />
             </div>
             <div className={styles.inputGroup}>
-              <Mail className={styles.inputIcon} size={20} strokeWidth={1.5} />
+              <Mail className={styles.inputIcon} size={16} strokeWidth={1.5} />
               <input
                 type="email"
                 name="email"
@@ -76,7 +76,7 @@ export const ContactPage = () => {
           </div>
 
           <div className={styles.inputGroup}>
-            <Phone className={styles.inputIcon} size={20} strokeWidth={1.5} />
+            <Phone className={styles.inputIcon} size={16} strokeWidth={1.5} />
             <input
               type="tel"
               name="phone"
@@ -88,7 +88,7 @@ export const ContactPage = () => {
           </div>
 
           <div className={styles.inputGroup}>
-            <Tag className={styles.inputIcon} size={20} strokeWidth={1.5} />
+            <Tag className={styles.inputIcon} size={16} strokeWidth={1.5} />
             <select
               name="subject"
               className={`${styles.input} ${styles.select}`}
@@ -101,11 +101,11 @@ export const ContactPage = () => {
               <option value="feedback">Feedback</option>
               <option value="other">Other</option>
             </select>
-            <ChevronDown className={styles.selectIcon} size={20} strokeWidth={1.5} />
+            <ChevronDown className={styles.selectIcon} size={16} strokeWidth={1.5} />
           </div>
 
           <div className={`${styles.inputGroup} ${styles.textareaGroup}`}>
-            <MessageSquare className={styles.textareaIcon} size={20} strokeWidth={1.5} />
+            <MessageSquare className={styles.textareaIcon} size={16} strokeWidth={1.5} />
             <textarea
               name="message"
               className={styles.textarea}
@@ -120,7 +120,7 @@ export const ContactPage = () => {
             type="submit"
             className={styles.submitBtn}
             isLoading={isSubmitting}
-            rightIcon={<Send size={18} strokeWidth={1.5} />}
+            rightIcon={<Send size={15} strokeWidth={1.5} />}
           >
             Send Message
           </Button>
@@ -133,7 +133,7 @@ export const ContactPage = () => {
         <div className={styles.cardsGrid}>
           <div className={styles.card}>
             <div className={`${styles.iconCircle} ${styles.pinkCircle}`}>
-              <Phone size={28} strokeWidth={1.5} />
+              <Phone size={20} strokeWidth={1.5} />
             </div>
             <h3 className={styles.cardTitle}>Call Us</h3>
             <p className={styles.cardText}>+91 98765 43210</p>
@@ -142,7 +142,7 @@ export const ContactPage = () => {
 
           <div className={styles.card}>
             <div className={`${styles.iconCircle} ${styles.yellowCircle}`}>
-              <Mail size={28} strokeWidth={1.5} />
+              <Mail size={20} strokeWidth={1.5} />
             </div>
             <h3 className={styles.cardTitle}>Email Us</h3>
             <p className={styles.cardText}>hello@cakepoprush.com</p>
@@ -151,7 +151,7 @@ export const ContactPage = () => {
 
           <div className={styles.card}>
             <div className={`${styles.iconCircle} ${styles.tealCircle}`}>
-              <MapPin size={28} strokeWidth={1.5} />
+              <MapPin size={20} strokeWidth={1.5} />
             </div>
             <h3 className={styles.cardTitle}>Visit Us</h3>
             <p className={styles.cardText}>123, Cake Pop Street,</p>
@@ -160,7 +160,7 @@ export const ContactPage = () => {
 
           <div className={styles.card}>
             <div className={`${styles.iconCircle} ${styles.purpleCircle}`}>
-              <Clock size={28} strokeWidth={1.5} />
+              <Clock size={20} strokeWidth={1.5} />
             </div>
             <h3 className={styles.cardTitle}>Working Hours</h3>
             <p className={styles.cardText}>Mon - Sat: 10AM - 7PM</p>

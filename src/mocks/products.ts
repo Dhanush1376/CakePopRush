@@ -7,7 +7,7 @@ export const mockCategories = [
   { id: 'cookies', name: 'Cookies' },
   { id: 'brownies', name: 'Brownies' },
   { id: 'desserts', name: 'Desserts' },
-  { id: 'birthday-cakes', name: 'Birthday Cakes' },
+  { id: 'cakes', name: 'Cakes' },
   { id: 'macarons', name: 'Macarons' },
   { id: 'cake-jars', name: 'Cake Jars' },
   { id: 'gift-boxes', name: 'Gift Boxes' },
@@ -368,6 +368,9 @@ export const getProductBySlug = (slug: string): Product | undefined => {
 
 export const getProductsByCategory = (category: string): Product[] => {
   if (category === 'All Items' || category === 'all') return mockProducts;
+  if (category === 'cakes' || category === 'birthday-cakes') {
+    return mockProducts.filter(p => p.categoryName === 'Cakes' || p.categoryName === 'Birthday Cakes' || p.categoryName.toLowerCase().includes('cake'));
+  }
   return mockProducts.filter(p => p.categoryName === category || p.categoryName.toLowerCase().replace(" ", "-") === category);
 };
 

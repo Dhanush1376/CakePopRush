@@ -32,6 +32,7 @@ const getCategoryIcon = (id: string) => {
     case 'macarons': return <MacaronsIcon width={32} height={32} />
     case 'truffles': return <TrufflesIcon width={32} height={32} />
     case 'desserts': return <TrufflesIcon width={32} height={32} />
+    case 'cakes':
     case 'birthday-cakes': return <BirthdayCakesIcon width={32} height={32} />
     case 'cake-jars': return <CakeJarsIcon width={32} height={32} />
     case 'gift-boxes': return <GiftBoxesIcon width={32} height={32} />

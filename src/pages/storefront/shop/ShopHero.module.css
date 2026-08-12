@@ -264,7 +264,16 @@
 /* Responsive adjustments for Mobile & Tablet */
 @media (max-width: 1024px) {
   .heroSection {
-    min-height: clamp(400px, 60vh, 550px);
+    min-height: clamp(360px, 35vh, 360px);
+    padding-bottom: 48px;
+  }
+
+  .heroContent {
+    margin-top: 1vh;
+  }
+
+  .title {
+    font-size: clamp(36px, 8vw, 56px);
   }
 
   .organicBlob {

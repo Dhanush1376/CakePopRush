@@ -12,10 +12,7 @@ import { AnimatePresence } from 'framer-motion'
 
 function App() {
   const { pathname } = useLocation()
-  const [showSplash, setShowSplash] = useState(() => {
-    // Only play full-screen logo intro animation on initial app opening/launch
-    return !sessionStorage.getItem('cpr_intro_seen')
-  })
+  const [showSplash, setShowSplash] = useState(true)
   const [isWhatsAppVisible, setIsWhatsAppVisible] = useState(true)
 
   useEffect(() => {
@@ -25,9 +22,9 @@ function App() {
   }, [pathname])
 
   const handleSplashComplete = () => {
-    sessionStorage.setItem('cpr_intro_seen', 'true')
     setShowSplash(false)
   }
+
 
   return (
     <>

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { Product } from '@/types/product'
-import { Star, Clock, ShieldAlert, ThermometerSun, Leaf, HeartHandshake, Coffee, Heart, Info } from 'lucide-react'
+import { Star, Clock, ShieldAlert, ThermometerSun, Leaf, HeartHandshake, Coffee, Heart } from 'lucide-react'
 import { formatCurrency } from '@/lib/formatters/currency'
 import { CakePopMascot } from '@/components/mascot/CakePopMascot'
 import { MascotReaction } from '@/components/mascot/reactions/reactionTypes'
@@ -144,15 +144,6 @@ export const ProductInfo = ({ product, calculatedTotal, mascotMessage }: Product
         </div>
       </div>
 
-      {/* Quick Note */}
-      <div className={styles.noteBox}>
-        <Info size={14} className={styles.noteIcon} />
-        <ul className={styles.noteList}>
-          <li>Store in a cool place.</li>
-          <li>Consume within {product.shelfLife || '3 days'}.</li>
-          <li>Add personalizations at checkout.</li>
-        </ul>
-      </div>
 
       {/* Description */}
       <p className={styles.description}>{product.description}</p>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { NavLink, useLocation } from 'react-router-dom'
-import { X, Home, ShoppingBag, Edit3, Package, Heart, Users, Phone, Mail, ChevronDown, ChevronUp, LogIn, LogOut, User } from 'lucide-react'
+import { X, Home, ShoppingBag, Edit3, Package, Heart, Users, Phone, Mail, ChevronDown, ChevronUp, LogIn, LogOut, User, Sparkles } from 'lucide-react'
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion'
 import styles from './SideDrawer.module.css'
 import { Logo } from '@/assets/brand/Logo'
@@ -10,6 +10,20 @@ import { useCart } from '@/lib/cartStore'
 import { CakePopMascot } from '@/components/mascot/CakePopMascot'
 import { MascotReaction, MascotRef } from '@/components/mascot/reactions/reactionTypes'
 import { AuthModal } from '@/components/auth/AuthModal'
+import { mockCategories } from '@/mocks/products'
+
+const CATEGORY_COLORS: Record<string, string> = {
+  'cake-pops': '#FF4F7B',
+  'cupcakes': '#FFB6D0',
+  'cookies': '#E8C396',
+  'brownies': '#8D3E25',
+  'desserts': '#20B2AA',
+  'cakes': '#FF9F43',
+  'birthday-cakes': '#FF9F43',
+  'macarons': '#B892FF',
+  'cake-jars': '#FF6B6B',
+  'gift-boxes': '#10AC84',
+}
 
 interface SideDrawerProps {
   isOpen: boolean
@@ -22,6 +36,15 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, onClose }) => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const { openCart } = useCart()
   const location = useLocation()
+
+  const isCategoryActive = (categoryId: string = 'all') => {
+    const searchParams = new URLSearchParams(location.search)
+    const currentCategory = searchParams.get('category')
+    if (categoryId === 'all') return location.pathname === '/shop' && (!currentCategory || currentCategory === 'all')
+    return location.pathname === '/shop' && (currentCategory === categoryId || currentCategory === categoryId.replace('-', ''))
+  }
+
+
 
   const mascotRef = useRef<HTMLDivElement>(null)
   const mascotControlRef = useRef<MascotRef>(null)
@@ -154,14 +177,46 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, onClose }) => {
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.2, ease: "easeInOut" }}
+                            transition={{ duration: 0.25, ease: "easeInOut" }}
                             style={{ overflow: 'hidden' }}
                           >
-                            <NavLink to="/shop" onClick={onClose} className={styles.categoryPill}>All Items</NavLink>
-                            <NavLink to="/shop?category=cakepops" onClick={onClose} className={styles.categoryPill}>Cake Pops</NavLink>
-                            <NavLink to="/shop?category=cupcakes" onClick={onClose} className={styles.categoryPill}>Cupcakes</NavLink>
-                            <NavLink to="/shop?category=cookies" onClick={onClose} className={styles.categoryPill}>Cookies</NavLink>
-                            <NavLink to="/shop?category=macarons" onClick={onClose} className={styles.categoryPill}>Macarons</NavLink>
+                            {mockCategories.map((cat) => {
+                              const isAll = cat.id === 'all'
+                              const toPath = isAll ? '/shop' : `/shop?category=${cat.id}`
+                              const active = isCategoryActive(cat.id)
+                              const color = CATEGORY_COLORS[cat.id] || '#FF4F7B'
+
+                              if (isAll) {
+                                return (
+                                  <NavLink 
+                                    key={cat.id}
+                                    to={toPath} 
+                                    onClick={onClose} 
+                                    className={`${styles.categoryPillAll} ${active ? styles.activeCategory : ''}`}
+                                  >
+                                    <span className={styles.allCategoryDots}>
+                                      <span style={{ background: '#FF4F7B' }} />
+                                      <span style={{ background: '#FFB6D0' }} />
+                                      <span style={{ background: '#E8C396' }} />
+                                      <span style={{ background: '#B892FF' }} />
+                                    </span>
+                                    <span>{cat.name}</span>
+                                  </NavLink>
+                                )
+                              }
+
+                              return (
+                                <NavLink 
+                                  key={cat.id}
+                                  to={toPath} 
+                                  onClick={onClose} 
+                                  className={`${styles.categoryPill} ${active ? styles.activeCategory : ''}`}
+                                >
+                                  <span className={styles.categoryDot} style={{ background: color }} />
+                                  <span>{cat.name}</span>
+                                </NavLink>
+                              )
+                            })}
                           </motion.div>
                         )}
                       </AnimatePresence>

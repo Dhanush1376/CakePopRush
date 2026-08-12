@@ -1,15 +1,31 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import logoImage from './logo.png'
+import logoWebp from './logo.webp'
+import logoPng from './logo.png'
 
 interface LogoProps {
   className?: string
   width?: number | string
   height?: number | string
+  noLink?: boolean
 }
 
-// This component API isolates the logo from the rest of the application
-export const Logo = ({ className = '', width = 'auto', height = 'auto' }: LogoProps) => {
+export const Logo = ({ className = '', width = 'auto', height = 'auto', noLink = false }: LogoProps) => {
+  const content = (
+    <picture style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+      <source srcSet={logoWebp} type="image/webp" />
+      <img 
+        src={logoPng} 
+        alt="Cake Pop Rush Logo" 
+        style={{ width, height, maxWidth: '100%', objectFit: 'contain', display: 'block' }} 
+      />
+    </picture>
+  )
+
+  if (noLink) {
+    return <div className={className} style={{ display: 'inline-flex', alignItems: 'center' }}>{content}</div>
+  }
+
   return (
     <NavLink 
       to="/" 
@@ -17,7 +33,8 @@ export const Logo = ({ className = '', width = 'auto', height = 'auto' }: LogoPr
       aria-label="CakePopRush Home"
       style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}
     >
-      <img src={logoImage} alt="Cake Pop Rush Logo" style={{ width, height, maxWidth: '100%', objectFit: 'contain', display: 'block', mixBlendMode: 'multiply' }} />
+      {content}
     </NavLink>
   )
 }
+

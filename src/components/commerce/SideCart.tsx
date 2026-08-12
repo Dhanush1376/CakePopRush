@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import { X, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -189,7 +190,7 @@ export const SideCart = () => {
     return null;
   }
 
-  return (
+  return createPortal(
     <AnimatePresence>
       {isCartOpen && (
         <>
@@ -390,6 +391,7 @@ export const SideCart = () => {
           </motion.div>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };

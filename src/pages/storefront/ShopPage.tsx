@@ -22,13 +22,33 @@ export function ShopPage() {
   const [isDocked, setIsDocked] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
-  // Sync state if URL changes
+  // Smooth scroll to categories section past hero
+  const scrollToCategories = React.useCallback(() => {
+    setTimeout(() => {
+      const targetEl = document.getElementById('shop-sticky-header')
+      if (targetEl) {
+        const headerOffset = 60
+        const elementPosition = targetEl.getBoundingClientRect().top + window.pageYOffset
+        const offsetPosition = elementPosition - headerOffset
+
+        window.scrollTo({
+          top: Math.max(0, offsetPosition),
+          behavior: 'smooth'
+        })
+      }
+    }, 100)
+  }, [])
+
+  // Sync state if URL changes and auto-scroll to categories
   React.useEffect(() => {
     const cat = searchParams.get('category') || 'all'
     if (cat !== activeCategory) {
       setActiveCategory(cat)
     }
-  }, [searchParams])
+    if (searchParams.has('category')) {
+      scrollToCategories()
+    }
+  }, [searchParams, scrollToCategories])
 
   // Sync URL if state changes
   React.useEffect(() => {
@@ -39,6 +59,11 @@ export function ShopPage() {
     }
     setSearchParams(searchParams, { replace: true })
   }, [activeCategory, setSearchParams])
+
+  const handleSelectCategory = (catId: string) => {
+    setActiveCategory(catId)
+    scrollToCategories()
+  }
 
   // Simulate network request on category change
   React.useEffect(() => {
@@ -90,7 +115,7 @@ export function ShopPage() {
       >
         <ShopCategories 
           activeCategory={activeCategory} 
-          onSelectCategory={setActiveCategory} 
+          onSelectCategory={handleSelectCategory} 
         />
         
         <ShopToolbar 

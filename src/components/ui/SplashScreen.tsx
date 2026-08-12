@@ -9,10 +9,10 @@ interface SplashScreenProps {
 
 export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
   useEffect(() => {
-    // Show splash for 2.5 seconds as requested
+    // Show splash screen for exactly 3 seconds
     const timer = setTimeout(() => {
       onComplete();
-    }, 2500);
+    }, 3000);
     
     // Lock scrolling while splash is active
     document.body.style.overflow = 'hidden';
@@ -27,12 +27,14 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
     <motion.div 
       className={styles.splashContainer}
       initial={{ opacity: 1 }}
+      animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.6, ease: "easeInOut" }}
+      transition={{ duration: 0.8, ease: "easeInOut" }}
     >
-      <div>
-        <Logo height={150} />
+      <div className={styles.logoWrapper}>
+        <Logo height={150} noLink />
       </div>
     </motion.div>
   );
 };
+
