@@ -95,7 +95,7 @@ const ProfileCard = () => (
       </div>
       <div className={styles.userInfo}>
         <div className={styles.userNameRow}>
-          <h2>Hey! {' '}<span className={styles.highlightName}>Guest!</span></h2>
+          <h2>Hey!&nbsp;<span className={styles.highlightName}>Guest!</span></h2>
           <div className={styles.chevronRightWrapper}>
             <ChevronRight size={18} className={styles.chevronRight} strokeWidth={2.5} />
           </div>

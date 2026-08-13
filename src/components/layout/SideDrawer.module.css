@@ -33,15 +33,16 @@
   .drawer {
     width: 33.333vw;
     min-width: 300px;
+    overflow: visible;
   }
 
   .drawer::after {
     content: '';
     position: absolute;
-    top: 98%;
+    top: 80%;
     left: 0;
     right: 0;
-    height: 100vh;
+    height: 600px;
     background-color: #FFFCF8;
     pointer-events: none;
     z-index: 100;

@@ -23,6 +23,7 @@
   flex-direction: column;
   max-height: 85dvh;
   box-shadow: 0 -8px 30px rgba(92, 51, 23, 0.15);
+  overflow: visible;
 }
 
 @media (max-width: 767px) {
@@ -30,10 +31,10 @@
   .modalContainer::after {
     content: '';
     position: absolute;
-    top: 98%;
+    top: 80%;
     left: 0;
     right: 0;
-    height: 100vh;
+    height: 600px;
     background-color: var(--color-white);
     pointer-events: none;
     z-index: 100;
@@ -58,13 +59,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-4) var(--space-5);
+  padding: 14px 16px;
   border-bottom: 1px solid rgba(92, 51, 23, 0.08);
 }
 
 .title {
-  font-family: var(--font-family-body);
-  font-size: var(--font-size-xl);
+  font-family: var(--font-family-body) !important;
+  font-size: 18px;
   font-weight: var(--font-weight-bold);
   color: var(--color-chocolate);
   margin: 0;
@@ -90,7 +91,7 @@
 }
 
 .content {
-  padding: var(--space-5);
+  padding: 14px 12px;
   overflow-y: auto;
   flex: 1;
 }

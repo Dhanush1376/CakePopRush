@@ -60,10 +60,10 @@
   --space-16: 4rem;
 
   /* Typography */
-  --font-family-display: 'Times New Roman', Times, serif;
-  --font-family-heading: 'Times New Roman', Times, serif;
+  --font-family-display: 'Playfair Display', serif;
+  --font-family-heading: 'Playfair Display', serif;
   --font-family-body: 'Inter', system-ui, sans-serif;
-  --font-family-price: 'Times New Roman', Times, serif;
+  --font-family-price: 'Playfair Display', serif;
   
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;

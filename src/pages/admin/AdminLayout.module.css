@@ -1,6 +1,6 @@
 .adminLayout {
-  --font-family-display: 'Times New Roman', Times, serif;
-  --font-family-heading: 'Times New Roman', Times, serif;
+  --font-family-display: var(--font-family-body);
+  --font-family-heading: var(--font-family-body);
   display: grid;
   grid-template-columns: var(--admin-sidebar-width) 1fr;
   height: 100vh;
@@ -15,12 +15,6 @@
   transition: grid-template-columns 0.3s ease;
 }
 
-.adminLayout h1,
-.adminLayout h2,
-.adminLayout h3,
-.adminLayout [class*="title"] {
-  font-family: 'Times New Roman', Times, serif !important;
-}
 
 .adminLayout.sidebarClosed {
   grid-template-columns: 80px 1fr;

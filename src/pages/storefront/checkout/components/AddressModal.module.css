@@ -40,6 +40,7 @@
   flex-direction: column;
   box-shadow: var(--shadow-lg);
   animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  overflow: visible;
 }
 
 @media (max-width: 767px) {
@@ -47,10 +48,10 @@
   .modal::after {
     content: '';
     position: absolute;
-    top: 98%;
+    top: 80%;
     left: 0;
     right: 0;
-    height: 100vh;
+    height: 600px;
     background-color: var(--color-white);
     pointer-events: none;
     z-index: 100;
@@ -75,7 +76,7 @@
 }
 
 .title {
-  font-family: var(--font-family-display);
+  font-family: var(--font-family-body) !important;
   font-size: 14px;
   font-weight: var(--font-weight-bold);
   color: var(--color-chocolate);

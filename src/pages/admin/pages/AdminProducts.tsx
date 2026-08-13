@@ -4,6 +4,7 @@ import {
   ShoppingBag, Package, Tag, TrendingDown, Heart, 
   Edit2, MoreVertical, ChevronLeft, ChevronRight 
 } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import styles from './AdminProducts.module.css'
 import { CustomSelect } from '../components/CustomSelect'
 import { ViewToggle } from '../components/ViewToggle'
@@ -77,10 +78,10 @@ export function AdminProducts() {
           <h1 className={styles.title}>Products</h1>
           <p className={styles.subtitle}>Manage your cake pop catalog, inventory and pricing.</p>
         </div>
-        <button className={styles.addBtn}>
+        <Link to="/admin/products/add" className={styles.addBtn} style={{ textDecoration: 'none' }}>
           <Plus size={18} strokeWidth={2.5} />
           Add Product
-        </button>
+        </Link>
       </div>
 
       <div className={styles.toolbar}>

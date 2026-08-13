@@ -1,14 +1,15 @@
 .splashContainer {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  top: -100px;
+  bottom: -100px;
+  left: -100px;
+  right: -100px;
   background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 99999;
+  overflow: hidden;
 }
 
 .logoWrapper {

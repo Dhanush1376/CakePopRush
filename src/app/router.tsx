@@ -24,6 +24,7 @@ import { AdminLayout } from '@/pages/admin/AdminLayout'
 import { AdminDashboard } from '@/pages/admin/AdminDashboard'
 import { AdminOrders } from '@/pages/admin/pages/AdminOrders'
 import { AdminProducts } from '@/pages/admin/pages/AdminProducts'
+import { AdminAddProduct } from '@/pages/admin/pages/AdminAddProduct'
 import { AdminCategories } from '@/pages/admin/pages/AdminCategories'
 import { AdminCustomers } from '@/pages/admin/pages/AdminCustomers'
 import { AdminCustomOrders } from '@/pages/admin/pages/AdminCustomOrders'
@@ -129,6 +130,7 @@ export const router = createBrowserRouter([
       },
       { path: 'orders', element: <AdminOrders /> },
       { path: 'products', element: <AdminProducts /> },
+      { path: 'products/add', element: <AdminAddProduct /> },
       { path: 'categories', element: <AdminCategories /> },
       { path: 'customers', element: <AdminCustomers /> },
       { path: 'custom-orders', element: <AdminCustomOrders /> },

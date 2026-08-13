@@ -1,0 +1,629 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.backBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #EDEDED;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #171717;
+  transition: all 0.2s ease;
+}
+
+.backBtn:hover {
+  background: #f9f9f9;
+}
+
+.titleWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #171717;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #666666;
+  margin: 4px 0 0 0;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.draftStatus {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #FFF0F5;
+  color: #F21B5B;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.saveDraftBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #FFFFFF;
+  border: 1px solid #F21B5B;
+  color: #F21B5B;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.saveDraftBtn:hover {
+  background: #FFF0F5;
+}
+
+.shortcut {
+  color: #F21B5B;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.cancelBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #FFFFFF;
+  border: 1px solid #EDEDED;
+  color: #171717;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancelBtn:hover {
+  background: #f9f9f9;
+}
+
+.cancelShortcut {
+  color: #666666;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+/* Stepper */
+.stepperContainer {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+.stepperContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 800px; /* Force minimum width to allow scrolling on small screens */
+  padding: 10px 0;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.step:hover {
+  opacity: 0.8;
+}
+
+.stepIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFF8E1; /* fallback cream */
+  color: #171717;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.step.active .stepIcon {
+  background: #F21B5B;
+  color: #FFFFFF;
+}
+
+.stepLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: #171717;
+}
+
+.step.active .stepLabel {
+  color: #F21B5B;
+}
+
+.stepLine {
+  flex: 1;
+  height: 1px;
+  background: #EDEDED;
+  margin: 0 16px;
+  position: relative;
+  top: -12px; /* Align with center of circles */
+}
+
+/* Main Content Grid */
+.mainGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(320px, 0.9fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.card {
+  background: #FFFFFF;
+  border: 1px solid #EDEDED;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #171717;
+  margin: 0;
+}
+
+.sectionSubtitle {
+  font-size: 13px;
+  color: #666666;
+  margin: 4px 0 20px 0;
+}
+
+/* New Media Section Design */
+.mediaBox {
+  background: #FFFcf8; /* Light pastel background */
+  border: 1px solid #F0F0F0;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+}
+
+.mediaBoxTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: #171717;
+  letter-spacing: 0.5px;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+}
+
+.urlInputGroup {
+  display: flex;
+  gap: 12px;
+}
+
+.urlInput {
+  flex: 1;
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #EDEDED;
+  border-radius: 100px;
+  font-size: 13px;
+  outline: none;
+  background: #FFFFFF;
+}
+
+.urlInput:focus {
+  border-color: #F21B5B;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(242, 27, 91, 0.15);
+}
+
+.urlInput::placeholder {
+  color: #999;
+}
+
+.urlBtn {
+  background: #F21B5B;
+  color: #FFFFFF;
+  border: none;
+  padding: 0 20px;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: opacity 0.2s;
+}
+
+.urlBtn:hover {
+  opacity: 0.9;
+}
+
+.fileUploadWrapper {
+  display: flex;
+  align-items: center;
+  background: #FFFFFF;
+  border: 1px solid #E2E2E2;
+  border-radius: 100px;
+  padding: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.chooseFilePillBtn {
+  background: #F21B5B;
+  color: #FFFFFF;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: opacity 0.2s;
+}
+
+.chooseFilePillBtn:hover {
+  opacity: 0.9;
+}
+
+.fileNameText {
+  margin-left: 12px;
+  font-size: 13px;
+  color: #171717;
+}
+
+/* Footer / Next Button */
+.mediaFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #EDEDED;
+  padding-top: 20px;
+  margin-top: 20px;
+}
+
+.footerBackBtn {
+  background: #FAFAFA;
+  color: #666666;
+  border: 1px solid #EDEDED;
+  padding: 10px 24px;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.footerBackBtn:hover {
+  background: #f0f0f0;
+}
+
+.footerRight {
+  display: flex;
+  gap: 16px;
+}
+
+.publishBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #FFFFFF;
+  color: #171717;
+  border: 1px solid #EDEDED;
+  padding: 10px 20px;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.publishBtn:hover {
+  background: #f9f9f9;
+}
+
+.continueBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #F21B5B;
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.continueBtn:hover {
+  opacity: 0.9;
+}
+
+
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.textAreaInput {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #EDEDED;
+  border-radius: 16px;
+  font-size: 13px;
+  outline: none;
+  background: #FFFFFF;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.textAreaInput:focus {
+  border-color: #F21B5B;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(242, 27, 91, 0.15);
+}
+
+.seoPreviewBox {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid #EDEDED;
+  border-radius: 16px;
+  background: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.seoPreviewUrl {
+  font-size: 12px;
+  color: #4D5156;
+  margin-bottom: 4px;
+}
+
+.seoPreviewTitle {
+  font-size: 20px;
+  color: #1A0DAB;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+
+.seoPreviewTitle:hover {
+  text-decoration: underline;
+}
+
+.seoPreviewDesc {
+  font-size: 14px;
+  color: #4D5156;
+  line-height: 1.5;
+}
+
+.threeColumnGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.inputWithIcon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 14px;
+  color: #171717;
+  font-weight: 500;
+  font-size: 13px;
+  pointer-events: none;
+}
+
+/* Mobile Toggle UI */
+.mobileToggleContainer {
+  display: flex;
+  background-color: #F8F6F0;
+  border-radius: 100px;
+  padding: 4px;
+  margin-bottom: 24px;
+}
+
+.mobileToggleBtn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  color: #171717;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobileToggleBtnActive {
+  background: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Mobile Stepper Card */
+.mobileStepperCard {
+  background: #FFFFFF;
+  border: 1px solid #EDEDED;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.mobileStepperIcon {
+  width: 48px;
+  height: 48px;
+  background: #F21B5B;
+  color: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mobileStepperInfo {
+  flex: 1;
+}
+
+.mobileStepCount {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #171717;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.mobileStepLabel {
+  font-size: 16px;
+  font-weight: 700;
+  color: #171717;
+}
+
+.mobileProgressBarContainer {
+  width: 100px;
+  height: 6px;
+  background: #EDEDED;
+  border-radius: 100px;
+  overflow: hidden;
+  margin-left: 16px;
+}
+
+.mobileProgressBarFill {
+  height: 100%;
+  background: #171717;
+  border-radius: 100px;
+  transition: width 0.3s ease;
+}
+
+/* Utilities */
+.desktopOnly {
+  display: block;
+}
+
+.mobileOnly {
+  display: none;
+}
+
+/* Hidden file input */
+.hiddenInput {
+  display: none;
+}
+
+/* Responsiveness */
+@media (max-width: 1024px) {
+  .mainGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .desktopOnly {
+    display: none !important;
+  }
+  
+  .mobileOnly {
+    display: block !important;
+  }
+  
+  .hideOnMobile {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .threeColumnGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .headerRight {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start;
+  }
+  
+  .saveDraftBtn, .cancelBtn {
+    flex: 1;
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    padding: 10px 16px;
+    line-height: 1;
+  }
+
+  .shortcut, .cancelShortcut {
+    display: none;
+  }
+}

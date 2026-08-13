@@ -20,15 +20,16 @@
   flex-direction: column;
   box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.1);
   animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: visible;
 }
 
 .drawer::after {
   content: '';
   position: absolute;
-  top: 98%;
+  top: 80%;
   left: 0;
   right: 0;
-  height: 100vh;
+  height: 600px;
   background-color: var(--color-white);
   pointer-events: none;
   z-index: 100;

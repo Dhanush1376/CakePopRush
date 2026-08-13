@@ -199,42 +199,46 @@
 .offerBannerContainer {
   background-color: #ffffff;
   color: var(--color-brand-pink);
-  padding: 10px 0;
+  height: 38px;
+  padding: 0;
   overflow: hidden;
   position: relative;
   width: 100%;
   display: flex;
   align-items: center;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  -webkit-text-size-adjust: 100%;
 }
 
 @media (min-width: 768px) {
   .offerBannerContainer {
-    padding: 14px 0;
+    height: 42px;
   }
 }
 
 .offerBannerTrack {
   display: flex;
+  align-items: center;
   white-space: nowrap;
   animation: scrollBanner 60s linear infinite;
-  /* Increased from 30s to 60s to move slowly */
   width: max-content;
 }
 
 .offerBannerTrack span {
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 9px;
+  font-family: var(--font-family-body, system-ui, -apple-system, sans-serif);
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 1px;
-  margin-right: 20px;
+  letter-spacing: 0.8px;
+  margin-right: 28px;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
 @media (min-width: 768px) {
   .offerBannerTrack span {
     font-size: 12px;
     font-weight: 600;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.2px;
     margin-right: 40px;
   }
 }

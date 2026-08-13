@@ -30,7 +30,7 @@ export const MyDetailsPage = () => {
       {/* Avatar */}
       <div className={styles.avatarSection}>
         <div className={styles.avatar}>
-          <User size={40} strokeWidth={1.5} />
+          <User size={28} strokeWidth={1.5} />
         </div>
         <p className={styles.avatarHint}>Tap to change photo</p>
       </div>

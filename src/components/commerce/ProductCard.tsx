@@ -132,7 +132,7 @@ export const ProductCard = ({
       <div className={styles.content}>
         <div className={styles.header}>
           <p className={styles.category}>{product.categoryName}</p>
-          {product.rating && (
+          {product.rating > 0 && (
             <div className={styles.ratingContainer}>
               <span className={styles.star}><Star size={12} fill="currentColor" strokeWidth={0} /></span>
               <span className={styles.rating}>{product.rating}</span>

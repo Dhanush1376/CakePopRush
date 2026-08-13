@@ -74,7 +74,7 @@
 }
 
 .pageTitle {
-  font-family: var(--font-family-display);
+  font-family: var(--font-family-body);
   font-size: var(--font-size-3xl);
   color: var(--color-chocolate);
   font-weight: var(--font-weight-bold);
@@ -255,7 +255,7 @@
 }
 
 .userInfo h2 {
-  font-family: var(--font-family-display);
+  font-family: var(--font-family-body);
   font-size: var(--font-size-xl);
   color: var(--color-chocolate);
   margin: 0;
@@ -284,6 +284,7 @@
 
 .highlightName {
   color: var(--color-brand-pink);
+  margin-left: 4px;
 }
 
 .chevronRight {
@@ -350,7 +351,7 @@
 }
 
 .rewardsPoints {
-  font-family: var(--font-family-display);
+  font-family: var(--font-family-body);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
   color: var(--color-chocolate);
@@ -389,7 +390,7 @@
 }
 
 .sectionTitle {
-  font-family: var(--font-family-display);
+  font-family: var(--font-family-body);
   font-size: var(--font-size-base);
   color: var(--color-chocolate);
   font-weight: var(--font-weight-bold);

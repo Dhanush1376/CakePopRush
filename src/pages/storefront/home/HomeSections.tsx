@@ -8,6 +8,18 @@ import { ProductCard } from '@/components/commerce/ProductCard'
 import { CategoryChip } from '@/components/commerce/CategoryChip'
 import { mockProducts, mockCategories, getBestSellingProducts } from '@/mocks/products'
 
+const CATEGORY_IMAGES: Record<string, string> = {
+  'cake-pops': '/images/Products/White choclate cakepops.jpeg',
+  'cupcakes': '/images/Products/biscoff filled chocolate cupcakes.jpeg',
+  'cookies': '/images/Products/Choclate chip cookies.jpeg',
+  'brownies': '/images/Products/Chocolate gooey brownie.jpeg',
+  'desserts': '/images/Products/nutella biscoff sandwich.jpeg',
+  'cakes': '/images/Products/mini valentine cake.jpeg',
+  'macarons': '/images/Products/pista flavoured rainbow chips.jpeg',
+  'cake-jars': '/images/Products/chocolate nutella cake jar.jpeg',
+  'gift-boxes': '/images/Products/asorted flavours of cookies.jpeg',
+}
+
 export const ShopByCategorySection = () => {
   const navigate = useNavigate()
 
@@ -23,8 +35,7 @@ export const ShopByCategorySection = () => {
         </div>
         <div className={styles.categoryGrid}>
           {mockCategories.slice(1).map((category) => {
-            const categoryProduct = mockProducts.find(p => p.categoryName === category.name);
-            const imageUrl = categoryProduct?.images[0]?.url || '/images/Products/White choclate cakepops.jpeg';
+            const imageUrl = CATEGORY_IMAGES[category.id] || mockProducts.find(p => p.categoryName === category.name)?.images[0]?.url || '/images/Products/White choclate cakepops.jpeg';
             return (
               <div 
                 key={category.id} 
