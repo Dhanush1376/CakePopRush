@@ -4,6 +4,7 @@ import {
   ShoppingBag, Clock, Package, Truck, CheckCircle, 
   Eye, MoreVertical, User, ChevronLeft, ChevronRight, Filter 
 } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import styles from './AdminOrders.module.css'
 import { ViewToggle } from '../components/ViewToggle'
 import { CustomSelect } from '../components/CustomSelect'
@@ -90,10 +91,10 @@ export function AdminOrders() {
           <h1 className={styles.title}>Orders</h1>
           <p className={styles.subtitle}>Manage and track all customer orders.</p>
         </div>
-        <button className={styles.newOrderBtn}>
+        <Link to="/admin/orders/new" className={styles.newOrderBtn} style={{ textDecoration: 'none' }}>
           <Plus size={18} strokeWidth={2.5} />
           New Order
-        </button>
+        </Link>
       </div>
 
       <div className={styles.toolbar}>

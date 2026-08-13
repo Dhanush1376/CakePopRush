@@ -31,13 +31,13 @@
   .modalContainer::after {
     content: '';
     position: absolute;
-    top: 80%;
+    top: 99%;
     left: 0;
     right: 0;
     height: 600px;
     background-color: var(--color-white);
     pointer-events: none;
-    z-index: 100;
+    z-index: 0;
   }
 }
 
@@ -94,6 +94,8 @@
   padding: 14px 12px;
   overflow-y: auto;
   flex: 1;
+  position: relative;
+  z-index: 10;
 }
 
 /* Hide scrollbar but keep functionality */

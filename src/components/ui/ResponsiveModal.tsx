@@ -9,9 +9,10 @@ interface ResponsiveModalProps {
   onClose: () => void
   title: string
   children: React.ReactNode
+  allowOverflow?: boolean
 }
 
-export const ResponsiveModal = ({ isOpen, onClose, title, children }: ResponsiveModalProps) => {
+export const ResponsiveModal = ({ isOpen, onClose, title, children, allowOverflow }: ResponsiveModalProps) => {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
@@ -63,7 +64,7 @@ export const ResponsiveModal = ({ isOpen, onClose, title, children }: Responsive
                 <X size={20} strokeWidth={2.5} />
               </button>
             </div>
-            <div className={styles.content}>
+            <div className={styles.content} style={allowOverflow ? { overflow: 'visible' } : undefined}>
               {children}
             </div>
           </motion.div>

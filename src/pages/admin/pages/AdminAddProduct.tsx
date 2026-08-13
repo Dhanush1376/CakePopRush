@@ -7,6 +7,7 @@ import {
 import styles from './AdminAddProduct.module.css';
 import { ProductCard } from '@/components/commerce/ProductCard';
 import { Product } from '@/types/product';
+import { AdminAddProductSkeleton } from '../components/AdminAddProductSkeleton';
 
 const steps = [
   { id: 1, label: 'Media', icon: ImageIcon },
@@ -21,10 +22,17 @@ export function AdminAddProduct() {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const galleryInputRef = useRef<HTMLInputElement>(null);
-  
   const [currentStep, setCurrentStep] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
   const [mobileView, setMobileView] = useState<'edit' | 'preview'>('edit');
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
   
   // Form State
   const [productData, setProductData] = useState({
@@ -99,6 +107,14 @@ export function AdminAddProduct() {
     }
   };
 
+  useEffect(() => {
+    return () => {
+      if (productData.primaryImage) URL.revokeObjectURL(productData.primaryImage);
+    };
+  }, [productData.primaryImage]);
+
+  if (isLoading) return <AdminAddProductSkeleton />;
+
   return (
     <div className={styles.container}>
       {/* Header */}
@@ -150,7 +166,7 @@ export function AdminAddProduct() {
       </div>
 
       {/* Mobile Stepper & Toggle */}
-      <div className={styles.mobileOnly} style={{ padding: '0 24px' }}>
+      <div className={styles.mobileOnly}>
         <div className={styles.mobileStepperCard}>
           <div className={styles.mobileStepperIcon}>
             {React.createElement(steps.find(s => s.id === currentStep)?.icon || ImageIcon, { size: 24 })}

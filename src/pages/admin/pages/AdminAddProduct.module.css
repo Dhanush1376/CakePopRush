@@ -68,11 +68,12 @@
 .draftStatus {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   background: #FFF0F5;
   color: #F21B5B;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 10px 16px;
+  border-radius: 100px;
   font-size: 13px;
   font-weight: 500;
 }
@@ -80,12 +81,13 @@
 .saveDraftBtn {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   background: #FFFFFF;
   border: 1px solid #F21B5B;
   color: #F21B5B;
-  padding: 8px 16px;
-  border-radius: 6px;
+  padding: 10px 20px;
+  border-radius: 100px;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -105,12 +107,13 @@
 .cancelBtn {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   background: #FFFFFF;
   border: 1px solid #EDEDED;
   color: #171717;
-  padding: 8px 16px;
-  border-radius: 6px;
+  padding: 10px 20px;
+  border-radius: 100px;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -597,24 +600,42 @@
   .threeColumnGrid {
     grid-template-columns: 1fr;
   }
+
+  .container {
+    gap: 16px;
+    padding: 0 4px;
+  }
+
+  .mainGrid {
+    gap: 16px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: 12px;
+  }
   
   .header {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
+    padding: 0 4px;
   }
   
   .headerRight {
     width: 100%;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
-    justify-content: flex-start;
+  }
+  
+  .draftStatus {
+    grid-column: 1 / -1;
+    justify-content: center;
   }
   
   .saveDraftBtn, .cancelBtn {
-    flex: 1;
-    min-width: 120px;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;

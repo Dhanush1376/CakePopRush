@@ -54,6 +54,11 @@
   flex-direction: column;
 }
 
+.menuTop {
+  top: auto;
+  bottom: calc(100% + 4px);
+}
+
 .option {
   padding: 10px 12px;
   font-size: 13px;

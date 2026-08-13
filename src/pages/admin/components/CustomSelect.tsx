@@ -14,6 +14,7 @@ interface CustomSelectProps {
   placeholder?: string;
   className?: string;
   variant?: 'pink' | 'yellow' | 'turquoise';
+  menuPosition?: 'top' | 'bottom';
 }
 
 export function CustomSelect({ 
@@ -22,7 +23,8 @@ export function CustomSelect({
   onChange, 
   placeholder = 'Select...', 
   className = '',
-  variant = 'pink'
+  variant = 'pink',
+  menuPosition = 'bottom'
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -54,7 +56,7 @@ export function CustomSelect({
       </button>
 
       {isOpen && (
-        <div className={styles.dropdown}>
+        <div className={`${styles.dropdown} ${menuPosition === 'top' ? styles.menuTop : ''}`}>
           {options.map(option => (
             <button
               key={option.value}

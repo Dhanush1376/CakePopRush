@@ -8,6 +8,9 @@ import { CustomSelect } from '../components/CustomSelect'
 import { ViewToggle } from '../components/ViewToggle'
 import styles from './AdminUsers.module.css'
 import { AdminUsersSkeleton } from '../components/AdminUsersSkeleton';
+import { ResponsiveModal } from '@/components/ui/ResponsiveModal'
+import { Input } from '@/components/ui/Input'
+import { Button } from '@/components/ui/Button'
 
 // KPI Data
 const kpiData = [
@@ -98,6 +101,38 @@ export function AdminUsers() {
   const [dateFilter, setDateFilter] = React.useState('all');
   const [view, setView] = React.useState<'list' | 'grid'>('list');
 
+  const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
+  const [newAdminEmail, setNewAdminEmail] = React.useState('');
+  const [newAdminRole, setNewAdminRole] = React.useState('editor');
+  const [isAdding, setIsAdding] = React.useState(false);
+  const [addError, setAddError] = React.useState('');
+
+  const handleAddAdmin = async () => {
+    setAddError('');
+    if (!newAdminEmail) {
+      setAddError('Email is required');
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(newAdminEmail)) {
+      setAddError('Please enter a valid email address');
+      return;
+    }
+    if (!newAdminRole) {
+      setAddError('Role is required');
+      return;
+    }
+
+    setIsAdding(true);
+    // Simulate API call
+    setTimeout(() => {
+      setIsAdding(false);
+      setIsAddModalOpen(false);
+      setNewAdminEmail('');
+      setNewAdminRole('editor');
+    }, 800);
+  };
+
   if (isLoading) return <AdminUsersSkeleton />;
 
   return (
@@ -108,8 +143,8 @@ export function AdminUsers() {
           <h1 className={styles.title}>Users & Roles</h1>
           <p className={styles.subtitle}>Manage your admin users and their roles & permissions.</p>
         </div>
-        <button className={styles.btnPrimary}>
-          <Plus size={16} /> Add New User
+        <button className={styles.btnPrimary} onClick={() => setIsAddModalOpen(true)}>
+          <Plus size={16} /> Add Admin
         </button>
       </div>
 
@@ -329,6 +364,61 @@ export function AdminUsers() {
           </div>
         </div>
       </div>
+
+      <ResponsiveModal
+        isOpen={isAddModalOpen}
+        onClose={() => {
+          if (!isAdding) {
+            setIsAddModalOpen(false);
+            setNewAdminEmail('');
+            setNewAdminRole('editor');
+            setAddError('');
+          }
+        }}
+        title="Add Admin"
+        allowOverflow={true}
+      >
+        <div style={{ padding: '4px 0' }}>
+          {addError && <div className={styles.errorText}>{addError}</div>}
+          
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Email Address *</label>
+            <Input 
+              type="email" 
+              placeholder="Enter email address" 
+              value={newAdminEmail}
+              onChange={(e) => setNewAdminEmail(e.target.value)}
+              disabled={isAdding}
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Role *</label>
+            <CustomSelect
+              options={[
+                { value: 'superadmin', label: 'Super Admin' },
+                { value: 'admin', label: 'Administrator' },
+                { value: 'editor', label: 'Editor' },
+                { value: 'viewer', label: 'Viewer' }
+              ]}
+              value={newAdminRole}
+              onChange={setNewAdminRole}
+              variant="pink"
+              className={styles.modalCustomSelect}
+              menuPosition="top"
+            />
+          </div>
+
+          <div className={styles.modalFooter}>
+            <Button variant="outline" onClick={() => setIsAddModalOpen(false)} disabled={isAdding}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleAddAdmin} isLoading={isAdding}>
+              {isAdding ? 'Adding...' : 'Add Admin'}
+            </Button>
+          </div>
+        </div>
+      </ResponsiveModal>
     </div>
   )
 }

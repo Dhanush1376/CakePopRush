@@ -25,15 +25,14 @@
 
 .input {
   width: 100%;
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid var(--color-border);
-  border-radius: 0;
-  padding: 4px 0 8px 0;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 100px;
+  padding: 10px 16px;
   font-family: var(--font-family-body);
   font-size: 13px;
   color: var(--color-text);
-  transition: border-color var(--duration-fast) ease;
+  transition: all var(--duration-fast) ease;
 }
 
 .input::placeholder {
@@ -43,7 +42,8 @@
 
 .input:focus {
   outline: none;
-  border-bottom: 1px solid var(--color-brand-pink);
+  border-color: var(--color-brand-pink);
+  box-shadow: 0 0 0 3px rgba(242, 27, 91, 0.15);
 }
 
 .input:disabled {
