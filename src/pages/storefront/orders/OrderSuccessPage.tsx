@@ -107,7 +107,9 @@ export const OrderSuccessPage = () => {
   const reactionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Generate dual-side confetti blast (left & right cannons)
-  const confettiBlast = useMemo(() => {
+  const [confettiBlast, setConfettiBlast] = useState<any[]>([]);
+
+  useEffect(() => {
     const COLORS = ['#F20D6F', '#FFC700', '#07C2BB', '#F53687', '#10B981', '#8B5CF6', '#3B82F6', '#FF9F1C', '#FFFFFF'];
     const SHAPES = ['square', 'rectangle', 'circle'];
 
@@ -155,9 +157,8 @@ export const OrderSuccessPage = () => {
       };
     });
 
-    return [...leftCannon, ...rightCannon];
+    setConfettiBlast([...leftCannon, ...rightCannon]);
   }, []);
-
   const handleMascotClick = () => {
     if (reactionTimeoutRef.current) clearTimeout(reactionTimeoutRef.current);
     
