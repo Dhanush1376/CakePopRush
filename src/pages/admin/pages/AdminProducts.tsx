@@ -1,6 +1,7 @@
 import React from 'react'
+import { createPortal } from 'react-dom'
 import { 
-  Search, Plus, Download, ChevronDown, Filter,
+  Search, Plus, Download, ChevronDown, Filter, X, Trash2, AlertTriangle,
   ShoppingBag, Package, Tag, TrendingDown, Heart, 
   Edit2, MoreVertical, ChevronLeft, ChevronRight 
 } from 'lucide-react'
@@ -52,6 +53,9 @@ const statusOptions = [
 
 export function AdminProducts() {
   const [isLoading, setIsLoading] = React.useState(true);
+  const [selectedItems, setSelectedItems] = React.useState<string[]>([]);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = React.useState(false);
+  const [confirmAction, setConfirmAction] = React.useState('');
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
@@ -84,45 +88,97 @@ export function AdminProducts() {
         </Link>
       </div>
 
-      <div className={styles.toolbar}>
-        <div className={styles.searchWrapper}>
-          <Search size={16} className={styles.searchIcon} />
-          <input type="text" placeholder="Search products by name or SKU..." className={styles.searchInput} />
+      <div className={styles.stickyWrapper}>
+        {selectedItems.length > 0 ? (
+        <div className={`${styles.toolbar} ${styles.bulkToolbar}`} style={{ backgroundColor: '#FFF0F5', borderColor: 'var(--admin-pink)', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+            <span style={{ fontWeight: 600, color: 'var(--admin-pink)', whiteSpace: 'nowrap' }}>
+              {selectedItems.length} <span className={styles.hideMobile}>product{selectedItems.length > 1 ? 's' : ''} selected</span>
+            </span>
+          </div>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', justifyContent: 'flex-end', flexWrap: 'nowrap' }}>
+            <CustomSelect 
+              className={styles.mobileSelect}
+              variant="pink"
+              placeholder="Update Status..."
+              value=""
+              onChange={(val) => {
+                if (val) {
+                  setConfirmAction(val);
+                  setIsConfirmModalOpen(true);
+                }
+              }}
+              options={[
+                { value: 'active', label: 'Mark as Active' },
+                { value: 'inactive', label: 'Mark as Inactive' }
+              ]}
+            />
+            <button className={styles.btnOutline} title="Export Selected" style={{ padding: '8px' }}>
+              <Download size={16} style={{ flexShrink: 0, minWidth: '16px' }} /> <span className={styles.hideMobile}>Export Selected</span>
+            </button>
+            <button className={styles.btnOutline} onClick={() => setSelectedItems([])} style={{ border: 'none', background: 'white', padding: '8px' }} title="Clear Selection">
+              <span className={styles.hideMobile}>Clear Selection</span>
+              <X size={16} className={styles.showMobileInline} style={{ flexShrink: 0, minWidth: '16px' }} />
+            </button>
+            <button 
+              className={styles.btnDanger} 
+              title="Delete Selected"
+              style={{ padding: '8px' }}
+              onClick={() => {
+                setConfirmAction('delete');
+                setIsConfirmModalOpen(true);
+              }}
+            >
+              <Trash2 size={16} style={{ flexShrink: 0, minWidth: '16px' }} /> <span className={styles.hideMobile}>Delete Selected</span>
+            </button>
+          </div>
         </div>
-        
-        <CustomSelect
-          options={categoryOptions}
-          value={categoryFilter}
-          onChange={setCategoryFilter}
-          className={styles.filterSelect}
-          variant="pink"
-        />
-        <CustomSelect
-          options={stockOptions}
-          value={stockFilter}
-          onChange={setStockFilter}
-          className={styles.filterSelect}
-          variant="turquoise"
-        />
-        <CustomSelect
-          options={statusOptions}
-          value={statusFilter}
-          onChange={setStatusFilter}
-          className={styles.filterSelect}
-          variant="yellow"
-        />
-
-        <button className={styles.btnOutline}>
-          <Filter size={14} />
-          More Filters
-        </button>
-
-        <button className={styles.btnOutline}>
-          <Download size={14} />
-          Export
-        </button>
-
-        <ViewToggle view={view} onViewChange={setView} />
+      ) : (
+        <div className={styles.toolbar}>
+          <div className={styles.searchWrapper}>
+            <Search size={16} className={styles.searchIcon} />
+            <input type="text" placeholder="Search products by name or SKU..." className={styles.searchInput} />
+          </div>
+          
+          <div className={styles.filtersScrollContainer}>
+            <CustomSelect
+              options={categoryOptions}
+              value={categoryFilter}
+              onChange={setCategoryFilter}
+              className={styles.filterSelect}
+              variant="pink"
+            />
+            <CustomSelect
+              options={stockOptions}
+              value={stockFilter}
+              onChange={setStockFilter}
+              className={styles.filterSelect}
+              variant="turquoise"
+            />
+            <CustomSelect
+              options={statusOptions}
+              value={statusFilter}
+              onChange={setStatusFilter}
+              className={styles.filterSelect}
+              variant="yellow"
+            />
+          </div>
+  
+          <div className={styles.actionButtons}>
+            <button className={styles.btnOutline} title="Filters">
+              <Filter className={styles.btnIcon} /> <span className={styles.hideMobile}>Filters</span>
+            </button>
+  
+            <button className={styles.btnOutline} title="Export">
+              <Download className={styles.btnIcon} /> <span className={styles.hideMobile}>Export</span>
+            </button>
+  
+            <div style={{ flexShrink: 0 }}>
+              <ViewToggle view={view} onViewChange={setView} />
+            </div>
+          </div>
+        </div>
+      )}
       </div>
 
       <div className={styles.statsGrid}>
@@ -155,9 +211,9 @@ export function AdminProducts() {
               <thead>
                 <tr>
                   <th style={{ width: '40px' }}>
-                    <input type="checkbox" className={styles.checkbox} aria-label="Select all" />
+                    <input type="checkbox" className={styles.checkbox} aria-label="Select all" checked={selectedItems.length === productsData.length && productsData.length > 0} onChange={(e) => setSelectedItems(e.target.checked ? productsData.map(p => p.sku) : [])} />
                   </th>
-                  <th style={{ width: '35%' }}>PRODUCT</th>
+                  <th>PRODUCT</th>
                   <th>CATEGORY</th>
                   <th>PRICE</th>
                   <th>INVENTORY</th>
@@ -177,7 +233,7 @@ export function AdminProducts() {
                   return (
                     <tr key={idx}>
                       <td>
-                        <input type="checkbox" className={styles.checkbox} aria-label={`Select ${product.name}`} />
+                        <input type="checkbox" className={styles.checkbox} aria-label={`Select ${product.name}`} checked={selectedItems.includes(product.sku)} onChange={(e) => { if (e.target.checked) setSelectedItems(prev => [...prev, product.sku]); else setSelectedItems(prev => prev.filter(id => id !== product.sku)); }} />
                       </td>
                       <td>
                         <div className={styles.productCell}>
@@ -213,6 +269,17 @@ export function AdminProducts() {
                       </td>
                       <td>
                         <div className={styles.actionsCell}>
+                          <button 
+                            className="global-delete-btn" 
+                            aria-label="Delete Product"
+                            onClick={() => {
+                              setSelectedItems([String(product.sku)]);
+                              setConfirmAction('delete');
+                              setIsConfirmModalOpen(true);
+                            }}
+                          >
+                            <Trash2 size={16} />
+                          </button>
                           <button className={styles.actionBtn} aria-label="Edit Product">
                             <Edit2 size={16} />
                           </button>
@@ -241,7 +308,7 @@ export function AdminProducts() {
                 <div key={`grid-${idx}`} className={styles.gridCard}>
                   <div className={styles.mobileCardHeader}>
                     <div className={styles.productCell}>
-                      <input type="checkbox" className={styles.checkbox} aria-label={`Select ${product.name}`} />
+                      <input type="checkbox" className={styles.checkbox} aria-label={`Select ${product.name}`} checked={selectedItems.includes(product.sku)} onChange={(e) => { if (e.target.checked) setSelectedItems(prev => [...prev, product.sku]); else setSelectedItems(prev => prev.filter(id => id !== product.sku)); }} />
                       <img src={product.image} alt={product.name} className={styles.productImage} />
                       <div>
                         <div className={styles.productName}>{product.name}</div>
@@ -271,6 +338,17 @@ export function AdminProducts() {
                   <div className={styles.mobileCardRow}>
                     <span className={styles.mobileCardLabel}>Actions:</span>
                     <div className={styles.actionsCell}>
+                      <button 
+                        className="global-delete-btn" 
+                        aria-label="Delete Product"
+                        onClick={() => {
+                          setSelectedItems([String(product.sku)]);
+                          setConfirmAction('delete');
+                          setIsConfirmModalOpen(true);
+                        }}
+                      >
+                        <Trash2 size={16} />
+                      </button>
                       <button className={styles.actionBtn} aria-label="Edit Product"><Edit2 size={16} /></button>
                       <button className={styles.actionBtn} aria-label="More Actions"><MoreVertical size={16} /></button>
                     </div>
@@ -282,7 +360,7 @@ export function AdminProducts() {
         )}
 
         {/* Mobile View */}
-        <div className={styles.mobileCards}>
+        <div className={styles.mobileCards} style={{ display: view === 'list' ? 'none' : '' }}>
           {productsData.map((product, idx) => {
             const badgeClass = styles[product.category.toLowerCase()] || '';
             const stockStateClass = product.stockState === 'In Stock' ? styles.inStock : 
@@ -293,7 +371,7 @@ export function AdminProducts() {
               <div key={idx} className={styles.mobileCard}>
                 <div className={styles.mobileCardHeader}>
                   <div className={styles.productCell}>
-                    <input type="checkbox" className={styles.checkbox} aria-label={`Select ${product.name}`} />
+                    <input type="checkbox" className={styles.checkbox} aria-label={`Select ${product.name}`} checked={selectedItems.includes(product.sku)} onChange={(e) => { if (e.target.checked) setSelectedItems(prev => [...prev, product.sku]); else setSelectedItems(prev => prev.filter(id => id !== product.sku)); }} />
                     <img src={product.image} alt={product.name} className={styles.productImage} />
                     <div>
                       <div className={styles.productName}>{product.name}</div>
@@ -323,6 +401,17 @@ export function AdminProducts() {
                 <div className={styles.mobileCardRow}>
                   <span className={styles.mobileCardLabel}>Actions:</span>
                   <div className={styles.actionsCell}>
+                    <button 
+                      className="global-delete-btn" 
+                      aria-label="Delete Product"
+                      onClick={() => {
+                        setSelectedItems([String(product.sku)]);
+                        setConfirmAction('delete');
+                        setIsConfirmModalOpen(true);
+                      }}
+                    >
+                      <Trash2 size={16} />
+                    </button>
                     <button className={styles.actionBtn} aria-label="Edit Product"><Edit2 size={16} /></button>
                     <button className={styles.actionBtn} aria-label="More Actions"><MoreVertical size={16} /></button>
                   </div>
@@ -345,6 +434,39 @@ export function AdminProducts() {
           </div>
         </div>
       </div>
+    
+      {isConfirmModalOpen && createPortal(
+        <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }} onClick={() => setIsConfirmModalOpen(false)}></div>
+          <div style={{ position: 'relative', backgroundColor: 'white', padding: '24px', borderRadius: '12px', maxWidth: '400px', width: '90%', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', color: confirmAction === 'delete' ? '#E53E3E' : 'var(--admin-brown)' }}>
+              <AlertTriangle size={24} />
+              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 600 }}>Confirm Action</h3>
+            </div>
+            <p style={{ margin: '0 0 24px 0', color: 'var(--color-text-muted)', lineHeight: 1.5 }}>
+              Are you sure you want to {confirmAction === 'delete' ? `delete ${selectedItems.length} selected item(s)` : `mark ${selectedItems.length} selected item(s) as ${confirmAction}`}? {confirmAction === 'delete' && 'This action cannot be undone.'}
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              <button 
+                onClick={() => setIsConfirmModalOpen(false)}
+                style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid var(--color-border)', background: 'white', color: 'var(--color-text)', cursor: 'pointer', fontWeight: 600 }}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={() => {
+                  setIsConfirmModalOpen(false);
+                  setSelectedItems([]);
+                }}
+                style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: confirmAction === 'delete' ? '#E53E3E' : 'var(--admin-pink)', color: 'white', cursor: 'pointer', fontWeight: 600 }}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   )
 }

@@ -57,3 +57,27 @@ main > * {
   from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Global Delete Button styling matching actionBtn */
+.global-delete-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background-color: transparent !important;
+  color: #DC2626 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #DC2626 !important;
+  cursor: pointer;
+  filter: none !important;
+  opacity: 1 !important;
+  transition: all 0.2s ease;
+}
+
+.global-delete-btn:hover {
+  background-color: #DC2626 !important;
+  color: #FFFFFF !important;
+  border-color: #DC2626 !important;
+  box-shadow: 0 2px 4px rgba(220, 38, 38, 0.25);
+}

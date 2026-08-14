@@ -5,6 +5,7 @@ import {
   MoreVertical, Edit2, ChevronLeft, ChevronRight 
 } from 'lucide-react'
 import { CustomSelect } from '../components/CustomSelect'
+import { ViewToggle } from '../components/ViewToggle'
 import styles from './AdminNotifications.module.css'
 import { AdminNotificationsSkeleton } from '../components/AdminNotificationsSkeleton';
 
@@ -49,6 +50,7 @@ const channelOptions = [
 ];
 
 export function AdminNotifications() {
+  const [view, setView] = useState<'list' | 'grid'>('list');
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('All Notifications');
   const [typeFilter, setTypeFilter] = useState('all');
@@ -78,40 +80,49 @@ export function AdminNotifications() {
         </div>
       </div>
 
-      <div className={styles.toolbar}>
-        <div className={styles.searchWrapper}>
-          <Search size={16} className={styles.searchIcon} />
-          <input type="text" placeholder="Search notifications by title or message..." className={styles.searchInput} />
+      <div className={styles.stickyWrapper}>
+        <div className={styles.toolbar}>
+          <div className={styles.searchWrapper}>
+            <Search size={16} className={styles.searchIcon} />
+            <input type="text" placeholder="Search notifications by title or message..." className={styles.searchInput} />
+          </div>
+  
+          <div className={styles.filtersScrollContainer}>
+            <CustomSelect
+              options={typeOptions}
+              value={typeFilter}
+              onChange={setTypeFilter}
+              className={styles.filterSelect}
+              variant="yellow"
+            />
+            <CustomSelect
+              options={statusOptions}
+              value={statusFilter}
+              onChange={setStatusFilter}
+              className={styles.filterSelect}
+              variant="pink"
+            />
+            <CustomSelect
+              options={channelOptions}
+              value={channelFilter}
+              onChange={setChannelFilter}
+              className={styles.filterSelect}
+              variant="turquoise"
+            />
+          </div>
+  
+          <div className={styles.actionButtons}>
+            <button className={styles.btnOutline} title="Filter">
+              <Filter className={styles.btnIcon} /> <span className={styles.hideMobile}>Filter</span>
+            </button>
+            <button className={styles.btnOutline} title="Export">
+              <Download className={styles.btnIcon} /> <span className={styles.hideMobile}>Export</span>
+            </button>
+            <div style={{ flexShrink: 0 }}>
+              <ViewToggle view={view} onViewChange={setView} />
+            </div>
+          </div>
         </div>
-
-        <CustomSelect
-          options={typeOptions}
-          value={typeFilter}
-          onChange={setTypeFilter}
-          className={styles.filterSelect}
-          variant="yellow"
-        />
-        <CustomSelect
-          options={statusOptions}
-          value={statusFilter}
-          onChange={setStatusFilter}
-          className={styles.filterSelect}
-          variant="pink"
-        />
-        <CustomSelect
-          options={channelOptions}
-          value={channelFilter}
-          onChange={setChannelFilter}
-          className={styles.filterSelect}
-          variant="turquoise"
-        />
-
-        <button className={styles.btnOutline}>
-          <Filter size={14} /> Filter
-        </button>
-        <button className={styles.btnOutline}>
-          <Download size={14} /> Export
-        </button>
       </div>
 
       <div className={styles.statsGrid}>
@@ -148,7 +159,7 @@ export function AdminNotifications() {
           ))}
         </div>
 
-        <div className={styles.tableWrapper}>
+        <div className={styles.tableWrapper} style={{ display: view === 'grid' ? 'none' : '' }}>
           <table className={styles.table}>
             <thead>
               <tr>
@@ -280,7 +291,7 @@ export function AdminNotifications() {
         </div>
 
         {/* Mobile View */}
-        <div className={styles.mobileCards}>
+        <div className={styles.mobileCards} style={{ display: view === 'list' ? 'none' : '' }}>
           {notificationsData.map((notif) => {
             const typeClass = styles[notif.type.toLowerCase()] || '';
             const statusClass = styles[notif.status.toLowerCase()] || '';

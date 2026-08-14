@@ -537,11 +537,7 @@ input:checked + .slider:before {
 }
 
 @media (max-width: 768px) {
-  .tableCard {
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-  }
+  
   .mobileCards {
     padding: 0 !important;
   }
@@ -551,3 +547,28 @@ input:checked + .slider:before {
   }
 }
 
+
+@media (max-width: 768px) {
+  .table th, .table td { padding: 12px 16px; font-size: 11px; }
+  .tableCard {
+    background-color: var(--color-white) !important;
+    border: 1px solid var(--color-border) !important;
+    box-shadow: var(--shadow-sm) !important;
+    border-radius: var(--radius-lg) !important;
+  }
+}
+
+.table th, .table td { white-space: nowrap; /* added for free fit */ }
+
+
+/* Fix for absolutely positioned checkboxes in mobile cards */
+.mobileCard {
+  position: relative !important;
+}
+
+@media (max-width: 768px) {
+/* Hide desktop components on mobile */
+.itemsGrid {
+  display: none !important;
+}
+}

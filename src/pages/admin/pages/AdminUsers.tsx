@@ -1,8 +1,9 @@
 import React from 'react'
+import { createPortal } from 'react-dom'
 import { 
   Users, Shield, Edit, Key,
   Search, Filter, Download, 
-  Eye, MoreVertical, Plus, ChevronLeft, ChevronRight
+  Eye, MoreVertical, Plus, ChevronLeft, ChevronRight, X, Trash2, AlertTriangle
 } from 'lucide-react'
 import { CustomSelect } from '../components/CustomSelect'
 import { ViewToggle } from '../components/ViewToggle'
@@ -90,6 +91,9 @@ const dateOptions = [
 
 export function AdminUsers() {
   const [isLoading, setIsLoading] = React.useState(true);
+  const [selectedItems, setSelectedItems] = React.useState<string[]>([]);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = React.useState(false);
+  const [confirmAction, setConfirmAction] = React.useState('');
   
   React.useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 800);
@@ -149,41 +153,95 @@ export function AdminUsers() {
       </div>
 
       {/* Filter Toolbar */}
-      <div className={styles.toolbar}>
-        <div className={styles.searchWrapper}>
-          <Search size={16} className={styles.searchIcon} />
-          <input type="text" placeholder="Search by name, email or role..." className={styles.searchInput} />
+      <div className={styles.stickyWrapper}>
+        {selectedItems.length > 0 ? (
+        <div className={`${styles.toolbar} ${styles.bulkToolbar}`} style={{ backgroundColor: '#FFF0F5', borderColor: 'var(--admin-pink)', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+            <span style={{ fontWeight: 600, color: 'var(--admin-pink)', whiteSpace: 'nowrap' }}>
+              {selectedItems.length} <span className={styles.hideMobile}>user{selectedItems.length > 1 ? 's' : ''} selected</span>
+            </span>
+          </div>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', justifyContent: 'flex-end', flexWrap: 'nowrap' }}>
+            <CustomSelect 
+              className={styles.mobileSelect}
+              variant="pink"
+              placeholder="Update Status..."
+              value=""
+              onChange={(val) => {
+                if (val) {
+                  setConfirmAction(val);
+                  setIsConfirmModalOpen(true);
+                }
+              }}
+              options={[
+                { value: 'active', label: 'Mark as Active' },
+                { value: 'inactive', label: 'Mark as Inactive' }
+              ]}
+            />
+            <button className={styles.btnOutline} title="Export Selected" style={{ padding: '8px' }}>
+              <Download size={16} style={{ flexShrink: 0, minWidth: '16px' }} /> <span className={styles.hideMobile}>Export Selected</span>
+            </button>
+            <button className={styles.btnOutline} onClick={() => setSelectedItems([])} style={{ border: 'none', background: 'white', padding: '8px' }} title="Clear Selection">
+              <span className={styles.hideMobile}>Clear Selection</span>
+              <X size={16} className={styles.showMobileInline} style={{ flexShrink: 0, minWidth: '16px' }} />
+            </button>
+            <button 
+              className={styles.btnDanger} 
+              title="Delete Selected"
+              style={{ padding: '8px' }}
+              onClick={() => {
+                setConfirmAction('delete');
+                setIsConfirmModalOpen(true);
+              }}
+            >
+              <Trash2 size={16} style={{ flexShrink: 0, minWidth: '16px' }} /> <span className={styles.hideMobile}>Delete Selected</span>
+            </button>
+          </div>
         </div>
-        
-        <CustomSelect
-          options={roleOptions}
-          value={roleFilter}
-          onChange={setRoleFilter}
-          className={styles.filterSelect}
-          variant="yellow"
-        />
-        <CustomSelect
-          options={statusOptions}
-          value={statusFilter}
-          onChange={setStatusFilter}
-          className={styles.filterSelect}
-          variant="pink"
-        />
-        <CustomSelect
-          options={dateOptions}
-          value={dateFilter}
-          onChange={setDateFilter}
-          className={styles.filterSelect}
-          variant="turquoise"
-        />
-
-        <button className={styles.btnOutline}>
-          <Filter size={14} /> Filter
-        </button>
-        <button className={styles.btnOutline}>
-          <Download size={14} /> Export
-        </button>
-        <ViewToggle view={view} onViewChange={setView} />
+      ) : (
+        <div className={styles.toolbar}>
+          <div className={styles.searchWrapper}>
+            <Search size={16} className={styles.searchIcon} />
+            <input type="text" placeholder="Search by name, email or role..." className={styles.searchInput} />
+          </div>
+          
+          <div className={styles.filtersScrollContainer}>
+            <CustomSelect
+              options={roleOptions}
+              value={roleFilter}
+              onChange={setRoleFilter}
+              className={styles.filterSelect}
+              variant="yellow"
+            />
+            <CustomSelect
+              options={statusOptions}
+              value={statusFilter}
+              onChange={setStatusFilter}
+              className={styles.filterSelect}
+              variant="pink"
+            />
+            <CustomSelect
+              options={dateOptions}
+              value={dateFilter}
+              onChange={setDateFilter}
+              className={styles.filterSelect}
+              variant="turquoise"
+            />
+          </div>
+  
+          <div className={styles.actionButtons}>
+            <button className={styles.btnOutline} title="Filter">
+              <Filter className={styles.btnIcon} /> <span className={styles.hideMobile}>Filter</span>
+            </button>
+            <button className={styles.btnOutline} title="Export">
+              <Download className={styles.btnIcon} /> <span className={styles.hideMobile}>Export</span>
+            </button>
+            <div style={{ flexShrink: 0 }}>
+              <ViewToggle view={view} onViewChange={setView} />
+            </div>
+          </div>
+        </div>
+      )}
       </div>
 
       {/* KPI Grid */}
@@ -285,6 +343,17 @@ export function AdminUsers() {
                   </td>
                   <td>
                     <div className={styles.actionsCell}>
+                      <button 
+                        className="global-delete-btn" 
+                        aria-label="Delete User"
+                        onClick={() => {
+                          setSelectedItems([String(user.id)]);
+                          setConfirmAction('delete');
+                          setIsConfirmModalOpen(true);
+                        }}
+                      >
+                        <Trash2 size={14} />
+                      </button>
                       <button className={styles.actionBtn}><Eye size={14} /></button>
                       <button className={styles.actionBtn}><MoreVertical size={14} /></button>
                     </div>
@@ -297,7 +366,7 @@ export function AdminUsers() {
         )}
 
         {/* Grid View / Mobile View */}
-        <div className={`${styles.usersGrid} ${view === 'list' ? styles.hideOnDesktop : ''}`}>
+        <div className={styles.usersGrid} style={{ display: view === 'list' ? 'none' : '' }}>
           {users.map(user => (
             <div key={`mob-${user.id}`} className={styles.mobileCard}>
               <div className={styles.mcHeader}>
@@ -347,6 +416,17 @@ export function AdminUsers() {
               </div>
 
               <div className={styles.mcActions}>
+                <button 
+                  className="global-delete-btn" 
+                  aria-label="Delete User"
+                  onClick={() => {
+                    setSelectedItems([String(user.id)]);
+                    setConfirmAction('delete');
+                    setIsConfirmModalOpen(true);
+                  }}
+                >
+                  <Trash2 size={14} />
+                </button>
                 <button className={styles.actionBtn}><Eye size={14} /></button>
                 <button className={styles.actionBtn}><MoreVertical size={14} /></button>
               </div>
@@ -419,6 +499,39 @@ export function AdminUsers() {
           </div>
         </div>
       </ResponsiveModal>
+    
+      {isConfirmModalOpen && createPortal(
+        <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }} onClick={() => setIsConfirmModalOpen(false)}></div>
+          <div style={{ position: 'relative', backgroundColor: 'white', padding: '24px', borderRadius: '12px', maxWidth: '400px', width: '90%', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', color: confirmAction === 'delete' ? '#E53E3E' : 'var(--admin-brown)' }}>
+              <AlertTriangle size={24} />
+              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 600 }}>Confirm Action</h3>
+            </div>
+            <p style={{ margin: '0 0 24px 0', color: 'var(--color-text-muted)', lineHeight: 1.5 }}>
+              Are you sure you want to {confirmAction === 'delete' ? `delete ${selectedItems.length} selected item(s)` : `mark ${selectedItems.length} selected item(s) as ${confirmAction}`}? {confirmAction === 'delete' && 'This action cannot be undone.'}
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              <button 
+                onClick={() => setIsConfirmModalOpen(false)}
+                style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid var(--color-border)', background: 'white', color: 'var(--color-text)', cursor: 'pointer', fontWeight: 600 }}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={() => {
+                  setIsConfirmModalOpen(false);
+                  setSelectedItems([]);
+                }}
+                style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: confirmAction === 'delete' ? '#E53E3E' : 'var(--admin-pink)', color: 'white', cursor: 'pointer', fontWeight: 600 }}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   )
 }

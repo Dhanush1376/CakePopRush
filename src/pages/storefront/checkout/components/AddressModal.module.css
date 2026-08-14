@@ -43,20 +43,6 @@
   overflow: visible;
 }
 
-@media (max-width: 767px) {
-  /* Fills the gap beneath the sheet when mobile soft keyboard shifts the modal up */
-  .modal::after {
-    content: '';
-    position: absolute;
-    top: 80%;
-    left: 0;
-    right: 0;
-    height: 600px;
-    background-color: var(--color-white);
-    pointer-events: none;
-    z-index: 100;
-  }
-}
 
 @media (min-width: 768px) {
   .modal {

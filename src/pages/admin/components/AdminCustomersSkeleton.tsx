@@ -14,12 +14,21 @@ export function AdminCustomersSkeleton() {
 
       {/* Toolbar */}
       <div className={styles.toolbar}>
-        <div className={`${styles.skeleton} ${styles.searchSkeleton}`} />
-        <div className={`${styles.skeleton} ${styles.filterSkeleton}`} />
-        <div className={`${styles.skeleton} ${styles.filterSkeleton}`} />
-        <div className={`${styles.skeleton} ${styles.filterSkeleton}`} />
-        <div className={`${styles.skeleton} ${styles.btnSkeleton}`} />
-        <div className={`${styles.skeleton} ${styles.btnSkeleton}`} />
+        <div className={styles.searchWrapper}>
+          <div className={`${styles.skeleton} ${styles.searchSkeleton}`} />
+        </div>
+        
+        <div className={styles.filtersScrollContainer}>
+          <div className={`${styles.skeleton} ${styles.filterSelectSkeleton}`} />
+          <div className={`${styles.skeleton} ${styles.filterSelectSkeleton}`} />
+          <div className={`${styles.skeleton} ${styles.filterSelectSkeleton}`} />
+        </div>
+        
+        <div className={styles.actionButtons}>
+          <div className={`${styles.skeleton} ${styles.btnSkeleton}`} />
+          <div className={`${styles.skeleton} ${styles.btnSkeleton}`} />
+          <div className={`${styles.skeleton} ${styles.toggleSkeleton}`} />
+        </div>
       </div>
 
       {/* KPI Grid */}

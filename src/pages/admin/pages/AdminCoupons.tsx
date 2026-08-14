@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { 
   Search, Plus, Download, ChevronDown, Filter,
   Ticket, Tag, Calendar, Wallet, Gift,
-  MoreVertical, Edit2, Trash2, ChevronLeft, ChevronRight 
+  MoreVertical, Edit2, Trash2, ChevronLeft, ChevronRight, X, AlertTriangle 
 } from 'lucide-react'
+import { createPortal } from 'react-dom'
 import styles from './AdminCoupons.module.css'
 import { CustomSelect } from '../components/CustomSelect'
 import { ViewToggle } from '../components/ViewToggle'
@@ -51,16 +52,19 @@ export function AdminCoupons() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(true);
   
-  React.useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
-
   const [coupons, setCoupons] = React.useState(couponsData);
   const [statusFilter, setStatusFilter] = React.useState('all');
   const [typeFilter, setTypeFilter] = React.useState('all');
   const [expiryFilter, setExpiryFilter] = React.useState('all');
   const [view, setView] = React.useState<'list' | 'grid'>('list');
+  const [selectedItems, setSelectedItems] = React.useState<number[]>([]);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = React.useState(false);
+  const [confirmAction, setConfirmAction] = React.useState('');
+  
+  React.useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleDelete = (id: number) => {
     setCoupons(prev => prev.filter(c => c.id !== id));
@@ -81,45 +85,99 @@ export function AdminCoupons() {
         </button>
       </div>
 
-      <div className={styles.toolbar}>
-        <div className={styles.searchWrapper}>
-          <Search size={16} className={styles.searchIcon} />
-          <input type="text" placeholder="Search coupons by code or name..." className={styles.searchInput} />
-        </div>
-        
-        <CustomSelect
-          options={statusOptions}
-          value={statusFilter}
-          onChange={setStatusFilter}
-          className={styles.filterSelect}
-          variant="yellow"
-        />
-        <CustomSelect
-          options={typeOptions}
-          value={typeFilter}
-          onChange={setTypeFilter}
-          className={styles.filterSelect}
-          variant="pink"
-        />
-        <CustomSelect
-          options={expiryOptions}
-          value={expiryFilter}
-          onChange={setExpiryFilter}
-          className={styles.filterSelect}
-          variant="turquoise"
-        />
+      <div className={styles.stickyWrapper}>
+        {selectedItems.length > 0 ? (
+          <div className={`${styles.toolbar} ${styles.bulkToolbar}`} style={{ backgroundColor: '#FFF0F5', borderColor: 'var(--admin-pink)', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+              <span style={{ fontWeight: 600, color: 'var(--admin-pink)', whiteSpace: 'nowrap' }}>
+                {selectedItems.length} <span className={styles.hideMobile}>coupon{selectedItems.length > 1 ? 's' : ''} selected</span>
+              </span>
+            </div>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center', justifyContent: 'flex-end', flexWrap: 'nowrap' }}>
+              <CustomSelect 
+                className={styles.mobileSelect}
+                variant="pink"
+                placeholder="Update Status..."
+                value=""
+                onChange={(val) => {
+                  if (val) {
+                    setConfirmAction(val);
+                    setIsConfirmModalOpen(true);
+                  }
+                }}
+                options={[
+                  { value: 'active', label: 'Mark as Active' },
+                  { value: 'inactive', label: 'Mark as Inactive' }
+                ]}
+              />
+              <button className={styles.btnOutline} title="Export Selected" style={{ padding: '8px' }}>
+                <Download size={16} style={{ flexShrink: 0, minWidth: '16px' }} /> <span className={styles.hideMobile}>Export Selected</span>
+              </button>
+              <button className={styles.btnOutline} onClick={() => setSelectedItems([])} style={{ border: 'none', background: 'white', padding: '8px' }} title="Clear Selection">
+                <span className={styles.hideMobile}>Clear Selection</span>
+                <X size={16} className={styles.showMobileInline} style={{ flexShrink: 0, minWidth: '16px' }} />
+              </button>
+              <button 
+                className={styles.btnDanger} 
+                title="Delete Selected"
+                style={{ padding: '8px' }}
+                onClick={() => {
+                  setConfirmAction('delete');
+                  setIsConfirmModalOpen(true);
+                }}
+              >
+                <Trash2 size={16} style={{ flexShrink: 0, minWidth: '16px' }} /> <span className={styles.hideMobile}>Delete Selected</span>
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className={styles.toolbar}>
+            <div className={styles.searchWrapper}>
+              <Search size={16} className={styles.searchIcon} />
+              <input type="text" placeholder="Search coupons by code or name..." className={styles.searchInput} />
+            </div>
+            
+            <div className={styles.filtersScrollContainer}>
+              <CustomSelect
+                options={statusOptions}
+                value={statusFilter}
+                onChange={setStatusFilter}
+                className={styles.filterSelect}
+                variant="yellow"
+              />
+              <CustomSelect
+                options={typeOptions}
+                value={typeFilter}
+                onChange={setTypeFilter}
+                className={styles.filterSelect}
+                variant="pink"
+              />
+              <CustomSelect
+                options={expiryOptions}
+                value={expiryFilter}
+                onChange={setExpiryFilter}
+                className={styles.filterSelect}
+                variant="turquoise"
+              />
+            </div>
 
-        <button className={styles.btnOutline}>
-          <Filter size={14} />
-          Filter
-        </button>
-
-        <button className={styles.btnOutline}>
-          <Download size={14} />
-          Export
-        </button>
-
-        <ViewToggle view={view} onViewChange={setView} />
+            <div className={styles.actionButtons}>
+              <button className={styles.btnOutline}>
+                <Filter size={14} className={styles.btnIcon} />
+                <span className={styles.hideMobile}>Filter</span>
+              </button>
+  
+              <button className={styles.btnOutline}>
+                <Download size={14} className={styles.btnIcon} />
+                <span className={styles.hideMobile}>Export</span>
+              </button>
+  
+              <div style={{ flexShrink: 0 }}>
+                <ViewToggle view={view} onViewChange={setView} />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className={styles.statsGrid}>
@@ -143,16 +201,17 @@ export function AdminCoupons() {
         })}
       </div>
 
-      
-
       <div className={styles.tableCard}>
         {view === 'list' && (
           <div className={styles.tableWrapper}>
             <table className={styles.table}>
               <thead>
                 <tr>
-                  <th style={{ width: '15%' }}>COUPON CODE</th>
-                  <th style={{ width: '22%' }}>COUPON NAME</th>
+                  <th style={{ width: '40px', padding: '16px 12px', textAlign: 'center' }}>
+                    <input type="checkbox" className={styles.checkbox} aria-label="Select all coupons" checked={selectedItems.length === coupons.length && coupons.length > 0} onChange={(e) => setSelectedItems(e.target.checked ? coupons.map(c => c.id) : [])} />
+                  </th>
+                  <th style={{ whiteSpace: 'nowrap' }}>COUPON CODE</th>
+                  <th style={{ minWidth: '160px' }}>COUPON NAME</th>
                   <th>DISCOUNT</th>
                   <th>TYPE</th>
                   <th>MIN ORDER</th>
@@ -177,6 +236,9 @@ export function AdminCoupons() {
 
                   return (
                     <tr key={coupon.id} className={coupon.status === 'Expired' ? styles.expiredState : ''}>
+                      <td style={{ width: '40px', padding: '16px 12px', textAlign: 'center' }}>
+                        <input type="checkbox" className={styles.checkbox} aria-label={`Select ${coupon.code}`} checked={selectedItems.includes(coupon.id)} onChange={(e) => { if (e.target.checked) setSelectedItems(prev => [...prev, coupon.id]); else setSelectedItems(prev => prev.filter(id => id !== coupon.id)); }} />
+                      </td>
                       <td>
                         <span className={`${styles.couponBadge} ${codeColorClass}`}>
                           {coupon.code}
@@ -226,16 +288,14 @@ export function AdminCoupons() {
                       </td>
                       <td>
                         <div className={styles.actionsCell}>
-                          {coupon.status === 'Expired' && (
-                            <button 
-                              className={styles.deleteCouponBtn} 
-                              aria-label="Delete Coupon"
-                              title="Delete Expired Coupon"
-                              onClick={() => handleDelete(coupon.id)}
-                            >
-                              <Trash2 size={14} /> Delete
-                            </button>
-                          )}
+                          <button 
+                            className={styles.deleteCouponBtn} 
+                            aria-label="Delete Coupon"
+                            title="Delete Coupon"
+                            onClick={() => handleDelete(coupon.id)}
+                          >
+                            <Trash2 size={16} />
+                          </button>
                           <button className={styles.actionBtn} aria-label="Edit Coupon"><Edit2 size={16} /></button>
                           <button className={styles.actionBtn} aria-label="More Actions"><MoreVertical size={16} /></button>
                         </div>
@@ -305,16 +365,14 @@ export function AdminCoupons() {
                   </div>
 
                   <div className={styles.actionsCell} style={{ marginTop: 'auto', paddingTop: '12px', borderTop: '1px solid var(--color-border)', justifyContent: 'flex-end' }}>
-                    {coupon.status === 'Expired' && (
                       <button 
                         className={styles.deleteCouponBtn} 
                         aria-label="Delete Coupon"
-                        title="Delete Expired Coupon"
+                        title="Delete Coupon"
                         onClick={() => handleDelete(coupon.id)}
                       >
-                        <Trash2 size={14} /> Delete
+                        <Trash2 size={16} />
                       </button>
-                    )}
                     <button className={styles.actionBtn} aria-label="Edit Coupon"><Edit2 size={16} /></button>
                     <button className={styles.actionBtn} aria-label="More Actions"><MoreVertical size={16} /></button>
                   </div>
@@ -325,7 +383,7 @@ export function AdminCoupons() {
         )}
 
         {/* Mobile View */}
-        <div className={styles.mobileCards}>
+        <div className={styles.mobileCards} style={{ display: view === 'list' ? 'none' : '' }}>
           {coupons.map((coupon) => {
             const typeClass = coupon.type === 'Percentage' ? styles.percentage : 
                              coupon.type === 'Shipping' ? styles.shipping : styles.fixed;
@@ -340,7 +398,10 @@ export function AdminCoupons() {
             return (
               <div key={`mobile-${coupon.id}`} className={`${styles.mobileCard} ${coupon.status === 'Expired' ? styles.expiredState : ''}`}>
                 <div className={styles.mobileCardHeader}>
-                  <span className={`${styles.couponBadge} ${codeColorClass}`}>{coupon.code}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <input type="checkbox" className={styles.checkbox} aria-label={`Select ${coupon.code} mobile`} checked={selectedItems.includes(coupon.id)} onChange={(e) => { if (e.target.checked) setSelectedItems(prev => [...prev, coupon.id]); else setSelectedItems(prev => prev.filter(id => id !== coupon.id)); }} />
+                    <span className={`${styles.couponBadge} ${codeColorClass}`}>{coupon.code}</span>
+                  </div>
                   <span className={`${styles.statusBadge} ${statusClass}`}>{coupon.status}</span>
                 </div>
                 
@@ -381,16 +442,14 @@ export function AdminCoupons() {
                 </div>
 
                 <div className={styles.actionsCell} style={{ marginTop: 'auto', paddingTop: '12px', borderTop: '1px solid var(--color-border)', justifyContent: 'flex-end' }}>
-                  {coupon.status === 'Expired' && (
-                    <button 
-                      className={styles.deleteCouponBtn} 
-                      aria-label="Delete Coupon"
-                      title="Delete Expired Coupon"
-                      onClick={() => handleDelete(coupon.id)}
-                    >
-                      <Trash2 size={14} /> Delete
-                    </button>
-                  )}
+                  <button 
+                    className={styles.deleteCouponBtn} 
+                    aria-label="Delete Coupon"
+                    title="Delete Coupon"
+                    onClick={() => handleDelete(coupon.id)}
+                  >
+                    <Trash2 size={16} />
+                  </button>
                   <button className={styles.actionBtn} aria-label="Edit Coupon"><Edit2 size={16} /></button>
                   <button className={styles.actionBtn} aria-label="More Actions"><MoreVertical size={16} /></button>
                 </div>
@@ -410,6 +469,39 @@ export function AdminCoupons() {
           </div>
         </div>
       </div>
+      
+      {isConfirmModalOpen && createPortal(
+        <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }} onClick={() => setIsConfirmModalOpen(false)}></div>
+          <div style={{ position: 'relative', backgroundColor: 'white', padding: '24px', borderRadius: '12px', maxWidth: '400px', width: '90%', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', color: confirmAction === 'delete' ? '#E53E3E' : 'var(--admin-brown)' }}>
+              <AlertTriangle size={24} />
+              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 600 }}>Confirm Action</h3>
+            </div>
+            <p style={{ margin: '0 0 24px 0', color: 'var(--color-text-muted)', lineHeight: 1.5 }}>
+              Are you sure you want to {confirmAction === 'delete' ? `delete ${selectedItems.length} selected item(s)` : `mark ${selectedItems.length} selected item(s) as ${confirmAction}`}? {confirmAction === 'delete' && 'This action cannot be undone.'}
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              <button 
+                onClick={() => setIsConfirmModalOpen(false)}
+                style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid var(--color-border)', background: 'white', color: 'var(--color-text)', cursor: 'pointer', fontWeight: 600 }}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={() => {
+                  setIsConfirmModalOpen(false);
+                  setSelectedItems([]);
+                }}
+                style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: confirmAction === 'delete' ? '#E53E3E' : 'var(--admin-pink)', color: 'white', cursor: 'pointer', fontWeight: 600 }}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   )
 }

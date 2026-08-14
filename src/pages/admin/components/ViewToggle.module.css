@@ -26,6 +26,6 @@
 
 @media (max-width: 768px) {
   .viewToggles {
-    display: none !important;
+    /* display: none !important; */
   }
 }

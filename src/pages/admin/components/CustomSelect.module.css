@@ -133,3 +133,12 @@
   background-color: #E0FAFC;
   color: #0E7490;
 }
+
+@media (max-width: 576px) {
+  .trigger {
+    padding: 6px 8px;
+    font-size: 11px;
+    min-width: 0;
+    gap: 4px;
+  }
+}

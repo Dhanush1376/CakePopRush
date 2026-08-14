@@ -1,9 +1,11 @@
 import React from 'react'
+import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { 
   Search, Plus, Download, ChevronDown, Filter, 
   Calendar, CheckCircle, Clock, XCircle, ChevronRight, ChevronLeft,
-  User, Image as ImageIcon, Briefcase, Heart, Star, Cake, Edit2, MoreVertical, Eye
+  User, Image as ImageIcon, Briefcase, Heart, Star, Cake, Edit2, MoreVertical, Eye,
+  AlertTriangle, Trash2, X
 } from 'lucide-react'
 import styles from './AdminCustomOrders.module.css'
 import { CustomSelect } from '../components/CustomSelect'
@@ -101,6 +103,9 @@ const OccasionColorMap: Record<string, {bg: string, color: string}> = {
 export function AdminCustomOrders() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(true);
+  const [selectedItems, setSelectedItems] = React.useState<string[]>([]);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = React.useState(false);
+  const [confirmAction, setConfirmAction] = React.useState('');
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
@@ -129,45 +134,95 @@ export function AdminCustomOrders() {
         </button>
       </div>
 
-      <div className={styles.toolbar}>
-        <div className={styles.searchWrapper}>
-          <Search size={16} className={styles.searchIcon} />
-          <input type="text" placeholder="Search requests by ID, customer name or email..." className={styles.searchInput} />
+      <div className={styles.stickyWrapper}>
+        {selectedItems.length > 0 ? (
+        <div className={`${styles.toolbar} ${styles.bulkToolbar}`} style={{ backgroundColor: '#FFF0F5', borderColor: 'var(--admin-pink)', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+            <span style={{ fontWeight: 600, color: 'var(--admin-pink)', whiteSpace: 'nowrap' }}>
+              {selectedItems.length} <span className={styles.hideMobile}>order{selectedItems.length > 1 ? 's' : ''} selected</span>
+            </span>
+          </div>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', justifyContent: 'flex-end', flexWrap: 'nowrap' }}>
+            <CustomSelect 
+              className={styles.mobileSelect}
+              variant="pink"
+              placeholder="Update Status..."
+              value=""
+              onChange={(val) => {
+                if (val) {
+                  setConfirmAction(val);
+                  setIsConfirmModalOpen(true);
+                }
+              }}
+              options={[
+                { value: 'active', label: 'Mark as Active' },
+                { value: 'inactive', label: 'Mark as Inactive' }
+              ]}
+            />
+            <button className={styles.btnOutline} title="Export Selected" style={{ padding: '8px' }}>
+              <Download size={16} style={{ flexShrink: 0, minWidth: '16px' }} /> <span className={styles.hideMobile}>Export Selected</span>
+            </button>
+            <button className={styles.btnOutline} onClick={() => setSelectedItems([])} style={{ border: 'none', background: 'white', padding: '8px' }} title="Clear Selection">
+              <span className={styles.hideMobile}>Clear Selection</span>
+              <X size={16} className={styles.showMobileInline} style={{ flexShrink: 0, minWidth: '16px' }} />
+            </button>
+            <button 
+              className={styles.btnDanger} 
+              title="Delete Selected"
+              style={{ padding: '8px' }}
+              onClick={() => {
+                setConfirmAction('delete');
+                setIsConfirmModalOpen(true);
+              }}
+            >
+              <Trash2 size={16} style={{ flexShrink: 0, minWidth: '16px' }} /> <span className={styles.hideMobile}>Delete Selected</span>
+            </button>
+          </div>
         </div>
-        
-        <CustomSelect
-          options={statusOptions}
-          value={statusFilter}
-          onChange={setStatusFilter}
-          className={styles.filterSelect}
-          variant="yellow"
-        />
-        <CustomSelect
-          options={occasionOptions}
-          value={occasionFilter}
-          onChange={setOccasionFilter}
-          className={styles.filterSelect}
-          variant="pink"
-        />
-        <CustomSelect
-          options={dateOptions}
-          value={dateFilter}
-          onChange={setDateFilter}
-          className={styles.filterSelect}
-          variant="turquoise"
-        />
-
-        <button className={styles.btnOutline}>
-          <Filter size={14} />
-          Filter
-        </button>
-
-        <button className={styles.btnOutline}>
-          <Download size={14} />
-          Export
-        </button>
-
-        <ViewToggle view={view} onViewChange={setView} />
+      ) : (
+        <div className={styles.toolbar}>
+          <div className={styles.searchWrapper}>
+            <Search size={16} className={styles.searchIcon} />
+            <input type="text" placeholder="Search requests by ID, customer name or email..." className={styles.searchInput} />
+          </div>
+          
+          <div className={styles.filtersScrollContainer}>
+            <CustomSelect
+              options={statusOptions}
+              value={statusFilter}
+              onChange={setStatusFilter}
+              className={styles.filterSelect}
+              variant="yellow"
+            />
+            <CustomSelect
+              options={occasionOptions}
+              value={occasionFilter}
+              onChange={setOccasionFilter}
+              className={styles.filterSelect}
+              variant="pink"
+            />
+            <CustomSelect
+              options={dateOptions}
+              value={dateFilter}
+              onChange={setDateFilter}
+              className={styles.filterSelect}
+              variant="turquoise"
+            />
+          </div>
+  
+          <div className={styles.actionButtons}>
+            <button className={styles.btnOutline} title="Filter">
+              <Filter className={styles.btnIcon} /> <span className={styles.hideMobile}>Filter</span>
+            </button>
+            <button className={styles.btnOutline} title="Export">
+              <Download className={styles.btnIcon} /> <span className={styles.hideMobile}>Export</span>
+            </button>
+            <div style={{ flexShrink: 0 }}>
+              <ViewToggle view={view} onViewChange={setView} />
+            </div>
+          </div>
+        </div>
+      )}
       </div>
 
       <div className={styles.statsGrid}>
@@ -199,6 +254,9 @@ export function AdminCustomOrders() {
             <table className={styles.table}>
               <thead>
                 <tr>
+                  <th className={styles.checkboxCell}>
+                    <input type="checkbox" className={styles.checkbox} aria-label="Select all orders" checked={selectedItems.length === customOrders.length && customOrders.length > 0} onChange={(e) => setSelectedItems(e.target.checked ? customOrders.map(c => c.id) : [])} />
+                  </th>
                   <th>REQUEST ID</th>
                   <th>CUSTOMER</th>
                   <th>DESIGN</th>
@@ -216,6 +274,9 @@ export function AdminCustomOrders() {
 
                   return (
                     <tr key={order.id}>
+                      <td className={styles.checkboxCell}>
+                        <input type="checkbox" className={styles.checkbox} aria-label={`Select ${order.customerName || order.id}`} checked={selectedItems.includes(order.id)} onChange={(e) => { if (e.target.checked) setSelectedItems(prev => [...prev, order.id]); else setSelectedItems(prev => prev.filter(id => id !== order.id)); }} />
+                      </td>
                       <td>
                         <div className={styles.orderId}>{order.id}</div>
                         <div className={styles.orderDate}>{order.createdDate}</div>
@@ -258,6 +319,17 @@ export function AdminCustomOrders() {
                       </td>
                       <td>
                         <div className={styles.actionsCell}>
+                          <button 
+                            className="global-delete-btn" 
+                            aria-label="Delete Request"
+                            onClick={() => {
+                              setSelectedItems([String(order.id)]);
+                              setConfirmAction('delete');
+                              setIsConfirmModalOpen(true);
+                            }}
+                          >
+                            <Trash2 size={16} />
+                          </button>
                           <button className={styles.actionBtn} aria-label="View Details"><Eye size={16} /></button>
                           <button className={styles.actionBtn} aria-label="Edit Request"><Edit2 size={16} /></button>
                           <button className={styles.actionBtn} aria-label="More Actions"><MoreVertical size={16} /></button>
@@ -330,6 +402,17 @@ export function AdminCustomOrders() {
                   </div>
 
                   <div className={styles.mcActions}>
+                    <button 
+                      className="global-delete-btn" 
+                      aria-label="Delete Request"
+                      onClick={() => {
+                        setSelectedItems([String(order.id)]);
+                        setConfirmAction('delete');
+                        setIsConfirmModalOpen(true);
+                      }}
+                    >
+                      <Trash2 size={16} />
+                    </button>
                     <button className={styles.btnOutline} style={{ flex: 1, justifyContent: 'center' }}>
                       <Eye size={14} /> View Details
                     </button>
@@ -342,7 +425,7 @@ export function AdminCustomOrders() {
         )}
 
         {/* Mobile View */}
-        <div className={styles.mobileCards}>
+        <div className={styles.mobileCards} style={{ display: view === 'list' ? 'none' : '' }}>
           {customOrders.map(order => {
             const OccasionIcon = OccasionIconMap[order.occasion] || Star;
             const occColors = OccasionColorMap[order.occasion] || { bg: '#FFF0F5', color: 'var(--admin-pink)' };
@@ -350,9 +433,12 @@ export function AdminCustomOrders() {
             return (
               <div key={order.id} className={styles.mobileCard}>
                 <div className={styles.mcHeader}>
-                  <div className={styles.orderCell}>
-                    <span className={styles.orderId}>{order.id}</span>
-                    <span className={styles.orderDate}>{order.createdDate}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <input type="checkbox" className={styles.checkbox} aria-label={`Select ${order.customerName || order.id} mobile`} checked={selectedItems.includes(order.id)} onChange={(e) => { if (e.target.checked) setSelectedItems(prev => [...prev, order.id]); else setSelectedItems(prev => prev.filter(id => id !== order.id)); }} />
+                    <div className={styles.orderCell}>
+                      <span className={styles.orderId}>{order.id}</span>
+                      <span className={styles.orderDate}>{order.createdDate}</span>
+                    </div>
                   </div>
                   <span className={`${styles.statusBadge} ${order.statusClass}`}>
                     {order.status}
@@ -400,6 +486,17 @@ export function AdminCustomOrders() {
                 </div>
 
                 <div className={styles.mcActions}>
+                  <button 
+                    className="global-delete-btn" 
+                    aria-label="Delete Request"
+                    onClick={() => {
+                      setSelectedItems([String(order.id)]);
+                      setConfirmAction('delete');
+                      setIsConfirmModalOpen(true);
+                    }}
+                  >
+                    <Trash2 size={16} />
+                  </button>
                   <button className={styles.btnOutline} style={{ flex: 1, justifyContent: 'center' }}>
                     <Eye size={14} /> View Details
                   </button>
@@ -423,6 +520,39 @@ export function AdminCustomOrders() {
           </div>
         </div>
       </div>
+    
+      {isConfirmModalOpen && createPortal(
+        <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }} onClick={() => setIsConfirmModalOpen(false)}></div>
+          <div style={{ position: 'relative', backgroundColor: 'white', padding: '24px', borderRadius: '12px', maxWidth: '400px', width: '90%', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', color: confirmAction === 'delete' ? '#E53E3E' : 'var(--admin-brown)' }}>
+              <AlertTriangle size={24} />
+              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 600 }}>Confirm Action</h3>
+            </div>
+            <p style={{ margin: '0 0 24px 0', color: 'var(--color-text-muted)', lineHeight: 1.5 }}>
+              Are you sure you want to {confirmAction === 'delete' ? `delete ${selectedItems.length} selected item(s)` : `mark ${selectedItems.length} selected item(s) as ${confirmAction}`}? {confirmAction === 'delete' && 'This action cannot be undone.'}
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              <button 
+                onClick={() => setIsConfirmModalOpen(false)}
+                style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid var(--color-border)', background: 'white', color: 'var(--color-text)', cursor: 'pointer', fontWeight: 600 }}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={() => {
+                  setIsConfirmModalOpen(false);
+                  setSelectedItems([]);
+                }}
+                style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: confirmAction === 'delete' ? '#E53E3E' : 'var(--admin-pink)', color: 'white', cursor: 'pointer', fontWeight: 600 }}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   )
 }

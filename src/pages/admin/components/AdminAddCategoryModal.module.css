@@ -114,6 +114,125 @@
   display: none;
 }
 
+/* Card-Based Design Pattern Classes */
+.mediaBox {
+  background: #FFFcf8; /* Light pastel background */
+  border: 1px solid #EDEDED;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  padding: 16px 20px;
+  margin-bottom: 16px;
+}
+
+.mediaBoxTitle {
+  font-size: 12px;
+  font-weight: 700;
+  color: #171717;
+  letter-spacing: 0.5px;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+}
+
+.urlInput {
+  flex: 1;
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #EDEDED;
+  border-radius: 100px;
+  font-size: 13px;
+  outline: none;
+  background: #FFFFFF;
+  box-sizing: border-box;
+}
+
+.urlInput:focus {
+  border-color: #F21B5B;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(242, 27, 91, 0.15);
+}
+
+.urlInput::placeholder {
+  color: #999;
+}
+
+.chooseFilePillBtn {
+  background: #EDEDED;
+  color: #171717;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chooseFilePillBtn:hover {
+  background: #E0E0E0;
+}
+
+.fileNameText {
+  font-size: 13px;
+  color: #666;
+  margin-left: 12px;
+}
+
+.fileUploadWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.mediaFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.continueBtn {
+  background: #F21B5B;
+  color: #FFFFFF;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.continueBtn:hover {
+  opacity: 0.9;
+}
+
+.continueBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.footerBackBtn {
+  background: #FFFFFF;
+  color: #666;
+  border: 1px solid #EDEDED;
+  padding: 12px 24px;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.footerBackBtn:hover {
+  background: #f9f9f9;
+  color: #171717;
+}
+
 .footer {
   display: flex;
   justify-content: flex-end;

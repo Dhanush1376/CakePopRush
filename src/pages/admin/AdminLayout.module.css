@@ -42,6 +42,7 @@
   .adminLayout,
   .adminLayout.sidebarClosed {
     grid-template-columns: 1fr;
+    background-image: none !important;
   }
   
   .pageContent {

@@ -1,8 +1,10 @@
 import React from 'react'
+import { createPortal } from 'react-dom'
 import {
   Users, UserPlus, ShoppingCart, Wallet,
   Search, Filter, Download,
-  MapPin, Eye, MoreVertical, ChevronLeft, ChevronRight
+  MapPin, Eye, MoreVertical, ChevronLeft, ChevronRight,
+  AlertTriangle, Trash2, X
 } from 'lucide-react'
 import { ViewToggle } from '../components/ViewToggle'
 import { CustomSelect } from '../components/CustomSelect'
@@ -136,6 +138,9 @@ const customers = [
 
 export function AdminCustomers() {
   const [isLoading, setIsLoading] = React.useState(true);
+  const [selectedItems, setSelectedItems] = React.useState<(string | number)[]>([]);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = React.useState(false);
+  const [confirmAction, setConfirmAction] = React.useState('');
   const [view, setView] = React.useState<'list' | 'grid'>('list');
   const [statusFilter, setStatusFilter] = React.useState('all');
   const [locationFilter, setLocationFilter] = React.useState('all');
@@ -184,39 +189,95 @@ export function AdminCustomers() {
         </div>
       </div>
 
-      <div className={styles.toolbar}>
-        <div className={styles.searchBox}>
-          <Search size={16} className={styles.searchIcon} />
-          <input type="text" placeholder="Search customers by name, email or phone..." className={styles.searchInput} />
+      <div className={styles.stickyWrapper}>
+        {selectedItems.length > 0 ? (
+        <div className={`${styles.toolbar} ${styles.bulkToolbar}`} style={{ backgroundColor: '#FFF0F5', borderColor: 'var(--admin-pink)', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+            <span style={{ fontWeight: 600, color: 'var(--admin-pink)', whiteSpace: 'nowrap' }}>
+              {selectedItems.length} <span className={styles.hideMobile}>customer{selectedItems.length > 1 ? 's' : ''} selected</span>
+            </span>
+          </div>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', justifyContent: 'flex-end', flexWrap: 'nowrap' }}>
+            <CustomSelect 
+              className={styles.mobileSelect}
+              variant="pink"
+              placeholder="Update Status..."
+              value=""
+              onChange={(val) => {
+                if (val) {
+                  setConfirmAction(val);
+                  setIsConfirmModalOpen(true);
+                }
+              }}
+              options={[
+                { value: 'active', label: 'Mark as Active' },
+                { value: 'inactive', label: 'Mark as Inactive' }
+              ]}
+            />
+            <button className={styles.btnOutline} title="Export Selected" style={{ padding: '8px' }}>
+              <Download size={16} style={{ flexShrink: 0, minWidth: '16px' }} /> <span className={styles.hideMobile}>Export Selected</span>
+            </button>
+            <button className={styles.btnOutline} onClick={() => setSelectedItems([])} style={{ border: 'none', background: 'white', padding: '8px' }} title="Clear Selection">
+              <span className={styles.hideMobile}>Clear Selection</span>
+              <X size={16} className={styles.showMobileInline} style={{ flexShrink: 0, minWidth: '16px' }} />
+            </button>
+            <button 
+              className={styles.btnDanger} 
+              title="Delete Selected"
+              style={{ padding: '8px' }}
+              onClick={() => {
+                setConfirmAction('delete');
+                setIsConfirmModalOpen(true);
+              }}
+            >
+              <Trash2 size={16} style={{ flexShrink: 0, minWidth: '16px' }} /> <span className={styles.hideMobile}>Delete Selected</span>
+            </button>
+          </div>
         </div>
-        <CustomSelect
-          options={statusOptions}
-          value={statusFilter}
-          onChange={setStatusFilter}
-          className={styles.filterSelect}
-          variant="yellow"
-        />
-        <CustomSelect
-          options={locationOptions}
-          value={locationFilter}
-          onChange={setLocationFilter}
-          className={styles.filterSelect}
-          variant="pink"
-        />
-        <CustomSelect
-          options={dateOptions}
-          value={dateFilter}
-          onChange={setDateFilter}
-          className={styles.filterSelect}
-          variant="turquoise"
-        />
-        <button className={styles.btnOutline}>
-          <Filter size={14} /> Filter
-        </button>
-        <button className={styles.btnOutline}>
-          <Download size={14} /> Export
-        </button>
-        <ViewToggle view={view} onViewChange={setView} />
+      ) : (
+        <div className={styles.toolbar}>
+          <div className={styles.searchWrapper}>
+            <Search size={16} className={styles.searchIcon} />
+            <input type="text" placeholder="Search customers by name, email or phone..." className={styles.searchInput} />
+          </div>
+          
+          <div className={styles.filtersScrollContainer}>
+            <CustomSelect
+              options={statusOptions}
+              value={statusFilter}
+              onChange={setStatusFilter}
+              className={styles.filterSelect}
+              variant="yellow"
+            />
+            <CustomSelect
+              options={locationOptions}
+              value={locationFilter}
+              onChange={setLocationFilter}
+              className={styles.filterSelect}
+              variant="pink"
+            />
+            <CustomSelect
+              options={dateOptions}
+              value={dateFilter}
+              onChange={setDateFilter}
+              className={styles.filterSelect}
+              variant="turquoise"
+            />
+          </div>
+  
+          <div className={styles.actionButtons}>
+            <button className={styles.btnOutline} title="Filter">
+              <Filter className={styles.btnIcon} /> <span className={styles.hideMobile}>Filter</span>
+            </button>
+            <button className={styles.btnOutline} title="Export">
+              <Download className={styles.btnIcon} /> <span className={styles.hideMobile}>Export</span>
+            </button>
+            <div style={{ flexShrink: 0 }}>
+              <ViewToggle view={view} onViewChange={setView} />
+            </div>
+          </div>
+        </div>
+      )}
       </div>
 
       {/* KPI Grid */}
@@ -256,6 +317,9 @@ export function AdminCustomers() {
             <table className={styles.table}>
               <thead>
                 <tr>
+                  <th className={styles.checkboxCell}>
+                    <input type="checkbox" className={styles.checkbox} aria-label="Select all customers" checked={selectedItems.length === customers.length && customers.length > 0} onChange={(e) => setSelectedItems(e.target.checked ? customers.map(c => c.id) : [])} />
+                  </th>
                   <th>CUSTOMER NAME</th>
                   <th>LOCATION</th>
                   <th style={{ textAlign: 'center' }}>ORDERS</th>
@@ -268,6 +332,9 @@ export function AdminCustomers() {
               <tbody>
                 {customers.map((cust) => (
                   <tr key={cust.id}>
+                    <td className={styles.checkboxCell}>
+                      <input type="checkbox" className={styles.checkbox} aria-label={`Select ${cust.name || cust.id}`} checked={selectedItems.includes(cust.id)} onChange={(e) => { if (e.target.checked) setSelectedItems(prev => [...prev, cust.id]); else setSelectedItems(prev => prev.filter(id => id !== cust.id)); }} />
+                    </td>
                     <td>
                       <div className={styles.customerCell}>
                         <div className={styles.avatar} style={{ backgroundColor: cust.avatarBg, color: cust.avatarColor }}>
@@ -310,6 +377,17 @@ export function AdminCustomers() {
                     </td>
                     <td>
                       <div className={styles.actionsCell} style={{ position: 'relative' }}>
+                        <button 
+                          className="global-delete-btn" 
+                          aria-label="Delete Customer"
+                          onClick={() => {
+                            setSelectedItems([String(cust.id)]);
+                            setConfirmAction('delete');
+                            setIsConfirmModalOpen(true);
+                          }}
+                        >
+                          <Trash2 size={14} />
+                        </button>
                         <button className={styles.actionBtn} onClick={() => setSelectedCustomer(cust)}>
                           <Eye size={14} />
                         </button>
@@ -336,7 +414,7 @@ export function AdminCustomers() {
         )}
 
         {/* Grid View / Mobile View */}
-        <div className={`${styles.customersGrid} ${view === 'list' ? styles.hideOnDesktop : ''}`}>
+        <div className={styles.customersGrid} style={{ display: view === 'grid' ? 'none' : '' }}>
           {customers.map(cust => (
             <div key={`grid-${cust.id}`} className={styles.customerCard}>
               <div className={styles.mcHeader}>
@@ -380,6 +458,17 @@ export function AdminCustomers() {
               </div>
 
               <div className={styles.mcActions} style={{ position: 'relative' }}>
+                <button 
+                  className="global-delete-btn" 
+                  aria-label="Delete Customer"
+                  onClick={() => {
+                    setSelectedItems([String(cust.id)]);
+                    setConfirmAction('delete');
+                    setIsConfirmModalOpen(true);
+                  }}
+                >
+                  <Trash2 size={14} />
+                </button>
                 <button className={styles.actionBtn} onClick={() => setSelectedCustomer(cust)}>
                   <Eye size={14} />
                 </button>
@@ -415,6 +504,39 @@ export function AdminCustomers() {
         </div>
       </div>
       <CustomerDetailsModal customer={selectedCustomer} onClose={() => setSelectedCustomer(null)} />
+    
+      {isConfirmModalOpen && createPortal(
+        <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }} onClick={() => setIsConfirmModalOpen(false)}></div>
+          <div style={{ position: 'relative', backgroundColor: 'white', padding: '24px', borderRadius: '12px', maxWidth: '400px', width: '90%', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', color: confirmAction === 'delete' ? '#E53E3E' : 'var(--admin-brown)' }}>
+              <AlertTriangle size={24} />
+              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 600 }}>Confirm Action</h3>
+            </div>
+            <p style={{ margin: '0 0 24px 0', color: 'var(--color-text-muted)', lineHeight: 1.5 }}>
+              Are you sure you want to {confirmAction === 'delete' ? `delete ${selectedItems.length} selected item(s)` : `mark ${selectedItems.length} selected item(s) as ${confirmAction}`}? {confirmAction === 'delete' && 'This action cannot be undone.'}
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              <button 
+                onClick={() => setIsConfirmModalOpen(false)}
+                style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid var(--color-border)', background: 'white', color: 'var(--color-text)', cursor: 'pointer', fontWeight: 600 }}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={() => {
+                  setIsConfirmModalOpen(false);
+                  setSelectedItems([]);
+                }}
+                style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: confirmAction === 'delete' ? '#E53E3E' : 'var(--admin-pink)', color: 'white', cursor: 'pointer', fontWeight: 600 }}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   )
 }

@@ -108,23 +108,26 @@ export const AdminAddCategoryModal: React.FC<AdminAddCategoryModalProps> = ({
   return (
     <ResponsiveModal isOpen={isOpen} onClose={onClose} title="Add Category">
       <form onSubmit={handleSubmit} className={styles.form}>
-        <div className={styles.field}>
-          <Input 
-            label="Category Name"
+        
+        <div className={styles.mediaBox}>
+          <h3 className={styles.mediaBoxTitle}>CATEGORY NAME <span className={styles.required}>*</span></h3>
+          <input 
+            type="text"
+            className={styles.urlInput}
             placeholder="e.g. Vegan Pops"
             value={name}
             onChange={(e) => {
               setName(e.target.value)
               if (error) setError(undefined)
             }}
-            error={error}
             disabled={isSubmitting}
             autoFocus
           />
+          {error && <p style={{ color: 'var(--color-error)', fontSize: '12px', marginTop: '4px', marginLeft: '12px' }}>{error}</p>}
         </div>
 
-        <div className={styles.field}>
-          <label className={styles.label}>Category Image (Optional)</label>
+        <div className={styles.mediaBox}>
+          <h3 className={styles.mediaBoxTitle}>CATEGORY IMAGE (OPTIONAL)</h3>
           
           <input 
             type="file" 
@@ -135,9 +138,11 @@ export const AdminAddCategoryModal: React.FC<AdminAddCategoryModalProps> = ({
           />
           
           {!image ? (
-            <div className={styles.uploadWrapper} onClick={() => fileInputRef.current?.click()}>
-              <Upload className={styles.uploadIcon} strokeWidth={1.5} />
-              <p className={styles.uploadText}>Click to upload an image</p>
+            <div className={styles.fileUploadWrapper}>
+              <button type="button" className={styles.chooseFilePillBtn} onClick={() => fileInputRef.current?.click()}>
+                <Upload size={14} /> CHOOSE FILE
+              </button>
+              <span className={styles.fileNameText}>No file chosen</span>
             </div>
           ) : (
             <div className={styles.previewContainer}>
@@ -164,13 +169,13 @@ export const AdminAddCategoryModal: React.FC<AdminAddCategoryModalProps> = ({
           )}
         </div>
 
-        <div className={styles.footer}>
-          <Button type="button" variant="ghost" onClick={onClose} disabled={isSubmitting}>
+        <div className={styles.mediaFooter}>
+          <button type="button" className={styles.footerBackBtn} onClick={onClose} disabled={isSubmitting}>
             Cancel
-          </Button>
-          <Button type="submit" isLoading={isSubmitting}>
-            Add Category
-          </Button>
+          </button>
+          <button type="submit" className={styles.continueBtn} disabled={isSubmitting}>
+            {isSubmitting ? 'Adding...' : 'Add Category'}
+          </button>
         </div>
       </form>
     </ResponsiveModal>

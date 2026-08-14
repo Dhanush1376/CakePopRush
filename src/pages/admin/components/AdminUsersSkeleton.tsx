@@ -11,6 +11,24 @@ export function AdminUsersSkeleton() {
         </div>
       </div>
 
+      <div className={styles.toolbar}>
+        <div className={styles.searchWrapper}>
+          <div className={`${styles.skeleton} ${styles.searchSkeleton}`} />
+        </div>
+        
+        <div className={styles.filtersScrollContainer}>
+          <div className={`${styles.skeleton} ${styles.filterSelectSkeleton}`} />
+          <div className={`${styles.skeleton} ${styles.filterSelectSkeleton}`} />
+          <div className={`${styles.skeleton} ${styles.filterSelectSkeleton}`} />
+        </div>
+        
+        <div className={styles.actionButtons}>
+          <div className={`${styles.skeleton} ${styles.btnSkeleton}`} />
+          <div className={`${styles.skeleton} ${styles.btnSkeleton}`} />
+          <div className={`${styles.skeleton} ${styles.toggleSkeleton}`} />
+        </div>
+      </div>
+
       <div className={styles.kpiGrid}>
         {Array.from({ length: 5 }).map((_, i) => (
           <div key={`kpi-${i}`} className={styles.kpiCard}>
@@ -22,12 +40,6 @@ export function AdminUsersSkeleton() {
             </div>
           </div>
         ))}
-      </div>
-
-      <div className={styles.toolbar}>
-        <div className={`${styles.skeleton} ${styles.searchSkeleton}`} />
-        <div className={`${styles.skeleton} ${styles.filterSkeleton}`} />
-        <div className={`${styles.skeleton} ${styles.btnSkeleton}`} />
       </div>
 
       <div className={styles.contentBlock}>

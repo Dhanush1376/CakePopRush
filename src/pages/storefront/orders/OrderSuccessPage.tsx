@@ -2,12 +2,14 @@ import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 import { useParams, Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CheckCircle2, Package, Truck, ShoppingBag, MapPin, Phone, Star, Receipt, Box, ArrowRight, X } from 'lucide-react'
+import { CheckCircle2, Package, Truck, ShoppingBag, MapPin, Phone, Star, Receipt, Box, ArrowRight, X, Download } from 'lucide-react'
 
 import { CakePopMascot } from '@/components/mascot/CakePopMascot'
 import { MascotReaction } from '@/components/mascot/reactions/reactionTypes'
 import { useCart } from '@/lib/cartStore' // Used for empty cart fallback check if needed
 import { MOCK_ORDERS } from './OrdersPage'
+import { InvoiceViewer, downloadInvoicePDF } from '@/components/invoice/InvoiceViewer'
+import { mapOrderToInvoiceData } from '@/types/invoice'
 import styles from './OrderSuccessPage.module.css'
 
 // We will use a mock order structure similar to OrderTrackingPage for display
@@ -95,13 +97,15 @@ const InfoRow = ({
 
 // ─── Main Component ─────────────────────────────────────────────────────────
 
-export const OrderSuccessPage = () => {
+export function OrderSuccessPage() {
   const { id } = useParams()
   const location = useLocation()
   const navigate = useNavigate()
+  const { items } = useCart()
   
   // Only show celebration if coming from checkout AND we haven't shown it yet for this session
   const [showCelebration, setShowCelebration] = useState(false)
+  const [showInvoice, setShowInvoice] = useState(false)
   const [isReady, setIsReady] = useState(false)
   const [mascotReaction, setMascotReaction] = useState<MascotReaction | null>('blowKiss')
   const reactionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -480,6 +484,9 @@ export const OrderSuccessPage = () => {
              <Link to={`/orders/${id}`} className={styles.trackBtn}>
                Track Order <Truck size={16} />
              </Link>
+             <button onClick={() => setShowInvoice(true)} className={styles.invoiceBtn}>
+               <Receipt size={18} /> View Invoice
+             </button>
              <Link to="/shop" className={styles.continueBtn}>
                Continue Shopping
              </Link>
@@ -487,6 +494,12 @@ export const OrderSuccessPage = () => {
         </div>
 
       </motion.div>
+
+      <InvoiceViewer 
+        isOpen={showInvoice}
+        onClose={() => setShowInvoice(false)}
+        data={mapOrderToInvoiceData({ ...MOCK_SUCCESS_ORDER, id: id || '0' })}
+      />
     </div>
   )
 }

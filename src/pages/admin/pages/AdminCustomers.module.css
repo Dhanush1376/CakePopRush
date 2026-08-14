@@ -111,9 +111,10 @@
   border-radius: var(--radius-lg);
   padding: 12px;
   box-shadow: var(--shadow-sm);
+  flex-wrap: wrap;
 }
 
-.searchBox {
+.searchWrapper {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -121,6 +122,7 @@
   border-radius: var(--radius-md);
   padding: 8px 12px;
   flex: 1;
+  min-width: 200px;
 }
 
 .searchIcon {
@@ -156,8 +158,30 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  transition: all 0.2s;
 }
 .btnOutline:hover { background-color: #FFF0F5; }
+
+.filtersScrollContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  min-width: 0;
+  max-width: 100%;
+  flex: 0 0 auto;
+}
+
+.actionButtons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.hideMobile {
+  display: inline;
+}
 
 
 /* Table Card */
@@ -239,6 +263,10 @@
   font-size: 14px;
   font-weight: 600;
   color: var(--admin-brown);
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .customerContact {
   font-size: 12px;
@@ -318,9 +346,9 @@
   width: 32px;
   height: 32px;
   border-radius: var(--radius-sm);
-  background-color: #FFF0F5;
+  background-color: transparent;
   color: var(--admin-pink);
-  border: none;
+  border: 1px solid var(--admin-pink);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -449,7 +477,7 @@
 
 
 .hideOnDesktop {
-  display: none;
+  display: none !important;
 }
 
 .mcHeader {
@@ -497,33 +525,23 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
-  .toolbar {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    padding: 10px;
-  }
-  .searchBox, .searchWrapper {
-    grid-column: 1 / -1;
-    width: 100%;
-  }
-  .filterSelect, .select {
-    grid-column: span 2;
-    width: 100%;
-  }
-  .btnOutline, .filterBtn, .exportBtn {
-    grid-column: span 1;
-    width: 100%;
-    justify-content: center;
-    padding: 8px 4px;
-    font-size: 12px;
-  }
+
   .customersGrid {
     padding: 0;
   }
   .customerCard {
     background-color: var(--color-white) !important;
     box-shadow: var(--shadow-sm) !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .searchWrapper { order: 1; }
+  .actionButtons { order: 2; }
+  .filtersScrollContainer { 
+    order: 3; 
+    flex: 1 1 100%;
+    min-width: 100%;
   }
 }
 
@@ -553,6 +571,185 @@
   .kpiTrend {
     font-size: 10px;
   }
+  
+  .toolbar {
+    padding: 10px;
+    gap: 8px;
+  }
+  .searchWrapper { 
+    width: auto;
+    flex: 1;
+    min-width: 0;
+  }
+  .actionButtons {
+    gap: 8px;
+  }
+  .filtersScrollContainer {
+    gap: 6px;
+  }
+  .filterSelect, .select {
+    flex: 1;
+    min-width: 0;
+  }
+  .hideMobile {
+    display: none;
+  }
+  .btnOutline, .exportBtn { 
+    flex: 0 0 auto;
+    justify-content: center; 
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+  .btnIcon {
+    width: 14px;
+    height: 14px;
+  }
 }
 
 
+
+.stickyWrapper {
+  position: sticky;
+  top: -1.5rem;
+  z-index: 20;
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 12px 2rem;
+  margin: 0 -2rem 0 -2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 991px) {
+  .stickyWrapper {
+    top: -0.5rem;
+    padding: 12px 6px;
+    margin: 0 -6px 0 -6px;
+  }
+}
+
+/* --- Checkbox & Bulk Selection Styles --- */
+.checkboxCell {
+  width: 48px;
+  text-align: center;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  accent-color: var(--admin-pink);
+  cursor: pointer;
+}
+
+.btnDanger {
+  background-color: #E53E3E !important;
+  color: white !important;
+  border: 1px solid #E53E3E !important;
+  border-radius: var(--radius-md);
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+.btnDanger:hover { background-color: #C53030 !important; border-color: #C53030 !important; }
+
+.showMobileInline {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .showOnMobile {
+    display: flex;
+  }
+  
+  .showMobileInline {
+    display: inline-block !important;
+  }
+  
+  .bulkToolbar {
+    flex-wrap: nowrap !important;
+    gap: 12px !important;
+    padding: 8px !important;
+  }
+  
+  .bulkToolbar > div {
+    gap: 4px !important;
+  }
+  
+  .mobileSelect {
+    min-width: 110px !important;
+  }
+  
+  .mobileSelect > button {
+    min-width: 110px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .table th, .table td { padding: 12px 16px; font-size: 11px; }
+  .tableCard {
+    background-color: var(--color-white) !important;
+    border: 1px solid var(--color-border) !important;
+    box-shadow: var(--shadow-sm) !important;
+    border-radius: var(--radius-lg) !important;
+  }
+}
+
+.table th, .table td { white-space: nowrap; /* added for free fit */ }
+
+
+@media (max-width: 768px) {
+  .kpiCard {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    padding: 12px 10px !important;
+    gap: 10px !important;
+    text-align: left !important;
+  }
+  .kpiIconWrapper {
+    width: 36px !important;
+    height: 36px !important;
+    margin-bottom: 0 !important;
+    flex-shrink: 0 !important;
+  }
+  .kpiIconWrapper > svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+  .kpiContent {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0 !important;
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+  .kpiLabel {
+    font-size: 10px !important;
+    margin-bottom: 0 !important;
+    text-align: left !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    width: 100% !important;
+  }
+  .kpiValue {
+    font-size: 18px !important;
+    line-height: 1.2 !important;
+  }
+  .kpiTrend {
+    font-size: 9px !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    flex-wrap: wrap !important;
+    gap: 4px !important;
+    margin-top: 2px !important;
+  }
+}

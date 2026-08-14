@@ -9,6 +9,8 @@ import {
 import { motion, AnimatePresence } from 'framer-motion'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { MOCK_ORDERS } from './OrdersPage'
+import { InvoiceViewer, downloadInvoicePDF } from '@/components/invoice/InvoiceViewer'
+import { mapOrderToInvoiceData } from '@/types/invoice'
 import styles from './OrderTrackingPage.module.css'
 
 // ─── Rich Order Data Model ──────────────────────────────────────────────────
@@ -401,6 +403,22 @@ export const OrderTrackingPage = () => {
   const [order, setOrder] = useState<OrderDetail | null>(null)
   const [loading, setLoading] = useState(true)
   const [moreDetailsOpen, setMoreDetailsOpen] = useState(false)
+  const [showInvoice, setShowInvoice] = useState(false)
+  const [isDownloading, setIsDownloading] = useState(false)
+
+  const handleDownloadInvoice = async () => {
+    if (!order) return;
+    setIsDownloading(true)
+    try {
+      const data = mapOrderToInvoiceData(order)
+      await downloadInvoicePDF(data)
+    } catch (error) {
+      console.error('Failed to download invoice:', error)
+      alert('Failed to download invoice. Please try again.')
+    } finally {
+      setIsDownloading(false)
+    }
+  }
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -645,6 +663,20 @@ export const OrderTrackingPage = () => {
                     <InfoRow label="Invoice No." value={order.invoiceNumber} />
                     <InfoRow label="Invoice Date" value={order.invoiceDate} />
                     <InfoRow label="Billing Name" value={order.customer.name} />
+                    <button 
+                      onClick={() => setShowInvoice(true)}
+                      className={styles.invoiceBtn}
+                    >
+                      <FileText size={16} /> View Invoice
+                    </button>
+                    <button 
+                      onClick={handleDownloadInvoice}
+                      disabled={isDownloading}
+                      className={styles.invoiceBtn}
+                      style={{ opacity: isDownloading ? 0.7 : 1 }}
+                    >
+                      <Download size={16} /> {isDownloading ? 'Generating...' : 'Download Invoice'}
+                    </button>
                   </div>
 
                 </div>
@@ -654,6 +686,12 @@ export const OrderTrackingPage = () => {
         </div>
 
       </motion.div>
+
+      <InvoiceViewer 
+        isOpen={showInvoice}
+        onClose={() => setShowInvoice(false)}
+        data={mapOrderToInvoiceData(order)}
+      />
     </motion.div>
   )
 }

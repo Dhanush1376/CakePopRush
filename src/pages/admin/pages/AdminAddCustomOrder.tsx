@@ -165,33 +165,41 @@ export function AdminAddCustomOrder() {
                   <p className={styles.sectionSubtitle}>Who is this request for?</p>
                 </div>
                 <div className={styles.twoColumns}>
-                  <Input 
-                    label="Customer Name *" 
-                    placeholder="e.g. John Doe"
-                    value={customerName}
-                    onChange={e => setCustomerName(e.target.value)}
-                    error={errors.customerName}
-                    fullWidth
-                  />
-                  <Input 
-                    label="Phone Number *" 
-                    placeholder="e.g. +91 9876543210"
-                    type="tel"
-                    value={customerPhone}
-                    onChange={e => setCustomerPhone(e.target.value)}
-                    error={errors.customerPhone}
-                    fullWidth
-                  />
+                  <div className={styles.mediaBox} style={{ margin: 0 }}>
+                    <h3 className={styles.mediaBoxTitle}>CUSTOMER NAME <span style={{color: '#F21B5B'}}>*</span></h3>
+                    <input 
+                      type="text"
+                      className={styles.urlInput}
+                      placeholder="e.g. John Doe"
+                      value={customerName}
+                      onChange={e => setCustomerName(e.target.value)}
+                    />
+                    {errors.customerName && <span style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>{errors.customerName}</span>}
+                  </div>
+                  
+                  <div className={styles.mediaBox} style={{ margin: 0 }}>
+                    <h3 className={styles.mediaBoxTitle}>PHONE NUMBER <span style={{color: '#F21B5B'}}>*</span></h3>
+                    <input 
+                      type="tel"
+                      className={styles.urlInput}
+                      placeholder="e.g. +91 9876543210"
+                      value={customerPhone}
+                      onChange={e => setCustomerPhone(e.target.value)}
+                    />
+                    {errors.customerPhone && <span style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>{errors.customerPhone}</span>}
+                  </div>
                 </div>
-                <div className={styles.twoColumns}>
-                  <Input 
-                    label="Email Address" 
-                    placeholder="e.g. john@example.com"
-                    type="email"
-                    value={customerEmail}
-                    onChange={e => setCustomerEmail(e.target.value)}
-                    fullWidth
-                  />
+                <div className={styles.twoColumns} style={{ marginTop: '16px' }}>
+                  <div className={styles.mediaBox} style={{ margin: 0 }}>
+                    <h3 className={styles.mediaBoxTitle}>EMAIL ADDRESS</h3>
+                    <input 
+                      type="email"
+                      className={styles.urlInput}
+                      placeholder="e.g. john@example.com"
+                      value={customerEmail}
+                      onChange={e => setCustomerEmail(e.target.value)}
+                    />
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -204,8 +212,8 @@ export function AdminAddCustomOrder() {
                 </div>
                 
                 <div className={styles.twoColumns}>
-                  <div className={styles.formGroup}>
-                    <label className={styles.label}>Occasion</label>
+                  <div className={styles.mediaBox} style={{ margin: 0 }}>
+                    <h3 className={styles.mediaBoxTitle}>OCCASION</h3>
                     <select className={styles.select} value={occasion} onChange={e => setOccasion(e.target.value)}>
                       <option value="Birthday">Birthday</option>
                       <option value="Wedding">Wedding</option>
@@ -214,55 +222,63 @@ export function AdminAddCustomOrder() {
                       <option value="Other">Other</option>
                     </select>
                   </div>
-                  <Input 
-                    label="Due Date / Event Date *" 
-                    type="date"
-                    value={dueDate}
-                    onChange={e => setDueDate(e.target.value)}
-                    error={errors.dueDate}
-                    fullWidth
-                  />
+                  <div className={styles.mediaBox} style={{ margin: 0 }}>
+                    <h3 className={styles.mediaBoxTitle}>DUE DATE / EVENT DATE <span style={{color: '#F21B5B'}}>*</span></h3>
+                    <input 
+                      type="date"
+                      className={styles.urlInput}
+                      value={dueDate}
+                      onChange={e => setDueDate(e.target.value)}
+                    />
+                    {errors.dueDate && <span style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>{errors.dueDate}</span>}
+                  </div>
                 </div>
 
-                <div className={styles.formGroup}>
-                  <label className={styles.label}>Detailed Description *</label>
+                <div className={styles.mediaBox} style={{ marginTop: '16px', marginBottom: 0 }}>
+                  <h3 className={styles.mediaBoxTitle}>DETAILED DESCRIPTION <span style={{color: '#F21B5B'}}>*</span></h3>
                   <textarea 
                     className={styles.textarea} 
                     placeholder="Describe what the customer is looking for (theme, colors, flavors, quantity...)"
                     value={description}
                     onChange={e => setDescription(e.target.value)}
                   />
-                  {errors.description && <span style={{ color: 'red', fontSize: '12px' }}>{errors.description}</span>}
+                  {errors.description && <span style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>{errors.description}</span>}
                 </div>
 
-                <div className={styles.twoColumns}>
-                  <Input 
-                    label="Estimated Budget (Optional)" 
-                    placeholder="₹"
-                    value={budget}
-                    onChange={e => setBudget(e.target.value)}
-                    fullWidth
-                  />
-                </div>
-                
-                <div className={styles.formGroup} style={{ marginTop: '16px' }}>
-                  <label className={styles.label}>Reference Image (Optional)</label>
-                  <div className={styles.mediaBox}>
-                    <ImageIcon size={32} className={styles.mediaIcon} />
-                    <span className={styles.mediaText}>Click to upload reference images</span>
-                    <span style={{ fontSize: '12px', color: '#9CA3AF' }}>PNG, JPG up to 5MB</span>
+                <div className={styles.twoColumns} style={{ marginTop: '16px' }}>
+                  <div className={styles.mediaBox} style={{ margin: 0 }}>
+                    <h3 className={styles.mediaBoxTitle}>ESTIMATED BUDGET (OPTIONAL)</h3>
+                    <input 
+                      type="text"
+                      className={styles.urlInput}
+                      placeholder="₹"
+                      value={budget}
+                      onChange={e => setBudget(e.target.value)}
+                    />
                   </div>
                 </div>
+                
+                <div className={styles.twoColumns} style={{ marginTop: '16px' }}>
+                  <div className={styles.mediaBox} style={{ margin: 0 }}>
+                    <h3 className={styles.mediaBoxTitle}>REFERENCE IMAGE (OPTIONAL)</h3>
+                    <div className={styles.fileUploadWrapper}>
+                      <button className={styles.chooseFilePillBtn}>
+                        CHOOSE FILES
+                      </button>
+                      <span className={styles.fileNameText}>No file chosen</span>
+                    </div>
+                  </div>
 
-                <div className={styles.formGroup} style={{ marginTop: '16px' }}>
-                  <label className={styles.label}>Internal Staff Notes</label>
-                  <textarea 
-                    className={styles.textarea} 
-                    placeholder="Private notes for staff..."
-                    value={internalNotes}
-                    onChange={e => setInternalNotes(e.target.value)}
-                    style={{ minHeight: '80px' }}
-                  />
+                  <div className={styles.mediaBox} style={{ margin: 0 }}>
+                    <h3 className={styles.mediaBoxTitle}>INTERNAL STAFF NOTES</h3>
+                    <textarea 
+                      className={styles.textarea} 
+                      placeholder="Private notes for staff..."
+                      value={internalNotes}
+                      onChange={e => setInternalNotes(e.target.value)}
+                      style={{ minHeight: '60px' }}
+                    />
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -319,18 +335,21 @@ export function AdminAddCustomOrder() {
           </AnimatePresence>
 
           <div className={styles.wizardFooter}>
-            {currentStep > 1 ? (
-              <Button type="button" variant="outline" onClick={handlePrev}>Back</Button>
-            ) : (
-              <div></div> // Empty div for flexbox spacing
+            {currentStep > 1 && (
+              <button type="button" className={styles.footerBackBtn} onClick={handlePrev}>
+                Back
+              </button>
             )}
             
-            <div className={styles.btnGroup}>
-              <Button type="button" variant="outline" onClick={() => navigate('/admin/custom-orders')}>Cancel</Button>
+            <div style={{ marginLeft: 'auto' }}>
               {currentStep < 3 ? (
-                <Button type="button" onClick={handleNext}>Next Step</Button>
+                <button type="button" className={styles.continueBtn} onClick={handleNext}>
+                  Continue
+                </button>
               ) : (
-                <Button type="button" onClick={handleSubmit} isLoading={isSubmitting}>Create Quote</Button>
+                <button type="button" className={styles.continueBtn} onClick={handleSubmit} disabled={isSubmitting}>
+                  {isSubmitting ? 'Submitting...' : 'Submit Request'}
+                </button>
               )}
             </div>
           </div>

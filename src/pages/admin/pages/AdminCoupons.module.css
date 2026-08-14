@@ -117,6 +117,27 @@
   background-color: var(--admin-nav-active-bg);
 }
 
+.filtersScrollContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  min-width: 0;
+  max-width: 100%;
+  flex: 0 0 auto;
+}
+
+.actionButtons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.hideMobile {
+  display: inline;
+}
+
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -187,7 +208,7 @@
 }
 
 .table th {
-  padding: 16px 20px;
+  padding: 16px 12px;
   font-size: 11px;
   font-weight: 600;
   color: var(--color-text-muted);
@@ -197,7 +218,7 @@
 }
 
 .table td {
-  padding: 16px 20px;
+  padding: 16px 12px;
   border-bottom: 1px solid var(--color-border);
   vertical-align: middle;
 }
@@ -281,12 +302,12 @@
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background-color: var(--admin-nav-active-bg);
+  background-color: transparent;
   color: var(--admin-pink);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid transparent;
+  border: 1px solid var(--admin-pink);
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -346,7 +367,7 @@
   .header { flex-direction: column; gap: 1rem; align-items: stretch; }
   .addBtn { width: 100%; justify-content: center; padding: 12px 16px; }
   
-  .tableWrapper { display: none; }
+  
   .mobileCards {
     display: flex;
     flex-direction: column;
@@ -367,6 +388,16 @@
   
   .pagination { flex-direction: column; gap: 1rem; }
 }
+@media (max-width: 1200px) {
+  .searchWrapper { order: 1; }
+  .actionButtons { order: 2; }
+  .filtersScrollContainer { 
+    order: 3; 
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
+}
+
 @media (max-width: 576px) {
   .statsGrid { 
     grid-template-columns: repeat(2, 1fr); 
@@ -396,26 +427,37 @@
     grid-column: 1 / -1;
   }
   
-  .toolbar { 
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
+  .toolbar {
     padding: 10px;
+    gap: 8px;
   }
   .searchWrapper { 
-    grid-column: 1 / -1; 
-    width: 100%; 
+    width: auto;
+    flex: 1;
+    min-width: 0;
+  }
+  .actionButtons {
+    gap: 8px;
+  }
+  .filtersScrollContainer {
+    gap: 6px;
   }
   .filterSelect, .select {
-    grid-column: span 2;
-    width: 100%;
+    flex: 1;
+    min-width: 0;
   }
-  .btnOutline, .filterBtn, .exportBtn { 
-    grid-column: span 1;
+  .hideMobile {
+    display: none;
+  }
+  .btnOutline, .exportBtn { 
+    flex: 0 0 auto;
     justify-content: center; 
-    width: 100%; 
-    padding: 8px 4px;
-    font-size: 12px;
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+  .btnIcon {
+    width: 14px;
+    height: 14px;
   }
 }
 
@@ -459,11 +501,7 @@
   .couponsGrid {
     padding: 0;
   }
-  .tableCard {
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-  }
+  
   .mobileCards {
     padding: 0 !important;
   }
@@ -474,16 +512,15 @@
 }
 
 .deleteCouponBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
   background-color: #FEE2E2 !important;
   color: #DC2626 !important;
-  border: 1px solid #FCA5A5 !important;
-  border-radius: var(--radius-md);
-  padding: 6px 12px;
-  font-size: 12px;
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent !important;
   cursor: pointer;
   filter: none !important;
   opacity: 1 !important;
@@ -497,3 +534,157 @@
   box-shadow: 0 2px 4px rgba(220, 38, 38, 0.25);
 }
 
+
+.stickyWrapper {
+  position: sticky;
+  top: -1.5rem;
+  z-index: 20;
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 12px 2rem;
+  margin: 0 -2rem 0 -2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 991px) {
+  .stickyWrapper {
+    top: -0.5rem;
+    padding: 12px 6px;
+    margin: 0 -6px 0 -6px;
+  }
+}
+
+/* --- Checkbox & Bulk Selection Styles --- */
+.checkboxCell {
+  width: 48px;
+  text-align: center;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  accent-color: var(--admin-pink);
+  cursor: pointer;
+}
+
+.btnDanger {
+  background-color: #E53E3E !important;
+  color: white !important;
+  border: 1px solid #E53E3E !important;
+  border-radius: var(--radius-md);
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+.btnDanger:hover { background-color: #C53030 !important; border-color: #C53030 !important; }
+
+.showMobileInline {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .showOnMobile {
+    display: flex;
+  }
+  
+  .showMobileInline {
+    display: inline-block !important;
+  }
+  
+  .bulkToolbar {
+    flex-wrap: nowrap !important;
+    gap: 12px !important;
+    padding: 8px !important;
+  }
+  
+  .bulkToolbar > div {
+    gap: 4px !important;
+  }
+  
+  .mobileSelect {
+    min-width: 110px !important;
+  }
+  
+  .mobileSelect > button {
+    min-width: 110px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .table th, .table td { padding: 12px 16px; font-size: 11px; }
+  .tableCard {
+    background-color: var(--color-white) !important;
+    border: 1px solid var(--color-border) !important;
+    box-shadow: var(--shadow-sm) !important;
+    border-radius: var(--radius-lg) !important;
+  }
+}
+
+.table th, .table td { white-space: nowrap; /* added for free fit */ }
+
+
+@media (max-width: 768px) {
+  .statCard {
+    display: grid !important;
+    grid-template-columns: 36px 1fr !important;
+    grid-template-rows: auto auto auto !important;
+    gap: 2px 10px !important;
+    padding: 12px 12px !important;
+    align-items: center !important;
+  }
+  .statIconWrapper {
+    grid-column: 1 !important;
+    grid-row: 1 / span 3 !important;
+    margin-bottom: 0 !important;
+    width: 36px !important;
+    height: 36px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .statIconWrapper > svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+  .statLabel {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    font-size: 10px !important;
+    text-align: left !important;
+    margin-bottom: 0 !important;
+  }
+  .statValue {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+    font-size: 18px !important;
+    line-height: 1.2 !important;
+    text-align: left !important;
+  }
+  .statTrend {
+    grid-column: 2 !important;
+    grid-row: 3 !important;
+    font-size: 10px !important;
+    text-align: left !important;
+    margin-top: 0 !important;
+  }
+}
+
+
+/* Fix for absolutely positioned checkboxes in mobile cards */
+.mobileCard {
+  position: relative !important;
+}
+
+@media (max-width: 768px) {
+/* Hide desktop components on mobile */
+.itemsGrid {
+  display: none !important;
+}
+}

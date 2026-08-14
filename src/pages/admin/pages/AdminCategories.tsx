@@ -5,8 +5,10 @@ import {
   MoreVertical, Edit2, ChevronLeft, ChevronRight 
 } from 'lucide-react'
 import styles from './AdminCategories.module.css'
+import { ViewToggle } from '../components/ViewToggle'
 import { AdminCategoriesSkeleton } from '../components/AdminCategoriesSkeleton'
 import { AdminAddCategoryModal } from '../components/AdminAddCategoryModal'
+import { CustomSelect } from '../components/CustomSelect'
 
 const statsData = [
   { id: 1, label: 'TOTAL CATEGORIES', value: '24', trend: '14.3%', isPositive: true, comparison: 'vs last 7 days', icon: Grid, color: 'var(--admin-pink)', bg: '#FFF0F5' },
@@ -27,6 +29,8 @@ const categoriesData = [
 ];
 
 export function AdminCategories() {
+  const [view, setView] = React.useState<'list' | 'grid'>('list');
+  const [statusFilter, setStatusFilter] = React.useState('all');
   const [isLoading, setIsLoading] = React.useState(true);
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
   const [categories, setCategories] = React.useState(categoriesData);
@@ -56,30 +60,35 @@ export function AdminCategories() {
       </div>
 
       <div className={styles.toolbar}>
-        <div className={styles.toolbarLeft}>
-          <div className={styles.searchWrapper}>
-            <Search size={16} className={styles.searchIcon} />
-            <input type="text" placeholder="Search categories..." className={styles.searchInput} />
-          </div>
-          <div className={styles.select}>
-            <select defaultValue="all">
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-            <ChevronDown size={14} className={styles.selectIcon} />
-          </div>
+        <div className={styles.searchWrapper}>
+          <Search size={16} className={styles.searchIcon} />
+          <input type="text" placeholder="Search categories..." className={styles.searchInput} />
         </div>
-        
-        <div className={styles.toolbarRight}>
+        <div className={styles.filtersScrollContainer}>
+          <CustomSelect
+            options={[
+              { value: 'all', label: 'All Status' },
+              { value: 'active', label: 'Active' },
+              { value: 'inactive', label: 'Inactive' }
+            ]}
+            value={statusFilter}
+            onChange={setStatusFilter}
+            variant="yellow"
+            className={styles.filterSelect}
+          />
+        </div>
+        <div className={styles.actionButtons}>
           <button className={styles.filterBtn}>
-            <Filter size={16} />
-            Filter
+            <Filter size={16} className={styles.btnIcon} />
+            <span className={styles.hideMobile}>Filter</span>
           </button>
           <button className={styles.exportBtn}>
-            <Download size={16} />
-            Export
+            <Download size={16} className={styles.btnIcon} />
+            <span className={styles.hideMobile}>Export</span>
           </button>
+          <div style={{ flexShrink: 0 }}>
+            <ViewToggle view={view} onViewChange={setView} />
+          </div>
         </div>
       </div>
 
@@ -105,7 +114,7 @@ export function AdminCategories() {
       </div>
 
       <div className={styles.tableCard}>
-        <div className={styles.tableWrapper}>
+        <div className={styles.tableWrapper} style={{ display: view === 'grid' ? 'none' : '' }}>
           <table className={styles.table}>
             <thead>
               <tr>
@@ -166,7 +175,7 @@ export function AdminCategories() {
         </div>
 
         {/* Mobile View */}
-        <div className={styles.mobileCards}>
+        <div className={styles.mobileCards} style={{ display: view === 'list' ? 'none' : '' }}>
           {categories.map((category) => {
             const statusClass = category.status === 'Active' ? styles.active : styles.inactive;
             const CategoryIcon = category.icon;

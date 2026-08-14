@@ -1,14 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { 
   Search, Plus, Download, Calendar, ChevronDown, 
   ShoppingBag, Clock, Package, Truck, CheckCircle, 
-  Eye, MoreVertical, User, ChevronLeft, ChevronRight, Filter 
+  Eye, MoreVertical, User, ChevronLeft, ChevronRight, Filter, Trash2, AlertTriangle, X
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import styles from './AdminOrders.module.css'
 import { ViewToggle } from '../components/ViewToggle'
 import { CustomSelect } from '../components/CustomSelect'
 import { AdminOrdersSkeleton } from '../components/AdminOrdersSkeleton'
+import { InvoiceViewer } from '@/components/invoice/InvoiceViewer'
+import { mapOrderToInvoiceData, InvoiceData } from '@/types/invoice'
 
 const statusOptions = [
   { value: 'all', label: 'All Status' },
@@ -52,6 +55,7 @@ const ordersData = [
 
 export function AdminOrders() {
   const [isLoading, setIsLoading] = React.useState(true);
+  const [invoiceOrder, setInvoiceOrder] = React.useState<any | null>(null);
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
@@ -63,6 +67,9 @@ export function AdminOrders() {
 
 
   const [activeActionMenu, setActiveActionMenu] = React.useState<string | null>(null);
+  const [selectedOrders, setSelectedOrders] = React.useState<string[]>([]);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = React.useState(false);
+  const [confirmAction, setConfirmAction] = React.useState('');
   const [view, setView] = React.useState<'list' | 'grid'>('list');
   const [statusFilter, setStatusFilter] = React.useState('all');
   const [paymentFilter, setPaymentFilter] = React.useState('all');
@@ -97,44 +104,98 @@ export function AdminOrders() {
         </Link>
       </div>
 
-      <div className={styles.toolbar}>
-        <div className={styles.searchWrapper}>
-          <Search size={16} className={styles.searchIcon} />
-          <input type="text" placeholder="Search orders..." className={styles.searchInput} />
+      <div className={styles.stickyWrapper}>
+        {selectedOrders.length > 0 ? (
+        <div className={`${styles.toolbar} ${styles.bulkToolbar}`} style={{ backgroundColor: '#FFF0F5', borderColor: 'var(--admin-pink)', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+            <span style={{ fontWeight: 600, color: 'var(--admin-pink)', whiteSpace: 'nowrap' }}>
+              {selectedOrders.length} <span className={styles.hideMobile}>order{selectedOrders.length > 1 ? 's' : ''}</span> selected
+            </span>
+          </div>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', justifyContent: 'flex-end', flexWrap: 'nowrap' }}>
+            <CustomSelect 
+              className={styles.mobileSelect}
+              variant="pink"
+              placeholder="Update Status..."
+              value=""
+              onChange={(val) => {
+                if (val) {
+                  setConfirmAction(val);
+                  setIsConfirmModalOpen(true);
+                }
+              }}
+              options={[
+                { value: 'pending', label: 'Mark as Pending' },
+                { value: 'processing', label: 'Mark as Processing' },
+                { value: 'shipped', label: 'Mark as Shipped' },
+                { value: 'delivered', label: 'Mark as Delivered' }
+              ]}
+            />
+            <button className={styles.btnOutline} title="Export Selected" style={{ padding: '8px' }}>
+              <Download size={16} style={{ flexShrink: 0, minWidth: '16px' }} /> <span className={styles.hideMobile}>Export Selected</span>
+            </button>
+            <button className={styles.btnOutline} onClick={() => setSelectedOrders([])} style={{ border: 'none', background: 'white', padding: '8px' }} title="Clear Selection">
+              <span className={styles.hideMobile}>Clear Selection</span>
+              <X size={16} className={styles.showMobileInline} style={{ flexShrink: 0, minWidth: '16px' }} />
+            </button>
+            <button 
+              className={styles.btnDanger} 
+              title="Delete Selected"
+              style={{ padding: '8px' }}
+              onClick={() => {
+                setConfirmAction('delete');
+                setIsConfirmModalOpen(true);
+              }}
+            >
+              <Trash2 size={16} style={{ flexShrink: 0, minWidth: '16px' }} /> <span className={styles.hideMobile}>Delete Selected</span>
+            </button>
+          </div>
         </div>
-        
-        <CustomSelect
-          options={statusOptions}
-          value={statusFilter}
-          onChange={setStatusFilter}
-          className={styles.filterSelect}
-          variant="yellow"
-        />
-        <CustomSelect
-          options={paymentOptions}
-          value={paymentFilter}
-          onChange={setPaymentFilter}
-          className={styles.filterSelect}
-          variant="pink"
-        />
-        <CustomSelect
-          options={dateOptions}
-          value={dateFilter}
-          onChange={setDateFilter}
-          className={styles.filterSelect}
-          variant="turquoise"
-        />
+      ) : (
+        <div className={styles.toolbar}>
+          <div className={styles.searchWrapper}>
+            <Search size={16} className={styles.searchIcon} />
+            <input type="text" placeholder="Search orders..." className={styles.searchInput} />
+          </div>
 
-        <button className={styles.btnOutline}>
-          <Filter size={14} /> Filter
-        </button>
-        <button className={styles.btnOutline}>
-          <Download size={14} /> Export
-        </button>
-        <ViewToggle view={view} onViewChange={setView} />
+          <div className={styles.filtersScrollContainer}>
+            <CustomSelect
+              options={statusOptions}
+              value={statusFilter}
+              onChange={setStatusFilter}
+              className={styles.filterSelect}
+              variant="yellow"
+            />
+            <CustomSelect
+              options={paymentOptions}
+              value={paymentFilter}
+              onChange={setPaymentFilter}
+              className={styles.filterSelect}
+              variant="pink"
+            />
+            <CustomSelect
+              options={dateOptions}
+              value={dateFilter}
+              onChange={setDateFilter}
+              className={styles.filterSelect}
+              variant="turquoise"
+            />
+          </div>
+
+          <div className={styles.actionButtons}>
+            <button className={styles.btnOutline} title="Filter">
+              <Filter className={styles.btnIcon} /> <span className={styles.hideMobile}>Filter</span>
+            </button>
+            <button className={styles.btnOutline} title="Export">
+              <Download className={styles.btnIcon} /> <span className={styles.hideMobile}>Export</span>
+            </button>
+            <div style={{ flexShrink: 0 }}>
+              <ViewToggle view={view} onViewChange={setView} />
+            </div>
+          </div>
+        </div>
+      )}
       </div>
-
-      
 
       <div className={styles.statsGrid}>
         {statsData.map((stat) => {
@@ -161,6 +222,14 @@ export function AdminOrders() {
             <table className={styles.table}>
             <thead>
               <tr>
+                <th style={{ width: '40px', textAlign: 'center' }}>
+                  <input 
+                    type="checkbox" 
+                    className={styles.checkbox}
+                    checked={selectedOrders.length === ordersData.length && ordersData.length > 0}
+                    onChange={(e) => setSelectedOrders(e.target.checked ? ordersData.map(o => o.id) : [])}
+                  />
+                </th>
                 <th>ORDER ID</th>
                 <th>CUSTOMER</th>
                 <th>DATE</th>
@@ -173,6 +242,20 @@ export function AdminOrders() {
             <tbody>
               {ordersData.map((order, idx) => (
                 <tr key={idx}>
+                  <td style={{ textAlign: 'center' }}>
+                    <input 
+                      type="checkbox" 
+                      className={styles.checkbox}
+                      checked={selectedOrders.includes(order.id)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedOrders(prev => [...prev, order.id]);
+                        } else {
+                          setSelectedOrders(prev => prev.filter(id => id !== order.id));
+                        }
+                      }}
+                    />
+                  </td>
                   <td>
                     <span className={styles.cellText}>{order.id}</span>
                   </td>
@@ -208,6 +291,17 @@ export function AdminOrders() {
                   </td>
                   <td>
                     <div className={styles.actionsCell}>
+                      <button 
+                        className="global-delete-btn" 
+                        aria-label="Delete Order"
+                        onClick={() => {
+                          setSelectedOrders([String(order.id)]);
+                          setConfirmAction('delete');
+                          setIsConfirmModalOpen(true);
+                        }}
+                      >
+                        <Trash2 size={16} />
+                      </button>
                       <button className={styles.actionBtn}>
                         <Eye size={16} />
                       </button>
@@ -221,7 +315,7 @@ export function AdminOrders() {
                         {activeActionMenu === order.id && (
                           <div className={styles.actionMenu}>
                             <button className={styles.menuItem}>Edit Order</button>
-                            <button className={styles.menuItem}>Download Invoice</button>
+                            <button className={styles.menuItem} onClick={() => setInvoiceOrder(order)}>View Invoice</button>
                             <button className={`${styles.menuItem} ${styles.menuItemDanger}`}>Cancel Order</button>
                           </div>
                         )}
@@ -236,7 +330,19 @@ export function AdminOrders() {
         )}
 
         {/* Grid View / Mobile View */}
-        <div className={`${styles.ordersGrid} ${view === 'list' ? styles.hideOnDesktop : ''}`}>
+        <div className={`${styles.selectAllWrapper} ${view === 'list' ? styles.listMode : ''}`}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', fontSize: '14px', fontWeight: 600, color: 'var(--admin-brown)' }}>
+            <input 
+              type="checkbox" 
+              className={styles.checkbox}
+              checked={selectedOrders.length === ordersData.length && ordersData.length > 0}
+              onChange={(e) => setSelectedOrders(e.target.checked ? ordersData.map(o => o.id) : [])}
+            />
+            Select All Orders
+          </label>
+        </div>
+        
+        <div className={styles.ordersGrid} style={{ display: view === 'list' ? 'none' : '' }}>
           {ordersData.map((order, idx) => (
             <div key={`grid-${order.id}-${idx}`} className={styles.orderCard}>
               <div className={styles.mcHeader}>
@@ -244,7 +350,7 @@ export function AdminOrders() {
                   <div className={styles.customerAvatar}>
                     <User size={16} strokeWidth={2.5} />
                   </div>
-                  <div className={styles.customerInfo}>
+                  <div className={styles.customerInfo} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <span className={styles.customerName}>{order.customer}</span>
                     <span className={styles.cellText} style={{ fontSize: '12px' }}>{order.id}</span>
                   </div>
@@ -280,7 +386,32 @@ export function AdminOrders() {
                 </div>
               </div>
 
-              <div className={styles.mcActions} style={{ position: 'relative', marginTop: '12px' }}>
+              <div className={styles.mcActions} style={{ position: 'relative', marginTop: '12px', alignItems: 'center' }}>
+                <input 
+                  type="checkbox" 
+                  className={styles.checkbox}
+                  checked={selectedOrders.includes(order.id)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedOrders(prev => [...prev, order.id]);
+                    } else {
+                      setSelectedOrders(prev => prev.filter(id => id !== order.id));
+                    }
+                  }}
+                  style={{ marginRight: '8px' }}
+                />
+                <button 
+                  className="global-delete-btn" 
+                  aria-label="Delete Order"
+                  onClick={() => {
+                    setSelectedOrders([String(order.id)]);
+                    setConfirmAction('delete');
+                    setIsConfirmModalOpen(true);
+                  }}
+                  style={{ marginRight: '8px' }}
+                >
+                  <Trash2 size={14} />
+                </button>
                 <button className={styles.actionBtn}>
                   <Eye size={14} />
                 </button>
@@ -293,7 +424,7 @@ export function AdminOrders() {
                 {activeActionMenu === `grid-${order.id}` && (
                   <div className={styles.actionMenu} style={{ bottom: 'calc(100% + 4px)', top: 'auto', right: 0 }}>
                     <button className={styles.menuItem}>Edit Order</button>
-                    <button className={styles.menuItem}>Download Invoice</button>
+                    <button className={styles.menuItem} onClick={() => setInvoiceOrder(order)}>View Invoice</button>
                     <button className={`${styles.menuItem} ${styles.menuItemDanger}`}>Cancel Order</button>
                   </div>
                 )}
@@ -315,6 +446,46 @@ export function AdminOrders() {
           </div>
         </div>
       </div>
+      
+      <InvoiceViewer 
+        isOpen={!!invoiceOrder} 
+        onClose={() => setInvoiceOrder(null)} 
+        data={invoiceOrder ? mapOrderToInvoiceData(invoiceOrder) : null} 
+      />
+
+      {isConfirmModalOpen && createPortal(
+        <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }} onClick={() => setIsConfirmModalOpen(false)}></div>
+          <div style={{ position: 'relative', backgroundColor: 'white', padding: '24px', borderRadius: '12px', maxWidth: '400px', width: '90%', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', color: confirmAction === 'delete' ? '#E53E3E' : 'var(--admin-brown)' }}>
+              <AlertTriangle size={24} />
+              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 600 }}>Confirm Action</h3>
+            </div>
+            <p style={{ margin: '0 0 24px 0', color: 'var(--color-text-muted)', lineHeight: 1.5 }}>
+              Are you sure you want to {confirmAction === 'delete' ? `delete ${selectedOrders.length} selected order(s)` : `mark ${selectedOrders.length} selected order(s) as ${confirmAction}`}? {confirmAction === 'delete' && 'This action cannot be undone.'}
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+              <button 
+                onClick={() => setIsConfirmModalOpen(false)}
+                style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid var(--color-border)', background: 'white', color: 'var(--color-text)', cursor: 'pointer', fontWeight: 600 }}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={() => {
+                  // Execute action here
+                  setIsConfirmModalOpen(false);
+                  setSelectedOrders([]);
+                }}
+                style={{ padding: '8px 16px', borderRadius: '8px', border: 'none', background: confirmAction === 'delete' ? '#E53E3E' : 'var(--admin-pink)', color: 'white', cursor: 'pointer', fontWeight: 600 }}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   )
 }
