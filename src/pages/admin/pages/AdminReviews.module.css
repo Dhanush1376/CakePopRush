@@ -470,3 +470,17 @@
   }
 }
 
+
+.mobileCardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  margin-top: auto;
+  border-top: 1px solid var(--color-border);
+}
+.actionsCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
