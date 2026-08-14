@@ -14,7 +14,19 @@ export function AdminNewOrderSkeleton() {
       <div className={styles.grid}>
         {/* Left Column: Steps */}
         <div className={styles.stepsCol}>
-          <div className={styles.wizardHeader}>
+          {/* Mobile Stepper Skeleton */}
+          <div className={styles.mobileOnly}>
+            <div className={styles.mobileStepperCard}>
+              <div className={`${styles.skeleton} ${styles.mobileStepperIcon}`} />
+              <div className={styles.mobileStepperInfo}>
+                <div className={`${styles.skeleton} ${styles.mobileStepCount}`} />
+                <div className={`${styles.skeleton} ${styles.mobileStepLabel}`} />
+              </div>
+              <div className={`${styles.skeleton} ${styles.mobileProgressBar}`} />
+            </div>
+          </div>
+
+          <div className={`${styles.wizardHeader} ${styles.desktopOnly}`}>
             <div className={`${styles.skeleton} ${styles.stepPill}`} />
             <div className={`${styles.skeleton} ${styles.stepPill}`} />
             <div className={`${styles.skeleton} ${styles.stepPill}`} />

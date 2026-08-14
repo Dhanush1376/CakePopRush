@@ -12,6 +12,18 @@ export function AdminAddProductSkeleton() {
         <div className={`${styles.skeleton} ${styles.actionBtn}`} />
       </div>
 
+      {/* Mobile Stepper Skeleton */}
+      <div className={styles.mobileOnly}>
+        <div className={styles.mobileStepperCard}>
+          <div className={`${styles.skeleton} ${styles.mobileStepperIcon}`} />
+          <div className={styles.mobileStepperInfo}>
+            <div className={`${styles.skeleton} ${styles.mobileStepCount}`} />
+            <div className={`${styles.skeleton} ${styles.mobileStepLabel}`} />
+          </div>
+          <div className={`${styles.skeleton} ${styles.mobileProgressBar}`} />
+        </div>
+      </div>
+
       <div className={styles.mainGrid}>
         {/* Left Column: Form Area */}
         <div className={styles.leftColumn}>
@@ -48,7 +60,7 @@ export function AdminAddProductSkeleton() {
 
         {/* Right Column: Preview & Stepper */}
         <div className={styles.rightColumn}>
-          <div className={styles.stepperCard}>
+          <div className={`${styles.stepperCard} ${styles.desktopOnly}`}>
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className={styles.stepperItem}>
                 <div className={`${styles.skeleton} ${styles.stepperIcon}`} />
