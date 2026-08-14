@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { 
   Search, Plus, Download, ChevronDown, Filter, 
   Calendar, CheckCircle, Clock, XCircle, ChevronRight, ChevronLeft,
@@ -98,10 +99,13 @@ const OccasionColorMap: Record<string, {bg: string, color: string}> = {
 };
 
 export function AdminCustomOrders() {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(true);
-  
+
   React.useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 800);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -119,7 +123,7 @@ export function AdminCustomOrders() {
           <h1 className={styles.title}>Custom Orders</h1>
           <p className={styles.subtitle}>Manage bespoke cake pop requests and quotes.</p>
         </div>
-        <button className={styles.addBtn}>
+        <button className={styles.addBtn} onClick={() => navigate('/admin/custom-orders/add')}>
           <Plus size={18} strokeWidth={2.5} />
           New Request
         </button>

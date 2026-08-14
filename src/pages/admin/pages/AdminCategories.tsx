@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import styles from './AdminCategories.module.css'
 import { AdminCategoriesSkeleton } from '../components/AdminCategoriesSkeleton'
+import { AdminAddCategoryModal } from '../components/AdminAddCategoryModal'
 
 const statsData = [
   { id: 1, label: 'TOTAL CATEGORIES', value: '24', trend: '14.3%', isPositive: true, comparison: 'vs last 7 days', icon: Grid, color: 'var(--admin-pink)', bg: '#FFF0F5' },
@@ -27,6 +28,8 @@ const categoriesData = [
 
 export function AdminCategories() {
   const [isLoading, setIsLoading] = React.useState(true);
+  const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
+  const [categories, setCategories] = React.useState(categoriesData);
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
@@ -46,7 +49,7 @@ export function AdminCategories() {
           <h1 className={styles.title}>Categories</h1>
           <p className={styles.subtitle}>Organize your products into categories.</p>
         </div>
-        <button className={styles.addBtn}>
+        <button className={styles.addBtn} onClick={() => setIsAddModalOpen(true)}>
           <Plus size={18} strokeWidth={2.5} />
           Add Category
         </button>
@@ -118,7 +121,7 @@ export function AdminCategories() {
               </tr>
             </thead>
             <tbody>
-              {categoriesData.map((category) => {
+              {categories.map((category) => {
                 const statusClass = category.status === 'Active' ? styles.active : styles.inactive;
                 const CategoryIcon = category.icon;
 
@@ -164,7 +167,7 @@ export function AdminCategories() {
 
         {/* Mobile View */}
         <div className={styles.mobileCards}>
-          {categoriesData.map((category) => {
+          {categories.map((category) => {
             const statusClass = category.status === 'Active' ? styles.active : styles.inactive;
             const CategoryIcon = category.icon;
 
@@ -222,6 +225,16 @@ export function AdminCategories() {
           </div>
         </div>
       </div>
+
+      <AdminAddCategoryModal 
+        isOpen={isAddModalOpen} 
+        onClose={() => setIsAddModalOpen(false)} 
+        existingCategories={categories}
+        onSuccess={(newCategory) => {
+          // Add new category at the top of the list
+          setCategories([newCategory, ...categories])
+        }}
+      />
     </div>
   )
 }

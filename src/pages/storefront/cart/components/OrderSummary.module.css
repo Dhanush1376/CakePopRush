@@ -58,7 +58,7 @@
 }
 
 .totalValue {
-  font-family: var(--font-family-display);
+  font-family: 'Times New Roman', Times, serif;
   font-size: 24px;
   font-weight: 800;
   color: #3A2E24;

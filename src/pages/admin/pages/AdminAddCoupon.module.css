@@ -45,7 +45,7 @@
 }
 
 .title {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   color: #171717;
   margin: 0;
@@ -53,9 +53,9 @@
 }
 
 .subtitle {
-  font-size: 13px;
+  font-size: 12px;
   color: #666666;
-  margin: 4px 0 0 0;
+  margin: 8px 0 0 0;
 }
 
 .headerRight {
@@ -462,14 +462,6 @@
   gap: 16px;
 }
 
-.toggleSwitch {
-  position: relative;
-  display: inline-block;
-  width: 44px;
-  height: 24px;
-  flex-shrink: 0;
-}
-
 .inputWithIcon {
   position: relative;
   display: flex;
@@ -659,4 +651,192 @@
     display: none;
   }
 }
+/* Coupon Specific Styles */
+.couponPreviewBanner {
+  background: linear-gradient(135deg, #F21B5B 0%, #D41249 100%);
+  color: white;
+  padding: 24px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.couponPreviewBanner::before, .couponPreviewBanner::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.couponPreviewBanner::before {
+  left: -10px;
+}
+
+.couponPreviewBanner::after {
+  right: -10px;
+}
+
+.couponPreviewCode {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  border: 2px dashed rgba(255,255,255,0.4);
+  padding: 8px 24px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.couponPreviewDiscount {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.couponPreviewList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.couponPreviewItem {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #EDEDED;
+  font-size: 13px;
+  color: #4D5156;
+}
+
+.couponPreviewItem:last-child {
+  border-bottom: none;
+}
+
+.couponPreviewIcon {
+  color: #666666;
+  margin-right: 12px;
+}
+
+.toggleSwitch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.toggleSwitch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggleSlider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.toggleSlider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .toggleSlider {
+  background-color: #F21B5B;
+}
+
+input:checked + .toggleSlider:before {
+  transform: translateX(20px);
+}
+
+.chipGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.chip {
+  background: #FAFAFA;
+  border: 1px solid #EDEDED;
+  padding: 6px 12px;
+  border-radius: 100px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chip button {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+}
+
+.chip button:hover {
+  color: #F21B5B;
+}
+
+.segmentedControl {
+  display: flex;
+  background: #FAFAFA;
+  border: 1px solid #EDEDED;
+  border-radius: 8px;
+  padding: 4px;
+  margin-bottom: 16px;
+}
+
+.segmentedBtn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.segmentedBtnActive {
+  background: #FFFFFF;
+  color: #171717;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.rowGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
 

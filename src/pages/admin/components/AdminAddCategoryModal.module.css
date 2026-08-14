@@ -1,0 +1,124 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-2) 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.label {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-chocolate);
+}
+
+.required {
+  color: var(--color-error);
+  margin-left: 2px;
+}
+
+.uploadWrapper {
+  border: 1px dashed rgba(92, 51, 23, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  background-color: var(--color-hero-cream);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  text-align: center;
+}
+
+.uploadWrapper:hover {
+  border-color: var(--color-brand-pink);
+  background-color: #FFF0F5;
+}
+
+.uploadIcon {
+  color: var(--color-text-muted);
+  width: 32px;
+  height: 32px;
+}
+
+.uploadText {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.previewContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2/1;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.previewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.previewOverlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(92, 51, 23, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.previewContainer:hover .previewOverlay {
+  opacity: 1;
+}
+
+.actionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  border: none;
+  background-color: var(--color-white);
+  color: var(--color-chocolate);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--duration-fast);
+}
+
+.actionBtn:hover {
+  transform: scale(1.1);
+}
+
+.actionBtn.remove {
+  color: var(--color-error);
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(92, 51, 23, 0.08);
+}

@@ -1,9 +1,8 @@
 .splashContainer {
   position: fixed;
-  top: -100px;
-  bottom: -100px;
-  left: -100px;
-  right: -100px;
+  inset: 0;
+  height: 100dvh;
+  width: 100vw;
   background-color: #ffffff;
   display: flex;
   align-items: center;

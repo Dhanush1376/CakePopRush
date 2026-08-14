@@ -31,12 +31,14 @@ import { AdminCustomers } from '@/pages/admin/pages/AdminCustomers'
 import { AdminCustomOrders } from '@/pages/admin/pages/AdminCustomOrders'
 import { AdminReviews } from '@/pages/admin/pages/AdminReviews'
 import { AdminCoupons } from '@/pages/admin/pages/AdminCoupons'
+import { AdminAddCoupon } from '@/pages/admin/pages/AdminAddCoupon'
 import { AdminAnalytics } from '@/pages/admin/pages/AdminAnalytics'
 import { AdminBanners } from '@/pages/admin/pages/AdminBanners'
 import { AdminSettings } from '@/pages/admin/pages/AdminSettings'
 import { AdminUsers } from '@/pages/admin/pages/AdminUsers'
 import { AdminNotifications } from '@/pages/admin/pages/AdminNotifications'
 import { AdminStorefrontCMS } from '@/pages/admin/pages/AdminStorefrontCMS'
+import { AdminAddCustomOrder } from '@/pages/admin/pages/AdminAddCustomOrder'
 import { AdminErrorBoundary } from '@/pages/admin/components/AdminErrorBoundary'
 
 export const router = createBrowserRouter([
@@ -136,8 +138,10 @@ export const router = createBrowserRouter([
       { path: 'categories', element: <AdminCategories /> },
       { path: 'customers', element: <AdminCustomers /> },
       { path: 'custom-orders', element: <AdminCustomOrders /> },
+      { path: 'custom-orders/add', element: <AdminAddCustomOrder /> },
       { path: 'reviews', element: <AdminReviews /> },
       { path: 'coupons', element: <AdminCoupons /> },
+      { path: 'coupons/add', element: <AdminAddCoupon /> },
       { path: 'analytics', element: <AdminAnalytics /> },
       { path: 'banners', element: <AdminBanners /> },
       { path: 'settings', element: <AdminSettings /> },

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   ArrowLeft, Search, Plus, Trash2, CheckCircle, 
   ChevronDown, X, Info
@@ -42,11 +42,15 @@ interface OrderItem {
   unitPrice: number;
   image?: string;
   customization?: {
-    message?: string;
     flavor?: string;
     size?: string;
+    message?: string;
+    design?: string;
+    instructions?: string;
   };
   notes?: string;
+  customerNote?: string;
+  internalNote?: string;
 }
 
 const TAX_RATE = 0.10;
@@ -62,6 +66,8 @@ const WIZARD_STEPS = [
 
 export function AdminNewOrder() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const initialMode = location.state?.initialMode || 'catalogue';
 
   // --- Wizard State ---
   const [currentStep, setCurrentStep] = useState(1);
@@ -95,13 +101,26 @@ export function AdminNewOrder() {
 
   // Step 2: Items
   const [items, setItems] = useState<OrderItem[]>([]);
+  const [itemEntryMode, setItemEntryMode] = useState<'catalogue' | 'custom'>(initialMode);
   const [productSearch, setProductSearch] = useState('');
   const [isSearchingProduct, setIsSearchingProduct] = useState(false);
-  const [showCustomItemForm, setShowCustomItemForm] = useState(false);
+  
+  const [editingCustomItemId, setEditingCustomItemId] = useState<string | null>(null);
   const [customItemName, setCustomItemName] = useState('');
+  const [customItemDesc, setCustomItemDesc] = useState('');
   const [customItemPrice, setCustomItemPrice] = useState('');
   const [customItemQty, setCustomItemQty] = useState('1');
-  const [customItemDesc, setCustomItemDesc] = useState('');
+  
+  const [showCustomDetails, setShowCustomDetails] = useState(false);
+  const [customItemFlavor, setCustomItemFlavor] = useState('');
+  const [customItemSize, setCustomItemSize] = useState('');
+  const [customItemMessage, setCustomItemMessage] = useState('');
+  const [customItemDesign, setCustomItemDesign] = useState('');
+  const [customItemInstructions, setCustomItemInstructions] = useState('');
+  
+  const [showCustomNotes, setShowCustomNotes] = useState(false);
+  const [customItemInternalNote, setCustomItemInternalNote] = useState('');
+  const [customItemCustomerNote, setCustomItemCustomerNote] = useState('');
 
   // Step 3: Delivery
   const [fulfillmentType, setFulfillmentType] = useState<FulfillmentType>('delivery');
@@ -279,23 +298,77 @@ export function AdminNewOrder() {
     setIsSearchingProduct(false);
   };
 
+  const resetCustomForm = () => {
+    setEditingCustomItemId(null);
+    setCustomItemName('');
+    setCustomItemDesc('');
+    setCustomItemPrice('');
+    setCustomItemQty('1');
+    setCustomItemFlavor('');
+    setCustomItemSize('');
+    setCustomItemMessage('');
+    setCustomItemDesign('');
+    setCustomItemInstructions('');
+    setCustomItemInternalNote('');
+    setCustomItemCustomerNote('');
+    setShowCustomDetails(false);
+    setShowCustomNotes(false);
+  };
+
   const handleAddCustomItem = () => {
     markChanged();
     const price = parseFloat(customItemPrice);
     if (!customItemName || isNaN(price)) return; 
-    setItems(prev => [...prev, {
-      id: `custom-${Date.now()}`,
+    
+    const customData = {
       isCustom: true,
       name: customItemName,
       quantity: parseInt(customItemQty) || 1,
       unitPrice: price,
-      notes: customItemDesc
-    }]);
-    setCustomItemName('');
-    setCustomItemPrice('');
-    setCustomItemQty('1');
-    setCustomItemDesc('');
-    setShowCustomItemForm(false);
+      notes: customItemDesc,
+      customization: {
+        flavor: customItemFlavor,
+        size: customItemSize,
+        message: customItemMessage,
+        design: customItemDesign,
+        instructions: customItemInstructions,
+      },
+      internalNote: customItemInternalNote,
+      customerNote: customItemCustomerNote,
+    };
+
+    if (editingCustomItemId) {
+      setItems(prev => prev.map(item => item.id === editingCustomItemId ? { ...item, ...customData } : item));
+    } else {
+      setItems(prev => [...prev, { id: `custom-${Date.now()}`, ...customData }]);
+    }
+    
+    resetCustomForm();
+    setItemEntryMode('catalogue');
+  };
+
+  const handleEditCustomItem = (id: string) => {
+    const item = items.find(i => i.id === id);
+    if (!item) return;
+    setEditingCustomItemId(id);
+    setCustomItemName(item.name);
+    setCustomItemDesc(item.notes || '');
+    setCustomItemPrice(item.unitPrice.toString());
+    setCustomItemQty(item.quantity.toString());
+    
+    setCustomItemFlavor(item.customization?.flavor || '');
+    setCustomItemSize(item.customization?.size || '');
+    setCustomItemMessage(item.customization?.message || '');
+    setCustomItemDesign(item.customization?.design || '');
+    setCustomItemInstructions(item.customization?.instructions || '');
+    
+    setCustomItemInternalNote(item.internalNote || '');
+    setCustomItemCustomerNote(item.customerNote || '');
+    
+    setShowCustomDetails(!!(item.customization?.flavor || item.customization?.size || item.customization?.message || item.customization?.design || item.customization?.instructions));
+    setShowCustomNotes(!!(item.internalNote || item.customerNote));
+    
+    setItemEntryMode('custom');
   };
 
   const updateItemQuantity = (id: string, delta: number) => {
@@ -432,40 +505,153 @@ export function AdminNewOrder() {
         <p className={styles.sectionSubtitle}>Add the products and custom items requested by the customer.</p>
       </div>
 
-      <div className={styles.formGroup} style={{position: 'relative'}}>
-        <div className={styles.searchWrapper}>
-          <Input 
-            type="text" 
-            placeholder="Search products by name, SKU or category..." 
-            value={productSearch}
-            onChange={(e) => { setProductSearch(e.target.value); setIsSearchingProduct(true); }}
-            onFocus={() => setIsSearchingProduct(true)}
-            leftIcon={<Search size={16} />}
-            fullWidth
-          />
+      <div className={styles.formGroup}>
+        <div className={styles.pillGroup} style={{display: 'flex'}}>
+          <button 
+            className={`${styles.pill} ${styles.pillLarge} ${itemEntryMode === 'catalogue' ? styles.active : ''}`}
+            onClick={() => { setItemEntryMode('catalogue'); resetCustomForm(); }}
+          >
+            Catalogue Product
+          </button>
+          <button 
+            className={`${styles.pill} ${styles.pillLarge} ${itemEntryMode === 'custom' ? styles.active : ''}`}
+            onClick={() => setItemEntryMode('custom')}
+          >
+            Custom Order
+          </button>
         </div>
-        
-        {isSearchingProduct && (
-          <div className={styles.searchResults}>
-            {productSearchResults.length > 0 ? (
-              productSearchResults.map(p => (
-                <div key={p.id} className={styles.searchResultItem}>
-                  <div className={styles.resultInfo}>
-                    <img src={p.image} alt={p.name} className={styles.resultImage} />
-                    <div className={styles.resultDetails}>
-                      <span className={styles.resultName}>{p.name}</span>
-                      <span className={styles.resultMeta}>SKU: {p.sku} · ₹{p.price}</span>
+      </div>
+
+      {itemEntryMode === 'catalogue' ? (
+        <div className={styles.formGroup} style={{position: 'relative', marginTop: 'var(--space-2)'}}>
+          <div className={styles.searchWrapper}>
+            <Input 
+              type="text" 
+              placeholder="Search products by name, SKU or category..." 
+              value={productSearch}
+              onChange={(e) => { setProductSearch(e.target.value); setIsSearchingProduct(true); }}
+              onFocus={() => setIsSearchingProduct(true)}
+              leftIcon={<Search size={16} />}
+              fullWidth
+            />
+          </div>
+          
+          {isSearchingProduct && (
+            <div className={styles.searchResults}>
+              {productSearchResults.length > 0 ? (
+                productSearchResults.map(p => (
+                  <div key={p.id} className={styles.searchResultItem}>
+                    <div className={styles.resultInfo}>
+                      <img src={p.image} alt={p.name} className={styles.resultImage} />
+                      <div className={styles.resultDetails}>
+                        <span className={styles.resultName}>{p.name}</span>
+                        <span className={styles.resultMeta}>SKU: {p.sku} · ₹{p.price}</span>
+                      </div>
                     </div>
+                    <Button variant="outline" size="sm" onClick={() => handleAddProduct(p)}>+ Add</Button>
                   </div>
-                  <Button variant="outline" size="sm" onClick={() => handleAddProduct(p)}>+ Add</Button>
+                ))
+              ) : (
+                <div style={{padding: '16px', textAlign: 'center', fontSize: '13px', color: 'var(--color-text-muted)'}}>No products found.</div>
+              )}
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className={styles.customItemForm}>
+          <div style={{marginBottom: 'var(--space-4)'}}>
+            <h3 style={{fontSize: 'var(--font-size-lg)', fontWeight: 700, marginBottom: '4px'}}>Custom Item</h3>
+            <p style={{fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)'}}>Add the details of the item requested by the customer.</p>
+          </div>
+          
+          <div className={styles.row}>
+            <Input label="Item Name *" placeholder="e.g. Custom 2-Tier Wedding Cake" value={customItemName} onChange={(e) => setCustomItemName(e.target.value)} fullWidth />
+          </div>
+          
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Description</label>
+            <textarea className={styles.textarea} placeholder="Describe what the customer requested..." value={customItemDesc} onChange={(e) => setCustomItemDesc(e.target.value)} rows={2} />
+          </div>
+
+          <div className={styles.expandableSection}>
+            <button className={styles.expandableHeader} onClick={() => setShowCustomDetails(!showCustomDetails)}>
+              <span>Customization Details</span>
+              <ChevronDown size={16} style={{transform: showCustomDetails ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s'}} />
+            </button>
+            {showCustomDetails && (
+              <div className={styles.expandableContent}>
+                <div className={styles.row}>
+                  <Input label="Flavor" placeholder="e.g. Belgian Chocolate" value={customItemFlavor} onChange={(e) => setCustomItemFlavor(e.target.value)} fullWidth />
+                  <Input label="Size / Weight" placeholder="e.g. 2 kg" value={customItemSize} onChange={(e) => setCustomItemSize(e.target.value)} fullWidth />
                 </div>
-              ))
-            ) : (
-              <div style={{padding: '16px', textAlign: 'center', fontSize: '13px', color: 'var(--color-text-muted)'}}>No products found.</div>
+                <Input label="Message on Cake" placeholder="e.g. Happy Anniversary" value={customItemMessage} onChange={(e) => setCustomItemMessage(e.target.value)} fullWidth />
+                <Input label="Design / Decoration" placeholder="e.g. White floral design with gold accents" value={customItemDesign} onChange={(e) => setCustomItemDesign(e.target.value)} fullWidth />
+                <div className={styles.formGroup} style={{marginTop: 'var(--space-3)'}}>
+                  <label className={styles.label}>Special Instructions</label>
+                  <textarea className={styles.textarea} placeholder="Any other specific requests..." value={customItemInstructions} onChange={(e) => setCustomItemInstructions(e.target.value)} rows={2} />
+                </div>
+              </div>
             )}
           </div>
-        )}
-      </div>
+
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Reference Image (Optional)</label>
+            <div className={styles.imageUploadBox}>
+              <div style={{color: 'var(--color-text-muted)', fontSize: 'var(--font-size-sm)'}}>Upload a reference image provided by the customer.</div>
+              <Button variant="outline" size="sm" style={{marginTop: 'var(--space-2)'}}>Select Image</Button>
+            </div>
+          </div>
+
+          <div className={styles.row} style={{alignItems: 'flex-end'}}>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Quantity</label>
+              <div className={styles.quantityControl} style={{background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-md)'}}>
+                <button className={styles.qtyBtn} onClick={() => setCustomItemQty(String(Math.max(1, parseInt(customItemQty || '1') - 1)))}>−</button>
+                <span className={styles.qtyValue}>{customItemQty || '1'}</span>
+                <button className={styles.qtyBtn} onClick={() => setCustomItemQty(String(parseInt(customItemQty || '1') + 1))}>+</button>
+              </div>
+            </div>
+            <Input label="Unit Price (₹) *" type="number" placeholder="Set price" value={customItemPrice} onChange={(e) => setCustomItemPrice(e.target.value)} fullWidth />
+          </div>
+          
+          <div className={styles.customTotalBox}>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+              <span style={{fontSize: 'var(--font-size-sm)', color: 'var(--color-text-muted)'}}>Custom Item Total</span>
+              <span style={{fontWeight: 700, fontSize: 'var(--font-size-lg)'}}>₹{((parseFloat(customItemPrice) || 0) * (parseInt(customItemQty) || 1)).toFixed(2)}</span>
+            </div>
+          </div>
+
+          <div className={styles.expandableSection}>
+            <button className={styles.expandableHeader} onClick={() => setShowCustomNotes(!showCustomNotes)}>
+              <span>Internal & Customer Notes</span>
+              <ChevronDown size={16} style={{transform: showCustomNotes ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s'}} />
+            </button>
+            {showCustomNotes && (
+              <div className={styles.expandableContent}>
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>Internal Note <span style={{fontSize: '11px', color: 'var(--color-text-muted)', fontWeight: 400}}>(Visible only to staff)</span></label>
+                  <textarea className={styles.textarea} placeholder="Add notes for staff..." value={customItemInternalNote} onChange={(e) => setCustomItemInternalNote(e.target.value)} rows={2} />
+                </div>
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>Customer Note</label>
+                  <textarea className={styles.textarea} placeholder="Add information intended for the customer..." value={customItemCustomerNote} onChange={(e) => setCustomItemCustomerNote(e.target.value)} rows={2} />
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div style={{display: 'flex', gap: 'var(--space-3)', justifyContent: 'flex-end', marginTop: 'var(--space-4)'}}>
+            {editingCustomItemId && (
+               <Button variant="ghost" onClick={() => { resetCustomForm(); setItemEntryMode('catalogue'); }}>Cancel</Button>
+            )}
+            <Button variant="primary" onClick={handleAddCustomItem} disabled={!customItemName || !customItemPrice}>
+              {editingCustomItemId ? 'Update Custom Item' : 'Add Custom Item'}
+            </Button>
+          </div>
+        </div>
+      )}
+
+      <div className={styles.divider} style={{margin: 'var(--space-6) 0 var(--space-4)'}} />
 
       {errors.items && <span style={{color: 'var(--color-error)', fontSize: '13px'}}>{errors.items}</span>}
 
@@ -477,11 +663,20 @@ export function AdminNewOrder() {
                 {item.image ? (
                   <img src={item.image} alt={item.name} className={styles.itemImage} />
                 ) : (
-                  <div className={styles.itemImage} style={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: 'var(--color-text-muted)'}}>Img</div>
+                  <div className={styles.itemImage} style={{display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: 'var(--color-text-muted)', background: item.isCustom ? '#FDF2F8' : 'var(--color-surface-hover)'}}>
+                     {item.isCustom ? 'CSTM' : 'Img'}
+                  </div>
                 )}
                 <div className={styles.itemInfo}>
                   <span className={styles.itemName}>{item.name}{item.isCustom && <span className={styles.customBadge}>CUSTOM</span>}</span>
-                  {item.sku ? <span className={styles.itemSku}>SKU: {item.sku}</span> : <span className={styles.itemSku}>₹{item.unitPrice} each</span>}
+                  {item.isCustom ? (
+                     <div style={{display: 'flex', flexDirection: 'column', gap: '2px', marginTop: '2px'}}>
+                       {item.customization?.flavor && <span style={{fontSize: '11px', color: 'var(--color-text-muted)'}}>{item.customization.flavor} {item.customization.size && `· ${item.customization.size}`}</span>}
+                       <span style={{fontSize: '12px', fontWeight: 500, color: 'var(--color-text)'}}>₹{item.unitPrice.toFixed(2)}</span>
+                     </div>
+                  ) : (
+                     <span className={styles.itemSku}>{item.sku ? `SKU: ${item.sku}` : `₹${item.unitPrice.toFixed(2)} each`}</span>
+                  )}
                 </div>
               </div>
               
@@ -496,7 +691,11 @@ export function AdminNewOrder() {
             </div>
             
             <div className={styles.itemActions}>
-              <Button variant="ghost" size="sm" style={{color: 'var(--admin-pink)', padding: 0}}>Customize</Button>
+              {item.isCustom ? (
+                <Button variant="ghost" size="sm" style={{color: 'var(--admin-pink)', padding: 0}} onClick={() => handleEditCustomItem(item.id)}>Edit</Button>
+              ) : (
+                <Button variant="ghost" size="sm" style={{color: 'var(--admin-pink)', padding: 0}}>Customize</Button>
+              )}
               <Button variant="ghost" size="sm" style={{color: 'var(--color-text-muted)', padding: 0}} onClick={() => removeItem(item.id)}>Remove</Button>
             </div>
           </div>
@@ -706,19 +905,43 @@ export function AdminNewOrder() {
         </div>
         <div className={styles.reviewItemsList}>
           {items.map(item => (
-            <div key={item.id} className={styles.reviewItem} style={{ alignItems: 'center' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div key={item.id} className={styles.reviewItem} style={{ alignItems: 'flex-start', padding: '12px 0', borderBottom: '1px solid var(--color-border)' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', flex: 1 }}>
                 {item.image ? (
-                  <img src={item.image} alt={item.name} style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '8px' }} />
+                  <img src={item.image} alt={item.name} style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '8px' }} />
                 ) : (
-                  <div style={{ width: '40px', height: '40px', background: 'var(--color-surface-hover)', borderRadius: '8px' }} />
+                  <div style={{ width: '48px', height: '48px', background: item.isCustom ? '#FDF2F8' : 'var(--color-surface-hover)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: 'var(--color-text-muted)' }}>
+                    {item.isCustom ? 'CSTM' : 'Img'}
+                  </div>
                 )}
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span>{item.name} <span style={{color: 'var(--color-text-muted)'}}>× {item.quantity}</span></span>
-                  {item.isCustom && item.notes && <span style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>{item.notes}</span>}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <div style={{fontWeight: 600}}>
+                    {item.isCustom && <span className={styles.customBadge} style={{marginRight: '8px'}}>CUSTOM ORDER</span>}
+                    {item.name} <span style={{color: 'var(--color-text-muted)', fontWeight: 400}}>× {item.quantity}</span>
+                  </div>
+                  {item.isCustom && (
+                    <div style={{fontSize: '13px', color: 'var(--color-text-muted)'}}>
+                      {item.notes && <div style={{marginBottom: '4px'}}>{item.notes}</div>}
+                      {item.customization && Object.values(item.customization).some(Boolean) && (
+                        <div style={{padding: '8px', background: '#F8FAFC', borderRadius: '4px', fontSize: '12px'}}>
+                          {item.customization.flavor && <div><strong>Flavor:</strong> {item.customization.flavor}</div>}
+                          {item.customization.size && <div><strong>Size:</strong> {item.customization.size}</div>}
+                          {item.customization.message && <div><strong>Message:</strong> {item.customization.message}</div>}
+                          {item.customization.design && <div><strong>Design:</strong> {item.customization.design}</div>}
+                          {item.customization.instructions && <div><strong>Instr:</strong> {item.customization.instructions}</div>}
+                        </div>
+                      )}
+                      {(item.internalNote || item.customerNote) && (
+                        <div style={{marginTop: '4px', fontSize: '12px'}}>
+                           {item.internalNote && <div><span style={{color: '#94A3B8'}}>Internal:</span> {item.internalNote}</div>}
+                           {item.customerNote && <div><span style={{color: '#94A3B8'}}>Customer:</span> {item.customerNote}</div>}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
-              <span style={{fontWeight: 500}}>₹{(item.unitPrice * item.quantity).toFixed(2)}</span>
+              <span style={{fontWeight: 600, marginTop: '2px'}}>₹{(item.unitPrice * item.quantity).toFixed(2)}</span>
             </div>
           ))}
           {items.length === 0 && <div style={{color: 'var(--color-text-muted)'}}>No items added.</div>}

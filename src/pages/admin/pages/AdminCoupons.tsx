@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { 
   Search, Plus, Download, ChevronDown, Filter,
   Ticket, Tag, Calendar, Wallet, Gift,
@@ -47,6 +48,7 @@ const couponsData = [
 ];
 
 export function AdminCoupons() {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(true);
   
   React.useEffect(() => {
@@ -73,7 +75,7 @@ export function AdminCoupons() {
           <h1 className={styles.title}>Coupons & Offers</h1>
           <p className={styles.subtitle}>Create and manage discounts, coupons and special offers.</p>
         </div>
-        <button className={styles.addBtn}>
+        <button className={styles.addBtn} onClick={() => navigate('/admin/coupons/add')}>
           <Plus size={18} strokeWidth={2.5} />
           Create Coupon
         </button>
