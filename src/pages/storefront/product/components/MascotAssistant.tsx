@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { AnimatePresence, motion, useInView } from 'framer-motion'
 import { CakePopMascot } from '@/components/mascot/CakePopMascot'
-import { MascotReaction } from '@/components/mascot/reactions/reactionTypes'
+import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator'
 import styles from './MascotAssistant.module.css'
 
 interface MascotAssistantProps {
@@ -11,19 +11,15 @@ interface MascotAssistantProps {
 export const MascotAssistant = ({ message }: MascotAssistantProps) => {
   const containerRef = useRef(null)
   const isInView = useInView(containerRef, { once: true, amount: 0.5 })
-  const [reaction, setReaction] = useState<MascotReaction | null>(null)
+  const { currentReaction, triggerReaction, tapMascot } = useMascotOrchestrator()
 
   useEffect(() => {
     if (message) {
-      setReaction('excited')
+      triggerReaction('mascot:tapped', message) // fallback for direct messages
     } else if (isInView) {
-      setReaction('winking')
-      const timer = setTimeout(() => setReaction(null), 2500)
-      return () => clearTimeout(timer)
-    } else {
-      setReaction(null)
+      triggerReaction('product:opened')
     }
-  }, [message, isInView])
+  }, [message, isInView, triggerReaction])
 
   return (
     <div className={styles.container} ref={containerRef}>
@@ -40,8 +36,8 @@ export const MascotAssistant = ({ message }: MascotAssistantProps) => {
           </motion.div>
         )}
       </AnimatePresence>
-      <div className={styles.mascotWrapper}>
-        <CakePopMascot size="small" reaction={reaction} />
+      <div className={styles.mascotWrapper} onClick={tapMascot}>
+        <CakePopMascot size="small" reaction={currentReaction} />
       </div>
     </div>
   )

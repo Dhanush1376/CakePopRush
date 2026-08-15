@@ -14,23 +14,8 @@ import { MyDetailsPage } from './MyDetailsPage'
 import { AddressesPage } from './AddressesPage'
 import { NotificationsPage } from './NotificationsPage'
 
-const Sprinkles = () => (
-  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '200px', overflow: 'hidden', zIndex: 0, pointerEvents: 'none' }}>
-    <svg width="100%" height="100%" style={{ position: 'absolute' }}>
-      <rect x="10%" y="30%" width="12" height="4" rx="2" fill="#FFC700" transform="rotate(-30 40 40)" opacity="0.5"/>
-      <rect x="40%" y="20%" width="12" height="4" rx="2" fill="#FFC700" transform="rotate(45 150 20)" opacity="0.5"/>
-      <rect x="60%" y="50%" width="12" height="4" rx="2" fill="#07C2BB" transform="rotate(-20 250 80)" opacity="0.5"/>
-      <rect x="85%" y="25%" width="12" height="4" rx="2" fill="#F20D6F" transform="rotate(60 350 30)" opacity="0.2"/>
-      <rect x="25%" y="65%" width="12" height="4" rx="2" fill="#07C2BB" transform="rotate(25 100 120)" opacity="0.3"/>
-      <rect x="75%" y="75%" width="12" height="4" rx="2" fill="#F20D6F" transform="rotate(-40 300 140)" opacity="0.3"/>
-    </svg>
-  </div>
-)
-
 import { useSmartMascot } from '@/components/mascot/useSmartMascot'
-import { motion } from 'framer-motion'
-
-import { AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const phrases = [
   "Hi there!",
@@ -41,12 +26,12 @@ const phrases = [
 ]
 
 const AnimatedSpeechBubble = () => {
-  const [index, React_useState] = React.useState(0)
+  const [index, setIndex] = React.useState(0)
   
   React.useEffect(() => {
     const timer = setInterval(() => {
-      React_useState((prev) => (prev + 1) % phrases.length)
-    }, 4000)
+      setIndex((prev) => (prev + 1) % phrases.length)
+    }, 7500)
     return () => clearInterval(timer)
   }, [])
   
@@ -70,20 +55,24 @@ const AnimatedSpeechBubble = () => {
 
 const ProfileHeader = () => (
   <header className={styles.header}>
-    <h1 className={styles.pageTitle}>
-      Profile
-      <span className={styles.titleUnderline}>
-        <span className={styles.line}></span>
-        <span className={styles.dot}></span>
-      </span>
-    </h1>
+    <h1 className={styles.pageTitle}>Profile</h1>
   </header>
 );
 
 const ProfileCard = () => (
   <div className={styles.card}>
-    <div className={styles.mascotHandLeft}></div>
-    <div className={styles.mascotHandRight}></div>
+    <motion.div 
+      className={styles.mascotHandRight}
+      initial={{ y: 20, opacity: 0, scale: 0.8 }}
+      animate={{ y: 0, opacity: 1, scale: 1 }}
+      transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.3 }}
+    />
+    <motion.div 
+      className={styles.mascotHandLeft}
+      initial={{ y: 20, opacity: 0, scale: 0.8 }}
+      animate={{ y: 0, opacity: 1, scale: 1 }}
+      transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.45 }}
+    />
     <div className={styles.profileHeader}>
       <div className={styles.avatarContainer}>
         <div className={styles.avatarPlaceholder}>
@@ -205,17 +194,23 @@ export const ProfilePage = () => {
   const mascotControlRef = React.useRef<MascotRef>(null);
 
   const handleMascotClick = () => {
-    const TAP_REACTIONS: MascotReaction[] = ['cool', 'blowKiss', 'love', 'excited', 'laughing', 'winking', 'silly', 'party', 'tada', 'happy'];
+    const TAP_REACTIONS: MascotReaction[] = ['cool', 'blowKiss', 'love', 'excited', 'laughing', 'winking', 'silly', 'party'];
     const random = TAP_REACTIONS[Math.floor(Math.random() * TAP_REACTIONS.length)];
     mascotControlRef.current?.play(random);
   };
+
+  // Page entrance: play blowKiss when mascot arrives
+  React.useEffect(() => {
+    const arrivalTimer = setTimeout(() => {
+      mascotControlRef.current?.play('blowKiss');
+    }, 1000);
+    return () => clearTimeout(arrivalTimer);
+  }, []);
 
   const mascotProps = useSmartMascot({ heroRef, mascotRef, disableScrollHide: true, stayVisible: true, startY: 0 });
 
   return (
     <div className={styles.pageContainer} ref={heroRef as any}>
-      <Sprinkles />
-      
       <div className={styles.contentWrapper}>
         <ProfileHeader />
         
@@ -223,7 +218,14 @@ export const ProfilePage = () => {
           <div className={styles.leftCol}>
             <div className={styles.mascotContainer}>
               <AnimatedSpeechBubble />
-              <motion.div ref={mascotRef} className={styles.mascotLayer} style={{ y: mascotProps.mascotY }} onClick={handleMascotClick}>
+              <motion.div 
+                ref={mascotRef} 
+                className={styles.mascotLayer} 
+                initial={{ y: 120, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ type: 'spring', stiffness: 200, damping: 20, delay: 0.6 }}
+                onClick={handleMascotClick}
+              >
                 <CakePopMascot 
                   ref={mascotControlRef}
                   size="large" 

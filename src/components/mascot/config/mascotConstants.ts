@@ -28,5 +28,5 @@ export const SPRINKLE_CREAM     = '#FFF3E0';
 export const SPRINKLE_PINK_ACCENT = '#FF8FB3';
 
 // ─── Extra ──────────────────────────────────────────────
-export const BLUSH_COLOR       = '#E0355A';
+export const BLUSH_COLOR       = '#FF1744'; // Intense vibrant red
 export const HEART_RED         = '#F20D6F';

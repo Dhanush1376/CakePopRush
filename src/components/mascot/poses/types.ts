@@ -9,12 +9,12 @@ export interface MascotPose {
   rightLeg: { rotate: number; y: number; x?: number };
   leftEye: { scaleY: number; scaleX: number; y: number; x: number };
   rightEye: { scaleY: number; scaleX: number; y: number; x: number };
-  leftEyeShape: 'normal' | 'closed' | 'squeezed' | 'heart' | 'tired';
-  rightEyeShape: 'normal' | 'closed' | 'squeezed' | 'heart' | 'tired';
+  leftEyeShape: 'normal' | 'closed' | 'squeezed' | 'heart' | 'tired' | 'cute' | 'pleading';
+  rightEyeShape: 'normal' | 'closed' | 'squeezed' | 'heart' | 'tired' | 'cute' | 'pleading';
   leftPupil: { scale: number; y: number; x: number };
   rightPupil: { scale: number; y: number; x: number };
-  leftEyebrow: { y: number; x: number; rotate: number };
-  rightEyebrow: { y: number; x: number; rotate: number };
+  leftEyebrow: { y: number; x: number; rotate: number; scaleY?: number; scaleX?: number };
+  rightEyebrow: { y: number; x: number; rotate: number; scaleY?: number; scaleX?: number };
   mouth: MascotMouthShape;
   blushOpacity: number;
   accessories: { sunglasses: boolean; partyHat: boolean; partyBlower: boolean };

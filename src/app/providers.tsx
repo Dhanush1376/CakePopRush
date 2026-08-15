@@ -8,7 +8,6 @@ interface ProvidersProps {
 import { ToastProvider } from '@/components/ui/ToastContext'
 import { WishlistProvider } from '@/lib/wishlistStore'
 import { CartProvider } from '@/lib/cartStore'
-
 export function Providers({ children }: ProvidersProps) {
   const [queryClient] = useState(
     () =>

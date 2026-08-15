@@ -1,0 +1,146 @@
+.mascotContainer {
+  position: absolute;
+  top: 0;
+  right: 16px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .mascotContainer {
+    right: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mascotContainer {
+    right: 48px;
+  }
+}
+
+/* Clipping container: sits nestled down behind the grid line */
+.mascotClip {
+  position: absolute;
+  top: -100px;
+  right: -10px;
+  width: 140px;
+  height: 100px;
+  /* Stops precisely at the grid line */
+  overflow: hidden;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.mascotInner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 140px;
+  height: 170px;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mascotClip:hover .mascotInner {
+  transform: translateY(-4px);
+}
+
+.mascotInner>div {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Hide the SVG's built-in legs, arms, and shadow so only the cute face & head peek */
+.mascotInner :global(#arms),
+.mascotInner :global(#front-arms),
+.mascotInner :global(#legs),
+.mascotInner :global(#mascot-shadow) {
+  display: none !important;
+}
+
+.speechBubble {
+  position: absolute;
+  top: -88px;
+  right: 75px;
+  background: #ffffff;
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 3px 10px rgba(242, 13, 111, 0.14);
+  color: var(--color-chocolate, #381E10);
+  transform: rotate(-3deg);
+  border: 1.5px solid var(--color-brand-pink, #F20D6F);
+  pointer-events: none;
+  z-index: 15;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .speechBubble {
+    top: -92px;
+    right: 82px;
+    font-size: 13px;
+    padding: 6px 14px;
+  }
+}
+
+/* Speech bubble pointer tail */
+.speechBubble::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  right: 14px;
+  width: 8px;
+  height: 8px;
+  background: #ffffff;
+  border-bottom: 1.5px solid var(--color-brand-pink, #F20D6F);
+  border-right: 1.5px solid var(--color-brand-pink, #F20D6F);
+  transform: rotate(45deg);
+}
+
+/* Peeking paws/hands gripping the top edge */
+.mascotHandLeft,
+.mascotHandRight {
+  position: absolute;
+  top: -6px;
+  width: 6px;
+  height: 12px;
+  background-color: #1c1c1c;
+  border-radius: 6px;
+  z-index: 12;
+  pointer-events: none;
+}
+
+.mascotHandLeft::before,
+.mascotHandLeft::after,
+.mascotHandRight::before,
+.mascotHandRight::after {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  width: 6px;
+  height: 9px;
+  background-color: #1c1c1c;
+  border-radius: 6px;
+}
+
+.mascotHandLeft::before,
+.mascotHandRight::before {
+  left: -4px;
+}
+
+.mascotHandLeft::after,
+.mascotHandRight::after {
+  left: 4px;
+}
+
+.mascotHandLeft {
+  right: 86px;
+  transform: rotate(-10deg);
+}
+
+.mascotHandRight {
+  right: 34px;
+  transform: rotate(10deg);
+}

@@ -4,10 +4,11 @@ import * as P from '../primitives';
 /**
  * Reference #14 Sleeping:
  * Slowest reaction. Gentle transition into sleep.
- * Subtle breathing, Zzz particles, peaceful.
+ * Subtle breathing, Zzz particles, peaceful heavy tilt.
  */
 export const playSleeping = async (ctx: ReactionContext) => {
-  const { speedMultiplier, prefersReducedMotion } = ctx;
+  const { speedMultiplier, prefersReducedMotion, animate } = ctx;
+  const sm = speedMultiplier;
 
   if (prefersReducedMotion) {
     P.setMouth(ctx, 'sleepySmile');
@@ -15,7 +16,6 @@ export const playSleeping = async (ctx: ReactionContext) => {
       ['#left-eyebrow', { rotate: 12, y: -1 }, { duration: 0 }],
       ['#right-eyebrow', { rotate: -12, y: -1 }, { duration: 0 }]
     ]);
-    P.foldArms(ctx);
     await P.eyesClosed(ctx);
     P.spawnSleepZs(ctx);
     return;
@@ -23,48 +23,61 @@ export const playSleeping = async (ctx: ReactionContext) => {
 
   // 1. Eyelids become heavy (slow drooping)
   await P.eyesDroopy(ctx);
-  await new Promise(r => setTimeout(r, 300 / speedMultiplier));
+  await new Promise(r => setTimeout(r, 300 / sm));
 
-  // 2. Slow blink
+  // 2. Slow blink (fighting sleep)
   await P.slowBlink(ctx);
-  await new Promise(r => setTimeout(r, 200 / speedMultiplier));
+  await new Promise(r => setTimeout(r, 200 / sm));
 
-  // 3. Eyes close fully (switch to crescent arcs)
-  await P.eyesClosed(ctx);
+  // 3. Eyes close fully (crescent arcs) + mouth softens
+  await Promise.all([
+    ctx.animate([
+      ['#left-eye-normal, #right-eye-normal', { opacity: 0 }, { duration: 0.3 / sm }],
+      ['#left-eye-closed, #right-eye-closed', { opacity: 1 }, { duration: 0.3 / sm }]
+    ]),
+  ]);
   P.setMouth(ctx, 'sleepySmile');
 
-  // 4. Body settles down slightly
-  await ctx.animate([
-    ['#torso-group', { y: 4, scaleY: 0.97 }, { duration: 0.6 / speedMultiplier, ease: 'easeInOut' }]
+  // 4. Body settles down heavily into sleeping tilt
+  await animate([
+    ['#torso-group', { y: 15, x: -8, scaleY: 0.94, scaleX: 1.06, rotate: -15 }, { duration: 1.2 / sm, ease: 'easeInOut' }]
   ]);
 
-  // 5. Arms relax and fold, eyebrows soften
-  P.foldArms(ctx);
+  // 5. Eyebrows soften
   ctx.animate([
-    ['#left-eyebrow', { rotate: 12, y: -1 }, { duration: 0.4 / speedMultiplier, ease: 'easeInOut' }],
-    ['#right-eyebrow', { rotate: -12, y: -1 }, { duration: 0.4 / speedMultiplier, ease: 'easeInOut' }]
+    ['#left-eyebrow', { rotate: 15, y: -2 }, { duration: 0.6 / sm, ease: 'easeInOut' }],
+    ['#right-eyebrow', { rotate: -15, y: -2 }, { duration: 0.6 / sm, ease: 'easeInOut' }]
   ]);
 
-  // 6. Subtle breathing (almost invisible body pulse) + Zzz
+  // 6. Subtle breathing + Zzz
   P.spawnSleepZs(ctx);
   
-  // Breathing cycle: very subtle scaleY pulse
+  // Breathing cycle: very subtle scale/rotate pulse
   for (let i = 0; i < 3; i++) {
-    await ctx.animate([
-      ['#torso-group', { scaleY: 0.98 }, { duration: 0.8 / speedMultiplier, ease: 'easeInOut' }]
+    await animate([
+      ['#torso-group', { scaleY: 0.96, rotate: -14 }, { duration: 1.5 / sm, ease: 'easeInOut' }]
     ]);
-    await ctx.animate([
-      ['#torso-group', { scaleY: 0.96 }, { duration: 0.8 / speedMultiplier, ease: 'easeInOut' }]
+    await animate([
+      ['#torso-group', { scaleY: 0.94, rotate: -15 }, { duration: 1.5 / sm, ease: 'easeInOut' }]
     ]);
   }
 
   // 7. Gentle wake/recovery
-  await P.eyesNormal(ctx);
-  await new Promise(r => setTimeout(r, 200 / speedMultiplier));
-  await P.slowBlink(ctx);
+  P.setMouth(ctx, 'smallSmile');
+  
   await Promise.all([
-    P.resetBrows(ctx),
-    P.settle(ctx),
-    P.lowerArms(ctx)
+    ctx.animate([
+      ['#left-eye-closed, #right-eye-closed', { opacity: 0 }, { duration: 0.4 / sm }],
+      ['#left-eye-normal, #right-eye-normal', { opacity: 1 }, { duration: 0.4 / sm }]
+    ]),
+    animate([
+      ['#torso-group', { y: 0, x: 0, scaleY: 1, scaleX: 1, rotate: 0 }, { duration: 1.0 / sm, ease: 'easeInOut' }]
+    ])
   ]);
+  
+  await new Promise(r => setTimeout(r, 200 / sm));
+  await P.slowBlink(ctx);
+  
+  P.resetBrows(ctx);
+  P.setMouth(ctx, 'neutral');
 };

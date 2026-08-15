@@ -10,19 +10,18 @@ export interface MascotEmptyStateProps {
   size?: 'small' | 'medium' | 'large';
 }
 
-export const MascotEmptyState = ({ 
+export const MascotEmptyState: React.FC<MascotEmptyStateProps> = ({ 
   message, 
-  reaction = 'confused',
-  size = 'medium'
-}: MascotEmptyStateProps) => {
-  const [typedText, setTypedText] = useState("");
+  reaction = 'sad',
+  size = 'small'
+}) => {
+  const [typedText, setTypedText] = useState('');
 
   useEffect(() => {
     let index = 0;
-    // Reset typing text when message changes
-    setTypedText("");
+    setTypedText('');
     
-    // Delay typing slightly so it starts after pop-up
+    // Start typing right as the mascot and bubble finish their entrance
     const timeout = setTimeout(() => {
       const interval = setInterval(() => {
         if (index <= message.length) {
@@ -31,55 +30,59 @@ export const MascotEmptyState = ({
         } else {
           clearInterval(interval);
         }
-      }, 40); // speed of typing
+      }, 35);
       
       return () => clearInterval(interval);
-    }, 400);
+    }, 850);
 
     return () => clearTimeout(timeout);
   }, [message]);
 
   return (
     <div className={styles.mascotArea}>
+      {/* Speech / Thought Bubble (appears after body pops up) */}
       <motion.div 
-        className={styles.thoughtBubbleWrapper}
+        className={styles.speechBubble}
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 0.3, type: "spring", stiffness: 200, damping: 15 }}
+        transition={{ delay: 0.8, type: 'spring', stiffness: 220, damping: 18 }}
       >
-        <div className={styles.thoughtBubble}>
-          {typedText.split('\n').map((line, i) => (
-            <React.Fragment key={i}>
-              {line}
-              {i !== typedText.split('\n').length - 1 && <br />}
-            </React.Fragment>
-          ))}
-        </div>
+        {typedText.split('\n').map((line, i) => (
+          <React.Fragment key={i}>
+            {line}
+            {i !== typedText.split('\n').length - 1 && <br />}
+          </React.Fragment>
+        ))}
       </motion.div>
-      <div className={styles.mascotWallContainer}>
-        <motion.div
-          initial={{ y: 150 }}
-          animate={{ y: 0 }}
-          transition={{ type: "spring", stiffness: 200, damping: 20 }}
+
+      {/* Mascot Clipped Peeking Container: Pops up from behind the line */}
+      <div className={styles.mascotClip}>
+        <motion.div 
+          className={styles.mascotInner}
+          initial={{ y: 120, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ type: 'spring', stiffness: 200, damping: 20, delay: 0.6 }}
         >
-          <div className={styles.mascotWrapper}>
-            <CakePopMascot size={size} reaction={reaction} loop={true} />
-          </div>
+          <CakePopMascot size={size} reaction={reaction} loop={true} hideArms={true} />
         </motion.div>
       </div>
-      <motion.div 
-        className={styles.mascotHandLeft}
-        initial={{ y: 150 }}
-        animate={{ y: 0 }}
-        transition={{ type: "spring", stiffness: 200, damping: 20 }}
-      />
+
+      {/* Hands Gripping the Line: 1st hand at 0.3s, 2nd hand at 0.45s */}
       <motion.div 
         className={styles.mascotHandRight}
-        initial={{ y: 150 }}
-        animate={{ y: 0 }}
-        transition={{ type: "spring", stiffness: 200, damping: 20 }}
+        initial={{ y: 20, opacity: 0, scale: 0.8 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.3 }}
       />
-      <div className={styles.wallTexture}></div>
+      <motion.div 
+        className={styles.mascotHandLeft}
+        initial={{ y: 20, opacity: 0, scale: 0.8 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 20, delay: 0.45 }}
+      />
+
+      {/* Horizontal Divider Line */}
+      <div className={styles.wallTexture} />
     </div>
   );
 };

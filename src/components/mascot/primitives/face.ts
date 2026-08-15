@@ -5,9 +5,9 @@ export const setMouth = (ctx: ReactionContext, shape: MascotMouthShape) => {
   ctx.setMouthShape(shape);
 };
 
-export const showBlush = (ctx: ReactionContext) => {
+export const showBlush = (ctx: ReactionContext, opacity: number = 1) => {
   ctx.animate([
-    ['#left-cheek, #right-cheek', { opacity: 0.5, scale: 1 }, { duration: animSpeed(0.2, ctx.speedMultiplier) }]
+    ['#left-cheek, #right-cheek', { opacity: opacity, scale: 1 }, { duration: animSpeed(0.2, ctx.speedMultiplier) }]
   ]);
 };
 

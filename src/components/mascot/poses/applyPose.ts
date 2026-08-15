@@ -6,7 +6,7 @@ export const applyPose = async (ctx: ReactionContext, pose: MascotPose) => {
   const { animate, setMouthShape, setAccessories, setActiveParticles } = ctx;
 
   setMouthShape(pose.mouth);
-  setAccessories(pose.accessories);
+  setAccessories(pose.accessories as any);
   setActiveParticles(pose.activeParticles);
 
   const seq: AnimationSequence = [
@@ -46,8 +46,8 @@ export const applyPose = async (ctx: ReactionContext, pose: MascotPose) => {
   seq.push(['#left-eye-container', { scaleX: pose.leftEye.scaleX, scaleY: pose.leftEye.scaleY, y: pose.leftEye.y + fy, x: pose.leftEye.x + fx }, { duration: 0.3, ease: 'easeOut' }]);
   seq.push(['#right-eye-container', { scaleX: pose.rightEye.scaleX, scaleY: pose.rightEye.scaleY, y: pose.rightEye.y + fy, x: pose.rightEye.x + fx }, { duration: 0.3, ease: 'easeOut' }]);
 
-  // Eye shapes (Normal, Closed, Squeezed, Heart, Tired)
-  const eyeShapes = ['normal', 'closed', 'squeezed', 'heart', 'tired'];
+  // Eye shapes (Normal, Closed, Squeezed, Heart, Tired, Cute, Pleading)
+  const eyeShapes = ['normal', 'closed', 'squeezed', 'heart', 'tired', 'cute', 'pleading'];
   eyeShapes.forEach(shape => {
     const isVisibleLeft = pose.leftEyeShape === shape || (shape === 'normal' && pose.leftEyeShape === 'tired');
     const isVisibleRight = pose.rightEyeShape === shape || (shape === 'normal' && pose.rightEyeShape === 'tired');
@@ -60,8 +60,21 @@ export const applyPose = async (ctx: ReactionContext, pose: MascotPose) => {
   seq.push(['#right-pupil-group', { scale: pose.rightPupil.scale }, { duration: 0.3, ease: 'easeOut' }]);
 
   // Eyebrows
-  seq.push(['#left-eyebrow', { rotate: pose.leftEyebrow.rotate, y: pose.leftEyebrow.y + fy, x: pose.leftEyebrow.x + fx }, { duration: 0.3, ease: 'easeOut' }]);
-  seq.push(['#right-eyebrow', { rotate: pose.rightEyebrow.rotate, y: pose.rightEyebrow.y + fy, x: pose.rightEyebrow.x + fx }, { duration: 0.3, ease: 'easeOut' }]);
+  seq.push(['#left-eyebrow', { 
+    y: pose.leftEyebrow.y + fy, 
+    x: pose.leftEyebrow.x + fx, 
+    rotate: pose.leftEyebrow.rotate,
+    ...(pose.leftEyebrow.scaleY !== undefined ? { scaleY: pose.leftEyebrow.scaleY } : { scaleY: 1 }),
+    ...(pose.leftEyebrow.scaleX !== undefined ? { scaleX: pose.leftEyebrow.scaleX } : { scaleX: 1 })
+  }, { duration: 0.3, ease: 'easeOut' }]);
+  
+  seq.push(['#right-eyebrow', { 
+    y: pose.rightEyebrow.y + fy, 
+    x: pose.rightEyebrow.x + fx, 
+    rotate: pose.rightEyebrow.rotate,
+    ...(pose.rightEyebrow.scaleY !== undefined ? { scaleY: pose.rightEyebrow.scaleY } : { scaleY: 1 }),
+    ...(pose.rightEyebrow.scaleX !== undefined ? { scaleX: pose.rightEyebrow.scaleX } : { scaleX: 1 })
+  }, { duration: 0.3, ease: 'easeOut' }]);
 
   // Cheeks / Blush
   seq.push(['#left-cheek', { opacity: pose.blushOpacity, scale: pose.blushOpacity > 0 ? 1 : 0, x: fx, y: fy }, { duration: 0.3, ease: 'easeOut' }]);
@@ -83,8 +96,10 @@ export const applyPose = async (ctx: ReactionContext, pose: MascotPose) => {
     seq.map(async (item: any) => {
       try {
         await animate(item[0], item[1], item[2]);
-      } catch (e) {
-        console.warn(`Failed to animate ${item[0]}:`, e);
+      } catch (e: any) {
+        if (e.message !== 'Aborted') {
+          console.warn(`Failed to animate ${item[0]}:`, e);
+        }
       }
     })
   );

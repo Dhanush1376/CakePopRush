@@ -21,7 +21,7 @@ export const ShopHero = ({ isHeaderHidden = false }: ShopHeroProps) => {
   const eyeSpringY = useSpring(eyeTargetY, { stiffness: 200, damping: 25 });
 
   const handleMascotClick = () => {
-    const TAP_REACTIONS: MascotReaction[] = ['cool', 'blowKiss', 'love', 'excited', 'laughing', 'winking', 'silly', 'party', 'tada', 'happy'];
+    const TAP_REACTIONS: MascotReaction[] = ['cool', 'blowKiss', 'love', 'excited', 'laughing', 'winking', 'silly', 'party'];
     const random = TAP_REACTIONS[Math.floor(Math.random() * TAP_REACTIONS.length)];
     mascotControlRef.current?.play(random);
   };
@@ -57,6 +57,14 @@ export const ShopHero = ({ isHeaderHidden = false }: ShopHeroProps) => {
       document.body.removeEventListener('pointerdown', handlePointerEvent);
     };
   }, [eyeTargetX, eyeTargetY]);
+
+  // Page entrance: play blowKiss when mascot arrives
+  useEffect(() => {
+    const arrivalTimer = setTimeout(() => {
+      mascotControlRef.current?.play('blowKiss');
+    }, 1000);
+    return () => clearTimeout(arrivalTimer);
+  }, []);
 
   const [heroHeight, setHeroHeight] = useState(700);
   const heroRef = useRef<HTMLElement>(null);
@@ -190,16 +198,16 @@ export const ShopHero = ({ isHeaderHidden = false }: ShopHeroProps) => {
         {/* Mascot Peeking from Wave */}
         <motion.div className={styles.mascotWrapper} onClick={handleMascotClick}>
           <motion.div
-            className={styles.mascotHandLeft}
-            initial={{ y: 90 }}
-            animate={{ y: 0 }}
-            transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.45 }}
+            className={styles.mascotHandRight}
+            initial={{ y: 20, opacity: 0, scale: 0.8 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.3 }}
           />
           <motion.div
-            className={styles.mascotHandRight}
-            initial={{ y: 90 }}
-            animate={{ y: 0 }}
-            transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.45 }}
+            className={styles.mascotHandLeft}
+            initial={{ y: 20, opacity: 0, scale: 0.8 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.45 }}
           />
           <motion.div
             className={styles.mascotContainer}

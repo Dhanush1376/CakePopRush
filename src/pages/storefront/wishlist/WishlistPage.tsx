@@ -8,10 +8,15 @@ import { WishlistGrid } from './components/WishlistGrid';
 import { WishlistSkeleton } from './components/WishlistSkeleton';
 import { WishlistEmptyState } from './components/WishlistEmptyState';
 import { WishlistErrorState } from './components/WishlistErrorState';
+import { WishlistMascot } from './components/WishlistMascot';
 import { ClickHeartEffect } from '@/components/ui/ClickHeartEffect';
 
 export const WishlistPage = () => {
   const { items, isLoading, error, refresh } = useWishlist();
+
+  React.useEffect(() => {
+    document.body.style.overflow = '';
+  }, []);
 
   // Loading state with skeleton grid
   if (isLoading) {
@@ -21,6 +26,7 @@ export const WishlistPage = () => {
           <WishlistHeader itemCount={0} />
         </Container>
         <div className={styles.gridSection}>
+          <WishlistMascot />
           <Container>
             <div className={styles.skeletonGrid}>
               {Array.from({ length: 8 }).map((_, i) => (
@@ -67,6 +73,7 @@ export const WishlistPage = () => {
         <WishlistHeader itemCount={items.length} />
       </Container>
       <div className={styles.gridSection}>
+        <WishlistMascot />
         <Container>
           <WishlistGrid />
         </Container>

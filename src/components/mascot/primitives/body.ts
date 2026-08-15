@@ -199,8 +199,8 @@ export const startle = async (ctx: ReactionContext) => {
 
 export const settle = (ctx: ReactionContext) => {
   return ctx.animate([
-    ['#torso-group', { scaleY: 1, scaleX: 1, y: 0, rotate: 0 }, { duration: animSpeed(TIMING.NORMAL, ctx.speedMultiplier), ease: EASING.SOFT }],
-    ['#mascot-root', { scaleY: 1, scaleX: 1, y: 0, rotate: 0 }, { duration: animSpeed(TIMING.NORMAL, ctx.speedMultiplier), ease: EASING.SOFT }],
+    ['#torso-group', { scaleY: 1, scaleX: 1, x: 0, y: 0, rotate: 0 }, { duration: animSpeed(TIMING.NORMAL, ctx.speedMultiplier), ease: EASING.SOFT }],
+    ['#mascot-root', { scaleY: 1, scaleX: 1, x: 0, y: 0, rotate: 0 }, { duration: animSpeed(TIMING.NORMAL, ctx.speedMultiplier), ease: EASING.SOFT }],
     ['#left-leg', { y: 0, x: 0, rotate: 0 }, { duration: animSpeed(TIMING.NORMAL, ctx.speedMultiplier), ease: EASING.SOFT }],
     ['#right-leg', { y: 0, x: 0, rotate: 0 }, { duration: animSpeed(TIMING.NORMAL, ctx.speedMultiplier), ease: EASING.SOFT }],
     ['#mascot-shadow', { scaleX: 1, scaleY: 1, opacity: 0.08 }, { duration: animSpeed(TIMING.NORMAL, ctx.speedMultiplier), ease: EASING.SOFT }]

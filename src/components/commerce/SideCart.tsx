@@ -12,25 +12,8 @@ import { QuantitySelector } from './QuantitySelector';
 import { formatCurrency } from '@/lib/formatters/currency';
 import { ProductImage } from './ProductImage';
 import { CakePopMascot } from '@/components/mascot/CakePopMascot';
-import { MascotReaction, MascotRef } from '@/components/mascot/reactions/reactionTypes';
-
-const MASCOT_MESSAGES = [
-  "Yummy choice!", "Perfect!", "Sweet!", "So good!", "I love this one!",
-  "Delicious!", "Great pick!", "Can't wait!", "Mmm...", "Treat yourself!",
-  "Fantastic!", "Awesome!", "Yasss!", "Sugar rush!", "Sprinkles!",
-  "My favorite!", "Oh yeah!", "A classic!", "You'll love it!", "Excellent!",
-  "Get in my belly!", "Taste explosion!", "So tasty!", "Cravings satisfied!",
-  "A sweet treat!", "Wow!", "Superb!", "Delish!", "I'm drooling!",
-  "Good choice!", "So yummy!", "Treat time!", "Just for you!",
-  "Love at first bite!", "Perfection!", "Gimme gimme!", "Yum yum!",
-  "Scrumptious!", "You deserve it!", "Can't go wrong!", "Best ever!"
-];
-const SAD_MESSAGES = [
-  "Oh no!", "Aww...", "Come back!", "Missing you!", "Are you sure?",
-  "Oops!", "Wait!", "Don't go!", "My heart!", "So sad!",
-  "Lost a friend!", "Why?", "Goodbye sweet!", "I'll miss that!",
-  "Taking it back?", "Nooo!", "Tragic!", "Heartbroken!", "Changing mind?"
-];
+import { MascotRef } from '@/components/mascot/reactions/reactionTypes';
+import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator';
 
 export const SideCart = () => {
   const { isCartOpen, closeCart, items, total, subtotal, totalDiscount, removeItem, updateQuantity, totalItems } = useCart();
@@ -43,22 +26,28 @@ export const SideCart = () => {
     }
   }, [location.pathname, isCartOpen, closeCart]);
 
-  const [mascotMessage, setMascotMessage] = useState<string | null>(null);
-  const [mascotReaction, setMascotReaction] = useState<any>(null); // MascotReaction type
+  const { currentReaction, currentMessage, triggerReaction, tapMascot, prefersReducedMotion } = useMascotOrchestrator();
   const [itemToDelete, setItemToDelete] = useState<string | null>(null);
-  const prevTotalItems = useRef(totalItems);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const messageDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mascotRef = useRef<HTMLDivElement>(null);
+  const mascotControlRef = useRef<MascotRef>(null);
 
   const eyeTargetX = useMotionValue(0);
   const eyeTargetY = useMotionValue(0);
   const eyeSpringX = useSpring(eyeTargetX, { stiffness: 200, damping: 25 });
   const eyeSpringY = useSpring(eyeTargetY, { stiffness: 200, damping: 25 });
 
+  const currentReactionRef = useRef(currentReaction);
+  useEffect(() => {
+    currentReactionRef.current = currentReaction;
+    if (currentReaction) {
+      eyeTargetX.set(0);
+      eyeTargetY.set(0);
+    }
+  }, [currentReaction, eyeTargetX, eyeTargetY]);
+
   useEffect(() => {
     const handlePointerEvent = (e: PointerEvent) => {
-      if (!mascotRef.current) return;
+      if (!mascotRef.current || currentReactionRef.current) return;
       const rect = mascotRef.current.getBoundingClientRect();
       const mascotCenterX = rect.left + rect.width / 2;
       const mascotCenterY = rect.top + rect.height / 2;
@@ -88,68 +77,8 @@ export const SideCart = () => {
     };
   }, [eyeTargetX, eyeTargetY]);
 
-  useEffect(() => {
-    if (totalItems !== prevTotalItems.current) {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      if (messageDelayRef.current) clearTimeout(messageDelayRef.current);
-
-      if (totalItems > prevTotalItems.current) {
-        const HAPPY_REACTIONS: MascotReaction[] = ['excited', 'laughing', 'love', 'silly', 'party', 'happy', 'winking', 'proud'];
-        const randomReaction = HAPPY_REACTIONS[Math.floor(Math.random() * HAPPY_REACTIONS.length)];
-        setMascotMessage(MASCOT_MESSAGES[Math.floor(Math.random() * MASCOT_MESSAGES.length)]);
-        setMascotReaction(randomReaction);
-      } else {
-        const NEGATIVE_REACTIONS: MascotReaction[] = ['sad', 'oops', 'cryingFountain'];
-        const randomReaction = NEGATIVE_REACTIONS[Math.floor(Math.random() * NEGATIVE_REACTIONS.length)];
-        setMascotMessage(SAD_MESSAGES[Math.floor(Math.random() * SAD_MESSAGES.length)]);
-        setMascotReaction(randomReaction);
-      }
-
-      timeoutRef.current = setTimeout(() => {
-        setMascotMessage(null);
-        setMascotReaction(null);
-      }, 5000);
-
-      prevTotalItems.current = totalItems;
-    }
-
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      if (messageDelayRef.current) clearTimeout(messageDelayRef.current);
-    };
-  }, [totalItems]);
-
   const handleMascotClick = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    if (messageDelayRef.current) clearTimeout(messageDelayRef.current);
-    
-    const HAPPY_REACTIONS: { reaction: MascotReaction; message: string }[] = [
-      { reaction: 'cool', message: 'Feeling cool today! 😎' },
-      { reaction: 'blowKiss', message: 'I love you! 💖' },
-      { reaction: 'love', message: 'Sweetest cart ever!' },
-      { reaction: 'party', message: 'Ready to checkout?' },
-      { reaction: 'laughing', message: 'Sugar rush time!' },
-      { reaction: 'winking', message: 'You deserve a treat!' },
-    ];
-    const pick = HAPPY_REACTIONS[Math.floor(Math.random() * HAPPY_REACTIONS.length)];
-
-    // Clear any existing message first
-    setMascotMessage(null);
-    setMascotReaction(pick.reaction);
-    
-    if (pick.reaction === 'blowKiss') {
-      // Wait until the heart actually spawns to show the message (~500ms)
-      messageDelayRef.current = setTimeout(() => {
-        setMascotMessage(pick.message);
-      }, 500);
-    } else {
-      setMascotMessage(pick.message);
-    }
-
-    timeoutRef.current = setTimeout(() => {
-      setMascotMessage(null);
-      setMascotReaction(null);
-    }, 3500);
+    tapMascot();
   };
 
   // Close on Escape key
@@ -163,10 +92,17 @@ export const SideCart = () => {
     return () => window.removeEventListener('keydown', handleEsc);
   }, [isCartOpen, closeCart]);
 
-  // Prevent background scroll when open
+  // Prevent background scroll when open and trigger arrival blowKiss
   useEffect(() => {
     if (isCartOpen) {
       document.body.style.overflow = 'hidden';
+      const arrivalTimer = setTimeout(() => {
+        mascotControlRef.current?.play('blowKiss');
+      }, 600);
+      return () => {
+        clearTimeout(arrivalTimer);
+        document.body.style.overflow = 'unset';
+      };
     } else {
       document.body.style.overflow = 'unset';
     }
@@ -203,12 +139,17 @@ export const SideCart = () => {
           />
 
           <motion.div
-            className={styles.drawer}
+            className={`${styles.drawer} app-container`}
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'tween', duration: 0.3, ease: 'easeOut' }}
-            onClick={() => setItemToDelete(null)}
+            onClick={() => {
+              if (itemToDelete) {
+                setItemToDelete(null);
+                triggerReaction('cart:item-delete-canceled', 'Yay! Thank you! 🥰');
+              }
+            }}
           >
             <div className={styles.header}>
               <h2 className={styles.title}>
@@ -284,6 +225,7 @@ export const SideCart = () => {
                             onChange={(q) => {
                               if (q === 0) {
                                 setItemToDelete(item.id);
+                                triggerReaction('cart:item-delete-confirm', "Please noo... 🥺");
                               } else {
                                 updateQuantity(item.id, q);
                               }
@@ -329,30 +271,38 @@ export const SideCart = () => {
                   onClick={handleMascotClick}
                 >
                   <AnimatePresence>
-                    {mascotMessage && (
+                    {currentMessage && (
                       <motion.div
                         className={styles.speechBubble}
                         initial={{ opacity: 0, scale: 0.8, y: 10 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.8, y: 10 }}
                       >
-                        {mascotMessage}
+                        {currentMessage}
                       </motion.div>
                     )}
                   </AnimatePresence>
-                  <CakePopMascot size="large" reaction={mascotReaction} eyeX={eyeSpringX} eyeY={eyeSpringY} speedMultiplier={2} />
+                  <CakePopMascot 
+                    ref={mascotControlRef}
+                    size="large" 
+                    reaction={currentReaction} 
+                    eyeX={eyeSpringX} 
+                    eyeY={eyeSpringY} 
+                    speedMultiplier={prefersReducedMotion ? 1 : 2} 
+                    hideArms={true}
+                  />
                 </motion.div>
                 <motion.div
                   className={styles.mascotHandLeft}
-                  initial={{ y: 150 }}
-                  animate={{ y: 0 }}
-                  transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.2 }}
+                  initial={{ y: 20, opacity: 0, scale: 0.8 }}
+                  animate={{ y: 0, opacity: 1, scale: 1 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.2 }}
                 />
                 <motion.div
                   className={styles.mascotHandRight}
-                  initial={{ y: 150 }}
-                  animate={{ y: 0 }}
-                  transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.2 }}
+                  initial={{ y: 20, opacity: 0, scale: 0.8 }}
+                  animate={{ y: 0, opacity: 1, scale: 1 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.2 }}
                 />
                 <div className={styles.summaryRow}>
                   <span>Subtotal</span>

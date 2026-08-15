@@ -13,8 +13,8 @@ export const EmptyCart = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         <MascotEmptyState 
-          message="My tummy is rumbling...&#10;Please add some sweet treats!"
-          reaction="confused" 
+          message="Your cart is feeling lonely 🥺" 
+          reaction="pleadingCute" 
         />
         
         <h1 className={styles.title}>Your bag is empty.</h1>

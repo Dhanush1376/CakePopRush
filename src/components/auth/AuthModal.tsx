@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, ArrowRight, ArrowLeft, Check } from 'lucide-react';
 import styles from './AuthModal.module.css';
 import { CakePopMascot } from '@/components/mascot/CakePopMascot';
-import { MascotReaction, MascotRef } from '@/components/mascot/reactions/reactionTypes';
+import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -13,12 +13,10 @@ interface AuthModalProps {
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSignIn }) => {
-  const mascotControlRef = React.useRef<MascotRef>(null);
+  const { currentReaction, triggerReaction, tapMascot } = useMascotOrchestrator();
 
   const handleMascotClick = () => {
-    const TAP_REACTIONS: MascotReaction[] = ['cool', 'blowKiss', 'love', 'excited', 'laughing', 'winking', 'silly', 'party', 'tada', 'happy'];
-    const random = TAP_REACTIONS[Math.floor(Math.random() * TAP_REACTIONS.length)];
-    mascotControlRef.current?.play(random);
+    tapMascot();
   };
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -84,6 +82,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSignIn 
     } else if (newOtp.join('').length === 4) {
       // Auto verify when fully entered
       setStep('success');
+      triggerReaction('account:login-success');
       onSignIn();
     }
   };
@@ -98,12 +97,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSignIn 
     e.preventDefault();
     if (otp.join('').length === 4) {
       setStep('success');
+      triggerReaction('account:login-success');
       onSignIn();
     }
   };
 
   const handleGoogleSignIn = () => {
     setStep('success');
+    triggerReaction('account:login-success');
     onSignIn();
   };
 
@@ -269,7 +270,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSignIn 
                               transition={{ type: "spring", stiffness: 300, damping: 20 }}
                               onClick={handleMascotClick}
                             >
-                              <CakePopMascot ref={mascotControlRef} size="large" reaction="blowKiss" loop={false} />
+                              <CakePopMascot size="large" reaction={currentReaction || 'blowKiss'} loop={false} />
                             </motion.div>
                           </div>
                           <motion.div className={styles.mascotHandRight} />

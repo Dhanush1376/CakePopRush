@@ -5,12 +5,14 @@ interface MascotAccessoriesProps {
   showSunglasses?: boolean;
   showPartyHat?: boolean;
   showPartyBlower?: boolean;
+  showBandage?: boolean;
 }
 
 export const MascotAccessories: React.FC<MascotAccessoriesProps> = ({
   showSunglasses = false,
   showPartyHat = false,
   showPartyBlower = false,
+  showBandage = false,
 }) => {
   return (
     <motion.g id="accessories-group">
@@ -41,7 +43,7 @@ export const MascotAccessories: React.FC<MascotAccessoriesProps> = ({
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: -20, opacity: 0, scale: 0 }}
           >
-            <g transform="translate(175, 52) rotate(20)">
+            <g transform="translate(175, 68) rotate(20)">
               {/* Yellow base cone */}
               <polygon points="-22,0 0,-55 22,0" fill="#FFE7A3" />
               {/* Purple bottom stripe */}
@@ -76,6 +78,29 @@ export const MascotAccessories: React.FC<MascotAccessoriesProps> = ({
             <rect x="130" y="187" width="5" height="8" fill="#4DB9E6" rx="1" transform="rotate(-15 132 191)" />
             <rect x="110" y="187" width="6" height="7" fill="#FFE7A3" rx="1" transform="rotate(25 113 190)" />
             <rect x="92" y="188" width="5" height="7" fill="#4DB9E6" rx="1" transform="rotate(-10 94 191)" />
+          </motion.g>
+        )}
+        
+        {showBandage && (
+          <motion.g
+            key="bandage"
+            id="bandage"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            style={{ transformOrigin: '110px 85px' }}
+          >
+            <g transform="translate(110, 85) rotate(-15)">
+              {/* White gauze pad */}
+              <rect x="-15" y="-12" width="30" height="24" rx="4" fill="#FFFFFF" stroke="#E6E6E6" strokeWidth="2" />
+              {/* Tan tape on sides */}
+              <rect x="-25" y="-6" width="10" height="12" rx="2" fill="#F4D3B3" />
+              <rect x="15" y="-6" width="10" height="12" rx="2" fill="#F4D3B3" />
+              {/* Inner details / blood spot maybe? Just some gauze lines */}
+              <line x1="-8" y1="-4" x2="8" y2="-4" stroke="#E6E6E6" strokeWidth="1.5" strokeLinecap="round" />
+              <line x1="-8" y1="0" x2="8" y2="0" stroke="#E6E6E6" strokeWidth="1.5" strokeLinecap="round" />
+              <line x1="-8" y1="4" x2="8" y2="4" stroke="#E6E6E6" strokeWidth="1.5" strokeLinecap="round" />
+            </g>
           </motion.g>
         )}
       </AnimatePresence>

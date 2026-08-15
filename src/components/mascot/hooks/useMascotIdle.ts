@@ -25,7 +25,7 @@ export const startIdle = (ctx: ReactionContext, signal: AbortSignal) => {
   const scheduleBlink = () => {
     if (signal.aborted) return;
     const nextBlink = 3000 + Math.random() * 3000;
-    setTimeout(async () => {
+    const timer = setTimeout(async () => {
       if (signal.aborted) return;
       try {
         await blink(ctx);
@@ -34,6 +34,7 @@ export const startIdle = (ctx: ReactionContext, signal: AbortSignal) => {
       }
       scheduleBlink();
     }, nextBlink);
+    signal.addEventListener('abort', () => clearTimeout(timer), { once: true });
   };
   scheduleBlink();
 
@@ -41,7 +42,7 @@ export const startIdle = (ctx: ReactionContext, signal: AbortSignal) => {
   const schedulePupilMicromove = () => {
     if (signal.aborted) return;
     const nextMove = 5000 + Math.random() * 5000;
-    setTimeout(async () => {
+    const timer = setTimeout(async () => {
       if (signal.aborted) return;
       try {
         const dx = (Math.random() - 0.5) * 4; // -2 to +2
@@ -49,7 +50,15 @@ export const startIdle = (ctx: ReactionContext, signal: AbortSignal) => {
         await ctx.animate([
           ['#left-pupil-group, #right-pupil-group', { x: dx, y: dy }, { duration: 0.3 }]
         ]);
-        await new Promise(r => setTimeout(r, 800));
+        
+        await new Promise(r => {
+          const innerTimer = setTimeout(r, 800);
+          signal.addEventListener('abort', () => {
+            clearTimeout(innerTimer);
+            r(undefined);
+          }, { once: true });
+        });
+        
         if (signal.aborted) return;
         await ctx.animate([
           ['#left-pupil-group, #right-pupil-group', { x: 0, y: 0 }, { duration: 0.3 }]
@@ -59,6 +68,7 @@ export const startIdle = (ctx: ReactionContext, signal: AbortSignal) => {
       }
       schedulePupilMicromove();
     }, nextMove);
+    signal.addEventListener('abort', () => clearTimeout(timer), { once: true });
   };
   schedulePupilMicromove();
 };

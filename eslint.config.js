@@ -27,6 +27,8 @@ export default defineConfig([
       'react-hooks/static-components': 'warn',
       'react-hooks/immutability': 'warn',
       'no-constant-binary-expression': 'warn',
+      'no-redeclare': 'off',
+      '@typescript-eslint/no-redeclare': 'off',
       'prefer-const': 'warn'
     },
   },

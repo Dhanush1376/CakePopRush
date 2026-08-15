@@ -35,6 +35,12 @@
   gap: var(--space-4);
 }
 
+@media (min-width: 768px) {
+  .actions {
+    margin-right: 180px;
+  }
+}
+
 .countBadge {
   display: none;
   font-family: var(--font-family-body);

@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { CheckCircle2, Package, Truck, ShoppingBag, MapPin, Phone, Star, Receipt, Box, ArrowRight, X, Download } from 'lucide-react'
 
 import { CakePopMascot } from '@/components/mascot/CakePopMascot'
-import { MascotReaction } from '@/components/mascot/reactions/reactionTypes'
+import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator'
 import { useCart } from '@/lib/cartStore' // Used for empty cart fallback check if needed
 import { MOCK_ORDERS } from './OrdersPage'
 import { InvoiceViewer, downloadInvoicePDF } from '@/components/invoice/InvoiceViewer'
@@ -103,12 +103,10 @@ export function OrderSuccessPage() {
   const navigate = useNavigate()
   const { items } = useCart()
   
-  // Only show celebration if coming from checkout AND we haven't shown it yet for this session
   const [showCelebration, setShowCelebration] = useState(false)
   const [showInvoice, setShowInvoice] = useState(false)
   const [isReady, setIsReady] = useState(false)
-  const [mascotReaction, setMascotReaction] = useState<MascotReaction | null>('blowKiss')
-  const reactionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const { currentReaction, triggerReaction, tapMascot, prefersReducedMotion } = useMascotOrchestrator()
 
   // Generate dual-side confetti blast (left & right cannons)
   const [confettiBlast, setConfettiBlast] = useState<any[]>([]);
@@ -164,21 +162,7 @@ export function OrderSuccessPage() {
     setConfettiBlast([...leftCannon, ...rightCannon]);
   }, []);
   const handleMascotClick = () => {
-    if (reactionTimeoutRef.current) clearTimeout(reactionTimeoutRef.current);
-    
-    const HAPPY_REACTIONS: MascotReaction[] = ['cool', 'blowKiss', 'love', 'party', 'laughing', 'winking', 'excited'];
-    let pick = HAPPY_REACTIONS[Math.floor(Math.random() * HAPPY_REACTIONS.length)];
-    
-    // Ensure we pick a different reaction so it replays
-    if (pick === mascotReaction) {
-      pick = HAPPY_REACTIONS[(HAPPY_REACTIONS.indexOf(pick) + 1) % HAPPY_REACTIONS.length];
-    }
-    
-    setMascotReaction(pick);
-
-    reactionTimeoutRef.current = setTimeout(() => {
-      setMascotReaction(null);
-    }, 3500);
+    tapMascot()
   };
 
   useEffect(() => {
@@ -190,6 +174,10 @@ export function OrderSuccessPage() {
     if (fromCheckout && !alreadyShown) {
       setShowCelebration(true)
       sessionStorage.setItem(sessionKey, 'true')
+      
+      // We don't trigger the reaction here immediately since the provider will see the route change,
+      // but it's safe to trigger it to ensure the checkout success specifically plays on the modal
+      triggerReaction('checkout:success')
     }
     
     // Simulate slight load time for data
@@ -286,28 +274,29 @@ export function OrderSuccessPage() {
                       className={styles.mascotContainer}
                       initial={{ y: 150 }}
                       animate={{ y: 0 }}
-                      transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.2 }}
+                      transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.6 }}
                       onClick={handleMascotClick}
                       style={{ cursor: 'pointer' }}
                     >
                       <CakePopMascot 
                         size="large" 
-                        reaction={mascotReaction} 
-                        speedMultiplier={2}
+                        reaction={currentReaction || 'party'} 
+                        speedMultiplier={prefersReducedMotion ? 1 : 2} 
+                        hideArms={true}
                       />
                     </motion.div>
                   </div>
                   <motion.div 
                     className={styles.mascotHandRight} 
-                    initial={{ y: 150 }}
-                    animate={{ y: 0 }}
-                    transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.2 }}
+                    initial={{ y: 20, opacity: 0, scale: 0.8 }}
+                    animate={{ y: 0, opacity: 1, scale: 1 }}
+                    transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.3 }}
                   />
                   <motion.div 
                     className={styles.mascotHandLeft} 
-                    initial={{ y: 150 }}
-                    animate={{ y: 0 }}
-                    transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.2 }}
+                    initial={{ y: 20, opacity: 0, scale: 0.8 }}
+                    animate={{ y: 0, opacity: 1, scale: 1 }}
+                    transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.45 }}
                   />
                 </div>
 

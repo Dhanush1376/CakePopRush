@@ -14,7 +14,7 @@ export interface ReactionContext {
   animate: any; // from useAnimate
   setMouthShape: React.Dispatch<React.SetStateAction<MascotMouthShape>>;
   setActiveParticles: React.Dispatch<React.SetStateAction<ParticleType[]>>;
-  setAccessories: React.Dispatch<React.SetStateAction<{ sunglasses: boolean; partyHat: boolean; partyBlower: boolean }>>;
+  setAccessories: React.Dispatch<React.SetStateAction<{ sunglasses: boolean; partyHat: boolean; partyBlower: boolean; bandage: boolean }>>;
   speedMultiplier: number;
   prefersReducedMotion: boolean;
 }
@@ -25,14 +25,17 @@ export const getCanonicalResetSequence = (duration: number = 0.3): AnimationSequ
   ['#torso-group', { scaleX: 1, scaleY: 1, rotate: 0 }, { duration, ease: 'easeOut' }],
   
   // Eyes
-  ['#left-eye-container', { y: 0, x: 0, scaleX: 1, scaleY: 1, rotate: 0 }, { duration, ease: 'easeOut' }],
-  ['#right-eye-container', { y: 0, x: 0, scaleX: 1, scaleY: 1, rotate: 0 }, { duration, ease: 'easeOut' }],
-  ['#left-pupil-group', { scale: 1 }, { duration, ease: 'easeOut' }],
-  ['#right-pupil-group', { scale: 1 }, { duration, ease: 'easeOut' }],
+  ['#left-eye-container', { y: 0, x: 0, scaleX: 1, scaleY: 1, scale: 1, rotate: 0 }, { duration, ease: 'easeOut' }],
+  ['#right-eye-container', { y: 0, x: 0, scaleX: 1, scaleY: 1, scale: 1, rotate: 0 }, { duration, ease: 'easeOut' }],
+  ['#left-pupil-group', { scale: 1, x: 0, y: 0 }, { duration, ease: 'easeOut' }],
+  ['#right-pupil-group', { scale: 1, x: 0, y: 0 }, { duration, ease: 'easeOut' }],
+  ['#left-pupil-group-pleading, #right-pupil-group-pleading', { scale: 1, y: 0 }, { duration, ease: 'easeOut' }],
+  ['#left-pupil-group-cute, #right-pupil-group-cute', { scale: 1, y: 0 }, { duration, ease: 'easeOut' }],
   ['#left-eye-normal', { opacity: 1 }, { duration, ease: 'easeOut' }],
   ['#right-eye-normal', { opacity: 1 }, { duration, ease: 'easeOut' }],
-  ['#left-eye-closed, #left-eye-squeezed, #left-eye-heart, #left-eye-tired', { opacity: 0 }, { duration, ease: 'easeOut' }],
-  ['#right-eye-closed, #right-eye-squeezed, #right-eye-heart, #right-eye-tired', { opacity: 0 }, { duration, ease: 'easeOut' }],
+  ['#left-eye-closed, #left-eye-squeezed, #left-eye-heart, #left-eye-tired, #left-eye-damaged, #left-eye-cute, #left-eye-pleading', { opacity: 0 }, { duration, ease: 'easeOut' }],
+  ['#right-eye-closed, #right-eye-squeezed, #right-eye-heart, #right-eye-tired, #right-eye-damaged, #right-eye-cute, #right-eye-pleading', { opacity: 0 }, { duration, ease: 'easeOut' }],
+  ['#left-eye-cute-tear, #right-eye-cute-tear', { opacity: 0, scale: 0 }, { duration, ease: 'easeOut' }],
   
   // Eyebrows
   ['#left-eyebrow', { y: 0, x: 0, rotate: 0 }, { duration, ease: 'easeOut' }],

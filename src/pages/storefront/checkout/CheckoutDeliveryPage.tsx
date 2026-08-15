@@ -20,7 +20,22 @@ export const CheckoutDeliveryPage = () => {
   const [addresses, setAddresses] = useState<AddressData[]>(() => {
     try {
       const saved = localStorage.getItem('cakepoprush_addresses');
-      return saved ? JSON.parse(saved) : [];
+      const parsed = saved ? JSON.parse(saved) : [];
+      if (parsed.length > 0) return parsed;
+      return [{
+        id: 'sample-address-1',
+        name: 'Dhanush',
+        email: 'dhanush@example.com',
+        phone: '9876543210',
+        altPhone: '',
+        pincode: '560001',
+        houseNo: 'Apt 4B',
+        locality: 'MG Road',
+        street: '123 Baker Street',
+        landmark: 'Near the big oak tree',
+        isDefault: true,
+        destinationType: 'home'
+      }];
     } catch {
       return [];
     }
@@ -28,9 +43,9 @@ export const CheckoutDeliveryPage = () => {
   
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(() => {
     try {
-      return localStorage.getItem('cakepoprush_selectedAddressId') || null;
+      return localStorage.getItem('cakepoprush_selectedAddressId') || 'sample-address-1';
     } catch {
-      return null;
+      return 'sample-address-1';
     }
   });
 

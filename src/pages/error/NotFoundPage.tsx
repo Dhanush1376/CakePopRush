@@ -18,8 +18,8 @@ export const NotFoundPage = () => {
             style={{ margin: '0 auto', marginBottom: '20px' }}
           >
             <MascotEmptyState 
-              message="Oops! 404 Not Found.&#10;Let's get you back to the sweets!" 
-              reaction="sad" 
+              message="404! Page not found.&#10;We lost this cake pop." 
+              reaction="oops" 
             />
           </motion.div>
         }

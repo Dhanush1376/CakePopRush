@@ -50,7 +50,7 @@ export const winkRight = async (ctx: ReactionContext) => {
 // Parameterized pupil direction
 export const lookAt = (ctx: ReactionContext, x: number, y: number, duration?: number) => {
   return ctx.animate([
-    ['#left-pupil-group, #right-pupil-group', { x, y }, { duration: animSpeed(duration ?? TIMING.FAST, ctx.speedMultiplier) }]
+    ['#left-pupil-group, #right-pupil-group, #left-pupil-group-heart, #right-pupil-group-heart', { x, y }, { duration: animSpeed(duration ?? TIMING.FAST, ctx.speedMultiplier) }]
   ]);
 };
 
@@ -79,7 +79,7 @@ export const lookAround = async (ctx: ReactionContext) => {
 export const eyesWide = (ctx: ReactionContext) => {
   return ctx.animate([
     ['#left-eye-container, #right-eye-container', { scaleX: 1.1, scaleY: 1.1 }, { duration: animSpeed(TIMING.FAST, ctx.speedMultiplier) }],
-    ['#left-pupil-group, #right-pupil-group', { scale: 0.8 }, { duration: animSpeed(TIMING.FAST, ctx.speedMultiplier) }]
+    ['#left-pupil-group, #right-pupil-group, #left-pupil-group-heart, #right-pupil-group-heart', { scale: 0.8 }, { duration: animSpeed(TIMING.FAST, ctx.speedMultiplier) }]
   ]);
 };
 
@@ -101,6 +101,15 @@ export const eyesDroopy = (ctx: ReactionContext) => {
 export const eyesTired = (ctx: ReactionContext) => {
   return ctx.animate([
     ['#left-eye-tired, #right-eye-tired', { opacity: 1 }, { duration: animSpeed(TIMING.NORMAL, ctx.speedMultiplier) }]
+  ]);
+};
+
+// Switch left eye to damaged (X), right eye to tired
+export const eyesDizzyDamaged = (ctx: ReactionContext) => {
+  return ctx.animate([
+    ['#left-eye-normal, #right-eye-normal', { opacity: 0 }, { duration: animSpeed(TIMING.INSTANT, ctx.speedMultiplier) }],
+    ['#left-eye-damaged', { opacity: 1 }, { duration: animSpeed(TIMING.INSTANT, ctx.speedMultiplier) }],
+    ['#right-eye-tired', { opacity: 1 }, { duration: animSpeed(TIMING.INSTANT, ctx.speedMultiplier) }]
   ]);
 };
 
@@ -132,7 +141,7 @@ export const eyesHeart = (ctx: ReactionContext) => {
 // Restore normal eyes from any state
 export const eyesNormal = (ctx: ReactionContext) => {
   return ctx.animate([
-    ['#left-eye-closed, #right-eye-closed, #left-eye-squeezed, #right-eye-squeezed, #left-eye-heart, #right-eye-heart, #left-eye-tired, #right-eye-tired', { opacity: 0 }, { duration: animSpeed(TIMING.INSTANT, ctx.speedMultiplier) }],
+    ['#left-eye-closed, #right-eye-closed, #left-eye-squeezed, #right-eye-squeezed, #left-eye-heart, #right-eye-heart, #left-eye-tired, #right-eye-tired, #left-eye-damaged, #right-eye-damaged', { opacity: 0 }, { duration: animSpeed(TIMING.INSTANT, ctx.speedMultiplier) }],
     ['#left-eye-normal, #right-eye-normal', { opacity: 1 }, { duration: animSpeed(TIMING.INSTANT, ctx.speedMultiplier) }],
     ['#left-eye-container, #right-eye-container', { scaleY: 1, scaleX: 1 }, { duration: animSpeed(TIMING.FAST, ctx.speedMultiplier) }]
   ]);
@@ -141,8 +150,8 @@ export const eyesNormal = (ctx: ReactionContext) => {
 export const resetEyes = (ctx: ReactionContext) => {
   return ctx.animate([
     ['#left-eye-container, #right-eye-container', { scaleY: 1, scaleX: 1, y: 0, x: 0 }, { duration: 0 }],
-    ['#left-pupil-group, #right-pupil-group', { x: 0, y: 0, scale: 1 }, { duration: 0 }],
+    ['#left-pupil-group, #right-pupil-group, #left-pupil-group-heart, #right-pupil-group-heart', { x: 0, y: 0, scale: 1 }, { duration: 0 }],
     ['#left-eye-normal, #right-eye-normal', { opacity: 1 }, { duration: 0 }],
-    ['#left-eye-closed, #right-eye-closed, #left-eye-squeezed, #right-eye-squeezed, #left-eye-heart, #right-eye-heart, #left-eye-tired, #right-eye-tired', { opacity: 0 }, { duration: 0 }]
+    ['#left-eye-closed, #right-eye-closed, #left-eye-squeezed, #right-eye-squeezed, #left-eye-heart, #right-eye-heart, #left-eye-tired, #right-eye-tired, #left-eye-damaged, #right-eye-damaged', { opacity: 0 }, { duration: 0 }]
   ]);
 };

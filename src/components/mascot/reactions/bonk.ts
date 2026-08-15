@@ -3,10 +3,9 @@ import * as P from '../primitives';
 
 /**
  * Reference #32 Bonk (Hit reaction):
- * - Instant squash impact on #torso-group (the head/body)
+ * - Instant squash impact on #torso-group
  * - Eyes squeeze shut, brows raise, oMouth
  * - Small rotational wobble (recovering from hit)
- * - Tiny secondary bounce on #mascot-root
  * - bonkStars particles
  */
 export const playBonk = async (ctx: ReactionContext) => {
@@ -16,76 +15,95 @@ export const playBonk = async (ctx: ReactionContext) => {
     P.setMouth(ctx, 'oMouth');
     P.raiseBrows(ctx);
     P.spawnBonkStars(ctx);
-    
-    // Simple pulse
-    await ctx.animate([
-      ['#torso-group', { scaleX: 0.96, scaleY: 0.96 }, { duration: animSpeed(0.1, speedMultiplier) }]
-    ]);
-    await ctx.animate([
-      ['#torso-group', { scaleX: 1, scaleY: 1 }, { duration: animSpeed(0.2, speedMultiplier) }]
-    ]);
-    
+    await ctx.animate([['#torso-group', { scaleX: 0.96, scaleY: 0.96 }, { duration: animSpeed(0.1, speedMultiplier) }]]);
+    await ctx.animate([['#torso-group', { scaleX: 1, scaleY: 1 }, { duration: animSpeed(0.4, speedMultiplier) }]]);
     P.setMouth(ctx, 'neutral');
     P.resetBrows(ctx);
     return;
   }
 
-  // Determine random impact direction for slight variation (-2 to +2 degrees)
-  const dirMultiplier = Math.random() > 0.5 ? 1 : -1;
-  const baseWobble = 8;
-  const w1 = -(baseWobble + Math.random() * 2) * dirMultiplier;
-  const w2 = (baseWobble - 1) * dirMultiplier;
-  const w3 = -(baseWobble - 3) * dirMultiplier;
-  const w4 = (baseWobble - 5) * dirMultiplier;
+  const dir = Math.random() > 0.5 ? 1 : -1;
 
-  // 1. IMPACT (0-40ms): Squash torso (head), raise brows, tiny root bump
+  // 1. HARD IMPACT (0-80ms)
+  // Extreme squash, eyes squeezed, oMouth
   P.spawnBonkStars(ctx);
   P.raiseBrows(ctx);
   P.setMouth(ctx, 'oMouth');
-  
-  await Promise.all([
-    ctx.animate([
-      ['#torso-group', { scaleX: 1.04, scaleY: 0.94, y: 4, rotate: w1 / 2 }, { duration: animSpeed(0.04, speedMultiplier), ease: 'easeOut' }]
-    ]),
-    ctx.animate([
-      ['#mascot-root', { y: 2 }, { duration: animSpeed(0.04, speedMultiplier), ease: 'easeOut' }]
-    ]),
-    P.legWobble(ctx) // subtle leg reaction
-  ]);
-
-  // 2. FACE REACTION (40-50ms): Eyes squeeze shut
   P.eyesSqueezed(ctx);
-
-  // 3. WOBBLE SEQUENCE (50-280ms)
-  await ctx.animate([
-    ['#torso-group', { rotate: w1 }, { duration: animSpeed(0.06, speedMultiplier), ease: 'easeInOut' }]
-  ]);
-  
-  await ctx.animate([
-    ['#torso-group', { rotate: w2, scaleX: 0.97, scaleY: 1.03, y: -2 }, { duration: animSpeed(0.06, speedMultiplier), ease: 'easeInOut' }]
-  ]);
-  
-  await ctx.animate([
-    ['#torso-group', { rotate: w3, scaleX: 1.01, scaleY: 0.99, y: 1 }, { duration: animSpeed(0.06, speedMultiplier), ease: 'easeInOut' }]
-  ]);
-  
-  await ctx.animate([
-    ['#torso-group', { rotate: w4 }, { duration: animSpeed(0.06, speedMultiplier), ease: 'easeInOut' }]
-  ]);
-
-  // 4. RECOVERY (280-350ms)
-  P.resetBrows(ctx);
-  P.setMouth(ctx, 'neutral');
   
   await Promise.all([
     ctx.animate([
-      ['#torso-group', { rotate: 0, scaleX: 1, scaleY: 1, y: 0 }, { duration: animSpeed(0.07, speedMultiplier), ease: 'easeOut' }]
+      ['#torso-group', { scaleX: 1.25, scaleY: 0.65, y: 16 }, { duration: animSpeed(0.05, speedMultiplier), ease: 'easeOut' }]
     ]),
     ctx.animate([
-      ['#mascot-root', { y: 0 }, { duration: animSpeed(0.07, speedMultiplier), ease: 'easeOut' }]
+      ['#mascot-root', { y: 6 }, { duration: animSpeed(0.05, speedMultiplier), ease: 'easeOut' }]
     ])
   ]);
 
-  // Finally open eyes
+  // 2. DIZZY PHASE START & REBOUND
+  P.concernBrows(ctx);
+  P.setMouth(ctx, 'tiredFrown');
+  P.eyesDizzyDamaged(ctx);
+
+  // Add bandage and rotating dizzy stars
+  ctx.setAccessories(prev => ({ ...prev, bandage: true }));
+  setTimeout(() => {
+    ctx.setActiveParticles(['dizzyStars']);
+  }, animSpeed(200, speedMultiplier));
+
+  // Elastic rebound up
+  await Promise.all([
+    ctx.animate([
+      ['#torso-group', { scaleX: 0.9, scaleY: 1.15, y: -12, rotate: 18 * dir, x: 12 * dir }, { duration: animSpeed(0.12, speedMultiplier), ease: 'easeOut' }]
+    ])
+  ]);
+
+  // 3. ORGANIC DECAYING WOBBLE (~3.2 seconds)
+  const swings = [
+    { amp: -14, dur: 0.20 },
+    { amp: 11, dur: 0.25 },
+    { amp: -8, dur: 0.30 },
+    { amp: 6, dur: 0.35 },
+    { amp: -4, dur: 0.40 },
+    { amp: 2, dur: 0.45 },
+    { amp: -1, dur: 0.50 },
+    { amp: 0, dur: 0.60 } // settle
+  ];
+
+  for (const swing of swings) {
+    const rot = swing.amp * dir;
+    const xDist = (swing.amp * 0.7) * dir;
+    // The body leads the movement
+    await ctx.animate([
+      ['#torso-group', { 
+        rotate: rot, 
+        x: xDist, 
+        y: Math.abs(swing.amp) * -0.2, // slight bobbing
+        scaleX: 1 + (swing.amp * 0.005), 
+        scaleY: 1 - (swing.amp * 0.005) 
+      }, { duration: animSpeed(swing.dur, speedMultiplier), ease: 'easeInOut' }]
+    ]);
+  }
+
+  // Final wait before shaking it off
+  await new Promise(r => setTimeout(r, animSpeed(400, speedMultiplier)));
+
+  // 4. RECOVERY (End of 4.5s)
+  // Shake it off quickly!
+  await ctx.animate([
+    ['#torso-group', { rotate: -4 }, { duration: animSpeed(0.05, speedMultiplier) }],
+    ['#torso-group', { rotate: 4 }, { duration: animSpeed(0.05, speedMultiplier) }],
+    ['#torso-group', { rotate: 0 }, { duration: animSpeed(0.05, speedMultiplier) }]
+  ]);
+
+  ctx.setActiveParticles([]);
+  ctx.setAccessories(prev => ({ ...prev, bandage: false }));
+  
+  P.resetBrows(ctx);
+  P.setMouth(ctx, 'neutral');
   P.eyesNormal(ctx);
+  
+  await ctx.animate([
+    ['#mascot-root', { y: 0 }, { duration: animSpeed(0.1, speedMultiplier), ease: 'easeOut' }]
+  ]);
 };

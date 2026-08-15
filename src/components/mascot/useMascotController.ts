@@ -25,7 +25,8 @@ export const useMascotController = (speedMultiplier: number = 1, loop: boolean =
   const [accessories, setAccessories] = useState({
     sunglasses: false,
     partyHat: false,
-    partyBlower: false
+    partyBlower: false,
+    bandage: false
   });
 
   const prefersReducedMotion = useRef(false);
@@ -33,6 +34,10 @@ export const useMascotController = (speedMultiplier: number = 1, loop: boolean =
   const playRef = useRef<((reaction: MascotReaction) => Promise<void>) | null>(null);
   const stateRef = useRef<MascotState>('IDLE');
   const currentReactionRef = useRef<MascotReaction | null>(null);
+  
+  // Instance tracking for zero-overlap
+  const reactionInstanceIdRef = useRef(0);
+  const activeAnimationsRef = useRef<Set<any>>(new Set());
 
   useEffect(() => {
     stateRef.current = state;
@@ -72,6 +77,13 @@ export const useMascotController = (speedMultiplier: number = 1, loop: boolean =
       abortControllerRef.current.abort();
       abortControllerRef.current = null;
     }
+    // Force stop all actively tracked animations
+    activeAnimationsRef.current.forEach(controls => {
+      if (controls && typeof controls.stop === 'function') {
+        controls.stop();
+      }
+    });
+    activeAnimationsRef.current.clear();
   }, []);
 
   const reset = useCallback(async () => {
@@ -80,7 +92,7 @@ export const useMascotController = (speedMultiplier: number = 1, loop: boolean =
     setCurrentReaction(null);
     setMouthShape('neutral');
     setActiveParticles([]);
-    setAccessories({ sunglasses: false, partyHat: false, partyBlower: false });
+    setAccessories({ sunglasses: false, partyHat: false, partyBlower: false, bandage: false });
     
     const ac = new AbortController();
     abortControllerRef.current = ac;
@@ -150,12 +162,28 @@ export const useMascotController = (speedMultiplier: number = 1, loop: boolean =
   const play = useCallback(async (reaction: MascotReaction) => {
     if (!scope.current) return;
 
-    const nextDefinition = REACTIONS[reaction];
-    const activeDefinition = currentReactionRef.current ? REACTIONS[currentReactionRef.current] : null;
-    
+    // 1. Cancel previous immediately
+    const instanceId = ++reactionInstanceIdRef.current;
     stop();
     
-    // Safe transition: abort active timers, then settle the rig before the new intent.
+    // 2. Clear state defaults
+    setMouthShape('neutral');
+    setActiveParticles([]);
+    setAccessories({ sunglasses: false, partyHat: false, partyBlower: false, bandage: false });
+    
+    // 3. Fast canonical reset
+    try {
+      await animate(getCanonicalResetSequence(0.01));
+    } catch {
+      // Ignored
+    }
+
+    // 4. Confirm we are still the active instance
+    if (instanceId !== reactionInstanceIdRef.current) return;
+
+    // 5. Start new reaction
+    if (import.meta.env.DEV) console.log(`[MASCOT] START: ${reaction} #${instanceId}`);
+    
     const ac = new AbortController();
     abortControllerRef.current = ac;
 
@@ -163,21 +191,34 @@ export const useMascotController = (speedMultiplier: number = 1, loop: boolean =
     setState('PLAYING_REACTION');
     setCurrentReaction(reaction);
     
-    setMouthShape('neutral');
-    setActiveParticles([]);
-    setAccessories({ sunglasses: false, partyHat: false, partyBlower: false });
-    
-    try {
-      await animate(getTransitionSequence());
-      await animate(getCanonicalResetSequence(0.01));
-    } catch {
-      // Aborted early
-    }
-
-    if (ac.signal.aborted) return;
+    const safeAnimate = async (sequence: any, options?: any) => {
+      if (ac.signal.aborted || instanceId !== reactionInstanceIdRef.current) {
+        return;
+      }
+      const controls = animate(sequence, options);
+      activeAnimationsRef.current.add(controls);
+      
+      return new Promise<void>((resolve) => {
+        const onAbort = () => {
+          controls.stop();
+          activeAnimationsRef.current.delete(controls);
+          resolve();
+        };
+        ac.signal.addEventListener('abort', onAbort);
+        Promise.resolve(controls).then(() => {
+          ac.signal.removeEventListener('abort', onAbort);
+          activeAnimationsRef.current.delete(controls);
+          resolve();
+        }).catch(() => {
+          ac.signal.removeEventListener('abort', onAbort);
+          activeAnimationsRef.current.delete(controls);
+          resolve();
+        });
+      });
+    };
 
     const ctx: ReactionContext = {
-      animate,
+      animate: safeAnimate,
       setMouthShape,
       setActiveParticles,
       setAccessories,
@@ -185,26 +226,39 @@ export const useMascotController = (speedMultiplier: number = 1, loop: boolean =
       prefersReducedMotion: prefersReducedMotion.current
     };
 
+    let result: void | { holdState: boolean } = undefined;
     try {
       if (REACTIONS[reaction] && typeof REACTIONS[reaction].playFn === 'function') {
-        await REACTIONS[reaction].playFn(ctx);
+        result = await REACTIONS[reaction].playFn(ctx);
       } else {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => {
+          const timeout = setTimeout(resolve, 1000);
+          ac.signal.addEventListener('abort', () => {
+             clearTimeout(timeout);
+             resolve(undefined);
+          });
+        });
       }
-    } catch {
-      // Interrupted
+    } catch (e) {
+      if (import.meta.env.DEV) console.log(`[MASCOT] CANCEL: ${reaction} #${instanceId}`);
+      return; // Interrupted
     }
 
-    if (ac.signal.aborted) return;
+    if (ac.signal.aborted || instanceId !== reactionInstanceIdRef.current) return;
+    
+    if (import.meta.env.DEV) console.log(`[MASCOT] CLEANUP: ${reaction} #${instanceId}`);
 
     if (loop) {
       setTimeout(() => {
-        if (!ac.signal.aborted && playRef.current) playRef.current(reaction);
+        if (!ac.signal.aborted && instanceId === reactionInstanceIdRef.current && playRef.current) {
+           playRef.current(reaction);
+        }
       }, 500);
     } else {
-      reset();
+      if (!(result as any)?.holdState) {
+        reset();
+      }
     }
-
   }, [animate, loop, reset, scope, speedMultiplier, stop]);
 
   useEffect(() => {

@@ -1,5 +1,5 @@
-import React, { forwardRef, useImperativeHandle, useState, useEffect } from 'react';
-import { motion, useMotionValue, useTransform, useSpring, MotionValue, AnimatePresence } from 'framer-motion';
+import React, { forwardRef, useImperativeHandle, useEffect } from 'react';
+import { motion, useMotionValue, useTransform, useSpring, MotionValue } from 'framer-motion';
 import { MascotReaction, MascotSize, MascotRef } from './reactions/reactionTypes';
 import { SmartMascotState, MascotDirection } from './MascotState';
 import { VIEWBOX, BODY, SHADOW } from './config/mascotConfig';
@@ -8,10 +8,7 @@ import { MascotEyes } from './parts/MascotEyes';
 import { MascotEyebrows } from './parts/MascotEyebrows';
 import { MascotMouth } from './parts/MascotMouth';
 import { MascotCheeks } from './parts/MascotCheeks';
-import { MascotArms } from './parts/MascotArms';
-import { MascotFrontArms } from './parts/MascotFrontArms';
-import { MascotLegs } from './parts/MascotLegs';
-import { MascotStick } from './parts/MascotStick';
+import { MascotWallHands } from './parts/MascotWallHands';
 import { MascotAccessories } from './parts/MascotAccessories';
 import { ParticleEffects } from './effects/ParticleEffects';
 import styles from './CakePopMascot.module.css';
@@ -25,7 +22,7 @@ interface CakePopMascotProps {
   speedMultiplier?: number;
   loop?: boolean;
   staticMode?: boolean;  // Disable all idle animation for calibration
-  
+
   // Smart Mascot properties
   smartState?: SmartMascotState;
   direction?: MascotDirection;
@@ -34,7 +31,7 @@ interface CakePopMascotProps {
   hideArms?: boolean;
 }
 
-const TAP_REACTIONS: MascotReaction[] = ['cool', 'excited', 'laughing', 'love', 'silly', 'party', 'blowKiss', 'winking', 'tada', 'happy'];
+const TAP_REACTIONS: MascotReaction[] = ['cool', 'excited', 'laughing', 'love', 'silly', 'party', 'blowKiss', 'winking'];
 
 export const CakePopMascot = forwardRef<MascotRef, CakePopMascotProps>(({
   reaction = null,
@@ -66,10 +63,77 @@ export const CakePopMascot = forwardRef<MascotRef, CakePopMascotProps>(({
   // Map eye motion to subtle torso movement
   // Assuming eyeX ranges roughly -15 to 15 based on tracking logic
   // We use a fallback if eyeX/Y aren't provided
-  const defaultEye = useMotionValue(0);
-  const actualEyeX = eyeX || defaultEye;
-  const actualEyeY = eyeY || defaultEye;
-  
+  const rawEyeX = useMotionValue(0);
+  const rawEyeY = useMotionValue(0);
+  const defaultEyeX = useSpring(rawEyeX, { stiffness: 200, damping: 25 });
+  const defaultEyeY = useSpring(rawEyeY, { stiffness: 200, damping: 25 });
+
+  const actualEyeX = eyeX || defaultEyeX;
+  const actualEyeY = eyeY || defaultEyeY;
+
+  const enableEyeTracking = false; // Set to true to activate global eye tracking
+
+  useEffect(() => {
+    if (eyeX && eyeY) return; // Parent handles tracking
+    if (!enableEyeTracking) return; // Feature toggle
+
+    const handlePointerMove = (e: MouseEvent | TouchEvent) => {
+      let clientX, clientY;
+      if (window.TouchEvent && e instanceof TouchEvent) {
+        if (e.touches.length > 0) {
+          clientX = e.touches[0].clientX;
+          clientY = e.touches[0].clientY;
+        } else {
+          return;
+        }
+      } else {
+        clientX = (e as MouseEvent).clientX;
+        clientY = (e as MouseEvent).clientY;
+      }
+
+      const rect = scope.current?.getBoundingClientRect();
+      if (!rect) return;
+
+      const mascotCenterX = rect.left + rect.width / 2;
+      const mascotCenterY = rect.top + rect.height / 2;
+
+      const x = clientX - mascotCenterX;
+      const y = clientY - mascotCenterY;
+
+      let targetX = (x / 200) * 3;
+      let targetY = (y / 200) * 3;
+
+      const maxR = 3;
+      const dist = Math.sqrt(targetX * targetX + targetY * targetY);
+      if (dist > maxR) {
+        targetX = (targetX / dist) * maxR;
+        targetY = (targetY / dist) * maxR;
+      }
+
+      rawEyeX.set(targetX);
+      rawEyeY.set(targetY);
+    };
+
+    const handlePointerLeave = () => {
+      rawEyeX.set(0);
+      rawEyeY.set(0);
+    };
+
+    window.addEventListener('pointermove', handlePointerMove as EventListener);
+    window.addEventListener('pointerdown', handlePointerMove as EventListener);
+    window.addEventListener('touchmove', handlePointerMove as EventListener, { passive: true });
+    window.addEventListener('touchstart', handlePointerMove as EventListener, { passive: true });
+    window.addEventListener('pointerleave', handlePointerLeave);
+
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove as EventListener);
+      window.removeEventListener('pointerdown', handlePointerMove as EventListener);
+      window.removeEventListener('touchmove', handlePointerMove as EventListener);
+      window.removeEventListener('touchstart', handlePointerMove as EventListener);
+      window.removeEventListener('pointerleave', handlePointerLeave);
+    };
+  }, [eyeX, eyeY, rawEyeX, rawEyeY, scope, enableEyeTracking]);
+
   const torsoTranslateX = useTransform(actualEyeX, [-15, 15], [-4, 4]);
   const torsoTranslateY = useTransform(actualEyeY, [-15, 15], [-2, 3]);
 
@@ -93,36 +157,36 @@ export const CakePopMascot = forwardRef<MascotRef, CakePopMascotProps>(({
       stop();
       return;
     }
-    
+
     // Legacy reaction prop handling
     if (reaction) {
       play(reaction);
       return;
     }
-    
+
     // Smart Mascot State handling
     if (smartState) {
       switch (smartState) {
         case 'introWink':
-          play('winking');
+          play('blowKiss');
           break;
         case 'leaving':
-          play('goodbye');
+          play('winking');
           break;
         case 'waving':
-          play('wave');
+          play('blowKiss');
           break;
         case 'fastSwipe':
           if (direction !== 'center') observeDirection(direction, true);
           break;
         case 'reacting':
-          play('excited');
+          play('blowKiss');
           break;
         case 'watching':
           if (direction !== 'center') observeDirection(direction);
           break;
         case 'peeking':
-          play('peeking');
+          play('blowKiss');
           break;
         case 'idle':
         case 'returning':
@@ -156,46 +220,42 @@ export const CakePopMascot = forwardRef<MascotRef, CakePopMascotProps>(({
             fill="#000000" opacity={SHADOW.opacity}
           />
 
-          {/* 2. Stick (behind body) */}
-          <MascotStick />
-
-          {/* 3. Legs (behind body) */}
-          <MascotLegs />
-
+          {/* 2. Background Particles (Confetti, etc) rendered behind the mascot body */}
+          <ParticleEffects activeEffects={activeParticles.filter(p => !['emotionalTearLeft', 'emotionalTearRight', 'emotionalSparkle', 'tears', 'cryingFountainTears', 'kissHeart', 'sleepZ', 'oopsMarks', 'surprisedMarks'].includes(p))} />
 
           {/* Torso group — body + face move together, plus tracks cursor */}
-          <motion.g 
-            id="torso-group" 
-            style={{ 
-              originX: `${BODY.cx}px`, 
+          <motion.g
+            id="torso-group"
+            style={{
+              originX: `${BODY.cx}px`,
               originY: `${BODY.cy}px`,
               x: torsoTranslateX,
               y: torsoTranslateY
             }}
           >
-            {/* 4. Arms (behind body, but moves with torso) */}
-            {!hideArms && <MascotArms />}
 
             {/* 5. Body circle + sprinkles */}
             <MascotBody />
 
-            {/* 6. Face elements (in front of body) */}
             <MascotCheeks />
-            {!hideArms && <MascotFrontArms />}
+            <MascotMouth shape={mouthShape} />
             <MascotEyes eyeX={actualEyeX} eyeY={actualEyeY} />
             <MascotEyebrows />
-            <MascotMouth shape={mouthShape} />
 
             {/* 7. Accessories */}
             <MascotAccessories
               showSunglasses={accessories.sunglasses}
               showPartyHat={accessories.partyHat}
               showPartyBlower={accessories.partyBlower}
+              showBandage={accessories.bandage}
             />
           </motion.g>
 
-          {/* 8. Particles (on top of everything) */}
-          <ParticleEffects activeEffects={activeParticles} />
+          {/* Foreground Particles (Tears, Kiss Hearts, Zzzs) rendered in front of the mascot face */}
+          <ParticleEffects activeEffects={activeParticles.filter(p => ['emotionalTearLeft', 'emotionalTearRight', 'emotionalSparkle', 'tears', 'cryingFountainTears', 'kissHeart', 'sleepZ', 'oopsMarks', 'surprisedMarks'].includes(p))} />
+
+          {/* Wall and Hands (fixed, in front of body) */}
+          {!hideArms && <MascotWallHands />}
 
         </motion.g>
 
@@ -203,7 +263,7 @@ export const CakePopMascot = forwardRef<MascotRef, CakePopMascotProps>(({
           <g id="debug-overlays" pointerEvents="none">
             <circle cx={BODY.cx} cy={BODY.cy} r="3" fill="cyan" opacity="0.8" />
             <text x={BODY.cx + 6} y={BODY.cy + 4} fontSize="8" fill="cyan">body center</text>
-            
+
             {/* Shoulders */}
             <circle cx={95} cy={178} r="3" fill="magenta" opacity="0.8" />
             <text x={95 + 6} y={178 + 4} fontSize="8" fill="magenta">L shoulder</text>
@@ -235,3 +295,5 @@ export const CakePopMascot = forwardRef<MascotRef, CakePopMascotProps>(({
 });
 
 CakePopMascot.displayName = 'CakePopMascot';
+
+

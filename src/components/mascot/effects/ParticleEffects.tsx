@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export type ParticleType = 'hearts' | 'sparkles' | 'confetti' | 'questionMarks' | 'sleepZ' | 'thoughtDots' | 'excitementLines' | 'impactLines' | 'tears' | 'bonkStars' | 'cryingFountainTears' | 'kissHeart';
+export type ParticleType = 'hearts' | 'sparkles' | 'confetti' | 'questionMarks' | 'sleepZ' | 'thoughtDots' | 'excitementLines' | 'impactLines' | 'tears' | 'bonkStars' | 'cryingFountainTears' | 'kissHeart' | 'dizzyStars' | 'emotionalTearLeft' | 'emotionalTearRight' | 'emotionalSparkle' | 'oopsMarks' | 'surprisedMarks';
 
 interface ParticleEffectsProps {
   activeEffects: ParticleType[];
@@ -30,8 +30,8 @@ export const ParticleEffects: React.FC<ParticleEffectsProps> = ({ activeEffects 
             {[
               { id: 1, x: 25, y: 65, scale: 1.2, rotate: -25, delay: 0 },
               { id: 2, x: 15, y: 125, scale: 0.8, rotate: -15, delay: 0.4 },
-              { id: 3, x: 255, y: 70, scale: 1.0, rotate: 25, delay: 0.2 },
-              { id: 4, x: 265, y: 135, scale: 0.7, rotate: 15, delay: 0.6 }
+              { id: 3, x: 195, y: 70, scale: 1.0, rotate: 25, delay: 0.2 },
+              { id: 4, x: 205, y: 135, scale: 0.7, rotate: 15, delay: 0.6 }
             ].map((h) => (
               <motion.path
                 key={`heart-${h.id}`}
@@ -74,26 +74,35 @@ export const ParticleEffects: React.FC<ParticleEffectsProps> = ({ activeEffects 
 
         {activeEffects.includes('confetti') && (
           <motion.g key="confetti-effect">
-            {Array.from({ length: 12 }).map((_, i) => {
-              const colors = ['#FF4B72', '#4DC0F0', '#FAD23C', '#07C2BB'];
-              // Pseudo-random based on i
-              const dx = ((i * 37) % 200) - 100;
-              const dy = ((i * 59) % 150);
+            {Array.from({ length: 24 }).map((_, i) => {
+              const colors = ['#FF4B72', '#4DC0F0', '#FAD23C', '#07C2BB', '#9D4EDD', '#FF9F1C'];
+              
+              // We want them to explode OUTWARDS, past the 120px radius body
+              // So dx should push them left (<-120) or right (>120), and dy should push them up
+              const direction = i % 2 === 0 ? 1 : -1;
+              
+              // Push outwards significantly on X axis (100 to 200 distance from center)
+              const dx = direction * (((i * 37) % 100) + 90); 
+              
+              // Push upwards significantly on Y axis (150 to 300 up)
+              const dy = ((i * 59) % 150) + 120;
+              
               const drot = (i * 73) % 360;
+              
               return (
                 <motion.rect
                   key={`confetti-${i}`}
-                  width={8} height={12} rx={2}
+                  width={10} height={14} rx={2}
                   fill={colors[i % colors.length]}
                   initial={{ opacity: 0, x: 150, y: 150, scale: 0 }}
                   animate={{ 
                     opacity: [0, 1, 1, 0],
                     x: 150 + dx,
-                    y: 150 - dy + 50,
-                    rotate: drot,
+                    y: [150, 150 - dy, 150 - dy + 150], // Arcs up then falls down
+                    rotate: drot + 180,
                     scale: 1
                   }}
-                  transition={{ duration: 1.5, ease: "easeOut" }}
+                  transition={{ duration: 2.0, ease: "easeOut" }}
                 />
               );
             })}
@@ -126,15 +135,63 @@ export const ParticleEffects: React.FC<ParticleEffectsProps> = ({ activeEffects 
           </motion.g>
         )}
 
+        {activeEffects.includes('oopsMarks') && (
+          <motion.g key="oops-effect">
+            <motion.text
+              x={220}
+              y={60}
+              fill="#FAD23C"
+              fontSize="45"
+              fontWeight="bold"
+              fontFamily="sans-serif"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              initial={{ opacity: 0, y: 70, scale: 0.5, rotate: 15 }}
+              animate={{ 
+                opacity: [0, 1, 0],
+                y: 25,
+                scale: [0.5, 1.2, 1]
+              }}
+              transition={{ duration: 1.2 }}
+            >
+              !?
+            </motion.text>
+          </motion.g>
+        )}
+
+        {activeEffects.includes('surprisedMarks') && (
+          <motion.g key="surprised-effect">
+            <motion.text
+              x={220}
+              y={60}
+              fill="#FFD700"
+              fontSize="45"
+              fontWeight="bold"
+              fontFamily="sans-serif"
+              textAnchor="middle"
+              dominantBaseline="middle"
+              initial={{ opacity: 0, y: 70, scale: 0.5, rotate: 15 }}
+              animate={{ 
+                opacity: [0, 1, 0],
+                y: 25,
+                scale: [0.5, 1.2, 1]
+              }}
+              transition={{ duration: 1.2 }}
+            >
+              ??
+            </motion.text>
+          </motion.g>
+        )}
+
         {activeEffects.includes('sleepZ') && (
-          <motion.g key="sleep-effect">
+          <motion.g key="sleepZ-effect">
             {[
-              { id: 1, targetX: 230, targetY: 80, size: 20, delay: 0 },
-              { id: 2, targetX: 250, targetY: 55, size: 26, delay: 0.8 },
-              { id: 3, targetX: 270, targetY: 25, size: 34, delay: 1.6 }
+              { id: 1, targetX: 100, targetY: 40, delay: 0, size: 24 },
+              { id: 2, targetX: 70, targetY: 20, delay: 0.8, size: 32 },
+              { id: 3, targetX: 40, targetY: 0, delay: 1.6, size: 40 },
             ].map((z) => (
               <motion.text
-                key={`z-${z.id}`}
+                key={`sleepZ-${z.id}`}
                 x={z.targetX}
                 y={z.targetY}
                 fill="#4DC0F0"
@@ -143,10 +200,10 @@ export const ParticleEffects: React.FC<ParticleEffectsProps> = ({ activeEffects 
                 fontFamily='"Arial Rounded MT Bold", "Nunito", sans-serif'
                 textAnchor="middle"
                 style={{ originX: '50%', originY: '50%' }}
-                initial={{ opacity: 0, x: z.targetX - 5, y: z.targetY + 15, scale: 0.5, rotate: 15 }}
+                initial={{ opacity: 0, x: z.targetX + 5, y: z.targetY + 15, scale: 0.5, rotate: -15 }}
                 animate={{ 
                   opacity: [0, 1, 1, 0],
-                  x: [z.targetX - 5, z.targetX, z.targetX + 3, z.targetX + 5],
+                  x: [z.targetX + 5, z.targetX, z.targetX - 3, z.targetX - 5],
                   y: [z.targetY + 15, z.targetY, z.targetY - 10, z.targetY - 20],
                   scale: [0.5, 1, 1, 1.1]
                 }}
@@ -234,10 +291,10 @@ export const ParticleEffects: React.FC<ParticleEffectsProps> = ({ activeEffects 
                 key={`tear-${i}`}
                 d="M 0 0 C -5 5 -5 10 0 12 C 5 10 5 5 0 0 Z"
                 fill="#4DC0F0"
-                initial={{ opacity: 0, x: i === 1 ? 115 : 185, y: 150, scale: 0 }}
+                initial={{ opacity: 0, x: i === 1 ? 115 : 185, y: 175, scale: 0 }}
                 animate={{
                   opacity: [0, 1, 1, 0],
-                  y: [150, 180, 200],
+                  y: [175, 205, 235],
                   scale: [0, 1.2, 1.5, 0.5]
                 }}
                 transition={{ duration: 1.2, delay: i * 0.3, repeat: Infinity, repeatDelay: 0.2 }}
@@ -267,6 +324,33 @@ export const ParticleEffects: React.FC<ParticleEffectsProps> = ({ activeEffects 
                 transition={{ duration: 0.35, ease: "easeOut" }}
               />
             ))}
+          </motion.g>
+        )}
+
+        {activeEffects.includes('dizzyStars') && (
+          <motion.g key="dizzy-effect">
+            {/* The Rotating Stars */}
+            <motion.g 
+              style={{ originX: '105px', originY: '105px', scaleY: 0.38 }}
+              animate={{ rotate: [0, 360] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+            >
+              {[0, 1, 2].map((i) => (
+                <g 
+                  key={`dizzystar-${i}`}
+                  transform={`rotate(${i * 120} 150 55) translate(150, -35)`}
+                >
+                  <motion.path
+                    d="M 0 -15 L 4 -4 L 15 -4 L 6 4 L 10 15 L 0 8 L -10 15 L -6 4 L -15 -4 L -4 -4 Z"
+                    fill="#FFD700"
+                    stroke="#FF9800"
+                    strokeWidth="2"
+                    animate={{ rotate: [0, -360] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                  />
+                </g>
+              ))}
+            </motion.g>
           </motion.g>
         )}
 
@@ -367,6 +451,24 @@ export const ParticleEffects: React.FC<ParticleEffectsProps> = ({ activeEffects 
                   rotate: [0, -45, -90]
                 }}
                 transition={{ duration: 0.35, delay: sparkle.delay, ease: "easeInOut" }}
+              />
+            ))}
+          </motion.g>
+        )}
+
+        {activeEffects.includes('emotionalSparkle') && (
+          <motion.g key="emotional-sparkle">
+            {[
+              { id: 1, x: 105, y: 140 },
+              { id: 2, x: 195, y: 140 }
+            ].map((sparkle) => (
+              <motion.path
+                key={`emosparkle-${sparkle.id}`}
+                d="M 0 -3 L 1 -1 L 3 0 L 1 1 L 0 3 L -1 1 L -3 0 L -1 -1 Z"
+                fill="#FFFFFF"
+                initial={{ opacity: 0, x: sparkle.x, y: sparkle.y, scale: 0 }}
+                animate={{ opacity: [0, 0.9, 0], scale: [0, 1.2, 0.8] }}
+                transition={{ duration: 0.8, times: [0, 0.4, 1] }}
               />
             ))}
           </motion.g>

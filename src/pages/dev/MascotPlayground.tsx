@@ -109,7 +109,9 @@ export const MascotPlayground = () => {
         <p>Animation Rig & Motion Primitives Testing</p>
       </header>
 
-      {/* ─── Stage Area ───────────────────────────────── */}
+      <div className={styles.mainLayout}>
+        <div className={styles.leftColumn}>
+          {/* ─── Stage Area ───────────────────────────────── */}
       <div className={styles.stageArea}>
         {showReference && (
           <div className={styles.refPanel}>
@@ -165,11 +167,13 @@ export const MascotPlayground = () => {
           </div>
         </div>
       </div>
-
-      {/* ─── Status & Controls ────────────────────────── */}
+    </div>
+    
+    <div className={styles.rightColumn}>
+          {/* ─── Status & Controls ────────────────────────── */}
       <div className={styles.statusPanel}>
         <div className={styles.statusInfo}>
-          <div><strong>Current:</strong> {activeReaction ? REACTIONS[activeReaction].label : 'None'}</div>
+          <div><strong>Current:</strong> {activeReaction && REACTIONS[activeReaction] ? REACTIONS[activeReaction].label : 'None'}</div>
           {/* Status omitted because ref shouldn't be accessed during render */}
         </div>
 
@@ -220,7 +224,7 @@ export const MascotPlayground = () => {
             {(Object.values(REACTIONS)).map(reaction => (
               <button 
                 key={reaction.id}
-                className={`${styles.reactionBtn} ${activeReaction === reaction.id ? styles.active : ''}`}
+                className={`${styles.reactionBtn} ${activeReaction === reaction.id ? styles.active : ''} ${['winking', 'blushing', 'heartEyes', 'tired', 'silly', 'blowKiss', 'cool', 'cryingFountain', 'party', 'sad', 'bonk', 'confused', 'emotionalCute', 'pleadingCute', 'sleeping', 'laughing', 'excited', 'surprised', 'oops', 'yawning', 'love'].includes(reaction.id) ? styles.completed : ''}`}
                 onClick={() => handlePlay(reaction.id)}
               >
                 {reaction.label}
@@ -322,8 +326,10 @@ export const MascotPlayground = () => {
           </div>
         </div>
 
-        </details>
+          </details>
+        </div>
       </div>
     </div>
+  </div>
   );
 };

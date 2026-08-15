@@ -51,11 +51,25 @@ const SPRINKLE_MAP: {
 export const MascotBody = () => {
   return (
     <g id="body">
+      <defs>
+        <radialGradient id="body-gradient" cx="35%" cy="35%" r="75%">
+          <stop offset="0%" stopColor="#FF70A0" /> {/* Lighter pink highlight */}
+          <stop offset="50%" stopColor={MASCOT_PINK} /> {/* Base pink */}
+          <stop offset="90%" stopColor="#D9225D" /> {/* Darker shadow */}
+          <stop offset="100%" stopColor="#C41549" /> {/* Deep shadow at rim */}
+        </radialGradient>
+        
+        <filter id="sprinkle-shadow" x="-20%" y="-20%" width="150%" height="150%">
+          <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" floodColor="#900B31" floodOpacity="0.4" />
+        </filter>
+      </defs>
+
       <g id="frosting">
-        <circle cx={BODY.cx} cy={BODY.cy} r={BODY.r} fill={MASCOT_PINK} />
-        <ellipse cx={SHEEN.cx} cy={SHEEN.cy} rx={SHEEN.rx} ry={SHEEN.ry} fill="#ffffff" opacity={SHEEN.opacity} />
+        <circle cx={BODY.cx} cy={BODY.cy} r={BODY.r} fill="url(#body-gradient)" />
+        {/* We can keep the sheen for extra glossiness! */}
+        <ellipse cx={SHEEN.cx} cy={SHEEN.cy} rx={SHEEN.rx} ry={SHEEN.ry} fill="#ffffff" opacity={0.12} />
       </g>
-      <g id="sprinkles">
+      <g id="sprinkles" filter="url(#sprinkle-shadow)">
         {SPRINKLE_MAP.map((s, i) => {
           if (s.type === 'dot') {
             return (

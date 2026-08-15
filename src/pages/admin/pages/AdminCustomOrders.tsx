@@ -10,7 +10,7 @@ import {
 import styles from './AdminCustomOrders.module.css'
 import { CustomSelect } from '../components/CustomSelect'
 import { ViewToggle } from '../components/ViewToggle'
-import { AdminCustomOrdersSkeleton } from '../components/AdminCustomOrdersSkeleton';
+import { AdminCustomOrdersSkeleton } from '../components/AdminCustomOrdersSkeleton'
 
 const statsData = [
   { id: 1, label: 'TOTAL REQUESTS', value: '1,452', trend: '12.5%', isPositive: true, comparison: 'vs last 7 days', icon: Briefcase, color: 'var(--admin-pink)', bg: '#FFF0F5' },
@@ -424,8 +424,9 @@ export function AdminCustomOrders() {
           </div>
         )}
 
-        {/* Mobile View */}
-        <div className={styles.mobileCards} style={{ display: view === 'list' ? 'none' : '' }}>
+        {/* Mobile Cards View (displayed on mobile screens when in list view) */}
+        {view === 'list' && (
+          <div className={styles.mobileCards}>
           {customOrders.map(order => {
             const OccasionIcon = OccasionIconMap[order.occasion] || Star;
             const occColors = OccasionColorMap[order.occasion] || { bg: '#FFF0F5', color: 'var(--admin-pink)' };
@@ -506,6 +507,7 @@ export function AdminCustomOrders() {
             )
           })}
         </div>
+      )}
 
         <div className={styles.pagination}>
           <span className={styles.pageInfo}>Showing 1 to 6 of 1,452 requests</span>

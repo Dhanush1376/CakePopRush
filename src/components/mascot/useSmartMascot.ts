@@ -113,20 +113,16 @@ export function useSmartMascot({ heroRef, mascotRef, disableScrollHide = false, 
 
       if (clientX === undefined || clientY === undefined) return;
       
-      let mascotCenterX = 0;
-      let mascotCenterY = 0;
-
       const targetRef = mascotRef?.current || heroRef.current;
       if (!targetRef) return;
 
       const rect = targetRef.getBoundingClientRect();
-      if (mascotRef?.current) {
-        mascotCenterX = rect.left + rect.width / 2;
-        mascotCenterY = rect.top + rect.height / 2;
-      } else {
-        mascotCenterX = rect.left + rect.width * 0.8;
-        mascotCenterY = rect.top + rect.height * 0.8;
-      }
+      const mascotCenterX = mascotRef?.current
+        ? rect.left + rect.width / 2
+        : rect.left + rect.width * 0.8;
+      const mascotCenterY = mascotRef?.current
+        ? rect.top + rect.height / 2
+        : rect.top + rect.height * 0.8;
       
       const x = clientX - mascotCenterX;
       const y = clientY - mascotCenterY;

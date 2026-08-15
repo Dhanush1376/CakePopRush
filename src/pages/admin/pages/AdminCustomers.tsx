@@ -413,9 +413,9 @@ export function AdminCustomers() {
           </div>
         )}
 
-        {/* Grid View / Mobile View */}
-        <div className={styles.customersGrid} style={{ display: view === 'grid' ? 'none' : '' }}>
-          {customers.map(cust => (
+        {view === 'grid' && (
+          <div className={styles.customersGrid}>
+            {customers.map(cust => (
             <div key={`grid-${cust.id}`} className={styles.customerCard}>
               <div className={styles.mcHeader}>
                 <div className={styles.customerCell}>
@@ -489,6 +489,7 @@ export function AdminCustomers() {
             </div>
           ))}
         </div>
+        )}
 
         <div className={styles.pagination}>
           <span className={styles.pageInfo}>Showing 1 to 7 of 856 customers</span>

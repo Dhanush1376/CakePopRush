@@ -3,10 +3,11 @@ import * as P from '../primitives';
 
 /**
  * Reference #16 Yawning:
- * Sleepy eyes, yawn mouth opens wide, hand covers mouth, body stretches.
+ * Deep body stretch upward, eyes flutter closed, huge yawn.
  */
 export const playYawning = async (ctx: ReactionContext) => {
-  const { speedMultiplier, prefersReducedMotion } = ctx;
+  const { speedMultiplier, prefersReducedMotion, animate } = ctx;
+  const sm = speedMultiplier;
 
   if (prefersReducedMotion) {
     P.setMouth(ctx, 'yawn');
@@ -14,43 +15,67 @@ export const playYawning = async (ctx: ReactionContext) => {
     return;
   }
 
-  // 1. Eyes become sleepy
-  await P.eyesSleepy(ctx);
-  await new Promise(r => setTimeout(r, 200 / speedMultiplier));
-
-  // 2. Yawn mouth begins opening
-  P.setMouth(ctx, 'oMouth');
-  await new Promise(r => setTimeout(r, 150 / speedMultiplier));
-
-  // 3. Hand approaches mouth + torso stretches slightly
-  ctx.animate([
-    ['#right-arm', { rotate: 160, y: -16, x: -3 }, { duration: 0.3 / speedMultiplier, ease: 'easeOut' }]
+  // 1. Anticipation: slight squash down, eyes become sleepy
+  P.setMouth(ctx, 'smallSmile');
+  await Promise.all([
+    P.eyesSleepy(ctx),
+    animate([
+      ['#torso-group', { y: 3, scaleY: 0.95, scaleX: 1.05 }, { duration: 0.3 / sm, ease: 'easeIn' }]
+    ])
   ]);
-  await ctx.animate([
-    ['#torso-group', { y: -2, scaleY: 1.03 }, { duration: 0.4 / speedMultiplier, ease: 'easeInOut' }]
-  ]);
+  
+  await new Promise(r => setTimeout(r, 150 / sm));
 
-  // 4. Mouth reaches full yawn
+  // 2. Yawn opens wide + body stretches tall + eyes squeeze shut from the stretch
   P.setMouth(ctx, 'yawn');
-  await new Promise(r => setTimeout(r, 100 / speedMultiplier));
-
-  // 5. Eyes droop more during yawn
-  await P.eyesDroopy(ctx);
-
-  // 6. Hold full yawn
-  await new Promise(r => setTimeout(r, 800 / speedMultiplier));
-
-  // 7. Sleepy settle downward
-  P.setMouth(ctx, 'sleepySmile');
-  await ctx.animate([
-    ['#torso-group', { y: 3, scaleY: 0.98 }, { duration: 0.4 / speedMultiplier, ease: 'easeInOut' }]
+  
+  await Promise.all([
+    ctx.animate([
+      ['#left-eye-normal, #right-eye-normal', { opacity: 0 }, { duration: 0.2 / sm }],
+      ['#left-eye-squeezed, #right-eye-squeezed', { opacity: 1 }, { duration: 0.2 / sm }]
+    ]),
+    animate([
+      ['#torso-group', { y: -4, scaleY: 1.08, scaleX: 0.92 }, { duration: 0.6 / sm, ease: 'easeOut' }]
+    ])
   ]);
 
-  // 8. Recover
-  await new Promise(r => setTimeout(r, 300 / speedMultiplier));
+  // 3. Hold full yawn (shaking slightly from the stretch)
+  for (let i = 0; i < 4; i++) {
+    await animate([
+      ['#torso-group', { rotate: 1 }, { duration: 0.15 / sm, ease: 'easeInOut' }]
+    ]);
+    await animate([
+      ['#torso-group', { rotate: -1 }, { duration: 0.15 / sm, ease: 'easeInOut' }]
+    ]);
+  }
+  
+  await animate([
+    ['#torso-group', { rotate: 0 }, { duration: 0.1 / sm }]
+  ]);
+
+  // 4. Sleepy settle downward (heavy drop)
+  P.setMouth(ctx, 'sleepySmile');
+  await Promise.all([
+    ctx.animate([
+      ['#left-eye-squeezed, #right-eye-squeezed', { opacity: 0 }, { duration: 0.3 / sm }],
+      ['#left-eye-normal, #right-eye-normal', { opacity: 1 }, { duration: 0.3 / sm }]
+    ]),
+    animate([
+      ['#torso-group', { y: 6, scaleY: 0.95, scaleX: 1.05 }, { duration: 0.5 / sm, ease: 'easeOut' }]
+    ])
+  ]);
+  
+  await P.eyesTired(ctx);
+
+  // 5. Recover to neutral slowly
+  await new Promise(r => setTimeout(r, 400 / sm));
+  
   await Promise.all([
     P.eyesNormal(ctx),
-    P.settle(ctx),
-    P.lowerArms(ctx)
+    animate([
+      ['#torso-group', { y: 0, scaleY: 1, scaleX: 1 }, { duration: 0.6 / sm, ease: [0.25, 0.1, 0.25, 1] }]
+    ])
   ]);
+  
+  P.setMouth(ctx, 'neutral');
 };

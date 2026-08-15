@@ -3,23 +3,21 @@ import { defaultPose } from './defaultPose';
 
 /**
  * Reference #8 Oops!:
- * Eyes: slightly worried, asymmetric (one a bit wider)
- * Pupils: looking slightly sideways
- * Brows: asymmetric — one raised, one slightly furrowed
- * Mouth: tinyOops (small o)
- * Arms: one hand near/covering mouth (right hand)
- * Body: slight embarrassed recoil
+ * Redesigned — no arms, proper eyeball positioning.
+ * One eye squeezed shut (wince), body squashes down.
+ * Pupils stay centered, no darting off-screen.
  */
 export const oopsPose: MascotPose = {
   ...defaultPose,
-  body: { ...defaultPose.body, y: 2, scaleX: 0.98, scaleY: 1.01 },
-  leftEye: { ...defaultPose.leftEye, scaleY: 1.05 },
-  rightEye: { ...defaultPose.rightEye, scaleY: 0.95 },
-  leftPupil: { scale: 1, x: 3, y: -1 },
-  rightPupil: { scale: 1, x: 3, y: -1 },
-  leftEyebrow: { y: -4, x: 0, rotate: 8 },
-  rightEyebrow: { y: -2, x: 0, rotate: -5 },
-  mouth: 'tinyOops',
-  leftArm: { rotate: 5, y: 0, x: 0 , poseName: 'relaxedDown', handType: 'round' },
-  rightArm: { rotate: 50, y: 0, x: 0 , poseName: 'mouth', handType: 'round' }, // Hand peeks out near lower cheek
+  body: { ...defaultPose.body, y: 8, scaleX: 1.04, scaleY: 0.94 },
+  leftEyeShape: 'normal',
+  rightEyeShape: 'squeezed',
+  leftEye: { ...defaultPose.leftEye },
+  rightEye: { ...defaultPose.rightEye },
+  leftPupil: { scale: 1, x: 0, y: 0 },
+  rightPupil: { scale: 1, x: 0, y: 0 },
+  leftEyebrow: { y: -6, x: 0, rotate: 12 },
+  rightEyebrow: { y: 3, x: 0, rotate: -18 },
+  mouth: 'uncertain',
+  blushOpacity: 0.3,
 };

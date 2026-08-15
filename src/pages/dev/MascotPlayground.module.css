@@ -14,6 +14,28 @@
   margin-bottom: 1.5rem;
 }
 
+.mainLayout {
+  display: flex;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+
+.leftColumn {
+  flex: 0 0 400px;
+  position: sticky;
+  top: 2rem;
+}
+
+.rightColumn {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .header h1 {
   font-size: 1.8rem;
   font-weight: 700;
@@ -79,9 +101,6 @@
   gap: 2rem;
   margin-bottom: 1.5rem;
   flex-wrap: wrap;
-  position: sticky;
-  top: 0;
-  z-index: 50;
   background-color: #f8fafc;
   padding: 1rem 0;
   border-bottom: 1px solid #eee;
@@ -152,7 +171,10 @@
 
 .stageBackground {
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: radial-gradient(circle at center, #fff, #f0f0f0);
   z-index: 0;
 }
@@ -269,7 +291,7 @@
 
 .reactionGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(7, 1fr);
   gap: 10px;
 }
 
@@ -300,6 +322,21 @@
   font-weight: bold;
 }
 
+.reactionBtn.completed {
+  background-color: #10b981;
+  color: white;
+  border-color: #059669;
+}
+
+.reactionBtn.completed:hover {
+  background-color: #059669;
+}
+
+.reactionBtn.completed.active {
+  background-color: #047857;
+  border-color: #065f46;
+}
+
 .summaryTitle {
   font-size: 16px;
   font-weight: bold;
@@ -319,7 +356,10 @@
   font-weight: bold;
   cursor: pointer;
 }
-.actionBtn:hover { background-color: #2563eb; }
+
+.actionBtn:hover {
+  background-color: #2563eb;
+}
 
 .toggleLabel {
   display: flex;
@@ -342,9 +382,20 @@
   display: block;
 }
 
-.small .mascotSvg  { width: 120px; height: 150px; }
-.medium .mascotSvg { width: 220px; height: 275px; }
-.large .mascotSvg  { width: 360px; height: 450px; }
+.small .mascotSvg {
+  width: 120px;
+  height: 150px;
+}
+
+.medium .mascotSvg {
+  width: 220px;
+  height: 275px;
+}
+
+.large .mascotSvg {
+  width: 360px;
+  height: 450px;
+}
 
 .debug .mascotSvg {
   outline: 1px dashed rgba(255, 0, 0, 0.3);
@@ -352,7 +403,17 @@
 
 /* ─── Responsive ─────────────────────────────────────── */
 @media (max-width: 768px) {
-  .playground { padding: 1rem; }
-  .stage { width: 300px; height: 380px; }
-  .refPanel { flex: 0 0 100%; max-width: 100%; }
+  .playground {
+    padding: 1rem;
+  }
+
+  .stage {
+    width: 300px;
+    height: 380px;
+  }
+
+  .refPanel {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 }

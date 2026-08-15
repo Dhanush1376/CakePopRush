@@ -1,21 +1,10 @@
 import { MascotPose } from './types';
 import { defaultPose } from './defaultPose';
 
-/**
- * Reference #2 Winking:
- * Body: slight right tilt (~3°)
- * Left eye: closed (happy crescent wink)
- * Right eye: open, bright
- * Mouth: openSmile
- * Right arm: raised in wave/gesture
- * Left arm: resting
- */
 export const winkingPose: MascotPose = {
   ...defaultPose,
-  body: { ...defaultPose.body, rotate: 3 },
-  leftEyeShape: 'closed',
-  rightEyeShape: 'normal',
+  body: { ...defaultPose.body, rotate: 4, y: 2, scaleY: 0.98, scaleX: 1.02 }, // Head tilt and tiny squash
   mouth: 'openSmile',
-  leftArm: { rotate: 5, y: 0, x: 0 , poseName: 'waveA', handType: 'open' },
-  rightArm: { rotate: -10, y: 0, x: 0 , poseName: 'relaxedDown', handType: 'round' },
+  leftEyeShape: 'closed', // Wink with left eye (viewer's right)
+  rightEyeShape: 'normal',
 };

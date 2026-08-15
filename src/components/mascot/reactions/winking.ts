@@ -2,42 +2,71 @@ import { ReactionContext } from '../animations/animationTypes';
 import * as P from '../primitives';
 
 /**
- * Reference #2 Winking:
- * - Left eye (mascot's left, viewer's right) closed in happy crescent wink
- * - Right eye open, bright
- * - Open smile mouth
- * - Right arm raised in a wave/gesture
- * - Body tilted slightly (~3° right)
+ * Reference #02 Winking:
+ * A cheeky, smooth wink.
+ * Head tilts, mouth smiles wide, double wink with a pause. No arms.
  */
 export const playWinking = async (ctx: ReactionContext) => {
-  const { speedMultiplier, prefersReducedMotion } = ctx;
+  const { speedMultiplier, prefersReducedMotion, animate } = ctx;
+  const sm = speedMultiplier;
 
   if (prefersReducedMotion) {
     P.setMouth(ctx, 'openSmile');
-    await P.winkLeft(ctx);
+    await animate([
+      ['#left-eye-normal', { opacity: 0 }, { duration: 0 }],
+      ['#left-eye-closed', { opacity: 1 }, { duration: 0 }]
+    ]);
     return;
   }
 
-  // 1. Pupils center, mouth transitions
-  await P.lookCenter(ctx);
-  P.setMouth(ctx, 'openSmile');
-
-  // 2. Body tilt + wave right arm (staggered)
-  P.tiltRight(ctx);
-  await new Promise(r => setTimeout(r, 80 / speedMultiplier));
-
-  // 3. Start the long wave + Quick wink (left eye) at the same time
-  const wavePromise = P.waveRightLong(ctx);
-
-  await new Promise(r => setTimeout(r, 150 / speedMultiplier));
-  await P.winkLeft(ctx);
-
-  // 4. Wait for the wave to finish (which is ~2.2 seconds)
-  await wavePromise;
-
-  // 5. Settle
+  // 1. Anticipation: Quick look down-left, small body dip
+  P.setMouth(ctx, 'smallSmile');
   await Promise.all([
-    P.settle(ctx),
-    P.lowerArms(ctx)
+    ctx.animate([
+      ['#left-pupil-group, #right-pupil-group', { x: -4, y: 3 }, { duration: 0.15 / sm, ease: 'easeOut' }]
+    ]),
+    animate([
+      ['#torso-group', { scaleY: 0.96, scaleX: 1.04, y: 3, rotate: -2 }, { duration: 0.2 / sm, ease: 'easeIn' }]
+    ])
   ]);
+
+  await new Promise(r => setTimeout(r, 100 / sm));
+
+  // 2. The Wink: Snap back up, tilt right, smile wide, wink left eye
+  P.setMouth(ctx, 'openSmile');
+  await Promise.all([
+    // Pupils snap back to center looking forward
+    ctx.animate([
+      ['#left-pupil-group, #right-pupil-group', { x: 0, y: 0 }, { duration: 0.2 / sm, ease: 'backOut' }]
+    ]),
+    // Body rises and tilts cheerfully
+    animate([
+      ['#torso-group', { scaleY: 1.02, scaleX: 0.98, y: -2, rotate: 6 }, { duration: 0.3 / sm, ease: 'backOut' }]
+    ]),
+    // The Wink (left eye closes into happy crescent)
+    ctx.animate([
+      ['#left-eye-normal', { opacity: 0 }, { duration: 0.1 / sm }],
+      ['#left-eye-closed', { opacity: 1 }, { duration: 0.1 / sm }]
+    ])
+  ]);
+
+  // 3. Hold the wink with a tiny settle
+  await animate([
+    ['#torso-group', { scaleY: 1, scaleX: 1, y: 0, rotate: 4 }, { duration: 0.2 / sm, ease: 'easeOut' }]
+  ]);
+  
+  await new Promise(r => setTimeout(r, 400 / sm));
+
+  // 5. Recover smoothly
+  await Promise.all([
+    ctx.animate([
+      ['#left-eye-closed', { opacity: 0 }, { duration: 0.2 / sm }],
+      ['#left-eye-normal', { opacity: 1 }, { duration: 0.2 / sm }]
+    ]),
+    animate([
+      ['#torso-group', { rotate: 0 }, { duration: 0.4 / sm, ease: [0.25, 0.1, 0.25, 1] }]
+    ])
+  ]);
+  
+  P.setMouth(ctx, 'neutral');
 };

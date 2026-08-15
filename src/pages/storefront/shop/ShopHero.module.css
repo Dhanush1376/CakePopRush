@@ -405,11 +405,11 @@
 .mascotHandLeft,
 .mascotHandRight {
   position: absolute;
-  top: 105px;
+  top: 107px;
   width: 6px;
-  height: 14px;
+  height: 12px;
   background-color: #1c1c1c;
-  border-radius: 6px 6px 3px 3px;
+  border-radius: 6px;
   z-index: 1;
   pointer-events: none;
 }
@@ -422,7 +422,7 @@
   position: absolute;
   bottom: 1px;
   width: 6px;
-  height: 10px;
+  height: 9px;
   background-color: #1c1c1c;
   border-radius: 6px;
 }
@@ -438,25 +438,25 @@
 }
 
 .mascotHandLeft {
-  right: 126px;
-  transform: rotate(-12deg);
+  right: 124px;
+  transform: rotate(-10deg);
 }
 
 .mascotHandRight {
-  right: 44px;
-  transform: rotate(12deg);
+  right: 46px;
+  transform: rotate(10deg);
 }
 
 @media (max-width: 1024px) {
   .mascotHandLeft {
-    top: 87px;
-    right: 105px;
-    transform: rotate(-12deg);
+    top: 89px;
+    right: 103px;
+    transform: rotate(-10deg);
   }
   .mascotHandRight {
-    top: 87px;
-    right: 35px;
-    transform: rotate(12deg);
+    top: 89px;
+    right: 37px;
+    transform: rotate(10deg);
   }
 }
 

@@ -1,10 +1,9 @@
 export type MascotReaction =
-  | 'happy' | 'winking' | 'blushing' | 'heartEyes' | 'laughing'
-  | 'excited' | 'surprised' | 'oops' | 'curious' | 'thinking'
-  | 'confused' | 'shrug' | 'cool' | 'sleeping' | 'tired'
-  | 'yawning' | 'love' | 'grateful' | 'cheeky' | 'silly'
-  | 'proud' | 'determined' | 'shy' | 'peeking' | 'hiding'
-  | 'wave' | 'goodbye' | 'tada' | 'clapping' | 'party' | 'sad' | 'bonk' | 'cryingFountain' | 'blowKiss';
+  | 'winking' | 'blushing' | 'heartEyes' | 'laughing'
+  | 'excited' | 'surprised' | 'oops'
+  | 'confused' | 'cool' | 'sleeping' | 'tired'
+  | 'yawning' | 'love' | 'silly'
+  | 'party' | 'sad' | 'bonk' | 'cryingFountain' | 'blowKiss' | 'emotionalCute' | 'pleadingCute';
 
 export type MascotState = 'IDLE' | 'ENTERING_REACTION' | 'PLAYING_REACTION' | 'RECOVERING';
 

@@ -501,6 +501,9 @@
 
 
 /* Mobile User Card */
+.mobileCards {
+  display: none;
+}
 .mobileCard {
   display: none;
 }
@@ -535,7 +538,7 @@
   .kpiGrid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .statsGrid { grid-template-columns: repeat(2, 1fr); }
   
-  .table { display: none; }
+  .table, .tableWrapper { display: none !important; }
   
   /* Show mobile cards */
   .mobileCard {

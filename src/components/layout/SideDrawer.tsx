@@ -8,7 +8,8 @@ import { Logo } from '@/assets/brand/Logo'
 import { InstagramIcon } from '@/components/ui/InstagramIcon'
 import { useCart } from '@/lib/cartStore'
 import { CakePopMascot } from '@/components/mascot/CakePopMascot'
-import { MascotReaction, MascotRef } from '@/components/mascot/reactions/reactionTypes'
+import { MascotRef } from '@/components/mascot/reactions/reactionTypes'
+import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator'
 import { AuthModal } from '@/components/auth/AuthModal'
 
 interface SideDrawerProps {
@@ -24,13 +25,12 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, onClose }) => {
 
 
 
+  const { tapMascot } = useMascotOrchestrator()
   const mascotRef = useRef<HTMLDivElement>(null)
   const mascotControlRef = useRef<MascotRef>(null)
-
+  
   const handleMascotClick = () => {
-    const TAP_REACTIONS: MascotReaction[] = ['cool', 'blowKiss', 'love', 'excited', 'laughing', 'winking', 'silly', 'party', 'tada', 'happy']
-    const random = TAP_REACTIONS[Math.floor(Math.random() * TAP_REACTIONS.length)]
-    mascotControlRef.current?.play(random)
+    tapMascot()
   }
   const eyeTargetX = useMotionValue(0)
   const eyeTargetY = useMotionValue(0)
@@ -40,6 +40,13 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
+      const arrivalTimer = setTimeout(() => {
+        mascotControlRef.current?.play('blowKiss')
+      }, 950)
+      return () => {
+        clearTimeout(arrivalTimer)
+        document.body.style.overflow = 'unset'
+      }
     } else {
       document.body.style.overflow = 'unset'
     }
@@ -164,15 +171,15 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, onClose }) => {
           <div className={styles.mascotWrapper} onClick={handleMascotClick}>
             <motion.div 
               className={styles.mascotHandRight}
-              initial={{ y: 90 }}
-              animate={{ y: 0 }}
-              transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.3 }}
+              initial={{ y: 20, opacity: 0, scale: 0.8 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.3 }}
             />
             <motion.div 
               className={styles.mascotHandLeft}
-              initial={{ y: 90 }}
-              animate={{ y: 0 }}
-              transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.45 }}
+              initial={{ y: 20, opacity: 0, scale: 0.8 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.45 }}
             />
             <motion.div 
               className={styles.mascotContainer} 
@@ -181,8 +188,12 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, onClose }) => {
               animate={{ y: 0 }}
               transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.6 }}
             >
-              <CakePopMascot ref={mascotControlRef} size="large" eyeX={eyeSpringX} eyeY={eyeSpringY} />
-            </motion.div>
+              <CakePopMascot
+                  ref={mascotControlRef}
+                  size="large"
+                  eyeX={eyeSpringX}
+                  eyeY={eyeSpringY}
+                /></motion.div>
           </div>
           
           <div className={styles.actionRow}>

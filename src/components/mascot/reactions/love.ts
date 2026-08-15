@@ -3,8 +3,8 @@ import * as P from '../primitives';
 
 /**
  * Reference #17 Love:
- * Warm, not hyperactive. Normal eyes (NOT heart eyes), hearts floating.
- * Hands move inward toward chest, tiny happy bounce.
+ * Redesigned to be a soft, sweet, romantic sway.
+ * Eyes close into happy arcs, heavy blush, and a gentle side-to-side sway.
  */
 export const playLove = async (ctx: ReactionContext) => {
   const { speedMultiplier, prefersReducedMotion } = ctx;
@@ -12,52 +12,62 @@ export const playLove = async (ctx: ReactionContext) => {
   if (prefersReducedMotion) {
     P.setMouth(ctx, 'smallSmile');
     ctx.animate([
-      ['#left-eyebrow', { rotate: 15 }, { duration: 0 }],
-      ['#right-eyebrow', { rotate: -15 }, { duration: 0 }]
+      ['#left-eyebrow', { rotate: 10, y: -2 }, { duration: 0 }],
+      ['#right-eyebrow', { rotate: -10, y: -2 }, { duration: 0 }]
     ]);
-    P.handsToCheeks(ctx);
     P.showBlush(ctx);
     P.spawnHearts(ctx);
     return;
   }
 
-  // 1. Eyes brighten/widen (pupils center, slightly larger)
-  ctx.animate([
-    ['#left-eye-container, #right-eye-container', { scaleX: 1.05, scaleY: 1.08 }, { duration: 0.2 / speedMultiplier }],
-    ['#left-pupil-group, #right-pupil-group', { scale: 1.1, x: 0, y: 0 }, { duration: 0.2 / speedMultiplier }]
-  ]);
-  P.setMouth(ctx, 'smallSmile');
-  ctx.animate([
-    ['#left-eyebrow', { rotate: 15 }, { duration: 0.2 / speedMultiplier }],
-    ['#right-eyebrow', { rotate: -15 }, { duration: 0.2 / speedMultiplier }]
-  ]);
-  await new Promise(r => setTimeout(r, 100 / speedMultiplier));
-
-  // 2. Hands move inward to cheeks
+  // 1. Aw, so sweet! (Blush appears, eyebrows lift softly)
   P.showBlush(ctx);
-  await P.handsToCheeks(ctx);
-
-  // 3. Tiny body squeeze (warm, inward)
-  await ctx.animate([
-    ['#torso-group', { scaleX: 0.97, scaleY: 1.02 }, { duration: 0.25 / speedMultiplier, ease: 'easeInOut' }]
+  P.setMouth(ctx, 'smallSmile');
+  
+  ctx.animate([
+    ['#left-eyebrow', { rotate: 10, y: -2 }, { duration: 0.3 / speedMultiplier }],
+    ['#right-eyebrow', { rotate: -10, y: -2 }, { duration: 0.3 / speedMultiplier }]
   ]);
 
-  // 4. Hearts appear sequentially
+  // 2. Eyes close happily
+  await Promise.all([
+    ctx.animate([
+      ['#left-eye-normal, #right-eye-normal', { opacity: 0 }, { duration: 0.15 / speedMultiplier }],
+      ['#left-eye-closed, #right-eye-closed', { opacity: 1 }, { duration: 0.15 / speedMultiplier }]
+    ]),
+    ctx.animate([
+      ['#torso-group', { scaleX: 1.02, scaleY: 0.98, rotate: -3 }, { duration: 0.3 / speedMultiplier, ease: 'easeInOut' }]
+    ])
+  ]);
+
   P.spawnHearts(ctx);
-  await new Promise(r => setTimeout(r, 300 / speedMultiplier));
 
-  // 5. Tiny happy bounce
-  await P.tinyBounce(ctx);
+  // 3. Romantic gentle sway side-to-side
+  for (let i = 0; i < 2; i++) {
+    // Sway Right
+    await ctx.animate([
+      ['#torso-group', { rotate: 3, x: 2 }, { duration: 0.8 / speedMultiplier, ease: 'easeInOut' }]
+    ]);
+    // Sway Left
+    await ctx.animate([
+      ['#torso-group', { rotate: -3, x: -2 }, { duration: 0.8 / speedMultiplier, ease: 'easeInOut' }]
+    ]);
+  }
 
-  // 6. Hold target
-  await new Promise(r => setTimeout(r, 700 / speedMultiplier));
+  // 4. Return to center
+  await ctx.animate([
+    ['#torso-group', { rotate: 0, x: 0, scaleX: 1, scaleY: 1 }, { duration: 0.4 / speedMultiplier, ease: 'easeInOut' }]
+  ]);
 
-  // 7. Recover
+  // 5. Recover slowly
   P.hideBlush(ctx);
+  await ctx.animate([
+    ['#left-eye-closed, #right-eye-closed', { opacity: 0 }, { duration: 0.3 / speedMultiplier }],
+    ['#left-eye-normal, #right-eye-normal', { opacity: 1 }, { duration: 0.3 / speedMultiplier }]
+  ]);
+
   await Promise.all([
     P.resetBrows(ctx),
-    P.resetEyes(ctx),
-    P.settle(ctx),
-    P.lowerArms(ctx)
+    P.settle(ctx)
   ]);
 };

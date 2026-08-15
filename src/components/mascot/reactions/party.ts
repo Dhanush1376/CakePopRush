@@ -39,185 +39,113 @@ export const playParty = async (ctx: ReactionContext) => {
     P.setMouth(ctx, 'blowMouth');
     ctx.setAccessories(prev => ({ ...prev, partyHat: true, partyBlower: true }));
     ctx.animate([
-      ['#left-arm, #right-arm', { opacity: 0 }, { duration: 0 }],
-      ['#left-arm-front', { opacity: 1, x: -65 }, { duration: 0 }],
-      ['#left-arm-front-path', { d: P.ARM_PATHS.leftHoldBlower }, { duration: 0 }],
-      ['#right-arm-path', { d: P.ARM_PATHS.rightHidden }, { duration: 0 }],
-      ['#left-leg', { rotate: 45, y: -20, x: -10 }, { duration: 0 }],
-      ['#right-leg', { rotate: -15, y: 0, x: 10 }, { duration: 0 }],
       ['#left-pupil-group, #right-pupil-group', { scale: 1, x: 6, y: -8 }, { duration: 0 }],
-      ['#left-eyebrow', { rotate: 15, y: -6 }, { duration: 0 }],
-      ['#right-eyebrow', { rotate: -15, y: -6 }, { duration: 0 }],
-      ['#left-eye-container, #right-eye-container, #left-eyebrow, #right-eyebrow, #mouth, #left-cheek, #right-cheek, #party-blower', { x: -35 }, { duration: 0 }]
+      ['#left-eyebrow', { y: -6 }, { duration: 0 }],
+      ['#right-eyebrow', { y: -6 }, { duration: 0 }]
     ]);
     P.spawnConfetti(ctx);
     return;
   }
 
-  // ---------------------------------------------------------------------
-  // 1. Anticipation — asymmetric wind-up, not a mirror-image squash.
-  //    A tiny counter-rotation before the "real" motion sells intent.
-  // ---------------------------------------------------------------------
+  // 1. Smooth Anticipation (Vertical only, no rotation)
   ctx.animate([
     ['#left-eye-normal, #right-eye-normal', { opacity: 0 }, { duration: 0 }],
     ['#left-eye-closed, #right-eye-closed', { opacity: 1 }, { duration: 0 }]
   ]);
   await ctx.animate([
-    ['#mascot-root', { rotate: -3 }, { duration: 0.08 / sm, ease: 'easeOut' }]
-  ]);
-  await ctx.animate([
     [
       '#mascot-root',
-      { scaleY: 0.68, scaleX: 1.32, y: 22, rotate: 2 },
-      { duration: 0.16 / sm, ease: 'easeIn' }
+      { scaleY: 0.7, scaleX: 1.3, y: 15 }, 
+      { duration: 0.2 / sm, ease: 'easeIn' }
     ]
   ]);
 
-  // ---------------------------------------------------------------------
-  // 2. The hop — an ARC. x-sway + y + rotate settle back to 0, so the body
-  //    travels a curved path instead of snapping straight up.
-  //    Hat/blower mount mid-anticipation so they're visually "thrown on" by
-  //    the hop rather than appearing before movement starts.
-  // ---------------------------------------------------------------------
+  // 2. The vertical hop
   P.setMouth(ctx, 'blowMouth');
   ctx.setAccessories(prev => ({ ...prev, partyHat: true, partyBlower: true }));
-  await new Promise(r => setTimeout(r, 20));
+  
+  await new Promise(r => setTimeout(r, 20)); // React mount delay
+  
+  // Shoot confetti right as blower extends
+  setTimeout(() => P.spawnConfetti(ctx, { count: 8, spread: 45 } as any), 80 / sm);
 
   const hopPeak = ctx.animate([
     ['#left-eye-closed, #right-eye-closed', { opacity: 0 }, { duration: 0 }],
     ['#left-eye-squeezed, #right-eye-squeezed', { opacity: 1 }, { duration: 0 }],
     [
       '#mascot-root',
-      { scaleY: 1.08, scaleX: 0.92, y: -14, x: -4, rotate: 0 },
+      { scaleY: 1.05, scaleX: 0.95, y: -18 },
       { duration: 0.22 / sm, ease: 'circOut' }
     ]
   ]);
 
-  // Hat: overshoot pop instead of hard cut-in.
   const hatPop = ctx.animate([
-    ['#party-hat', { scale: 0, opacity: 0, rotate: -12 }, { duration: 0 }],
-    ['#party-hat', { scale: 1.15, opacity: 1, rotate: 6 }, { duration: 0.12 / sm, ease: 'easeOut' }],
-    ['#party-hat', { scale: 1, rotate: 0 }, { duration: 0.08 / sm, ease: 'backOut' }]
+    ['#party-hat', { scale: 0, opacity: 0, y: 10 }, { duration: 0 }],
+    ['#party-hat', { scale: 1.15, opacity: 1, y: -5 }, { duration: 0.12 / sm, ease: 'easeOut' }],
+    ['#party-hat', { scale: 1, y: 0 }, { duration: 0.08 / sm, ease: 'backOut' }]
   ]);
 
-  // Blower: unrolls rather than snapping to full extension.
   const blowerExtend = ctx.animate([
-    ['#left-arm, #right-arm', { opacity: 0 }, { duration: 0.08 / sm }],
-    ['#left-arm-front', { opacity: 1, x: -65 }, { duration: 0.08 / sm }],
-    [
-      '#left-arm-front-path',
-      { d: [P.ARM_PATHS.leftHoldBlowerCurled ?? P.ARM_PATHS.leftHoldBlower, P.ARM_PATHS.leftHoldBlower] },
-      { duration: 0.16 / sm, ease: 'easeOut' }
-    ],
-    ['#right-arm-path', { d: P.ARM_PATHS.rightHidden }, { duration: 0.08 / sm }],
-    ['#party-blower', { scaleX: [0.3, 1] }, { duration: 0.16 / sm, ease: 'easeOut' }]
+    ['#party-blower', { scaleX: [0.2, 1] }, { duration: 0.16 / sm, ease: 'easeOut' }]
   ]);
 
-  // Legs kick out ~40ms after arms start — overlapping action, not lockstep.
-  const legsAndFace = (async () => {
-    await new Promise(r => setTimeout(r, 40 / sm));
+  const faceMove = (async () => {
+    await new Promise(r => setTimeout(r, 30 / sm));
     return ctx.animate([
-      ['#left-leg', { rotate: 48, y: -22, x: -10 }, { duration: 0.18 / sm, ease: 'backOut' }],
-      ['#right-leg', { rotate: -18, y: 0, x: 10 }, { duration: 0.18 / sm, ease: 'backOut' }],
-      ['#left-eyebrow', { rotate: 15, y: -6 }, { duration: 0.1 / sm }],
-      ['#right-eyebrow', { rotate: -15, y: -6 }, { duration: 0.1 / sm }],
-      ['#left-cheek, #right-cheek', { opacity: 1, scale: 1 }, { duration: 0.12 / sm }],
-      [
-        '#left-eye-container, #right-eye-container, #left-eyebrow, #right-eyebrow, #mouth, #left-cheek, #right-cheek, #party-blower',
-        { x: -35 },
-        { duration: 0.18 / sm, ease: 'easeOut' }
-      ]
+      ['#left-eyebrow, #right-eyebrow', { y: -6 }, { duration: 0.1 / sm }],
+      ['#left-cheek, #right-cheek', { opacity: 1, scale: 1 }, { duration: 0.12 / sm }]
     ]);
   })();
 
-  await Promise.all([hopPeak, hatPop, blowerExtend, legsAndFace]);
+  await Promise.all([hopPeak, hatPop, blowerExtend, faceMove]);
 
-  // ---------------------------------------------------------------------
-  // 3. Pre-burst confetti right at the peak of the hop (small, quick).
-  // ---------------------------------------------------------------------
-  P.spawnConfetti(ctx, { count: 6, spread: 40 } as any);
-
-  // ---------------------------------------------------------------------
-  // 4. Landing — a DECAYING squash-bounce instead of a single snap. This is
-  //    the single biggest realism upgrade: mass shows up as oscillation
-  //    that shrinks over 2-3 cycles, not one clean settle.
-  // ---------------------------------------------------------------------
-  const bounces = [
-    { scaleY: 0.88, scaleX: 1.12, y: 0, duration: 0.13, ease: 'easeIn' as const },
-    { scaleY: 1.06, scaleX: 0.96, y: -6, duration: 0.11, ease: 'easeOut' as const },
-    { scaleY: 0.97, scaleX: 1.02, y: 0, duration: 0.09, ease: 'easeIn' as const },
-    { scaleY: 1, scaleX: 1, y: 0, duration: 0.12, ease: 'backOut' as const }
-  ];
-  for (const b of bounces) {
-    await ctx.animate([
-      ['#mascot-root', { scaleY: b.scaleY, scaleX: b.scaleX, y: b.y }, { duration: b.duration / sm, ease: b.ease }]
-    ]);
-  }
-
-  // Full confetti burst lands with the character hitting the ground.
+  // 3. Smooth Landing Bounce
   P.spawnConfetti(ctx, { count: 16, spread: 110 } as any);
+  
+  await ctx.animate([
+    ['#mascot-root', { scaleY: 0.88, scaleX: 1.12, y: 0 }, { duration: 0.13 / sm, ease: 'easeIn' }]
+  ]);
+  await ctx.animate([
+    ['#mascot-root', { scaleY: 1.06, scaleX: 0.96, y: -6 }, { duration: 0.11 / sm, ease: 'easeOut' }]
+  ]);
+  await ctx.animate([
+    ['#mascot-root', { scaleY: 0.97, scaleX: 1.02, y: 0 }, { duration: 0.09 / sm, ease: 'easeIn' }]
+  ]);
+  await ctx.animate([
+    ['#mascot-root', { scaleY: 1, scaleX: 1, y: 0 }, { duration: 0.12 / sm, ease: 'backOut' }]
+  ]);
 
-  // 5. Happy bounce (kept from original — still earns its place here)
+  // 4. Smooth tiny happy bounce
   await P.tinyBounce(ctx);
 
-  // ---------------------------------------------------------------------
-  // 6. Celebration hold — no longer a dead freeze. A slow ±2° sway keeps
-  //    the character feeling alive while it "holds" the pose.
-  // ---------------------------------------------------------------------
-  const swayDuration = 1000 / sm;
-  if (P.wobble) {
-    await P.wobble(ctx, '#mascot-root', 2, swayDuration);
-  } else {
-    await ctx.animate([
-      ['#mascot-root', { rotate: [0, 2, -2, 0] }, { duration: swayDuration / 1000, ease: 'easeInOut' }]
-    ]);
-  }
+  // 5. Smooth hold
+  await new Promise(r => setTimeout(r, 1100 / sm));
 
-  // ---------------------------------------------------------------------
-  // 7. Cleanup — reverse the "props are physical objects" logic:
-  //    tiny anticipatory squash on the hat before it shrinks, blower curls
-  //    back in rather than vanishing.
-  // ---------------------------------------------------------------------
+  // 6. Cleanup props cleanly
   await ctx.animate([
     ['#party-hat', { scale: 1.08 }, { duration: 0.05 / sm, ease: 'easeOut' }]
   ]);
   await Promise.all([
     ctx.animate([
-      ['#party-hat', { scale: 0, opacity: 0, rotate: -8 }, { duration: 0.12 / sm, ease: 'easeIn' }],
-      [
-        '#left-arm-front-path',
-        { d: [P.ARM_PATHS.leftHoldBlower, P.ARM_PATHS.leftHoldBlowerCurled ?? P.ARM_PATHS.leftHoldBlower] },
-        { duration: 0.12 / sm, ease: 'easeIn' }
-      ],
-      ['#party-blower', { scaleX: 0.3 }, { duration: 0.12 / sm, ease: 'easeIn' }]
+      ['#party-hat', { scale: 0, opacity: 0 }, { duration: 0.12 / sm, ease: 'easeIn' }],
+      ['#party-blower', { scaleX: 0.3, opacity: 0 }, { duration: 0.12 / sm, ease: 'easeIn' }]
     ])
   ]);
   ctx.setAccessories(prev => ({ ...prev, partyHat: false, partyBlower: false }));
-  await new Promise(r => setTimeout(r, 60 / sm));
+  
+  await new Promise(r => setTimeout(r, 100 / sm));
 
-  // ---------------------------------------------------------------------
-  // 8. Settle — face/eyes settle first, legs follow ~60ms later. That gap
-  //    is the follow-through: the last thing to move is the last thing to
-  //    stop, so the whole reaction finishes in a wave, not all at once.
-  // ---------------------------------------------------------------------
+  // 7. Settle to final expression
   P.resetEyes(ctx);
-  const faceSettle = Promise.all([
+  P.setMouth(ctx, 'laugh'); 
+  
+  await Promise.all([
     P.settle(ctx),
-    P.lowerArms(ctx),
     ctx.animate([
-      ['#left-arm-front', { x: 0 }, { duration: 0.28 / sm, ease: 'easeOut' }],
-      ['#left-cheek, #right-cheek', { opacity: 0 }, { duration: 0.2 / sm }],
-      [
-        '#left-eye-container, #right-eye-container, #left-eyebrow, #right-eyebrow, #mouth, #left-cheek, #right-cheek, #party-blower',
-        { x: 0 },
-        { duration: 0.28 / sm, ease: 'easeOut' }
-      ]
+      ['#left-cheek, #right-cheek', { opacity: 0, scale: 1 }, { duration: 0.3 / sm, ease: 'backOut' }],
+      ['#left-eyebrow, #right-eyebrow', { y: 0 }, { duration: 0.3 / sm, ease: 'backOut' }]
     ])
   ]);
-  await faceSettle;
-  await new Promise(r => setTimeout(r, 60 / sm));
-  await ctx.animate([
-    ['#left-leg', { rotate: 0, y: 0, x: 0 }, { duration: 0.25 / sm, ease: 'backOut' }],
-    ['#right-leg', { rotate: 0, y: 0, x: 0 }, { duration: 0.25 / sm, ease: 'backOut' }]
-  ]);
+
+  return { holdState: true };
 };

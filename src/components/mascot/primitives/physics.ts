@@ -40,6 +40,22 @@ export const spawnQuestionMarks = (ctx: ReactionContext) => {
   }, 2000);
 };
 
+export const spawnOopsMarks = (ctx: ReactionContext) => {
+  if (ctx.prefersReducedMotion) return;
+  ctx.setActiveParticles((prev: ParticleType[]) => [...prev, 'oopsMarks']);
+  setTimeout(() => {
+    ctx.setActiveParticles((prev: ParticleType[]) => prev.filter((p: ParticleType) => p !== 'oopsMarks'));
+  }, 1500);
+};
+
+export const spawnSurprisedMarks = (ctx: ReactionContext) => {
+  if (ctx.prefersReducedMotion) return;
+  ctx.setActiveParticles((prev: ParticleType[]) => [...prev, 'surprisedMarks']);
+  setTimeout(() => {
+    ctx.setActiveParticles((prev: ParticleType[]) => prev.filter((p: ParticleType) => p !== 'surprisedMarks'));
+  }, 1500);
+};
+
 export const spawnThoughtDots = (ctx: ReactionContext) => {
   if (ctx.prefersReducedMotion) return;
   ctx.setActiveParticles((prev: ParticleType[]) => [...prev, 'thoughtDots']);
@@ -84,6 +100,8 @@ export const spawnBonkStars = (ctx: ReactionContext) => {
   }, 1000);
 };
 
+export const spawnDizzyStars = (ctx: ReactionContext) => ctx.setActiveParticles(['dizzyStars']);
+
 export const spawnFountainTears = (ctx: ReactionContext) => {
   ctx.setActiveParticles((prev: ParticleType[]) => {
     if (!prev.includes('cryingFountainTears')) {
@@ -98,5 +116,17 @@ export const spawnKissHeart = (ctx: ReactionContext) => {
   ctx.setActiveParticles((prev: ParticleType[]) => [...prev, 'kissHeart']);
   setTimeout(() => {
     ctx.setActiveParticles((prev: ParticleType[]) => prev.filter(p => p !== 'kissHeart'));
+  }, 1500);
+};
+
+export const spawnEmotionalTears = (ctx: ReactionContext, variant: 'leftTear' | 'rightTear' | 'sparkle' = 'sparkle') => {
+  if (ctx.prefersReducedMotion) return;
+  
+  const particle = variant === 'leftTear' ? 'emotionalTearLeft' : 
+                   variant === 'rightTear' ? 'emotionalTearRight' : 'emotionalSparkle';
+                   
+  ctx.setActiveParticles((prev: ParticleType[]) => [...prev, particle]);
+  setTimeout(() => {
+    ctx.setActiveParticles((prev: ParticleType[]) => prev.filter(p => p !== particle));
   }, 1500);
 };

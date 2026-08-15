@@ -296,9 +296,9 @@
   position: absolute;
   top: 110px;
   width: 6px;
-  height: 14px;
+  height: 12px;
   background-color: #1c1c1c;
-  border-radius: 6px 6px 3px 3px;
+  border-radius: 6px;
   z-index: 1;
   pointer-events: none;
 }
@@ -311,7 +311,7 @@
   position: absolute;
   bottom: 1px;
   width: 6px;
-  height: 10px;
+  height: 9px;
   background-color: #1c1c1c;
   border-radius: 6px;
 }
@@ -327,13 +327,13 @@
 }
 
 .mascotHandLeft {
-  right: 126px;
-  transform: rotate(-12deg);
+  right: 111px;
+  transform: rotate(-10deg);
 }
 
 .mascotHandRight {
-  right: 44px;
-  transform: rotate(12deg);
+  right: 59px;
+  transform: rotate(10deg);
 }
 
 .footer {

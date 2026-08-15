@@ -74,17 +74,17 @@ export const MOUTH = {
 
 // ─── Cheeks ─────────────────────────────────────────────
 export const LEFT_CHEEK = {
-  cx: 90,
-  cy: 190,
-  rx: 12,
-  ry: 7.5,
+  cx: 95,
+  cy: 165,
+  rx: 18,
+  ry: 12,
 } as const;
 
 export const RIGHT_CHEEK = {
-  cx: 210,
-  cy: 190,
-  rx: 12,
-  ry: 7.5,
+  cx: 205,
+  cy: 165,
+  rx: 18,
+  ry: 12,
 } as const;
 
 // ─── Arms ───────────────────────────────────────────────

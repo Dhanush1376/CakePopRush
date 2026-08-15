@@ -3,29 +3,49 @@ import * as P from '../primitives';
 
 /**
  * Sad:
- * - Frown mouth
- * - Brows furrowed downwards
- * - Tears effect continuously
+ * Slow sinking sadness. 
+ * Body sags deeply, brows furrow in concern, lips tremble slightly.
  */
 export const playSad = async (ctx: ReactionContext) => {
-  const { speedMultiplier, prefersReducedMotion } = ctx;
+  const { speedMultiplier, prefersReducedMotion, animate } = ctx;
+  const sm = speedMultiplier;
 
   if (prefersReducedMotion) {
     P.setMouth(ctx, 'tiredFrown');
     P.concernBrows(ctx);
+    P.eyesNormal(ctx);
+    P.lookDown(ctx);
     ctx.setActiveParticles(['tears']);
     return;
   }
 
-  // 1. Brows drop, eyes look slightly down
+  // 1. Slow, heartbroken sinking
   P.concernBrows(ctx);
   P.setMouth(ctx, 'tiredFrown');
-  ctx.setActiveParticles(['tears']);
-
-  await ctx.animate([
-    ['#torso-group', { y: 4, scaleY: 0.95 }, { duration: 0.8 / speedMultiplier, ease: 'easeInOut' }]
+  P.eyesNormal(ctx);
+  
+  await Promise.all([
+    ctx.animate([
+      ['#left-pupil-group, #right-pupil-group', { y: 4 }, { duration: 0.5 / sm, ease: 'easeInOut' }]
+    ]),
+    animate([
+      ['#torso-group', { y: 10 }, { duration: 0.8 / sm, ease: 'easeOut' }]
+    ])
   ]);
 
-  // Hold sad position (the animation engine will just leave it here until another reaction plays)
-  await new Promise(r => setTimeout(r, 2000 / speedMultiplier));
+  // 2. Tears begin to fall
+  ctx.setActiveParticles(['tears']);
+
+  // 3. Very subtle sobbing shakes (lip trembling/body shuddering)
+  for (let i = 0; i < 4; i++) {
+    await animate([
+      ['#torso-group', { y: 12 }, { duration: 0.3 / sm, ease: 'easeInOut' }]
+    ]);
+    await animate([
+      ['#torso-group', { y: 10 }, { duration: 0.3 / sm, ease: 'easeInOut' }]
+    ]);
+  }
+
+  // 4. Stay sad indefinitely (this is usually cleared by another reaction)
+  return { holdState: true };
 };

@@ -70,17 +70,17 @@ export const ProductInfo = ({ product, calculatedTotal, mascotMessage }: Product
 
   useEffect(() => {
     if (mascotMessage) {
-      setReaction('excited')
+      setReaction('blowKiss')
       setActiveBubble(mascotMessage)
     } else if (isInView) {
-      let timeout1 = setTimeout(() => {
-        setReaction('winking')
+      const timeout1 = setTimeout(() => {
+        setReaction('blowKiss')
       }, 500)
       
       const interval = setInterval(() => {
         setReaction(null)
-        setTimeout(() => setReaction('winking'), 50)
-      }, 10000)
+        setTimeout(() => setReaction('blowKiss'), 50)
+      }, 12000)
 
       return () => {
         clearTimeout(timeout1)

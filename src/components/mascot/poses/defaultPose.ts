@@ -14,7 +14,7 @@ export const defaultPose: MascotPose = {
   rightPupil: { scale: 1, y: 0, x: 0 },
   leftEyebrow: { y: 0, x: 0, rotate: 0 },
   rightEyebrow: { y: 0, x: 0, rotate: 0 },
-  mouth: 'happy',
+  mouth: 'neutral',
   blushOpacity: 0,
   accessories: { sunglasses: false, partyHat: false, partyBlower: false },
   activeParticles: []

@@ -60,10 +60,10 @@
   --space-16: 4rem;
 
   /* Typography */
-  --font-family-display: 'Playfair Display', serif;
-  --font-family-heading: 'Playfair Display', serif;
-  --font-family-body: 'Inter', system-ui, sans-serif;
-  --font-family-price: 'Playfair Display', serif;
+  --font-family-display: 'TimesNumbers', 'Playfair Display', serif;
+  --font-family-heading: 'TimesNumbers', 'Playfair Display', serif;
+  --font-family-body: 'TimesNumbers', 'Inter', system-ui, sans-serif;
+  --font-family-price: 'TimesNumbers', 'Playfair Display', serif;
   
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
@@ -123,10 +123,4 @@
   --z-toast: 500;
 }
 
-/* Storefront specific font override for numbers/prices */
-.app-container {
-  --font-family-display: 'TimesNumbers', 'Playfair Display', serif;
-  --font-family-heading: 'TimesNumbers', 'Playfair Display', serif;
-  --font-family-body: 'TimesNumbers', 'Inter', system-ui, sans-serif;
-  --font-family-price: 'TimesNumbers', 'Playfair Display', serif;
-}
+

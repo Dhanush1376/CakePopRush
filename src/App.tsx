@@ -9,6 +9,7 @@ import { SplashScreen } from '@/components/ui/SplashScreen'
 import { WhatsAppButton } from '@/components/ui/WhatsAppButton'
 import { ScrollToTopButton } from '@/components/ui/ScrollToTopButton'
 import { AnimatePresence } from 'framer-motion'
+import { MascotOrchestrationProvider } from '@/components/mascot/orchestration/MascotOrchestrationProvider'
 
 function App() {
   const { pathname } = useLocation()
@@ -19,6 +20,7 @@ function App() {
     window.scrollTo(0, 0)
     document.documentElement.scrollTop = 0
     document.body.scrollTop = 0
+    document.body.style.overflow = ''
   }, [pathname])
 
   const handleSplashComplete = () => {
@@ -33,20 +35,22 @@ function App() {
       </AnimatePresence>
 
       <div className="app-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <GlobalHeartAnimation />
-        <Header />
-        <main style={{ flex: '1 0 auto' }}>
-          <Outlet />
-        </main>
-        <Footer />
-        <BottomNavigation />
-        <ToastContainer />
-        {!showSplash && (
-          <>
-            {isWhatsAppVisible && <WhatsAppButton onClose={() => setIsWhatsAppVisible(false)} />}
-            <ScrollToTopButton isWhatsAppVisible={isWhatsAppVisible} />
-          </>
-        )}
+        <MascotOrchestrationProvider>
+          <GlobalHeartAnimation />
+          <Header />
+          <main style={{ flex: '1 0 auto' }}>
+            <Outlet />
+          </main>
+          <Footer />
+          <BottomNavigation />
+          <ToastContainer />
+          {!showSplash && (
+            <>
+              {isWhatsAppVisible && <WhatsAppButton onClose={() => setIsWhatsAppVisible(false)} />}
+              <ScrollToTopButton isWhatsAppVisible={isWhatsAppVisible} />
+            </>
+          )}
+        </MascotOrchestrationProvider>
       </div>
     </>
   )

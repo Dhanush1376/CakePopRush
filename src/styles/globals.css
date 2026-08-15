@@ -4,7 +4,7 @@
 @import './animations.css';
 
 html, body {
-  min-height: 100vh;
+  min-height: 100%;
   background-color: var(--color-white);
   background-image: 
     linear-gradient(rgba(92, 51, 23, 0.08) 1px, transparent 1px),
@@ -12,7 +12,9 @@ html, body {
   background-size: 24px 24px;
   background-position: -1px -1px;
   color: var(--color-text);
-  overflow-x: clip; /* clip prevents horizontal scroll without breaking position: sticky */
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 ::selection {

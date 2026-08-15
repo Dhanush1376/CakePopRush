@@ -6,7 +6,7 @@ import { AnimationSequence } from 'framer-motion';
 
 export const playBlowKiss = async (ctx: ReactionContext) => {
   const { animate, speedMultiplier, prefersReducedMotion } = ctx;
-  const speed = (ms: number) => (ms / 1000) * speedMultiplier;
+  const speed = (ms: number) => (ms / 1000) / speedMultiplier;
 
   // 1. Instantly clear effects
   P.clearEffects(ctx);
@@ -14,62 +14,54 @@ export const playBlowKiss = async (ctx: ReactionContext) => {
   if (prefersReducedMotion) {
     P.setMouth(ctx, 'kiss');
     P.spawnKissHeart(ctx);
-    await new Promise(r => setTimeout(r, 1400 * speedMultiplier));
+    await new Promise(r => setTimeout(r, 3500 / speedMultiplier));
     P.setMouth(ctx, 'neutral');
     return;
   }
 
-  // Phase 1: 0-120ms Tiny happy recognition
-  // (Scale up, eyes slightly wider - we'll just set a small scale on the body)
-  const recognition: AnimationSequence = [
-    ['#mascot-root', { scale: 1.01, y: -2 }, { duration: speed(120), ease: 'easeOut' }]
-  ];
-  
+  // Phase 1: 0-200ms — Gentle happy recognition (slow scale up)
   try {
-    await animate(recognition);
-  } catch(e) { console.warn(e); }
+    await animate([
+      ['#mascot-root', { scale: 1.02, y: -3 }, { duration: speed(200), ease: 'easeOut' }]
+    ]);
+  } catch(e: any) { if (e.message !== 'Aborted') console.warn(e); }
 
-  // Phase 2: 120-220ms Head tilt
-  const tilt: AnimationSequence = [
-    ['#torso-group', { rotate: 5 }, { duration: speed(100), ease: 'easeInOut' }]
-  ];
+  // Phase 2: 200-450ms — Smooth head tilt
   try {
-    await animate(tilt);
-  } catch(e) { console.warn(e); }
+    await animate([
+      ['#torso-group', { rotate: 5 }, { duration: speed(250), ease: [0.25, 0.1, 0.25, 1] }]
+    ]);
+  } catch(e: any) { if (e.message !== 'Aborted') console.warn(e); }
 
-  // Phase 3: 220-400ms Kiss Expression
-  // We'll apply the pose which handles squeezed eyes, blush, and kiss mouth
+  // Phase 3: 450-750ms — Kiss expression builds up gradually
   applyPose(ctx, blowKissPose);
-  await new Promise(r => setTimeout(r, speed(180) * 1000));
+  await new Promise(r => setTimeout(r, speed(300) * 1000));
 
-  // Phase 4: 400-520ms Pucker shift (tiny forward movement)
-  const pucker: AnimationSequence = [
-    ['#left-eye-container, #right-eye-container, #mouth', { x: 3, y: -1 }, { duration: speed(120), ease: 'easeOut' }]
-  ];
+  // Phase 4: 750-950ms — Gentle pucker shift (face leans forward)
   try {
-    await animate(pucker);
-  } catch(e) { console.warn(e); }
+    await animate([
+      ['#left-eye-container, #right-eye-container, #mouth', { x: 3, y: -1 }, { duration: speed(200), ease: [0.4, 0, 0.2, 1] }]
+    ]);
+  } catch(e: any) { if (e.message !== 'Aborted') console.warn(e); }
 
-  // Phase 5: 520-850ms Spawn heart and reset face
+  // Phase 5: 950-1400ms — Spawn heart and slowly reset face
   P.spawnKissHeart(ctx);
-  const faceReset: AnimationSequence = [
-    ['#left-eye-container, #right-eye-container, #mouth', { x: 0, y: 0 }, { duration: speed(330), ease: 'easeIn' }]
-  ];
   try {
-    await animate(faceReset);
-  } catch(e) { console.warn(e); }
+    await animate([
+      ['#left-eye-container, #right-eye-container, #mouth', { x: 0, y: 0 }, { duration: speed(450), ease: [0.4, 0, 0.2, 1] }]
+    ]);
+  } catch(e: any) { if (e.message !== 'Aborted') console.warn(e); }
 
-  // Phase 6: 850-1150ms Happy face follow-through
-  P.eyesNormal(ctx);
+  // Phase 6: 1400-1900ms — Happy face follow-through (smooth settle)
+  try { await P.eyesNormal(ctx); } catch (e: any) { if (e.message !== 'Aborted') console.warn(e); }
   P.setMouth(ctx, 'happy');
   try {
     await animate([
-      ['#torso-group', { rotate: 0 }, { duration: speed(300), ease: 'easeInOut' }],
-      ['#mascot-root', { scale: 1, y: 0 }, { duration: speed(300), ease: 'easeInOut', at: '<' }]
+      ['#torso-group', { rotate: 0 }, { duration: speed(500), ease: [0.25, 0.1, 0.25, 1] }],
+      ['#mascot-root', { scale: 1, y: 0 }, { duration: speed(500), ease: [0.25, 0.1, 0.25, 1], at: '<' }]
     ]);
-  } catch(e) { console.warn(e); }
+  } catch(e: any) { if (e.message !== 'Aborted') console.warn(e); }
 
-  // Wait remaining time up to 1400ms
-  // 120+100+180+120+330+300 = 1150. Remaining: 250
-  await new Promise(r => setTimeout(r, speed(250) * 1000));
+  // Phase 7: Hold the happy smile
+  await new Promise(r => setTimeout(r, 1600 / speedMultiplier));
 };
