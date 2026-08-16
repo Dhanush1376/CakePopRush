@@ -28,19 +28,24 @@ export const SideCart = () => {
     }
   }, [location.pathname, isCartOpen, closeCart]);
 
+  const [hasAppeared, setHasAppeared] = useState(hasMascotAppeared);
+
   useEffect(() => {
     if (isCartOpen && !hasMascotAppeared) {
       const timer = setTimeout(() => {
         hasMascotAppeared = true;
+        setHasAppeared(true);
       }, 1000);
       return () => clearTimeout(timer);
+    } else if (isCartOpen) {
+      setHasAppeared(true);
     }
   }, [isCartOpen]);
 
-  const mascotInitialY = hasMascotAppeared ? 0 : 150;
-  const handInitialY = hasMascotAppeared ? 0 : 20;
-  const handInitialOpacity = hasMascotAppeared ? 1 : 0;
-  const handInitialScale = hasMascotAppeared ? 1 : 0.8;
+  const mascotInitialY = hasAppeared ? 0 : 150;
+  const handInitialY = hasAppeared ? 0 : 20;
+  const handInitialOpacity = hasAppeared ? 1 : 0;
+  const handInitialScale = hasAppeared ? 1 : 0.8;
 
   const { currentReaction, currentMessage, triggerReaction, tapMascot, prefersReducedMotion } = useMascotOrchestrator();
   const [itemToDelete, setItemToDelete] = useState<string | null>(null);
@@ -49,8 +54,8 @@ export const SideCart = () => {
 
   const eyeTargetX = useMotionValue(0);
   const eyeTargetY = useMotionValue(0);
-  const eyeSpringX = useSpring(eyeTargetX, { stiffness: 200, damping: 25 });
-  const eyeSpringY = useSpring(eyeTargetY, { stiffness: 200, damping: 25 });
+  const eyeSpringX = useSpring(eyeTargetX, { stiffness: 800, damping: 40 });
+  const eyeSpringY = useSpring(eyeTargetY, { stiffness: 800, damping: 40 });
 
   // Reaction ref not needed for eye tracking since MascotEyes handles overrides natively
 
@@ -273,6 +278,18 @@ export const SideCart = () => {
 
             {items.length > 0 && (
               <div className={styles.footer}>
+                <AnimatePresence>
+                  {currentMessage && (
+                    <motion.div
+                      className={styles.speechBubble}
+                      initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.8, y: 10 }}
+                    >
+                      {currentMessage}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
                 <motion.div
                   className={styles.mascotContainer}
                   ref={mascotRef}
@@ -281,18 +298,6 @@ export const SideCart = () => {
                   transition={{ type: "spring", stiffness: 200, damping: 20 }}
                   onClick={handleMascotClick}
                 >
-                  <AnimatePresence>
-                    {currentMessage && (
-                      <motion.div
-                        className={styles.speechBubble}
-                        initial={{ opacity: 0, scale: 0.8, y: 10 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.8, y: 10 }}
-                      >
-                        {currentMessage}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
                   <CakePopMascot 
                     ref={mascotControlRef}
                     size="large" 
@@ -307,13 +312,13 @@ export const SideCart = () => {
                   className={styles.mascotHandLeft}
                   initial={{ y: handInitialY, opacity: handInitialOpacity, scale: handInitialScale }}
                   animate={{ y: 0, opacity: 1, scale: 1 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 20, delay: hasMascotAppeared ? 0 : 0.2 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 20, delay: hasAppeared ? 0 : 0.2 }}
                 />
                 <motion.div
                   className={styles.mascotHandRight}
                   initial={{ y: handInitialY, opacity: handInitialOpacity, scale: handInitialScale }}
                   animate={{ y: 0, opacity: 1, scale: 1 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 20, delay: hasMascotAppeared ? 0 : 0.1 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 20, delay: hasAppeared ? 0 : 0.1 }}
                 />
                 <div className={styles.summaryRow}>
                   <span>Subtotal</span>

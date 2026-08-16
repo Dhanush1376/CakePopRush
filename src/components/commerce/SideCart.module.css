@@ -335,7 +335,7 @@
   z-index: -2;
 }
 
-.mascotContainer>div:not(.speechBubble) {
+.mascotContainer>div {
   width: 100% !important;
   height: 100% !important;
 }
@@ -350,8 +350,8 @@
 
 .speechBubble {
   position: absolute;
-  top: -15px;
-  right: 105px;
+  top: -130px;
+  right: 85px;
   background: white;
   padding: 8px 16px;
   border-radius: 24px;
@@ -362,7 +362,7 @@
   transform: rotate(-3deg);
   border: 2px solid var(--color-brand-pink);
   pointer-events: none;
-  z-index: 20;
+  z-index: 30;
   white-space: nowrap;
 }
 
