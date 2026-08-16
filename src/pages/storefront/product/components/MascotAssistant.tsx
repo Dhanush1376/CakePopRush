@@ -4,6 +4,8 @@ import { CakePopMascot } from '@/components/mascot/CakePopMascot'
 import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator'
 import styles from './MascotAssistant.module.css'
 
+let hasMascotAppeared = false;
+
 interface MascotAssistantProps {
   message: string | null
 }
@@ -16,7 +18,8 @@ export const MascotAssistant = ({ message }: MascotAssistantProps) => {
   useEffect(() => {
     if (message) {
       triggerReaction('mascot:tapped', message) // fallback for direct messages
-    } else if (isInView) {
+    } else if (isInView && !hasMascotAppeared) {
+      hasMascotAppeared = true;
       triggerReaction('product:opened')
     }
   }, [message, isInView, triggerReaction])

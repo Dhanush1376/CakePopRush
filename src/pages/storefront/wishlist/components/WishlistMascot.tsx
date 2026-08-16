@@ -15,6 +15,8 @@ const tapPhrases = [
   'Sweet tooth approved!',
 ];
 
+let hasMascotAppeared = false;
+
 export const WishlistMascot: React.FC = () => {
   const { items } = useWishlist();
   const [speechText, setSpeechText] = useState<string | null>(null);
@@ -42,17 +44,21 @@ export const WishlistMascot: React.FC = () => {
 
   // 1. Arrival reaction: Blow a kiss and briefly greet, then hide
   useEffect(() => {
-    if (initialMountDone.current) return;
-    initialMountDone.current = true;
+    if (!hasMascotAppeared) {
+      hasMascotAppeared = true;
+      const arrivalTimer = setTimeout(() => {
+        const GREETINGS = ['winking', 'cool', 'silly', 'love', 'blushing', 'party', 'emotionalCute'] as any;
+        mascotControlRef.current?.play(GREETINGS[Math.floor(Math.random() * GREETINGS.length)]);
+        showTemporaryMessage('Hi there!', 3500);
+      }, 1000);
 
-    const arrivalTimer = setTimeout(() => {
-      mascotControlRef.current?.play('blowKiss');
-      showTemporaryMessage('Hi there!', 3500);
-    }, 1000);
-
-    return () => clearTimeout(arrivalTimer);
+      return () => clearTimeout(arrivalTimer);
+    }
   }, [showTemporaryMessage]);
 
+  const mascotInitialY = hasMascotAppeared ? 0 : 120;
+  const mascotInitialOpacity = hasMascotAppeared ? 1 : 0;
+  
   // 2. Event-driven reactions: removal or restoring items
   useEffect(() => {
     if (previousItemCount.current !== null) {
@@ -142,9 +148,9 @@ export const WishlistMascot: React.FC = () => {
         <motion.div
           ref={mascotRef}
           className={styles.mascotInner}
-          initial={{ y: 120, opacity: 0 }}
+          initial={{ y: mascotInitialY, opacity: mascotInitialOpacity }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ type: 'spring', stiffness: 200, damping: 20, delay: 0.6 }}
+          transition={{ type: 'spring', stiffness: 200, damping: 20, delay: hasMascotAppeared ? 0 : 0.6 }}
         >
           <CakePopMascot
             ref={mascotControlRef}

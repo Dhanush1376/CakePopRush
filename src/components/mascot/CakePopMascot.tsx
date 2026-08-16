@@ -57,7 +57,8 @@ export const CakePopMascot = forwardRef<MascotRef, CakePopMascotProps>(({
     mouthShape,
     activeParticles,
     accessories,
-    observeDirection
+    observeDirection,
+    getCtx
   } = useMascotController(speedMultiplier, loop);
 
   // Map eye motion to subtle torso movement
@@ -149,7 +150,8 @@ export const CakePopMascot = forwardRef<MascotRef, CakePopMascotProps>(({
     stop,
     reset,
     getState: () => state,
-    getCurrentReaction: () => currentReaction
+    getCurrentReaction: () => currentReaction,
+    getCtx
   }));
 
   useEffect(() => {

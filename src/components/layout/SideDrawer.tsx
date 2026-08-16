@@ -12,6 +12,8 @@ import { MascotRef } from '@/components/mascot/reactions/reactionTypes'
 import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator'
 import { AuthModal } from '@/components/auth/AuthModal'
 
+let hasMascotAppeared = false;
+
 interface SideDrawerProps {
   isOpen: boolean
   onClose: () => void
@@ -41,7 +43,8 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, onClose }) => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
       const arrivalTimer = setTimeout(() => {
-        mascotControlRef.current?.play('blowKiss')
+        const GREETINGS = ['winking', 'cool', 'silly', 'love', 'blushing', 'party', 'emotionalCute'] as any;
+        mascotControlRef.current?.play(GREETINGS[Math.floor(Math.random() * GREETINGS.length)])
       }, 950)
       return () => {
         clearTimeout(arrivalTimer)
@@ -54,6 +57,21 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, onClose }) => {
       document.body.style.overflow = 'unset'
     }
   }, [isOpen])
+
+  // Update mascot appeared flag after first render
+  useEffect(() => {
+    if (isOpen && !hasMascotAppeared) {
+      const timer = setTimeout(() => {
+        hasMascotAppeared = true;
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+
+  const mascotInitialY = hasMascotAppeared ? 0 : 150;
+  const handInitialY = hasMascotAppeared ? 0 : 20;
+  const handInitialOpacity = hasMascotAppeared ? 1 : 0;
+  const handInitialScale = hasMascotAppeared ? 1 : 0.8;
 
   useEffect(() => {
     const handlePointerEvent = (e: PointerEvent) => {
@@ -171,28 +189,29 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, onClose }) => {
           <div className={styles.mascotWrapper} onClick={handleMascotClick}>
             <motion.div 
               className={styles.mascotHandRight}
-              initial={{ y: 20, opacity: 0, scale: 0.8 }}
+              initial={{ y: handInitialY, opacity: handInitialOpacity, scale: handInitialScale }}
               animate={{ y: 0, opacity: 1, scale: 1 }}
-              transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.3 }}
+              transition={{ type: "spring", stiffness: 260, damping: 20, delay: hasMascotAppeared ? 0 : 0.3 }}
             />
             <motion.div 
               className={styles.mascotHandLeft}
-              initial={{ y: 20, opacity: 0, scale: 0.8 }}
+              initial={{ y: handInitialY, opacity: handInitialOpacity, scale: handInitialScale }}
               animate={{ y: 0, opacity: 1, scale: 1 }}
-              transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.45 }}
+              transition={{ type: "spring", stiffness: 260, damping: 20, delay: hasMascotAppeared ? 0 : 0.45 }}
             />
             <motion.div 
               className={styles.mascotContainer} 
               ref={mascotRef}
-              initial={{ y: 150 }}
+              initial={{ y: mascotInitialY }}
               animate={{ y: 0 }}
-              transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.6 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20, delay: hasMascotAppeared ? 0 : 0.6 }}
             >
               <CakePopMascot
                   ref={mascotControlRef}
                   size="large"
                   eyeX={eyeSpringX}
                   eyeY={eyeSpringY}
+                  hideArms={true}
                 /></motion.div>
           </div>
           

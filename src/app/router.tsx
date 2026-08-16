@@ -8,7 +8,8 @@ import { CartPage } from '@/pages/storefront/cart/CartPage'
 import { CheckoutDeliveryPage } from '@/pages/storefront/checkout/CheckoutDeliveryPage'
 import { CheckoutPaymentPage } from '@/pages/storefront/checkout/CheckoutPaymentPage'
 import { DesignSystemPage } from '@/pages/storefront/DesignSystemPage'
-import { MascotPlayground } from '@/pages/dev/MascotPlayground'
+import { AdminMascotPlayground } from '@/pages/admin/pages/AdminMascotPlayground'
+import { AdminErrorBoundary } from '@/pages/admin/components/AdminErrorBoundary'
 import { ServerErrorPage } from '@/pages/error/ServerErrorPage'
 import { NotFoundPage } from '@/pages/error/NotFoundPage'
 import { ErrorTrackingPanel } from '@/pages/admin/ErrorTrackingPanel'
@@ -20,6 +21,7 @@ import { ContactPage } from '@/pages/storefront/info/ContactPage'
 import { OrdersPage } from '@/pages/storefront/orders/OrdersPage'
 import { OrderTrackingPage } from '@/pages/storefront/orders/OrderTrackingPage'
 import { OrderSuccessPage } from '@/pages/storefront/orders/OrderSuccessPage'
+import { CustomOrdersPage } from '@/pages/storefront/custom-orders/CustomOrdersPage'
 import { AdminLayout } from '@/pages/admin/AdminLayout'
 import { AdminDashboard } from '@/pages/admin/AdminDashboard'
 import { AdminOrders } from '@/pages/admin/pages/AdminOrders'
@@ -39,8 +41,6 @@ import { AdminUsers } from '@/pages/admin/pages/AdminUsers'
 import { AdminNotifications } from '@/pages/admin/pages/AdminNotifications'
 import { AdminStorefrontCMS } from '@/pages/admin/pages/AdminStorefrontCMS'
 import { AdminAddCustomOrder } from '@/pages/admin/pages/AdminAddCustomOrder'
-import { AdminErrorBoundary } from '@/pages/admin/components/AdminErrorBoundary'
-
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -101,10 +101,6 @@ export const router = createBrowserRouter([
         element: <DesignSystemPage />,
       },
       {
-        path: 'cakepopmascot',
-        element: <MascotPlayground />,
-      },
-      {
         path: 'terms',
         element: <TermsPage />,
       },
@@ -115,6 +111,10 @@ export const router = createBrowserRouter([
       {
         path: 'privacy',
         element: <PrivacyPage />,
+      },
+      {
+        path: 'custom-orders',
+        element: <CustomOrdersPage />,
       },
       {
         path: '*',
@@ -149,6 +149,7 @@ export const router = createBrowserRouter([
       { path: 'notifications', element: <AdminNotifications /> },
       { path: 'storefront-cms', element: <AdminStorefrontCMS /> },
       { path: 'errors', element: <ErrorTrackingPanel /> },
+      { path: 'mascot', element: <AdminMascotPlayground /> },
     ]
   }
 ])

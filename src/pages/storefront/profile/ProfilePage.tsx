@@ -14,6 +14,8 @@ import { MyDetailsPage } from './MyDetailsPage'
 import { AddressesPage } from './AddressesPage'
 import { NotificationsPage } from './NotificationsPage'
 
+let hasMascotAppeared = false;
+
 import { useSmartMascot } from '@/components/mascot/useSmartMascot'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -199,13 +201,20 @@ export const ProfilePage = () => {
     mascotControlRef.current?.play(random);
   };
 
-  // Page entrance: play blowKiss when mascot arrives
+  // Page entrance: play random greeting when mascot arrives
   React.useEffect(() => {
-    const arrivalTimer = setTimeout(() => {
-      mascotControlRef.current?.play('blowKiss');
-    }, 1000);
-    return () => clearTimeout(arrivalTimer);
+    if (!hasMascotAppeared) {
+      hasMascotAppeared = true;
+      const arrivalTimer = setTimeout(() => {
+          const GREETINGS = ['winking', 'cool', 'silly', 'love', 'blushing', 'party', 'emotionalCute'] as any;
+          mascotControlRef.current?.play(GREETINGS[Math.floor(Math.random() * GREETINGS.length)]);
+      }, 1000);
+      return () => clearTimeout(arrivalTimer);
+    }
   }, []);
+
+  const mascotInitialY = hasMascotAppeared ? 0 : 120;
+  const mascotInitialOpacity = hasMascotAppeared ? 1 : 0;
 
   const mascotProps = useSmartMascot({ heroRef, mascotRef, disableScrollHide: true, stayVisible: true, startY: 0 });
 
@@ -221,9 +230,9 @@ export const ProfilePage = () => {
               <motion.div 
                 ref={mascotRef} 
                 className={styles.mascotLayer} 
-                initial={{ y: 120, opacity: 0 }}
+                initial={{ y: mascotInitialY, opacity: mascotInitialOpacity }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ type: 'spring', stiffness: 200, damping: 20, delay: 0.6 }}
+                transition={{ type: 'spring', stiffness: 200, damping: 20, delay: hasMascotAppeared ? 0 : 0.6 }}
                 onClick={handleMascotClick}
               >
                 <CakePopMascot 

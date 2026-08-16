@@ -37,6 +37,79 @@
   /* shadow above */
 }
 
+/* ================= MASCOT STICKY ================= */
+.mascotStickyContainer {
+  position: absolute;
+  bottom: 100%;
+  right: 10%;
+  width: 120px;
+  height: 84px;
+  overflow: hidden;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: -1; /* Puts it behind the header background but over everything else! */
+}
+
+@media (max-width: 1024px) {
+  .mascotStickyContainer {
+    right: 5%;
+  }
+}
+
+.mascotHandLeft,
+.mascotHandRight {
+  position: absolute;
+  top: 76px;
+  width: 6px;
+  height: 12px;
+  background-color: #1c1c1c;
+  border-radius: 6px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.mascotHandLeft::before,
+.mascotHandLeft::after,
+.mascotHandRight::before,
+.mascotHandRight::after {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  width: 6px;
+  height: 9px;
+  background-color: #1c1c1c;
+  border-radius: 6px;
+}
+
+.mascotHandLeft::before,
+.mascotHandRight::before {
+  left: -5px;
+  transform: rotate(15deg);
+}
+
+.mascotHandLeft::after,
+.mascotHandRight::after {
+  right: -5px;
+  transform: rotate(-15deg);
+}
+
+.mascotHandLeft {
+  left: 33px;
+}
+
+.mascotHandRight {
+  right: 33px;
+}
+
+@media (max-width: 1024px) {
+  .mascotHandLeft {
+    left: 28px;
+  }
+  .mascotHandRight {
+    right: 28px;
+  }
+}
+
 /* Pull-over notch */
 .stickyHeader::before {
   content: '';

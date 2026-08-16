@@ -277,8 +277,8 @@
 .mascotHandLeft, .mascotHandRight {
   position: absolute;
   bottom: -4px;
-  width: 8px;
-  height: 11px;
+  width: 6px;
+  height: 12px;
   background-color: #1c1c1c;
   border-radius: 6px;
   z-index: 10;
@@ -290,8 +290,8 @@
   content: '';
   position: absolute;
   bottom: 1px;
-  width: 8px;
-  height: 10px;
+  width: 6px;
+  height: 9px;
   background-color: #1c1c1c;
   border-radius: 6px;
 }

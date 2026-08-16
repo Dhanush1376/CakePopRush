@@ -12,8 +12,6 @@ html, body {
   background-size: 24px 24px;
   background-position: -1px -1px;
   color: var(--color-text);
-  overflow-x: hidden;
-  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 

@@ -12,8 +12,10 @@ import { QuantitySelector } from './QuantitySelector';
 import { formatCurrency } from '@/lib/formatters/currency';
 import { ProductImage } from './ProductImage';
 import { CakePopMascot } from '@/components/mascot/CakePopMascot';
-import { MascotRef } from '@/components/mascot/reactions/reactionTypes';
+import { MascotRef, MascotReaction } from '@/components/mascot/reactions/reactionTypes';
 import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator';
+
+let hasMascotAppeared = false;
 
 export const SideCart = () => {
   const { isCartOpen, closeCart, items, total, subtotal, totalDiscount, removeItem, updateQuantity, totalItems } = useCart();
@@ -26,6 +28,20 @@ export const SideCart = () => {
     }
   }, [location.pathname, isCartOpen, closeCart]);
 
+  useEffect(() => {
+    if (isCartOpen && !hasMascotAppeared) {
+      const timer = setTimeout(() => {
+        hasMascotAppeared = true;
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isCartOpen]);
+
+  const mascotInitialY = hasMascotAppeared ? 0 : 150;
+  const handInitialY = hasMascotAppeared ? 0 : 20;
+  const handInitialOpacity = hasMascotAppeared ? 1 : 0;
+  const handInitialScale = hasMascotAppeared ? 1 : 0.8;
+
   const { currentReaction, currentMessage, triggerReaction, tapMascot, prefersReducedMotion } = useMascotOrchestrator();
   const [itemToDelete, setItemToDelete] = useState<string | null>(null);
   const mascotRef = useRef<HTMLDivElement>(null);
@@ -36,18 +52,11 @@ export const SideCart = () => {
   const eyeSpringX = useSpring(eyeTargetX, { stiffness: 200, damping: 25 });
   const eyeSpringY = useSpring(eyeTargetY, { stiffness: 200, damping: 25 });
 
-  const currentReactionRef = useRef(currentReaction);
-  useEffect(() => {
-    currentReactionRef.current = currentReaction;
-    if (currentReaction) {
-      eyeTargetX.set(0);
-      eyeTargetY.set(0);
-    }
-  }, [currentReaction, eyeTargetX, eyeTargetY]);
+  // Reaction ref not needed for eye tracking since MascotEyes handles overrides natively
 
   useEffect(() => {
     const handlePointerEvent = (e: PointerEvent) => {
-      if (!mascotRef.current || currentReactionRef.current) return;
+      if (!mascotRef.current) return;
       const rect = mascotRef.current.getBoundingClientRect();
       const mascotCenterX = rect.left + rect.width / 2;
       const mascotCenterY = rect.top + rect.height / 2;
@@ -96,8 +105,11 @@ export const SideCart = () => {
   useEffect(() => {
     if (isCartOpen) {
       document.body.style.overflow = 'hidden';
-      const arrivalTimer = setTimeout(() => {
-        mascotControlRef.current?.play('blowKiss');
+        const arrivalTimer = setTimeout(() => {
+          if (!hasMascotAppeared) {
+            const GREETINGS = ['winking', 'cool', 'silly', 'love', 'blushing', 'party', 'emotionalCute'] as any;
+            mascotControlRef.current?.play(GREETINGS[Math.floor(Math.random() * GREETINGS.length)]);
+          }
       }, 600);
       return () => {
         clearTimeout(arrivalTimer);
@@ -118,7 +130,6 @@ export const SideCart = () => {
 
   const handleCheckout = () => {
     closeCart();
-    // Assuming checkout route is /checkout or handled elsewhere, let's just go to cart for now if we don't have checkout
     navigate('/cart');
   };
 
@@ -265,7 +276,7 @@ export const SideCart = () => {
                 <motion.div
                   className={styles.mascotContainer}
                   ref={mascotRef}
-                  initial={{ y: 150 }}
+                  initial={{ y: mascotInitialY }}
                   animate={{ y: 0 }}
                   transition={{ type: "spring", stiffness: 200, damping: 20 }}
                   onClick={handleMascotClick}
@@ -294,15 +305,15 @@ export const SideCart = () => {
                 </motion.div>
                 <motion.div
                   className={styles.mascotHandLeft}
-                  initial={{ y: 20, opacity: 0, scale: 0.8 }}
+                  initial={{ y: handInitialY, opacity: handInitialOpacity, scale: handInitialScale }}
                   animate={{ y: 0, opacity: 1, scale: 1 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.2 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 20, delay: hasMascotAppeared ? 0 : 0.2 }}
                 />
                 <motion.div
                   className={styles.mascotHandRight}
-                  initial={{ y: 20, opacity: 0, scale: 0.8 }}
+                  initial={{ y: handInitialY, opacity: handInitialOpacity, scale: handInitialScale }}
                   animate={{ y: 0, opacity: 1, scale: 1 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.2 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 20, delay: hasMascotAppeared ? 0 : 0.1 }}
                 />
                 <div className={styles.summaryRow}>
                   <span>Subtotal</span>

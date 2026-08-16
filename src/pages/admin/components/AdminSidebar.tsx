@@ -2,7 +2,8 @@ import { NavLink, Link } from 'react-router-dom'
 import { 
   Home, ShoppingBag, Box, Grid, Users, Edit3, 
   Star, Tag, BarChart2, Image, Settings, Shield, Bell,
-  ChevronDown, User, ExternalLink, Monitor, PanelLeftClose
+  ChevronDown, User, ExternalLink, Monitor, PanelLeftClose,
+  Smile
 } from 'lucide-react'
 import styles from './AdminSidebar.module.css'
 import { WavyDivider } from '@/components/decorative/WavyDivider'
@@ -25,6 +26,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
     { name: 'Coupons & Offers', path: '/admin/coupons', icon: Tag },
     { name: 'Analytics', path: '/admin/analytics', icon: BarChart2 },
     { name: 'Storefront CMS', path: '/admin/storefront-cms', icon: Monitor },
+    { name: 'Mascot Lab', path: '/admin/mascot', icon: Smile },
     { name: 'Settings', path: '/admin/settings', icon: Settings },
     { name: 'Users & Roles', path: '/admin/users', icon: Shield },
     { name: 'Notifications', path: '/admin/notifications', icon: Bell },

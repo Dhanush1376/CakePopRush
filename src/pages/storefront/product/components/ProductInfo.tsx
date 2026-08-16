@@ -186,7 +186,7 @@ export const ProductInfo = ({ product, calculatedTotal, mascotMessage }: Product
           )}
           <div className={styles.mascotClip}>
             <div className={styles.mascotWrapper}>
-              <CakePopMascot size="small" reaction={reaction} eyeX={eyeSpringX} eyeY={eyeSpringY} />
+              <CakePopMascot size="small" reaction={reaction} eyeX={eyeSpringX} eyeY={eyeSpringY} hideArms={true} />
             </div>
           </div>
           

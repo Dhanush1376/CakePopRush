@@ -24,7 +24,7 @@
     padding-top: var(--header-height-desktop, 80px);
     min-height: 500px;
   }
-  
+
   .balloonRight {
     top: auto;
     bottom: 10px;
@@ -405,11 +405,11 @@
 .mascotHandLeft,
 .mascotHandRight {
   position: absolute;
-  top: 107px;
-  width: 6px;
-  height: 12px;
+  top: 112px;
+  width: 8px;
+  height: 16px;
   background-color: #1c1c1c;
-  border-radius: 6px;
+  border-radius: 8px;
   z-index: 1;
   pointer-events: none;
 }
@@ -421,20 +421,20 @@
   content: '';
   position: absolute;
   bottom: 1px;
-  width: 6px;
-  height: 9px;
+  width: 8px;
+  height: 12px;
   background-color: #1c1c1c;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 
 .mascotHandLeft::before,
 .mascotHandRight::before {
-  left: -4px;
+  left: -5px;
 }
 
 .mascotHandLeft::after,
 .mascotHandRight::after {
-  left: 4px;
+  left: 5px;
 }
 
 .mascotHandLeft {
@@ -449,12 +449,13 @@
 
 @media (max-width: 1024px) {
   .mascotHandLeft {
-    top: 89px;
+    top: 92px;
     right: 103px;
     transform: rotate(-10deg);
   }
+
   .mascotHandRight {
-    top: 89px;
+    top: 92px;
     right: 37px;
     transform: rotate(10deg);
   }

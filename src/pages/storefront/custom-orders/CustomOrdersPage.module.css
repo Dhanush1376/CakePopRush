@@ -1,0 +1,278 @@
+.pageContainer {
+  min-height: calc(100vh - 80px);
+  padding-top: var(--header-height-desktop, 80px);
+  padding-bottom: 40px;
+  background: var(--color-background);
+  background-image: 
+    radial-gradient(circle at 100% 0%, rgba(242, 13, 111, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 0% 100%, rgba(255, 199, 0, 0.05) 0%, transparent 40%),
+    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+  background-position: 0 0, 0 0, -1px -1px, -1px -1px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header Row */
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 24px;
+}
+
+.headerRight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-family: var(--font-family-heading);
+  font-size: 2.5rem;
+  color: var(--color-text);
+  margin-top: 0;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.headerToggle {
+  display: flex;
+  background: var(--color-white);
+  border-radius: 40px;
+  padding: 4px;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.toggleBtn {
+  padding: 10px 24px;
+  border-radius: 40px;
+  border: none;
+  background: transparent;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.toggleBtn:hover {
+  color: var(--color-text);
+}
+
+.toggleActive {
+  background: black;
+  color: white;
+}
+
+.toggleActive:hover {
+  color: white;
+}
+
+/* Content Area */
+.content {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Left Sidebar */
+.leftSidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sidebarStepsCard {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+}
+
+.sidebarStep {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--color-text-muted);
+  transition: all 0.3s ease;
+}
+
+.sidebarStep.active {
+  color: var(--color-primary);
+}
+
+.sidebarStep.completed {
+  color: var(--color-secondary);
+}
+
+.sidebarStepNumber {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-surface-hover);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.sidebarStep.active .sidebarStepNumber {
+  background: var(--color-primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(242, 13, 111, 0.3);
+}
+
+.sidebarStep.completed .sidebarStepNumber {
+  background: var(--color-secondary);
+  color: white;
+}
+
+.sidebarStepText {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarStepText h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  font-family: var(--font-family-heading);
+}
+
+.sidebarStepText p {
+  margin: 2px 0 0 0;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.stepDivider {
+  width: 2px;
+  height: 40px;
+  background: var(--color-border);
+  margin: 8px 0 8px 15px;
+  border-radius: 1px;
+}
+
+.sidebarStep.completed + .stepDivider {
+  background: var(--color-secondary);
+}
+
+/* Form Section (Right Main Area) */
+.formSection {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+  min-height: 500px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .headerRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .headerRight {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .headerToggle {
+    width: 100%;
+    display: flex;
+  }
+
+  .toggleBtn {
+    flex: 1;
+    padding: 10px 8px;
+    font-size: 0.7rem;
+  }
+  
+  .content {
+    grid-template-columns: 1fr;
+  }
+  
+  .sidebarStepsCard {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    gap: 16px;
+  }
+  
+  .stepDivider {
+    width: 40px;
+    height: 2px;
+    margin: 0;
+  }
+  
+  .sidebarStepText {
+    display: none; /* Hide text on mobile for horizontal steps */
+  }
+  
+  .mascotSection {
+    display: none; /* Hide mascot on smaller screens to save space */
+  }
+}
+
+@media (max-width: 600px) {
+  .pageContainer {
+    padding-top: var(--header-height-mobile, 60px);
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .headerToggle {
+    display: none;
+  }
+  
+  .formSection {
+    padding: 24px 16px;
+    min-height: auto;
+  }
+  
+  .leftSidebar {
+    display: none;
+  }
+  
+  .sidebarStepsCard {
+    display: none;
+  }
+}

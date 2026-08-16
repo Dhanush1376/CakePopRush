@@ -41,7 +41,6 @@ export const ContactPage = () => {
       <div className={styles.contentWrapper}>
         <div className={styles.header}>
           <h1 className={styles.title}>Contact Us</h1>
-          <div className={styles.underline}></div>
           <p className={styles.subtitle}>
             Fill out the form and we'll get back to you as soon as possible.
           </p>

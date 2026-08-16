@@ -270,7 +270,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSignIn 
                               transition={{ type: "spring", stiffness: 300, damping: 20 }}
                               onClick={handleMascotClick}
                             >
-                              <CakePopMascot size="large" reaction={currentReaction || 'blowKiss'} loop={false} />
+                              <CakePopMascot size="large" reaction={currentReaction || 'blowKiss'} loop={false} hideArms={true} />
                             </motion.div>
                           </div>
                           <motion.div className={styles.mascotHandRight} />

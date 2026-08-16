@@ -12,6 +12,11 @@ import { EmptyWishlistIllustration } from '@/assets/illustrations/EmptyWishlistI
 import { motion } from 'framer-motion'
 import { useWishlist } from '@/lib/wishlistStore'
 import { useSearchParams } from 'react-router-dom'
+import { useMotionValue, useSpring } from 'framer-motion'
+import { CakePopMascot } from '@/components/mascot/CakePopMascot'
+import { MascotReaction, MascotRef } from '@/components/mascot/reactions/reactionTypes'
+
+let hasPlayedEntrance = false;
 
 export function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -22,12 +27,74 @@ export function ShopPage() {
   const [isDocked, setIsDocked] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
+  const mascotRef = React.useRef<HTMLDivElement>(null);
+  const mascotControlRef = React.useRef<MascotRef>(null);
+  
+  const eyeTargetX = useMotionValue(0);
+  const eyeTargetY = useMotionValue(0);
+  const eyeSpringX = useSpring(eyeTargetX, { stiffness: 200, damping: 25 });
+  const eyeSpringY = useSpring(eyeTargetY, { stiffness: 200, damping: 25 });
+
+  React.useEffect(() => {
+    const handlePointerEvent = (e: PointerEvent) => {
+      if (!mascotRef.current) return;
+      const rect = mascotRef.current.getBoundingClientRect();
+      const mascotCenterX = rect.left + rect.width / 2;
+      const mascotCenterY = rect.top + rect.height / 2;
+
+      const x = e.clientX - mascotCenterX;
+      const y = e.clientY - mascotCenterY;
+
+      let targetX = (x / 200) * 8;
+      let targetY = (y / 200) * 8;
+
+      const maxR = 8;
+      const dist = Math.sqrt(targetX * targetX + targetY * targetY);
+      if (dist > maxR) {
+        targetX = (targetX / dist) * maxR;
+        targetY = (targetY / dist) * maxR;
+      }
+
+      eyeTargetX.set(targetX);
+      eyeTargetY.set(targetY);
+    };
+
+    document.body.addEventListener('pointermove', handlePointerEvent);
+    document.body.addEventListener('pointerdown', handlePointerEvent);
+    return () => {
+      document.body.removeEventListener('pointermove', handlePointerEvent);
+      document.body.removeEventListener('pointerdown', handlePointerEvent);
+    };
+  }, [eyeTargetX, eyeTargetY]);
+
+  const handleMascotClick = () => {
+    const TAP_REACTIONS: MascotReaction[] = ['cool', 'blowKiss', 'love', 'excited', 'laughing', 'winking', 'silly', 'party'];
+    const random = TAP_REACTIONS[Math.floor(Math.random() * TAP_REACTIONS.length)];
+    mascotControlRef.current?.play(random);
+  };
+
+  // Page entrance: play blowKiss when mascot arrives (only once)
+  React.useEffect(() => {
+    if (!hasPlayedEntrance) {
+      hasPlayedEntrance = true;
+      const arrivalTimer = setTimeout(() => {
+        mascotControlRef.current?.play('blowKiss');
+      }, 1000);
+      return () => clearTimeout(arrivalTimer);
+    }
+  }, []);
+
   // Smooth scroll to categories section past hero
   const scrollToCategories = React.useCallback(() => {
     setTimeout(() => {
       const targetEl = document.getElementById('shop-sticky-header')
       if (targetEl) {
-        const headerOffset = 60
+        const isDesktop = window.innerWidth >= 1024;
+        const navHeight = isDesktop ? 80 : 64;
+        const mascotHeight = 84;
+        const breathingRoom = 16; // Add a little gap below navbar
+        const headerOffset = navHeight + mascotHeight + breathingRoom;
+        
         const elementPosition = targetEl.getBoundingClientRect().top + window.pageYOffset
         const offsetPosition = elementPosition - headerOffset
 
@@ -113,6 +180,18 @@ export function ShopPage() {
         id="shop-sticky-header"
         className={`${styles.stickyHeader} ${isHeaderHidden ? styles.headerHidden : ''} ${isDocked ? styles.docked : ''}`}
       >
+        <div className={styles.mascotStickyContainer} onClick={handleMascotClick} ref={mascotRef}>
+          <div className={styles.mascotHandLeft} />
+          <div className={styles.mascotHandRight} />
+          <CakePopMascot
+            ref={mascotControlRef}
+            size="small"
+            hideArms={true}
+            eyeX={eyeSpringX}
+            eyeY={eyeSpringY}
+          />
+        </div>
+
         <ShopCategories 
           activeCategory={activeCategory} 
           onSelectCategory={handleSelectCategory} 

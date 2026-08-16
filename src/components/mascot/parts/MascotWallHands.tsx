@@ -13,10 +13,10 @@ export const MascotWallHands = () => {
       {/* Left Paw (Gripping the wall) */}
       <g transform="translate(80, 215)">
         <g>
-          <g transform="rotate(15)">
-            <rect x="-11" y="-5" width="8" height="13" rx="4" fill="#1c1c1c" />
-            <rect x="-4" y="-8" width="8" height="16" rx="4" fill="#1c1c1c" />
-            <rect x="3" y="-5" width="8" height="13" rx="4" fill="#1c1c1c" />
+          <g transform="rotate(-10)">
+            <rect x="-7" y="-10" width="6" height="9" rx="3" fill="#1c1c1c" />
+            <rect x="-3" y="-12" width="6" height="12" rx="3" fill="#1c1c1c" />
+            <rect x="1" y="-10" width="6" height="9" rx="3" fill="#1c1c1c" />
           </g>
         </g>
       </g>
@@ -24,10 +24,10 @@ export const MascotWallHands = () => {
       {/* Right Paw (Gripping the wall) */}
       <g transform="translate(220, 215)">
         <g>
-          <g transform="rotate(-15)">
-            <rect x="-11" y="-5" width="8" height="13" rx="4" fill="#1c1c1c" />
-            <rect x="-4" y="-8" width="8" height="16" rx="4" fill="#1c1c1c" />
-            <rect x="3" y="-5" width="8" height="13" rx="4" fill="#1c1c1c" />
+          <g transform="rotate(10)">
+            <rect x="-7" y="-10" width="6" height="9" rx="3" fill="#1c1c1c" />
+            <rect x="-3" y="-12" width="6" height="12" rx="3" fill="#1c1c1c" />
+            <rect x="1" y="-10" width="6" height="9" rx="3" fill="#1c1c1c" />
           </g>
         </g>
       </g>

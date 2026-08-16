@@ -372,11 +372,11 @@
 .mascotHandLeft,
 .mascotHandRight {
   position: absolute;
-  bottom: -6px;
+  bottom: -4px;
   width: 6px;
-  height: 14px;
+  height: 12px;
   background-color: #1c1c1c;
-  border-radius: 6px 6px 3px 3px;
+  border-radius: 6px;
   z-index: 2;
   pointer-events: none;
 }
@@ -389,7 +389,7 @@
   position: absolute;
   bottom: 1px;
   width: 6px;
-  height: 10px;
+  height: 9px;
   background-color: #1c1c1c;
   border-radius: 6px;
 }
@@ -405,11 +405,11 @@
 }
 
 .mascotHandLeft {
-  left: 22px;
-  transform: rotate(-12deg);
+  left: 24px;
+  transform: rotate(-10deg);
 }
 
 .mascotHandRight {
-  right: 22px;
-  transform: rotate(12deg);
+  right: 24px;
+  transform: rotate(10deg);
 }

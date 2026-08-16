@@ -1,0 +1,492 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  container-type: inline-size;
+  container-name: mascotLab;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.title {
+  font-family: var(--font-family-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--admin-brown);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.workspace {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.stickyColumn {
+  position: sticky;
+  top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: auto;
+  flex: 1 1 350px;
+  max-width: 100%;
+}
+
+/* Force sticky column max width on desktop so it doesn't get too wide, but allow 100% on mobile wrap */
+@media (min-width: 768px) {
+  .stickyColumn {
+    max-width: 400px;
+  }
+}
+
+.scrollableColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 3 1 380px;
+  max-width: 100%;
+}
+
+.card {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.cardTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--admin-brown);
+  margin-bottom: 4px;
+}
+
+.stageArea {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  min-height: 400px;
+  background-color: var(--color-surface-hover);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.stageCard {
+  flex: 1; /* Make stage card fill the sticky column */
+  display: flex;
+  flex-direction: column;
+}
+
+.stage {
+  position: relative;
+  width: 300px;
+  height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wallContainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  background-color: var(--color-surface-hover);
+  border-top: 2px solid var(--color-border);
+  z-index: 10;
+}
+
+.mascotHandLeft,
+.mascotHandRight {
+  position: absolute;
+  top: -8px;
+  width: 8px;
+  height: 16px;
+  background-color: #1c1c1c;
+  border-radius: 8px;
+  z-index: 12;
+  pointer-events: none;
+}
+
+.mascotHandLeft::before,
+.mascotHandLeft::after,
+.mascotHandRight::before,
+.mascotHandRight::after {
+  content: '';
+  position: absolute;
+  bottom: 1px;
+  width: 8px;
+  height: 12px;
+  background-color: #1c1c1c;
+  border-radius: 8px;
+}
+
+.mascotHandLeft::before,
+.mascotHandRight::before {
+  left: -5px;
+}
+
+.mascotHandLeft::after,
+.mascotHandRight::after {
+  left: 5px;
+}
+
+/* Position relative to the 250px stage */
+.mascotHandLeft {
+  left: calc(50% - 60px);
+  transform: rotate(-10deg);
+}
+
+.mascotHandRight {
+  right: calc(50% - 60px);
+  transform: rotate(10deg);
+}
+
+.stageBackground {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--admin-pink) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.1;
+  border-radius: 12px;
+}
+
+.foregroundMask {
+  position: absolute;
+  bottom: 0;
+  left: -50px;
+  width: 350px;
+  height: 100px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.refPanel {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 200px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.5rem;
+  box-shadow: var(--shadow-sm);
+  z-index: 20;
+}
+
+.panelLabel {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--admin-pink);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.refImage {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+}
+
+.refPlaceholder {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.overlayImage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Controls Grid */
+.controlsGroup {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.btnPrimary {
+  background-color: var(--admin-pink);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 6px rgba(236, 72, 153, 0.2);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btnPrimary:hover { 
+  transform: translateY(-1px);
+  box-shadow: 0 6px 8px rgba(236, 72, 153, 0.3);
+}
+
+.btnSecondary {
+  background-color: var(--color-white);
+  color: var(--admin-brown);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btnSecondary:hover { 
+  background-color: var(--color-surface-hover); 
+  border-color: var(--admin-brown);
+}
+
+.btnGroup {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.statusInfo {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 12px;
+  color: var(--admin-brown);
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 8px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(252, 228, 236, 0.8);
+  box-shadow: var(--shadow-sm);
+  z-index: 30;
+  display: flex;
+  gap: 12px;
+}
+
+.statusLine strong {
+  opacity: 0.7;
+  font-weight: 600;
+}
+
+.toggleLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--admin-brown);
+  cursor: pointer;
+}
+
+.reactionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.buttonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 8px;
+}
+
+.reactionBtn {
+  background-color: var(--color-white);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.reactionBtn:hover {
+  border-color: var(--admin-brown);
+  color: var(--admin-brown);
+}
+
+.reactionBtn.active {
+  background-color: #FFF0F5;
+  color: var(--admin-pink);
+  border-color: var(--admin-pink);
+  font-weight: 600;
+}
+
+.reactionBtn.completed {
+  border-left: 3px solid #10b981;
+}
+
+.formRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.formRow label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--admin-brown);
+}
+
+.select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  color: var(--admin-brown);
+  background-color: var(--color-white);
+  outline: none;
+  cursor: pointer;
+}
+
+/* Cleaned up redundant 1024px media query since Flexbox handles wrapping naturally */
+
+@container mascotLab (max-width: 768px) {
+  .stickyColumn {
+    top: 0;
+    z-index: 50;
+    background-color: var(--color-background, #F9FAFB);
+    margin: -1.5rem -1.5rem 0 -1.5rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    max-width: calc(100% + 3rem);
+    width: calc(100% + 3rem);
+  }
+  
+  .stageCard {
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    gap: 0.5rem;
+  }
+  
+  .title, .subtitle {
+    display: none; /* Hide header completely on mobile to maximize space */
+  }
+  
+  .stageArea {
+    min-height: 160px;
+    height: 160px;
+    border-radius: var(--radius-md);
+  }
+  
+  .stage {
+    transform: scale(0.65);
+    transform-origin: center center;
+  }
+  
+  .wallContainer {
+    height: 115px; /* Precisely touches the mascot's bottom on a 360px stage */
+  }
+  
+  .mascotHandLeft, .mascotHandRight {
+    top: -12px;
+  }
+  
+  /* Make the hands bigger and spaced further apart as requested */
+  .mascotHandLeft { 
+    left: calc(50% - 75px); 
+    transform: scale(1.2) rotate(-10deg); 
+  }
+  .mascotHandRight { 
+    right: calc(50% - 75px); 
+    transform: scale(1.2) rotate(10deg); 
+  }
+
+  .reactionGrid,
+  .buttonGrid {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 16px;
+    margin-right: -1.5rem; /* Bleed to the edge */
+    padding-right: 1.5rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    gap: 8px;
+  }
+
+  .reactionGrid::-webkit-scrollbar,
+  .buttonGrid::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
+
+  .reactionBtn {
+    flex: 0 0 auto;
+    min-width: max-content;
+    padding: 10px 18px;
+    font-size: 13px;
+    border-radius: var(--radius-full);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .controlsGroup {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 0;
+  }
+  
+  .controlsGroup span {
+    display: none; /* Hide button text, only show icons on mobile */
+  }
+  
+  .btnPrimary, .btnSecondary {
+    padding: 12px;
+  }
+  
+  .statusInfo {
+    top: 8px;
+    left: 8px;
+    font-size: 11px;
+    padding: 6px 10px;
+    gap: 8px;
+    flex-direction: column;
+  }
+}

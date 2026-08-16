@@ -145,7 +145,7 @@ export const MASCOT_EVENT_MAP: Record<EventKey, MascotTriggerEvent> = {
 
   // Product
   'product:opened': {
-    emotion: 'blowKiss',
+    emotion: 'winking',
     reason: 'PRODUCT_VIEWED',
     priority: 'low',
     category: 'product',
@@ -204,7 +204,6 @@ export const MASCOT_EVENT_MAP: Record<EventKey, MascotTriggerEvent> = {
     reason: 'LOGIN_SUCCESS',
     priority: 'medium',
     category: 'account',
-    alternatives: ['blowKiss', 'winking'],
   },
   'account:login-failure': {
     emotion: 'oops',

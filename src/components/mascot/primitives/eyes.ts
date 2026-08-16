@@ -78,14 +78,16 @@ export const lookAround = async (ctx: ReactionContext) => {
 
 export const eyesWide = (ctx: ReactionContext) => {
   return ctx.animate([
-    ['#left-eye-container, #right-eye-container', { scaleX: 1.1, scaleY: 1.1 }, { duration: animSpeed(TIMING.FAST, ctx.speedMultiplier) }],
-    ['#left-pupil-group, #right-pupil-group, #left-pupil-group-heart, #right-pupil-group-heart', { scale: 0.8 }, { duration: animSpeed(TIMING.FAST, ctx.speedMultiplier) }]
+    ['#left-eye-container, #right-eye-container', { scaleX: 1.25, scaleY: 1.25 }, { duration: animSpeed(TIMING.FAST, ctx.speedMultiplier) }],
+    ['#left-pupil-group, #right-pupil-group, #left-pupil-group-heart, #right-pupil-group-heart', { scale: 1 }, { duration: animSpeed(TIMING.FAST, ctx.speedMultiplier) }]
   ]);
 };
 
 export const eyesSleepy = (ctx: ReactionContext) => {
   return ctx.animate([
-    ['#left-eye-container, #right-eye-container', { scaleY: 0.6 }, { duration: animSpeed(TIMING.NORMAL, ctx.speedMultiplier) }]
+    ['#left-eye-container, #right-eye-container', { scaleY: 0.6 }, { duration: animSpeed(TIMING.NORMAL, ctx.speedMultiplier) }],
+    ['#left-eye-tired, #right-eye-tired', { opacity: 1 }, { duration: animSpeed(TIMING.NORMAL, ctx.speedMultiplier) }],
+    ['#left-pupil-group, #right-pupil-group, #left-pupil-group-heart, #right-pupil-group-heart', { y: 4, scale: 1 }, { duration: animSpeed(TIMING.NORMAL, ctx.speedMultiplier) }]
   ]);
 };
 
