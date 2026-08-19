@@ -28,7 +28,7 @@ export function PaymentSummaryCard({
       )}
       <div className={styles.totalRow}>
         <span>Total</span>
-        <span>Rs.${price.amountPaid}</span>
+        <span>Rs.<span style={{ fontFamily: '"Times New Roman", Times, serif' }}>{price.amountPaid}</span></span>
       </div>
       
       <div className={styles.paymentMetaBox}>

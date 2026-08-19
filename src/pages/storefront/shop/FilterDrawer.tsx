@@ -9,6 +9,8 @@ interface FilterDrawerProps {
 }
 
 export const FilterDrawer = ({ isOpen, onClose }: FilterDrawerProps) => {
+  const [activeType, setActiveType] = useState<string[]>([])
+  const [activeFlavors, setActiveFlavors] = useState<string[]>([])
   const [activeDietary, setActiveDietary] = useState<string[]>([])
   const [activeOccasion, setActiveOccasion] = useState<string[]>([])
   const [activeColor, setActiveColor] = useState<string | null>(null)
@@ -26,6 +28,14 @@ export const FilterDrawer = ({ isOpen, onClose }: FilterDrawerProps) => {
   }, [isOpen])
 
   if (!isOpen) return null
+
+  const toggleType = (item: string) => {
+    setActiveType(prev => prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item])
+  }
+
+  const toggleFlavors = (item: string) => {
+    setActiveFlavors(prev => prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item])
+  }
 
   const toggleDietary = (item: string) => {
     setActiveDietary(prev => prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item])
@@ -47,6 +57,36 @@ export const FilterDrawer = ({ isOpen, onClose }: FilterDrawerProps) => {
         </div>
         
         <div className={styles.content}>
+          <div className={styles.filterGroup}>
+            <h4>Treat Type</h4>
+            <div className={styles.chipGroup}>
+              {['Cake Pop', 'Cupcake', 'Brownie', 'Truffle'].map(item => (
+                <button 
+                  key={item}
+                  className={`${styles.chip} ${activeType.includes(item) ? styles.activeChip : ''}`}
+                  onClick={() => toggleType(item)}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.filterGroup}>
+            <h4>Flavors</h4>
+            <div className={styles.chipGroup}>
+              {['Chocolate', 'Vanilla', 'Strawberry', 'Red Velvet', 'Lemon'].map(item => (
+                <button 
+                  key={item}
+                  className={`${styles.chip} ${activeFlavors.includes(item) ? styles.activeChip : ''}`}
+                  onClick={() => toggleFlavors(item)}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div className={styles.filterGroup}>
             <h4>Dietary</h4>
             <div className={styles.chipGroup}>

@@ -42,7 +42,7 @@ export const CustomOrderStep2: React.FC<Props> = ({ data, onBack, onSubmit, isSu
               <div className={styles.itemValue}>{data.quantity}</div>
             </div>
           </div>
-            
+
           <div className={styles.summaryItem} style={{ marginTop: '16px' }}>
             <div className={styles.itemLabel}>
               <Phone size={16} /> Mobile Number
@@ -73,20 +73,20 @@ export const CustomOrderStep2: React.FC<Props> = ({ data, onBack, onSubmit, isSu
       </div>
 
       <div className={styles.actionsSplit}>
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           leftIcon={<ArrowLeft size={16} />}
           onClick={onBack}
         >
           Back to Edit
         </Button>
-        <Button 
-          variant="primary" 
+        <Button
+          variant="primary"
           rightIcon={<Check size={16} />}
           onClick={onSubmit}
           isLoading={isSubmitting}
         >
-          Submit Request
+          Submit
         </Button>
       </div>
     </div>

@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './WishlistPage.module.css';
 import { Container } from '@/components/layout/Container';
 import { useWishlist } from '@/features/wishlist';
-import { FrostingCorner } from '@/pages/storefront/custom-orders/components/FrostingCorner';
 
 import { 
   WishlistHeader,
@@ -23,7 +22,6 @@ export const WishlistPage = () => {
   if (isLoading) {
     return (
       <div className={styles.page}>
-        <FrostingCorner color="#07C2BB" style={{ top: 'auto', bottom: -60, left: -60, right: 'auto', transform: 'scaleX(1) scaleY(-1)' }} />
         <Container>
           <WishlistHeader itemCount={0} />
         </Container>
@@ -45,7 +43,6 @@ export const WishlistPage = () => {
   if (error) {
     return (
       <div className={styles.page}>
-        <FrostingCorner color="#07C2BB" style={{ top: 'auto', bottom: -60, left: -60, right: 'auto', transform: 'scaleX(1) scaleY(-1)' }} />
         <Container>
           <WishlistHeader itemCount={0} />
           <div className={styles.errorWrapper}>
@@ -60,7 +57,6 @@ export const WishlistPage = () => {
   if (items.length === 0) {
     return (
       <div className={styles.page}>
-        <FrostingCorner color="#07C2BB" style={{ top: 'auto', bottom: -60, left: -60, right: 'auto', transform: 'scaleX(1) scaleY(-1)' }} />
         <Container>
           <div className={styles.emptyWrapper}>
             <WishlistEmptyState />
@@ -73,7 +69,6 @@ export const WishlistPage = () => {
   // Content state
   return (
     <div className={styles.page}>
-      <FrostingCorner color="#07C2BB" style={{ top: 'auto', bottom: -60, left: -60, right: 'auto', transform: 'scaleX(1) scaleY(-1)' }} />
       <Container>
         <WishlistHeader itemCount={items.length} />
       </Container>

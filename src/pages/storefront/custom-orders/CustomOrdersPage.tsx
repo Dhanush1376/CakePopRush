@@ -26,10 +26,6 @@ export const CustomOrdersPage: React.FC = () => {
     setStep(2);
   };
 
-  const handleBack = () => {
-    setStep(1);
-  };
-
   const handleSubmit = () => {
     setIsSubmitting(true);
     setTimeout(() => {
@@ -103,7 +99,7 @@ export const CustomOrdersPage: React.FC = () => {
             {step === 2 && (
               <CustomOrderStep2
                 data={formData}
-                onBack={handleBack}
+                onBack={() => setStep(1)}
                 onSubmit={handleSubmit}
                 isSubmitting={isSubmitting}
               />

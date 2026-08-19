@@ -692,15 +692,15 @@
   border-color: var(--color-chocolate);
 }
 .invoiceBtn {
-  background: var(--color-brand-yellow);
-  color: var(--color-chocolate);
+  background: var(--color-brand-pink);
+  color: var(--color-white);
   border: none;
-  border-radius: var(--radius-md);
-  padding: 12px 24px;
+  border-radius: 100px;
+  padding: 14px 24px;
   font-family: var(--font-family-body);
   font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.5px;
+  font-size: 13px;
+  letter-spacing: 1px;
   cursor: pointer;
   transition: all var(--duration-fast) ease;
   display: flex;
@@ -712,6 +712,6 @@
 }
 .invoiceBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 199, 0, 0.3);
+  box-shadow: 0 6px 16px rgba(242, 13, 111, 0.3);
   filter: brightness(0.95);
 }

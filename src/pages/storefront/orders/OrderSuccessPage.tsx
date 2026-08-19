@@ -8,6 +8,7 @@ import { CakePopMascot } from '@/components/mascot/CakePopMascot'
 import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator'
 import { useCart } from '@/features/cart' // Used for empty cart fallback check if needed
 import { orderData } from '@/features/orders'
+import { MOCK_SUCCESS_ORDER } from '@/features/orders/data/mockOrderDetails'
 import { InvoiceViewer } from '@/components/invoice/InvoiceViewer'
 import { mapOrderToInvoiceData } from '@/lib/invoiceMapper'
 import { productData } from '@/features/products'
@@ -170,6 +171,9 @@ export function OrderSuccessPage() {
 
   if (!isReady) return null // simple blank screen while checking state
 
+  // ─── Get Order Data ───
+  const order = id && orderData.getOrderById(id) ? orderData.getOrderById(id) : MOCK_SUCCESS_ORDER
+
   return (
     <div className={styles.page}>
       
@@ -326,16 +330,16 @@ export function OrderSuccessPage() {
           {/* Delivery Address */}
           <Section title="Delivery Address" icon={<MapPin size={18} />}>
             <DeliveryCard 
-              address={orderData.getOrderById('CPR-20482')!.address}
-              estimatedDelivery={orderData.getOrderById('CPR-20482')!.estimatedDelivery}
-              estimatedTime={orderData.getOrderById('CPR-20482')!.estimatedTime}
+              address={order.address}
+              estimatedDelivery={order.estimatedDelivery}
+              estimatedTime={order.estimatedTime}
               InfoRowComponent={InfoRow}
             />
           </Section>
 
           {/* Order Items */}
-          <Section title={`Order Items (${orderData.getOrderById('CPR-20482')!.totalProducts} items)`} icon={<Box size={18} />}>
-            {orderData.getOrderById('CPR-20482')!.items.map(item => {
+          <Section title={`Order Items (${order.totalProducts} items)`} icon={<Box size={18} />}>
+            {order.items.map(item => {
               const product = productData.getProductById(item.id);
               const imageUrl = item.image || product?.images?.[0]?.url;
               return (
@@ -363,8 +367,8 @@ export function OrderSuccessPage() {
           {/* Price Details */}
           <Section title="Payment Summary" icon={<Receipt size={18} />}>
             <PaymentSummaryCard 
-              price={orderData.getOrderById('CPR-20482')!.price}
-              payment={orderData.getOrderById('CPR-20482')!.payment}
+              price={order.price}
+              payment={order.payment}
               InfoRowComponent={InfoRow}
             />
           </Section>
@@ -387,7 +391,7 @@ export function OrderSuccessPage() {
       <InvoiceViewer 
         isOpen={showInvoice}
         onClose={() => setShowInvoice(false)}
-        data={mapOrderToInvoiceData({ ...orderData.getOrderById('CPR-20482')!, id: id || '0' })}
+        data={mapOrderToInvoiceData({ ...order, id: id || '0' })}
       />
     </div>
   )

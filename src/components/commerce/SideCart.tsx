@@ -106,14 +106,9 @@ export const SideCart = () => {
 
     const reactionData = getCartReaction(context, messageHistoryRef.current);
 
-    // Always trigger mascot animation using the dynamically selected emotion
+    // Trigger mascot animation using the dynamically selected emotion
     playDirectEmotion(reactionData.emotion, reactionData.message);
-
-    // Text message respects cooldown (except for critical actions)
-    const criticalActions: CartAction[] = ['delete-confirm', 'delete-cancel', 'remove', 'empty'];
-    if (timeSinceLast < MESSAGE_COOLDOWN && !criticalActions.includes(action)) {
-      return; // Skip text update, animation still plays
-    }
+    mascotControlRef.current?.play(reactionData.emotion);
 
     messageHistoryRef.current.push(reactionData.message);
     if (messageHistoryRef.current.length > 8) messageHistoryRef.current.shift();

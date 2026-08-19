@@ -40,10 +40,10 @@ export const CheckoutPaymentPage = () => {
   }, []);
 
   useEffect(() => {
-    if (items.length === 0) {
+    if (items.length === 0 && paymentPhase === 'idle') {
       navigate('/cart');
     }
-  }, [items, navigate]);
+  }, [items, navigate, paymentPhase]);
 
   if (isLoading) {
     return (

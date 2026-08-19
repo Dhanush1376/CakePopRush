@@ -28,7 +28,7 @@ function App() {
   }
 
 
-  const hideFooterRoutes = ['/profile', '/orders', '/cart', '/checkout', '/wishlist']
+  const hideFooterRoutes = ['/profile', '/orders', '/cart', '/checkout', '/payment', '/wishlist']
   const shouldHideFooter = hideFooterRoutes.some(route => pathname === route || pathname.startsWith(`${route}/`))
 
   return (
