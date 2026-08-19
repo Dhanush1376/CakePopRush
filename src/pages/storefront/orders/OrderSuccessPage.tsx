@@ -172,7 +172,8 @@ export function OrderSuccessPage() {
   if (!isReady) return null // simple blank screen while checking state
 
   // ─── Get Order Data ───
-  const order = id && orderData.getOrderById(id) ? orderData.getOrderById(id) : MOCK_SUCCESS_ORDER
+  const fetchedOrder = id ? orderData.getOrderById(id) : undefined;
+  const order = fetchedOrder || MOCK_SUCCESS_ORDER;
 
   return (
     <div className={styles.page}>
