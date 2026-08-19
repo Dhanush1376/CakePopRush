@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { X, MapPin, Target, Home, Briefcase, Map } from 'lucide-react'
+import { X, Target, Home, Briefcase, Map } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import styles from './AddressDrawer.module.css'
+import { Address } from '../AddressesPage'
 
 interface AddressDrawerProps {
   isOpen: boolean
   onClose: () => void
-  onSave: (address: any) => void
+  onSave: (address: Omit<Address, 'id'>) => void
 }
 
 export const AddressDrawer = ({ isOpen, onClose, onSave }: AddressDrawerProps) => {
@@ -17,7 +18,7 @@ export const AddressDrawer = ({ isOpen, onClose, onSave }: AddressDrawerProps) =
     line2: '',
     city: '',
     pincode: '',
-    type: 'home',
+    type: 'home' as 'home' | 'work' | 'other',
     label: '',
     isDefault: false,
     name: '',
@@ -46,7 +47,7 @@ export const AddressDrawer = ({ isOpen, onClose, onSave }: AddressDrawerProps) =
     }))
   }
 
-  const handleTypeSelect = (type: string) => {
+  const handleTypeSelect = (type: 'home' | 'work' | 'other') => {
     setForm(prev => ({ ...prev, type }))
   }
 

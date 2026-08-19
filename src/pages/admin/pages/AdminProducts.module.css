@@ -306,15 +306,15 @@
   height: 32px;
   border-radius: 8px;
   background-color: transparent;
-  color: var(--admin-pink);
+  color: var(--color-text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--admin-pink);
+  border: none;
   cursor: pointer;
   transition: all 0.2s;
 }
-.actionBtn:hover { background-color: #fce4ec; border-color: #f8bbd0; }
+.actionBtn:hover { background-color: var(--color-surface-hover); color: var(--admin-brown); }
 
 .pagination {
   display: flex;
@@ -496,8 +496,8 @@
     background-color: var(--color-white) !important;
     box-shadow: var(--shadow-sm) !important;
   }
-}
-
+}
+
 
 .stickyWrapper {
   position: sticky;
@@ -636,4 +636,58 @@
 .itemsGrid {
   display: none !important;
 }
+}
+
+/* Inventory Mode Styles */
+.activeInventoryBtn {
+  background-color: var(--admin-green) !important;
+  color: white !important;
+  border-color: var(--admin-green) !important;
+}
+.activeInventoryBtn svg {
+  color: white !important;
+}
+
+.inventoryInputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.inventoryInput {
+  width: 60px;
+  padding: 4px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 14px;
+  text-align: center;
+}
+.inventoryInput:focus {
+  outline: none;
+  border-color: var(--admin-pink);
+}
+
+/* Inactive Row Styles */
+.inactiveRow, .inactiveCard {
+  opacity: 0.6;
+  background-color: var(--color-background-alt);
+  transition: all 0.2s ease;
+}
+
+.inactiveRow td:not(:last-child),
+.inactiveCard .productCell,
+.inactiveCard .mobileCardRow:not(:last-child) {
+  pointer-events: none;
+  user-select: none;
+}
+
+.inactiveRow input[type="checkbox"],
+.inactiveRow .actionBtn,
+.inactiveRow .deleteBtn,
+.inactiveCard input[type="checkbox"],
+.inactiveCard .actionBtn,
+.inactiveCard .deleteBtn {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
 }

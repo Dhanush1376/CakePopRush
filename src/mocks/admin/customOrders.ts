@@ -1,0 +1,47 @@
+import { Briefcase, Clock, CheckCircle, Star } from 'lucide-react'
+
+export const customOrderStatsData = [
+  { id: 1, label: 'TOTAL REQUESTS', value: '1,452', trend: '12.5%', isPositive: true, comparison: 'vs last 7 days', icon: Briefcase, color: 'var(--admin-pink)', bg: '#FFF0F5' },
+  { id: 2, label: 'PENDING QUOTES', value: '34', trend: '8.2%', isPositive: false, comparison: 'vs last 7 days', icon: Clock, color: '#F59E0B', bg: '#FFF8E1' },
+  { id: 3, label: 'APPROVED', value: '892', trend: '18.4%', isPositive: true, comparison: 'vs last 7 days', icon: CheckCircle, color: 'var(--admin-cyan)', bg: '#E0FAFC' },
+  { id: 4, label: 'COMPLETED', value: '458', trend: '24.5%', isPositive: true, comparison: 'vs last 7 days', icon: Star, color: '#10B981', bg: '#D1FAE5' },
+];
+
+export const customOrdersData = [
+  {
+    id: 'REQ-0842', customerName: 'Sarah Jenkins', email: 'sarah.j@example.com', phone: '+1 555-0123', initials: 'SJ', avatarColor: 'var(--admin-pink)', avatarBg: '#FFF0F5',
+    occasion: 'Wedding', quantity: 250, targetDate: 'Aug 15, 2025', createdDate: 'May 24, 2025',
+    status: 'Pending Quote', statusClass: 'pending',
+    designImg: '/images/Products/mini valentine cake.jpeg'
+  },
+  {
+    id: 'REQ-0841', customerName: 'Michael Chen', email: 'm.chen@techcorp.com', phone: '+1 555-0987', initials: 'MC', avatarColor: '#F59E0B', avatarBg: '#FFF8E1',
+    occasion: 'Corporate', quantity: 500, targetDate: 'Jun 10, 2025', createdDate: 'May 23, 2025',
+    status: 'Approved', statusClass: 'approved',
+    designImg: '/images/Products/asorted flavours of cookies.jpeg'
+  },
+  {
+    id: 'REQ-0840', customerName: 'Emily Rodriguez', email: 'emily.r@example.com', phone: '+1 555-4567', initials: 'ER', avatarColor: 'var(--admin-cyan)', avatarBg: '#E0FAFC',
+    occasion: 'Baby Shower', quantity: 50, targetDate: 'Jul 05, 2025', createdDate: 'May 22, 2025',
+    status: 'Quoted', statusClass: 'quoted',
+    designImg: '/images/Products/Oreo pops.jpeg'
+  },
+  {
+    id: 'REQ-0839', customerName: 'David Kim', email: 'dkim@example.com', phone: '+1 555-7890', initials: 'DK', avatarColor: '#8B5CF6', avatarBg: '#EDE9FE',
+    occasion: 'Birthday', quantity: 100, targetDate: 'Jun 20, 2025', createdDate: 'May 21, 2025',
+    status: 'In Progress', statusClass: 'inProgress',
+    designImg: '/images/Products/Red velvet cookies.jpeg'
+  },
+  {
+    id: 'REQ-0838', customerName: 'Jessica Taylor', email: 'jess.t@example.com', phone: '+1 555-2345', initials: 'JT', avatarColor: '#EC4899', avatarBg: '#FCE7F3',
+    occasion: 'Custom', quantity: 75, targetDate: 'May 30, 2025', createdDate: 'May 20, 2025',
+    status: 'Completed', statusClass: 'completed',
+    designImg: '/images/Products/Dark choclate cakepops.jpeg'
+  },
+  {
+    id: 'REQ-0837', customerName: 'Robert Wilson', email: 'r.wilson@example.com', phone: '+1 555-3456', initials: 'RW', avatarColor: '#64748B', avatarBg: '#F1F5F9',
+    occasion: 'Corporate', quantity: 1000, targetDate: 'Sep 01, 2025', createdDate: 'May 19, 2025',
+    status: 'Rejected', statusClass: 'rejected',
+    designImg: '/images/Products/asorted flavours of cookies.jpeg'
+  },
+];

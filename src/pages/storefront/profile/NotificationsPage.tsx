@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { ChevronLeft, MessageCircle, ShoppingBag, Gift, Smartphone, Bell } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { ShoppingBag, Gift, Smartphone, Bell } from 'lucide-react'
 import styles from './NotificationsPage.module.css'
 
 interface Toggle {

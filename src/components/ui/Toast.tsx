@@ -47,7 +47,6 @@ const ToastItem = ({ toast, onRemove }: { toast: ToastMessage, onRemove: (id: st
 
       <div className={styles.content}>
         <span className={styles.title}>{toast.title}</span>
-        {toast.message && <span className={styles.message}> - {toast.message}</span>}
       </div>
       
       {toast.action && (
@@ -69,7 +68,7 @@ export const ToastContainer = () => {
   const { toasts, removeToast } = useToast()
   
   return (
-    <div className={styles.container}>
+    <div className={styles.container} aria-live="polite" role="status">
       <AnimatePresence>
         {toasts.map((t) => (
           <ToastItem key={t.id} toast={t} onRemove={removeToast} />

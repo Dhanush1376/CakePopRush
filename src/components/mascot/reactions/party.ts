@@ -67,7 +67,7 @@ export const playParty = async (ctx: ReactionContext) => {
   await new Promise(r => setTimeout(r, 20)); // React mount delay
   
   // Shoot confetti right as blower extends
-  setTimeout(() => P.spawnConfetti(ctx, { count: 8, spread: 45 } as any), 80 / sm);
+  setTimeout(() => P.spawnConfetti(ctx, { count: 8, spread: 45 }), 80 / sm);
 
   const hopPeak = ctx.animate([
     ['#left-eye-closed, #right-eye-closed', { opacity: 0 }, { duration: 0 }],
@@ -100,7 +100,7 @@ export const playParty = async (ctx: ReactionContext) => {
   await Promise.all([hopPeak, hatPop, blowerExtend, faceMove]);
 
   // 3. Smooth Landing Bounce
-  P.spawnConfetti(ctx, { count: 16, spread: 110 } as any);
+  P.spawnConfetti(ctx, { count: 16, spread: 110 });
   
   await ctx.animate([
     ['#mascot-root', { scaleY: 0.88, scaleX: 1.12, y: 0 }, { duration: 0.13 / sm, ease: 'easeIn' }]

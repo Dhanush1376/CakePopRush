@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/Button';
-import { Check, ArrowLeft, Calendar, Users, Sparkles } from 'lucide-react';
+import { Check, ArrowLeft, Calendar, Users, Sparkles, Phone } from 'lucide-react';
 import styles from './CustomOrderSteps.module.css';
 import { CustomOrderData } from '../types';
 
@@ -8,36 +8,49 @@ interface Props {
   data: CustomOrderData;
   onBack: () => void;
   onSubmit: () => void;
+  isSubmitting?: boolean;
 }
 
-export const CustomOrderStep2: React.FC<Props> = ({ data, onBack, onSubmit }) => {
+export const CustomOrderStep2: React.FC<Props> = ({ data, onBack, onSubmit, isSubmitting }) => {
   return (
     <div className={styles.stepContainer}>
-      <h2 className={styles.stepTitle}>Review Your Request</h2>
-      <p className={styles.stepDescription}>
-        Almost there! Please review your inspiration details before we submit the request.
-      </p>
-
       <div className={styles.summaryCard}>
         <div className={styles.summaryHeader}>
-          <Sparkles className={styles.summaryIcon} size={24} />
-          <h3>{data.design instanceof File ? data.design.name : 'Custom Order Request'}</h3>
+          <h3>Request Summary</h3>
         </div>
 
         <div className={styles.summaryGrid}>
-          <div className={styles.summaryItem}>
-            <div className={styles.itemLabel}>
-              <Calendar size={16} /> Target Date
+          <div className={styles.summaryRow}>
+            <div className={styles.summaryItem}>
+              <div className={styles.itemLabel}>
+                <Calendar size={16} /> Target Date
+              </div>
+              <div className={styles.itemValue}>
+                {new Date(data.targetDate).toLocaleDateString(undefined, {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </div>
             </div>
-            <div className={styles.itemValue}>
-              {new Date(data.targetDate).toLocaleDateString(undefined, {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
+
+            <div className={styles.summaryItem}>
+              <div className={styles.itemLabel}>
+                <Users size={16} /> QTY
+              </div>
+              <div className={styles.itemValue}>{data.quantity}</div>
             </div>
           </div>
+            
+          <div className={styles.summaryItem} style={{ marginTop: '16px' }}>
+            <div className={styles.itemLabel}>
+              <Phone size={16} /> Mobile Number
+            </div>
+            <div className={styles.itemValue}>{data.mobileNumber}</div>
+          </div>
+
+          <div className={styles.dottedDivider}></div>
 
           <div className={styles.summaryItem}>
             <span className={styles.itemLabel}>DESIGN INSPIRATION</span>
@@ -49,14 +62,9 @@ export const CustomOrderStep2: React.FC<Props> = ({ data, onBack, onSubmit }) =>
               )}
             </div>
           </div>
-
-          <div className={styles.summaryItem}>
-            <div className={styles.itemLabel}>
-              <Users size={16} /> QTY
-            </div>
-            <div className={styles.itemValue}>{data.quantity}</div>
-          </div>
         </div>
+
+        <div className={styles.dottedDivider}></div>
 
         <div className={styles.summaryDescription}>
           <div className={styles.itemLabel}>Occasion Description</div>
@@ -67,17 +75,16 @@ export const CustomOrderStep2: React.FC<Props> = ({ data, onBack, onSubmit }) =>
       <div className={styles.actionsSplit}>
         <Button 
           variant="outline" 
-          size="lg" 
-          leftIcon={<ArrowLeft size={18} />}
+          leftIcon={<ArrowLeft size={16} />}
           onClick={onBack}
         >
           Back to Edit
         </Button>
         <Button 
           variant="primary" 
-          size="lg" 
-          rightIcon={<Check size={18} />}
+          rightIcon={<Check size={16} />}
           onClick={onSubmit}
+          isLoading={isSubmitting}
         >
           Submit Request
         </Button>

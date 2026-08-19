@@ -267,15 +267,15 @@
   height: 32px;
   border-radius: 8px;
   background-color: transparent;
-  color: var(--admin-pink);
+  color: var(--color-text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--admin-pink);
+  border: none;
   cursor: pointer;
   transition: all 0.2s;
 }
-.actionBtn:hover { background-color: #fce4ec; border-color: #f8bbd0; }
+.actionBtn:hover { background-color: var(--color-surface-hover); color: var(--admin-brown); }
 
 .pagination {
   display: flex;
@@ -577,4 +577,29 @@
 .itemsGrid {
   display: none !important;
 }
+}
+
+/* Inactive and Button Status Styles */
+.inactiveRow, .inactiveCard {
+  opacity: 0.6;
+  background-color: var(--color-background-alt);
+  transition: all 0.2s ease;
+}
+
+.inactiveRow td:not(:last-child),
+.inactiveCard .categoryCell,
+.inactiveCard .descriptionCell,
+.inactiveCard .mobileCardRow:not(:last-child) {
+  pointer-events: none;
+  user-select: none;
+}
+
+.dangerBtn:hover {
+  background-color: #FEE2E2 !important;
+  color: #DC2626 !important;
+}
+
+.successBtn:hover {
+  background-color: #E6F4EA !important;
+  color: var(--admin-green) !important;
 }

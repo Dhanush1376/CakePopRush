@@ -58,6 +58,18 @@ export const useMascotOrchestrator = () => {
     mascotEmotionController.triggerEvent(eventKey, message);
   }, []);
 
+  const playDirectEmotion = useCallback((emotion: MascotReaction, message?: string) => {
+    mascotEmotionController.playDirectEmotion(emotion, message, 'cart');
+  }, []);
+
+  const setMessageDirectly = useCallback((message: string) => {
+    if (messageTimeoutRef.current) clearTimeout(messageTimeoutRef.current);
+    setCurrentMessage(message);
+    messageTimeoutRef.current = setTimeout(() => {
+      setCurrentMessage(null);
+    }, 3500);
+  }, []);
+
   const tapMascot = useCallback(() => {
     mascotEmotionController.handleTap();
   }, []);
@@ -67,6 +79,8 @@ export const useMascotOrchestrator = () => {
     currentMessage,
     prefersReducedMotion,
     triggerReaction,
+    playDirectEmotion,
+    setMessage: setMessageDirectly,
     tapMascot,
   };
 };

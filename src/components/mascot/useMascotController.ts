@@ -191,30 +191,34 @@ export const useMascotController = (speedMultiplier: number = 1, loop: boolean =
     setState('PLAYING_REACTION');
     setCurrentReaction(reaction);
     
-    const safeAnimate = async (sequence: any, options?: any) => {
-      if (ac.signal.aborted || instanceId !== reactionInstanceIdRef.current) {
-        return;
-      }
-      const controls = animate(sequence, options);
-      activeAnimationsRef.current.add(controls);
-      
-      return new Promise<void>((resolve) => {
+    const safeAnimate = (sequence: any, options?: any) => {
+      const p = new Promise<void>((resolve, reject) => {
+        if (ac.signal.aborted || instanceId !== reactionInstanceIdRef.current) {
+          return reject(new Error('Aborted'));
+        }
+        const controls = animate(sequence, options);
+        activeAnimationsRef.current.add(controls);
+        
         const onAbort = () => {
           controls.stop();
           activeAnimationsRef.current.delete(controls);
-          resolve();
+          reject(new Error('Aborted'));
         };
         ac.signal.addEventListener('abort', onAbort);
         Promise.resolve(controls).then(() => {
           ac.signal.removeEventListener('abort', onAbort);
           activeAnimationsRef.current.delete(controls);
           resolve();
-        }).catch(() => {
+        }).catch((err) => {
           ac.signal.removeEventListener('abort', onAbort);
           activeAnimationsRef.current.delete(controls);
-          resolve();
+          reject(err);
         });
       });
+      // Attach a dummy catch handler so if this promise is not awaited (fire-and-forget),
+      // it won't throw an Uncaught (in promise) Error in the browser console.
+      p.catch(() => {});
+      return p;
     };
 
     const ctx: ReactionContext = {

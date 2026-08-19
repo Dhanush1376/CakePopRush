@@ -1,5 +1,5 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet, Font, Image } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 import { InvoiceData } from '@/types/invoice';
 
 // Register Inter font if needed, otherwise fallback to standard Helvetica

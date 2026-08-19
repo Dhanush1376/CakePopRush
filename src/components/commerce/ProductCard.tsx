@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Plus, Heart, Star } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { Plus, Star } from 'lucide-react'
 import styles from './ProductCard.module.css'
 import { ProductImage } from './ProductImage'
 import { Price } from './Price'
 import { WishlistButton } from './WishlistButton'
 import { Button } from '../ui/Button'
 import { Product } from '@/types/product'
-import { useCart } from '@/lib/cartStore'
+import { useCart } from '@/features/cart'
 import { useToast } from '@/components/ui/ToastContext'
 
 interface ProductCardProps {

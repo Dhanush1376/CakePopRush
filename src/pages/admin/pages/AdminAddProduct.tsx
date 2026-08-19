@@ -2,12 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   ArrowLeft, Check, Image as ImageIcon, Info, Box, Tag, 
-  Shield, BarChart, ArrowUp, UploadCloud, Plus, ArrowRight, X, Upload 
+  BarChart, ArrowUp, ArrowRight, Upload 
 } from 'lucide-react';
 import styles from './AdminAddProduct.module.css';
 import { ProductCard } from '@/components/commerce/ProductCard';
-import { Product } from '@/types/product';
-import { AdminAddProductSkeleton } from '../components/AdminAddProductSkeleton';
+import { AdminAddProductSkeleton } from '@/features/admin/components/AdminAddProductSkeleton';
 
 const steps = [
   { id: 1, label: 'Media', icon: ImageIcon },

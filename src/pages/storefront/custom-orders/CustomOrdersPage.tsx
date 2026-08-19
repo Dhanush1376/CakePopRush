@@ -6,9 +6,11 @@ import { CustomOrderStep2 } from './components/CustomOrderStep2';
 import { useToast } from '@/components/ui/ToastContext';
 
 import { CustomOrderData } from './types';
+import { FrostingCorner } from './components/FrostingCorner';
 
 export const CustomOrdersPage: React.FC = () => {
   const [step, setStep] = useState<1 | 2>(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const [formData, setFormData] = useState<CustomOrderData>({
@@ -16,6 +18,7 @@ export const CustomOrdersPage: React.FC = () => {
     occasionDescription: '',
     targetDate: '',
     quantity: '12',
+    mobileNumber: '',
   });
 
   const handleNextStep = (data: CustomOrderData) => {
@@ -28,30 +31,31 @@ export const CustomOrdersPage: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    // In a real app, send data to the backend here
-    toast({ title: 'Your custom order request has been submitted!', type: 'success' });
-
-    // Reset form after a brief delay
+    setIsSubmitting(true);
     setTimeout(() => {
+      setIsSubmitting(false);
+      toast({ title: 'Request sent successfully!', type: 'success' });
       setFormData({
         design: null,
         occasionDescription: '',
         targetDate: '',
         quantity: '12',
+        mobileNumber: '',
       });
       setStep(1);
-    }, 2500);
+    }, 1000);
   };
 
   return (
     <div className={styles.pageContainer}>
+      <FrostingCorner />
       <Container className={styles.container}>
 
         {/* Top Header Row */}
         <div className={styles.headerRow}>
           <div className={styles.headerText}>
             <h1 className={styles.title}>Custom Order</h1>
-            <p className={styles.subtitle}>Design your custom decor, get price estimates, and track your orders.</p>
+            <p className={styles.subtitle}>Design, estimate, and track your custom orders.</p>
           </div>
           <div className={styles.headerRight}>
             <div className={styles.headerToggle}>
@@ -89,18 +93,19 @@ export const CustomOrdersPage: React.FC = () => {
 
           </div>
 
-          {/* Right Main Form Area */}
           <div className={styles.formSection}>
-            {step === 1 ? (
+            {step === 1 && (
               <CustomOrderStep1
                 initialData={formData}
                 onNext={handleNextStep}
               />
-            ) : (
+            )}
+            {step === 2 && (
               <CustomOrderStep2
                 data={formData}
                 onBack={handleBack}
                 onSubmit={handleSubmit}
+                isSubmitting={isSubmitting}
               />
             )}
           </div>

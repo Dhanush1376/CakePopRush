@@ -3,4 +3,5 @@ export interface CustomOrderData {
   occasionDescription: string;
   targetDate: string;
   quantity: string;
+  mobileNumber: string;
 }

@@ -63,8 +63,8 @@
 
 .title {
   font-family: var(--font-family-body) !important;
-  font-size: 14px;
-  font-weight: var(--font-weight-bold);
+  font-size: 16px;
+  font-weight: 700;
   color: var(--color-chocolate);
   margin: 0;
 }
@@ -165,25 +165,29 @@
 
 .input, .textarea {
   width: 100%;
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid var(--color-border);
-  border-radius: 0;
-  padding: 4px 0 8px 0;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 12px 16px;
   font-family: var(--font-family-body);
-  font-size: 13px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   color: var(--color-text);
-  transition: border-color var(--duration-fast) ease;
+  transition: all var(--duration-fast) ease;
+  box-sizing: border-box;
 }
 
 .input:focus, .textarea:focus {
   outline: none;
-  border-bottom: 1px solid var(--color-brand-pink);
+  border-color: var(--color-brand-pink);
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 0 0 3px rgba(242, 27, 91, 0.15);
 }
 
 .input::placeholder, .textarea::placeholder {
-  color: #D3CDC6;
-  font-size: 12px;
+  color: rgba(56, 30, 16, 0.5);
+  text-transform: uppercase;
 }
 
 .textarea {

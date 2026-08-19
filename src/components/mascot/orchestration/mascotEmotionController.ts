@@ -1,5 +1,5 @@
 import { MascotReaction } from '../reactions/reactionTypes';
-import { MascotTriggerEvent, MascotEventCategory, MascotPriorityLevel, PRIORITY_WEIGHTS, OrchestratorConfig } from './mascotEmotionTypes';
+import { MascotTriggerEvent, PRIORITY_WEIGHTS, OrchestratorConfig } from './mascotEmotionTypes';
 import { EventKey, MASCOT_EVENT_MAP, TAP_REACTION_POOL } from './mascotEventMap';
 
 type Listener = (reaction: MascotReaction | null, message?: string) => void;
@@ -8,7 +8,7 @@ class MascotEmotionController {
   private config: OrchestratorConfig = {
     defaultCooldownMs: 800,
     categoryCooldowns: {
-      cart: 1200,
+      cart: 800,
       wishlist: 1000,
       checkout: 2000,
       idle: 5000,
@@ -48,6 +48,18 @@ class MascotEmotionController {
     this.triggerReaction({ ...event, message: message || event.message });
   }
 
+  public playDirectEmotion(emotion: MascotReaction, message?: string, category: 'cart' | 'idle' | 'mascot' | 'system' = 'cart'): void {
+    // Treat direct emotions as high priority events
+    const event: MascotTriggerEvent = {
+      emotion,
+      reason: 'DIRECT_EMOTION_TRIGGER',
+      priority: 'high',
+      category: category as any, // casting safely since category types usually match
+      message
+    };
+    this.triggerReaction(event);
+  }
+
   public triggerReaction(event: MascotTriggerEvent): void {
     const now = Date.now();
 
@@ -60,7 +72,7 @@ class MascotEmotionController {
         timeout: setTimeout(() => {
           this.pendingCartEvent = null;
           this.evaluateReaction(event, Date.now());
-        }, 300)
+        }, 100)
       };
       return;
     }

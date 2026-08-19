@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
+import React, {} from 'react'
 import { createPortal } from 'react-dom'
+import { ActionDropdown } from '@/features/admin/components/ActionDropdown'
 import { 
-  Search, Plus, Download, Calendar, ChevronDown, 
-  ShoppingBag, Clock, Package, Truck, CheckCircle, 
-  Eye, MoreVertical, User, ChevronLeft, ChevronRight, Filter, Trash2, AlertTriangle, X
+  Search, Plus, Download, Eye, MoreVertical, User, ChevronLeft, ChevronRight, Filter, Trash2, AlertTriangle, X, Printer, Archive
 } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './AdminOrders.module.css'
-import { ViewToggle } from '../components/ViewToggle'
-import { CustomSelect } from '../components/CustomSelect'
-import { AdminOrdersSkeleton } from '../components/AdminOrdersSkeleton'
+import deleteBtnStyles from '@/features/admin/components/AdminDeleteButton.module.css'
+import { ViewToggle } from '@/features/admin/components/ViewToggle'
+import { CustomSelect } from '@/features/admin/components/CustomSelect'
+import { AdminOrdersSkeleton } from '@/features/admin/components/AdminOrdersSkeleton'
 import { InvoiceViewer } from '@/components/invoice/InvoiceViewer'
-import { mapOrderToInvoiceData, InvoiceData } from '@/types/invoice'
+import { mapOrderToInvoiceData } from '@/lib/invoiceMapper'
 
 const statusOptions = [
   { value: 'all', label: 'All Status' },
@@ -35,25 +35,13 @@ const dateOptions = [
   { value: 'alltime', label: 'All Time' }
 ];
 
-const statsData = [
-  { id: 1, label: 'TOTAL ORDERS', value: '1,248', trend: '18.6%', isPositive: true, comparison: 'vs last 7 days', icon: ShoppingBag, color: 'var(--admin-pink)', bg: '#FFF0F5' },
-  { id: 2, label: 'PENDING', value: '312', trend: '8.2%', isPositive: true, comparison: 'vs last 7 days', icon: Clock, color: '#F59E0B', bg: '#FFF8E1' },
-  { id: 3, label: 'PROCESSING', value: '456', trend: '16.3%', isPositive: true, comparison: 'vs last 7 days', icon: Package, color: '#0284C7', bg: '#E0F2FE' },
-  { id: 4, label: 'SHIPPED', value: '312', trend: '12.7%', isPositive: true, comparison: 'vs last 7 days', icon: Truck, color: 'var(--admin-cyan)', bg: '#E0FAFC' },
-  { id: 5, label: 'DELIVERED', value: '168', trend: '10.1%', isPositive: true, comparison: 'vs last 7 days', icon: CheckCircle, color: '#5C3317', bg: '#F5F5DC' },
-];
+import { adminOrderData } from '@/features/admin/api/mockAdminDataProvider'
 
-const ordersData = [
-  { id: '#CPR-1254', customer: 'Neha Sharma', email: 'nehasharma@email.com', date: 'May 24, 2025', time: '10:30 AM', amount: '₹1,260', items: '3 items', method: 'Online', paymentStatus: 'Paid', status: 'Pending' },
-  { id: '#CPR-1253', customer: 'Riya Patel', email: 'riyapatel@email.com', date: 'May 24, 2025', time: '09:15 AM', amount: '₹980', items: '2 items', method: 'UPI', paymentStatus: 'Paid', status: 'Processing' },
-  { id: '#CPR-1252', customer: 'Ankit Verma', email: 'ankitverma@email.com', date: 'May 23, 2025', time: '08:45 PM', amount: '₹1,450', items: '4 items', method: 'Card', paymentStatus: 'Paid', status: 'Shipped' },
-  { id: '#CPR-1251', customer: 'Pooja Mehta', email: 'poojamehta@email.com', date: 'May 23, 2025', time: '06:20 PM', amount: '₹2,350', items: '5 items', method: 'Net Banking', paymentStatus: 'Paid', status: 'Delivered' },
-  { id: '#CPR-1250', customer: 'Karan Singh', email: 'karansingh@email.com', date: 'May 23, 2025', time: '04:10 PM', amount: '₹890', items: '2 items', method: 'COD', paymentStatus: 'Pending', status: 'Pending' },
-  { id: '#CPR-1249', customer: 'Sneha Iyer', email: 'snehaiyer@email.com', date: 'May 22, 2025', time: '02:35 PM', amount: '₹1,680', items: '3 items', method: 'UPI', paymentStatus: 'Paid', status: 'Shipped' },
-  { id: '#CPR-1248', customer: 'Rahul Gupta', email: 'rahulgupta@email.com', date: 'May 22, 2025', time: '11:50 AM', amount: '₹760', items: '1 item', method: 'Card', paymentStatus: 'Paid', status: 'Delivered' },
-];
+const statsData = adminOrderData.getStats();
+const ordersData = adminOrderData.getOrders();
 
 export function AdminOrders() {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(true);
   const [invoiceOrder, setInvoiceOrder] = React.useState<any | null>(null);
 
@@ -256,10 +244,10 @@ export function AdminOrders() {
                       }}
                     />
                   </td>
-                  <td>
+                  <td onClick={() => navigate(`/admin/orders/${encodeURIComponent(order.id)}`)} style={{ cursor: 'pointer' }}>
                     <span className={styles.cellText}>{order.id}</span>
                   </td>
-                  <td>
+                  <td onClick={() => navigate(`/admin/orders/${encodeURIComponent(order.id)}`)} style={{ cursor: 'pointer' }}>
                     <div className={styles.customerCell}>
                       <div className={styles.customerAvatar}>
                         <User size={16} strokeWidth={2.5} />
@@ -292,7 +280,14 @@ export function AdminOrders() {
                   <td>
                     <div className={styles.actionsCell}>
                       <button 
-                        className="global-delete-btn" 
+                        className={styles.actionBtn}
+                        aria-label="View Order"
+                        onClick={() => navigate(`/admin/orders/${encodeURIComponent(order.id)}`)}
+                      >
+                        <Eye size={16} />
+                      </button>
+                      <button 
+                        className={deleteBtnStyles.deleteBtn} 
                         aria-label="Delete Order"
                         onClick={() => {
                           setSelectedOrders([String(order.id)]);
@@ -302,24 +297,11 @@ export function AdminOrders() {
                       >
                         <Trash2 size={16} />
                       </button>
-                      <button className={styles.actionBtn}>
-                        <Eye size={16} />
-                      </button>
-                      <div className={styles.actionMenuWrapper}>
-                        <button 
-                          className={styles.actionBtn}
-                          onClick={() => setActiveActionMenu(activeActionMenu === order.id ? null : order.id)}
-                        >
-                          <MoreVertical size={16} />
-                        </button>
-                        {activeActionMenu === order.id && (
-                          <div className={styles.actionMenu}>
-                            <button className={styles.menuItem}>Edit Order</button>
-                            <button className={styles.menuItem} onClick={() => setInvoiceOrder(order)}>View Invoice</button>
-                            <button className={`${styles.menuItem} ${styles.menuItemDanger}`}>Cancel Order</button>
-                          </div>
-                        )}
-                      </div>
+                      <ActionDropdown actions={[
+                        { label: 'View Details', icon: Eye, onClick: () => navigate(`/admin/orders/${encodeURIComponent(order.id)}`) },
+                        { label: 'Print Packing Slip', icon: Printer },
+                        { label: 'Archive Order', icon: Archive, variant: 'danger' as const }
+                      ]} />
                     </div>
                   </td>
                 </tr>
@@ -401,7 +383,7 @@ export function AdminOrders() {
                   style={{ marginRight: '8px' }}
                 />
                 <button 
-                  className="global-delete-btn" 
+                  className={deleteBtnStyles.deleteBtn} 
                   aria-label="Delete Order"
                   onClick={() => {
                     setSelectedOrders([String(order.id)]);
@@ -411,15 +393,6 @@ export function AdminOrders() {
                   style={{ marginRight: '8px' }}
                 >
                   <Trash2 size={14} />
-                </button>
-                <button className={styles.actionBtn}>
-                  <Eye size={14} />
-                </button>
-                <button 
-                  className={styles.actionBtn} 
-                  onClick={() => setActiveActionMenu(activeActionMenu === `grid-${order.id}` ? null : `grid-${order.id}`)}
-                >
-                  <MoreVertical size={14} />
                 </button>
                 {activeActionMenu === `grid-${order.id}` && (
                   <div className={styles.actionMenu} style={{ bottom: 'calc(100% + 4px)', top: 'auto', right: 0 }}>

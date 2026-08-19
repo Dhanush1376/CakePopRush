@@ -94,12 +94,12 @@
 }
 
 .title {
-  font-family: var(--font-family-display);
-  font-size: var(--font-size-xl);
+  font-family: var(--font-family-body) !important;
+  font-size: 16px;
   font-weight: 700;
   color: var(--color-chocolate);
   margin: 0 0 8px 0;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 .successTitle {
@@ -125,42 +125,43 @@
 
 .inputIcon {
   position: absolute;
-  left: 0;
+  left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--color-chocolate);
-  opacity: 0.5;
+  color: rgba(56, 30, 16, 0.5);
   pointer-events: none;
   transition: all 0.2s ease;
 }
 
 .inputGroup:focus-within .inputIcon {
-  opacity: 1;
   color: var(--color-brand-pink);
 }
 
 .input {
   width: 100%;
-  padding: 12px 0 12px 36px;
-  border: none;
-  border-bottom: 2px solid rgba(56, 30, 16, 0.15);
-  border-radius: 0;
+  padding: 12px 16px 12px 42px;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
   font-family: var(--font-family-body);
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: 1px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   color: var(--color-text);
-  background-color: transparent;
-  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.7);
+  transition: all var(--duration-fast);
+  box-sizing: border-box;
 }
 
 .input::placeholder {
-  color: var(--color-text-muted);
+  color: rgba(56, 30, 16, 0.5);
+  text-transform: uppercase;
 }
 
 .input:focus {
   outline: none;
-  border-bottom-color: var(--color-brand-pink);
+  border-color: var(--color-brand-pink);
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 0 0 3px rgba(242, 27, 91, 0.15);
 }
 
 .primaryButton {
@@ -319,6 +320,48 @@
   width: 100%;
 }
 
+.speechBubble {
+  position: absolute;
+  top: -20px;
+  right: 75px;
+  background: white;
+  padding: 8px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(92, 51, 23, 0.15);
+  color: var(--color-chocolate);
+  border: 1px solid rgba(242, 13, 111, 0.2);
+  pointer-events: none;
+  z-index: 30;
+  white-space: nowrap;
+  transform-origin: bottom right;
+}
+
+.speechBubble::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 15px;
+  border-width: 8px 0 0 12px;
+  border-style: solid;
+  border-color: rgba(242, 13, 111, 0.2) transparent transparent transparent;
+  display: block;
+  width: 0;
+}
+
+.speechBubble::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  right: 16px;
+  border-width: 7px 0 0 10px;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+  display: block;
+  width: 0;
+}
+
 .tickCircle {
   width: 64px;
   height: 64px;
@@ -405,11 +448,11 @@
 }
 
 .mascotHandLeft {
-  left: 24px;
+  left: 45px;
   transform: rotate(-10deg);
 }
 
 .mascotHandRight {
-  right: 24px;
+  right: 45px;
   transform: rotate(10deg);
 }

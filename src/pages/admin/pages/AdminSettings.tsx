@@ -1,12 +1,12 @@
 import React from 'react'
 import { 
-  Calendar, ChevronDown, Store, Settings, CreditCard, Truck,
+  Store, Settings, CreditCard, Truck,
   Percent, Mail, MessageSquare, Bell, Shield, Cloud, Code,
-  Wrench, Upload, Eye, MapPin, Globe, Clock, User
+  Wrench, User
 } from 'lucide-react'
 import logoImg from '../../../assets/brand/logo.png'
 import styles from './AdminSettings.module.css'
-import { AdminSettingsSkeleton } from '../components/AdminSettingsSkeleton';
+import { AdminSettingsSkeleton } from '@/features/admin/components/AdminSettingsSkeleton';
 
 import { 
   AdminProfileForm,
@@ -22,7 +22,7 @@ import {
   BackupRestoreForm,
   APISettingsForm,
   MaintenanceModeForm
-} from '../components/settings/AdminSettingsForms';
+} from '@/features/admin/components/settings';
 
 const navItems = [
   { id: 'profile', label: 'My Profile', icon: User },

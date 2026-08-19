@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Search, X, Loader2, ArrowRight, Clock, ArrowLeft, Mic, Camera, Trash2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { mockProducts, mockCategories, searchProducts, getBestSellingProducts } from '@/mocks/products'
+import { productData } from '@/features/products'
+import { useSearch } from '@/features/search/useSearch'
 import {
   AllItemsIcon,
   BirthdayCakesIcon,
@@ -16,7 +17,6 @@ import {
   CakeJarsIcon,
   GiftBoxesIcon
 } from '@/components/icons/DessertIcons'
-import { Product } from '@/types/product'
 import { Button } from '../ui/Button'
 import styles from './SearchBar.module.css'
 import { createPortal } from 'react-dom'
@@ -48,24 +48,10 @@ interface SearchBarProps {
 
 const POPULAR_SEARCHES = ['Cake Pops', 'Cookies', 'Cookie Dough', 'Truffles', 'Desserts']
 
-// Mock debounce function
-function useDebounce<T>(value: T, delay: number): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value)
-  useEffect(() => {
-    const handler = setTimeout(() => setDebouncedValue(value), delay)
-    return () => clearTimeout(handler)
-  }, [value, delay])
-  return debouncedValue
-}
 
 export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: SearchBarProps) => {
   const navigate = useNavigate()
-  const [query, setQuery] = useState('')
   const [isFocused, setIsFocused] = useState(isOpen)
-  const [isLoading, setIsLoading] = useState(false)
-  const [results, setResults] = useState<Product[]>([])
-  const [recentSearches, setRecentSearches] = useState<string[]>(['Chocolate cake pops', 'Strawberry cookies'])
-  const [activeIndex, setActiveIndex] = useState(-1)
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024)
 
   useEffect(() => {
@@ -88,10 +74,13 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
     if (onClose) onClose()
   }
 
+  const {
+    query, setQuery, isLoading, results, recentSearches, setRecentSearches,
+    activeIndex, setActiveIndex, handleResultClick, handleSearchSubmit, removeRecent
+  } = useSearch(onClose, setIsFocused);
+
   const inputRef = useRef<HTMLInputElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  
-  const debouncedQuery = useDebounce(query, 300)
 
   // Focus input automatically when opened
   useEffect(() => {
@@ -115,67 +104,9 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
     }
   }, [isMobile])
 
-  // Simulate search API call
-  useEffect(() => {
-    if (!debouncedQuery.trim()) {
-      setResults([])
-      setIsLoading(false)
-      setActiveIndex(-1)
-      return
-    }
-
-    setIsLoading(true)
-    // Simulate network delay
-    const timer = setTimeout(() => {
-      const lowercaseQuery = debouncedQuery.toLowerCase()
-      const filtered = searchProducts(lowercaseQuery).slice(0, 5)
-      
-      setResults(filtered)
-      setIsLoading(false)
-      setActiveIndex(-1)
-    }, 400)
-
-    return () => clearTimeout(timer)
-  }, [debouncedQuery])
-
-  // Reset loading state immediately on new input
-  useEffect(() => {
-    if (query.trim() !== debouncedQuery.trim()) {
-      setIsLoading(true)
-    }
-  }, [query, debouncedQuery])
-
   const handleClear = () => {
     setQuery('')
     inputRef.current?.focus()
-  }
-
-  const handleResultClick = (product: Product) => {
-    navigate(`/product/${product.slug}`)
-    setIsFocused(false)
-    if (onClose) onClose()
-    
-    // Add to recent searches
-    if (!recentSearches.includes(product.name)) {
-      setRecentSearches(prev => [product.name, ...prev].slice(0, 4))
-    }
-  }
-
-  const handleSearchSubmit = (searchTerm: string) => {
-    if (searchTerm.trim()) {
-      navigate(`/shop?search=${encodeURIComponent(searchTerm)}`)
-      setIsFocused(false)
-      if (onClose) onClose()
-      
-      if (!recentSearches.includes(searchTerm)) {
-        setRecentSearches(prev => [searchTerm, ...prev].slice(0, 4))
-      }
-    }
-  }
-
-  const removeRecent = (e: React.MouseEvent, term: string) => {
-    e.stopPropagation()
-    setRecentSearches(prev => prev.filter(t => t !== term))
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -254,7 +185,7 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
               </button>
             </div>
             <div className={styles.categoryScroll}>
-              {mockCategories.map((cat) => {
+              {productData.getCategories().map((cat) => {
                 const isActive = cat.id === 'all'
                 return (
                   <button
@@ -298,7 +229,7 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
               </button>
             </div>
             <div className={styles.trendingGrid}>
-              {getBestSellingProducts(3).map(product => (
+              {productData.getBestSellingProducts(3).map(product => (
                 <button 
                   key={product.id} 
                   className={styles.resultRow}
@@ -539,7 +470,7 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
                             <span className={styles.columnTitle}>EXPLORE COLLECTIONS</span>
                           </div>
                           <div className={styles.collectionsList}>
-                            {mockCategories.slice(0, 5).map((cat) => (
+                            {productData.getCategories().slice(0, 5).map((cat) => (
                               <button
                                 key={cat.id}
                                 className={styles.collectionItemRow}
@@ -563,7 +494,7 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
                             <span className={styles.columnTitle}>NEW ARRIVALS</span>
                           </div>
                           <div className={styles.trendingCardsList}>
-                            {getBestSellingProducts(3).map((product) => (
+                            {productData.getBestSellingProducts(3).map((product) => (
                               <button
                                 key={product.id}
                                 className={styles.trendingCardRow}

@@ -1,9 +1,9 @@
 import React from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { Home, ShoppingBag, Heart, Store, User, Edit3 } from 'lucide-react'
+import { Home, Heart, Store, User, Edit3 } from 'lucide-react'
 import styles from './BottomNavigation.module.css'
 import { Badge } from '../ui/Badge'
-import { useCart } from '@/lib/cartStore'
+import { useCart } from '@/features/cart'
 
 export const BottomNavigation = () => {
   const location = useLocation()

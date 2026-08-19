@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { Logo } from '@/assets/brand/Logo'
 import { SideDrawer } from './SideDrawer'
 import { SearchBar } from '@/components/commerce/SearchBar'
-import { useCart } from '@/lib/cartStore'
+import { useCart } from '@/features/cart'
 import { Badge } from '@/components/ui/Badge'
 import { SideCart } from '@/components/commerce/SideCart'
 

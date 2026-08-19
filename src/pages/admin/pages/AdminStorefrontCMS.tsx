@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Monitor, Sparkles, Layout, Image, Bell, Layers } from 'lucide-react';
+import { Monitor, Sparkles, Layout, Image, Layers } from 'lucide-react';
 import styles from './AdminStorefrontCMS.module.css';
 
 export function AdminStorefrontCMS() {

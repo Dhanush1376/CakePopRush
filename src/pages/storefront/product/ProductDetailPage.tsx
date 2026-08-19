@@ -1,36 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { ChevronRight, ShoppingBag, Tag, Sparkles, Palette, Info } from 'lucide-react'
-import { mockProducts, getRelatedProducts } from '@/mocks/products'
-import { mockReviews } from '@/mocks/reviews'
+import { ChevronRight, ShoppingBag, Tag, Info } from 'lucide-react'
+import { productData } from '@/features/products'
+import { reviewData } from '@/features/reviews'
 import { Product } from '@/types/product'
 
 import styles from './ProductDetailPage.module.css'
 import { Container } from '@/components/layout/Container'
 import { Accordion } from '@/components/ui/Accordion'
-import { usePDPState } from './hooks/usePDPState'
+import { usePDPState } from '@/features/products/hooks/usePDPState'
 
-// Components
-import { PDPSkeleton } from './components/PDPSkeleton'
-import { ProductGallery } from './components/ProductGallery'
-import { ProductInfo } from './components/ProductInfo'
-import { FlavourSelector } from './components/FlavourSelector'
-import { QuantitySelector } from './components/QuantitySelector'
-import { AddOnSelector } from './components/AddOnSelector'
-import { PersonalizationSection } from './components/PersonalizationSection'
+import {
+  PDPSkeleton,
+  ProductGallery,
+  ProductInfo,
+  QuantitySelector,
+  AddOnSelector,
+  CouponsSection,
+  PurchaseActions,
+  StickyMobileCTA,
+  IngredientsAndNutrition,
+  RelatedProducts
+} from '@/features/products'
 
-import { DeliverySection } from './components/DeliverySection'
-import { CouponsSection } from './components/CouponsSection'
-
-import { OrderSummary } from './components/OrderSummary'
-import { PurchaseActions } from './components/PurchaseActions'
-import { CustomThemeCTA } from './components/CustomThemeCTA'
-import { StickyMobileCTA } from './components/StickyMobileCTA'
-
-import { IngredientsAndNutrition } from './components/IngredientsAndNutrition'
-import { ReviewsSection } from './components/ReviewsSection'
-
-import { RelatedProducts } from './components/RelatedProducts'
+import { ReviewsSection } from '@/features/reviews'
 
 export function ProductDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -48,7 +41,7 @@ export function ProductDetailPage() {
     setError(null)
 
     setTimeout(() => {
-      const found = mockProducts.find(p => p.slug === id || p.id === id)
+      const found = productData.getProducts().find(p => p.slug === id || p.id === id)
       if (found) {
         setProduct(found)
         document.title = `${found.name} | CakePopRush`
@@ -76,7 +69,7 @@ export function ProductDetailPage() {
   }
 
   const isOutOfStock = false // Hardcoded for now, could be in product data
-  const relatedProds = getRelatedProducts(product.id)
+  const relatedProds = productData.getRelatedProducts(product.id)
 
   return (
     <div className={styles.productPage}>
@@ -184,7 +177,7 @@ export function ProductDetailPage() {
       <ReviewsSection
         rating={product.rating}
         reviewCount={product.reviewCount}
-        reviews={mockReviews.filter(r => r.productId === product.id)}
+        reviews={reviewData.getReviewsByProductId(product.id)}
         productSlug={product.slug}
       />
 

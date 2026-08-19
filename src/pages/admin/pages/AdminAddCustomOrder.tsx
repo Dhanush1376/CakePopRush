@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, User, Cake, Image as ImageIcon, CheckCircle, ClipboardList, Info } from 'lucide-react';
+import { ArrowLeft, User, Cake, Image as CheckCircle, ClipboardList } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './AdminAddCustomOrder.module.css';
-
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
 
 const WIZARD_STEPS = [
   { id: 1, name: 'Customer', icon: User },
@@ -103,7 +100,7 @@ export function AdminAddCustomOrder() {
         
         {/* Sidebar Stepper */}
         <div className={styles.sidebar}>
-          {WIZARD_STEPS.map((step, index) => {
+          {WIZARD_STEPS.map((step) => {
             const isCompleted = step.id <= highestCompletedStep;
             const isActive = step.id === currentStep;
             const isClickable = step.id <= highestCompletedStep + 1;

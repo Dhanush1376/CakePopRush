@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { ChevronLeft, Plus, MapPin, Home, Briefcase, Trash2, Star, MessageCircle } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Plus, MapPin, Home, Briefcase, Trash2, Star } from 'lucide-react'
 import styles from './AddressesPage.module.css'
 import { AddressDrawer } from './components/AddressDrawer'
 
-interface Address {
+export interface Address {
   id: string
   type: 'home' | 'work' | 'other'
   label: string

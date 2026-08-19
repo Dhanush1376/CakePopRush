@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Heart } from 'lucide-react';
 import styles from './ShopHero.module.css';
 import { Container } from '@/components/layout/Container';

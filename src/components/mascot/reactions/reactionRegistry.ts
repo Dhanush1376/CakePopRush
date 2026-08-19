@@ -4,6 +4,8 @@ import { MascotPose } from '../poses/types';
 // BATCH 1
 import { winkingPose } from '../poses/winkingPose';
 import { playWinking } from './winking';
+import { happyPose } from '../poses/happyPose';
+import { playHappy } from './happy';
 import { blushingPose } from '../poses/blushingPose';
 import { playBlushing } from './blushing';
 import { laughingPose } from '../poses/laughingPose';
@@ -52,6 +54,8 @@ import { emotionalCutePose } from '../poses/emotionalCutePose';
 import { playEmotionalCute } from './emotionalCute';
 import { pleadingCutePose } from '../poses/pleadingCutePose';
 import { playPleadingCute } from './pleadingCute';
+import { determinedPose } from '../poses/determinedPose';
+import { playDetermined } from './determined';
 
 export interface ReactionDefinition {
   id: MascotReaction;
@@ -66,6 +70,8 @@ export interface ReactionDefinition {
 }
 
 export const REACTIONS: Record<MascotReaction, ReactionDefinition> = {
+  happy: { id: 'happy', label: '00 Happy', duration: 2500, category: 'positive', intensity: 'medium', priority: 2, pose: happyPose, playFn: playHappy },
+  determined: { id: 'determined', label: '23 Determined', duration: 3000, category: 'thinking', intensity: 'medium', priority: 3, pose: determinedPose, playFn: playDetermined },
   winking: { id: 'winking', label: '01 Winking', duration: 1200, category: 'playful', intensity: 'medium', priority: 2, pose: winkingPose, playFn: playWinking },
   blushing: { id: 'blushing', label: '02 Blushing', duration: 2200, category: 'positive', intensity: 'medium', priority: 2, pose: blushingPose, playFn: playBlushing },
   heartEyes: { id: 'heartEyes', label: '03 Heart Eyes', duration: 2500, category: 'playful', intensity: 'medium', priority: 2, pose: heartEyesPose, playFn: playHeartEyes },

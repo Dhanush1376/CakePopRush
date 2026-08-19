@@ -2,21 +2,22 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styles from './CartPage.module.css';
 import { Container } from '@/components/layout/Container';
-import { useCart } from '@/lib/cartStore';
+import { useCart } from '@/features/cart';
 
 import { Trash2, Heart } from 'lucide-react';
-import { CheckoutProgress } from './components/CheckoutProgress';
-import { DeliveryAddressBar } from './components/DeliveryAddressBar';
-import { CartItemCard } from './components/CartItemCard';
-import { CartRecommendations } from './components/CartRecommendations';
-import { CouponSection } from './components/CouponSection';
-import { OrderSummary } from './components/OrderSummary';
-import { TrustBadges } from './components/TrustBadges';
-import { MobileCheckoutBar } from './components/MobileCheckoutBar';
-import { EmptyCart } from './components/EmptyCart';
-import { ClickHeartEffect } from '@/components/ui/ClickHeartEffect';
+import { 
+  CheckoutProgress,
+  DeliveryAddressBar,
+  CartItemCard,
+  CartRecommendations,
+  CouponSection,
+  OrderSummary,
+  TrustBadges,
+  MobileCheckoutBar,
+  EmptyCart,
+  CartPageSkeleton
+} from '@/features/cart';
 import { formatCurrency } from '@/lib/formatters/currency';
-import { CartPageSkeleton } from './components/CartPageSkeleton';
 
 export const CartPage = () => {
   const { items, isLoading, subtotal, totalDiscount, clearCart } = useCart();

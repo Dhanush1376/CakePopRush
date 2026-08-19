@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useRef, ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useCart } from '@/lib/cartStore';
-import { useWishlist } from '@/lib/wishlistStore';
+import { useCart } from '@/features/cart';
+import { useWishlist } from '@/features/wishlist';
 import { mascotEmotionController } from './mascotEmotionController';
 import { EventKey } from './mascotEventMap';
 

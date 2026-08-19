@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
-import { CakePopMascot } from '../../../components/mascot/CakePopMascot';
-import { MascotReaction, MascotSize, MascotRef } from '../../../components/mascot/reactions/reactionTypes';
+import { CakePopMascot } from '@/components/mascot/CakePopMascot';
+import { MascotReaction, MascotSize, MascotRef } from '@/components/mascot/reactions/reactionTypes';
 import { Smile, TriangleAlert, RotateCcw, Play, Dices } from 'lucide-react';
 import styles from './AdminMascotPlayground.module.css';
 
 // Import all primitives for testing
-import * as P from '../../../components/mascot/primitives';
-import { ReactionContext } from '../../../components/mascot/animations/animationTypes';
-import { REACTIONS } from '../../../components/mascot/reactions/reactionRegistry';
-import { applyPose } from '../../../components/mascot/poses/applyPose';
+import * as P from '@/components/mascot/primitives';
+import { ReactionContext } from '@/components/mascot/animations/animationTypes';
+import { REACTIONS } from '@/components/mascot/reactions/reactionRegistry';
+import { applyPose } from '@/components/mascot/poses/applyPose';
 
 const REFERENCE_IMAGE_PATH = '/images/mascot-reference-sheet.png';
 
@@ -201,7 +201,7 @@ export const AdminMascotPlayground = () => {
           <div className={styles.card}>
             <h2 className={styles.cardTitle}>Full Reactions</h2>
             <div className={styles.reactionGrid}>
-              {(Object.values(REACTIONS)).map(reaction => (
+              {(Object.values(REACTIONS) as any[]).map(reaction => (
                 <button 
                   key={reaction.id}
                   className={`${styles.reactionBtn} ${activeReaction === reaction.id ? styles.active : ''}`}

@@ -110,8 +110,8 @@
 
   /* Layout */
   --container-max-width: 1280px;
-  --header-height-mobile: 60px;
-  --header-height-desktop: 80px;
+  --header-height-mobile: 84px;
+  --header-height-desktop: 84px;
 
   /* Z-Index */
   --z-base: 0;

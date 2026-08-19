@@ -1,0 +1,32 @@
+.viewToggles {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.viewToggle {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  cursor: pointer;
+  color: var(--color-text-muted);
+}
+.viewToggle.active {
+  background-color: #FFF0F5;
+  color: var(--admin-pink);
+}
+.viewToggle:not(.active) {
+  border-color: var(--color-border);
+  background-color: var(--color-white);
+}
+
+@media (max-width: 768px) {
+  .viewToggle {
+    width: 34px;
+    height: 34px;
+  }
+}

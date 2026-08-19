@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export type ParticleType = 'hearts' | 'sparkles' | 'confetti' | 'questionMarks' | 'sleepZ' | 'thoughtDots' | 'excitementLines' | 'impactLines' | 'tears' | 'bonkStars' | 'cryingFountainTears' | 'kissHeart' | 'dizzyStars' | 'emotionalTearLeft' | 'emotionalTearRight' | 'emotionalSparkle' | 'oopsMarks' | 'surprisedMarks';
 

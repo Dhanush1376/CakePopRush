@@ -1,8 +1,10 @@
 .pageContainer {
   min-height: 100vh;
-  background-color: #ffffff;
-  
-  background-size: 32px 32px;
+  background-color: var(--color-background);
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
   padding: var(--space-4) var(--space-4) calc(var(--space-16) + 80px);
   position: relative;
   overflow-x: hidden;
@@ -25,11 +27,17 @@
   .pageContainer {
     padding-bottom: var(--space-12);
   }
-  
+
   .desktopGrid {
     grid-template-columns: 1fr 1fr;
     align-items: start;
     gap: var(--space-8);
+  }
+
+  .leftCol {
+    position: sticky;
+    top: 24px;
+    z-index: 10;
   }
 }
 
@@ -99,7 +107,7 @@
   cursor: pointer;
 }
 
-.mascotLayer > div:not(.mascotHandLeft):not(.mascotHandRight) {
+.mascotLayer>div:not(.mascotHandLeft):not(.mascotHandRight) {
   width: 100% !important;
   height: 100% !important;
 }
@@ -137,7 +145,8 @@
   transform: rotate(45deg);
 }
 
-.mascotHandLeft, .mascotHandRight {
+.mascotHandLeft,
+.mascotHandRight {
   position: absolute;
   top: -6px;
   width: 6px;
@@ -147,8 +156,11 @@
   z-index: 10;
   pointer-events: none;
 }
-.mascotHandLeft::before, .mascotHandLeft::after,
-.mascotHandRight::before, .mascotHandRight::after {
+
+.mascotHandLeft::before,
+.mascotHandLeft::after,
+.mascotHandRight::before,
+.mascotHandRight::after {
   content: '';
   position: absolute;
   bottom: 1px;
@@ -157,13 +169,22 @@
   background-color: #1c1c1c;
   border-radius: 6px;
 }
-.mascotHandLeft::before, .mascotHandRight::before { left: -4px; }
-.mascotHandLeft::after, .mascotHandRight::after { left: 4px; }
+
+.mascotHandLeft::before,
+.mascotHandRight::before {
+  left: -4px;
+}
+
+.mascotHandLeft::after,
+.mascotHandRight::after {
+  left: 4px;
+}
 
 .mascotHandLeft {
   right: 86px;
   transform: rotate(-10deg);
 }
+
 .mascotHandRight {
   right: 34px;
   transform: rotate(10deg);
@@ -173,10 +194,15 @@
 
 /* Cards */
 .card {
-  background-color: var(--color-white);
-  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  border-left: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 24px;
   padding: var(--space-6);
-  box-shadow: 0 8px 30px rgba(92, 51, 23, 0.08);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05), inset 0 0 16px rgba(255, 255, 255, 0.5);
   position: relative;
   z-index: 2;
 }
@@ -388,10 +414,15 @@
 
 /* Orders Grid */
 .ordersGrid {
-  background-color: var(--color-white);
-  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  border-left: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 24px;
   padding: var(--space-4);
-  box-shadow: 0 8px 30px rgba(92, 51, 23, 0.08);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05), inset 0 0 16px rgba(255, 255, 255, 0.5);
 }
 
 /* Icon row with connecting line */
@@ -407,7 +438,7 @@
 .ordersIconRow::before {
   content: '';
   position: absolute;
-  top: 50%;
+  top: 20px;
   left: calc(40px / 2);
   right: calc(40px / 2);
   transform: translateY(-50%);
@@ -424,13 +455,7 @@
   position: relative;
   z-index: 1;
   cursor: pointer;
-}
-
-/* Label row below icons */
-.ordersLabelRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  gap: var(--space-2);
 }
 
 .orderIconWrapper {
@@ -477,10 +502,16 @@
 
 /* Menu List */
 .menuList {
-  background-color: var(--color-white);
-  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  border-left: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 24px;
   padding: 0;
-  box-shadow: 0 8px 30px rgba(92, 51, 23, 0.08);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05), inset 0 0 16px rgba(255, 255, 255, 0.5);
+  overflow: hidden;
 }
 
 .menuItem {
@@ -518,11 +549,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #FFF0F5;
-  border: none;
-  border-radius: var(--radius-lg);
-  padding: var(--space-3) var(--space-4);
-  box-shadow: 0 4px 15px rgba(242, 13, 111, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  border-left: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 24px;
+  padding: var(--space-4);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05), inset 0 0 16px rgba(255, 255, 255, 0.5);
   cursor: pointer;
 }
 

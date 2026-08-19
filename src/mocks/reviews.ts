@@ -1,4 +1,4 @@
-import { Review } from '@/pages/storefront/product/types/pdpTypes'
+import { Review } from '@/types/review'
 
 export const mockReviews: Review[] = [
   {

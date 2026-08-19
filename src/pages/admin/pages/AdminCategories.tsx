@@ -1,32 +1,17 @@
+import { CategoryDetailsModal } from '@/features/admin/components/CategoryDetailsModal'
+import { productsData } from '@/mocks/admin/products'
 import React from 'react'
-import { 
-  Search, Plus, Download, ChevronDown, Filter,
-  Grid, Package, Heart, Apple, Star, Flower2, PartyPopper, Gift, Snowflake,
-  MoreVertical, Edit2, ChevronLeft, ChevronRight 
-} from 'lucide-react'
+import { Search, Plus, Download, Filter, Edit2, ChevronLeft, ChevronRight, Eye, Power, PowerOff } from 'lucide-react'
 import styles from './AdminCategories.module.css'
-import { ViewToggle } from '../components/ViewToggle'
-import { AdminCategoriesSkeleton } from '../components/AdminCategoriesSkeleton'
-import { AdminAddCategoryModal } from '../components/AdminAddCategoryModal'
-import { CustomSelect } from '../components/CustomSelect'
+import { ViewToggle } from '@/features/admin/components/ViewToggle'
+import { AdminCategoriesSkeleton } from '@/features/admin/components/AdminCategoriesSkeleton'
+import { AdminAddCategoryModal } from '@/features/admin/components/AdminAddCategoryModal'
+import { CustomSelect } from '@/features/admin/components/CustomSelect'
 
-const statsData = [
-  { id: 1, label: 'TOTAL CATEGORIES', value: '24', trend: '14.3%', isPositive: true, comparison: 'vs last 7 days', icon: Grid, color: 'var(--admin-pink)', bg: '#FFF0F5' },
-  { id: 2, label: 'ACTIVE CATEGORIES', value: '20', trend: '11.5%', isPositive: true, comparison: 'vs last 7 days', icon: Package, color: '#F59E0B', bg: '#FFF8E1' },
-  { id: 3, label: 'INACTIVE CATEGORIES', value: '4', trend: '20.0%', isPositive: false, comparison: 'vs last 7 days', icon: Package, color: 'var(--admin-cyan)', bg: '#E0FAFC' },
-  { id: 4, label: 'PRODUCTS IN CATEGORIES', value: '128', trend: '12.4%', isPositive: true, comparison: 'vs last 7 days', icon: Heart, color: 'var(--admin-pink)', bg: '#FFF0F5' },
-];
+import { adminCategoryData } from '@/features/admin/api/mockAdminDataProvider'
 
-const categoriesData = [
-  { id: 1, name: 'Fruity Pops', description: 'Delicious cake pops made with real fruit flavors.', products: 18, status: 'Active', created: 'May 10, 2025', icon: Apple, color: 'var(--admin-pink)', bg: '#FFF0F5' },
-  { id: 2, name: 'Chocolate Pops', description: 'Rich, creamy and irresistible chocolate cake pops.', products: 24, status: 'Active', created: 'May 08, 2025', icon: Package, color: '#F59E0B', bg: '#FFF8E1' },
-  { id: 3, name: 'Special Pops', description: 'Unique and special edition cake pops.', products: 16, status: 'Active', created: 'May 05, 2025', icon: Star, color: 'var(--admin-cyan)', bg: '#E0FAFC' },
-  { id: 4, name: 'Floral Pops', description: 'Beautiful cake pops with floral designs.', products: 12, status: 'Active', created: 'May 02, 2025', icon: Flower2, color: '#9333EA', bg: '#F3E8FF' },
-  { id: 5, name: 'Love & Romance', description: 'Perfect cake pops for love and celebrations.', products: 14, status: 'Active', created: 'Apr 28, 2025', icon: Heart, color: 'var(--admin-pink)', bg: '#FFF0F5' },
-  { id: 6, name: 'Birthday Pops', description: 'Fun and colorful cake pops for birthdays.', products: 20, status: 'Active', created: 'Apr 25, 2025', icon: PartyPopper, color: '#F59E0B', bg: '#FFF8E1' },
-  { id: 7, name: 'Occasion Pops', description: 'Cake pops for all special occasions.', products: 24, status: 'Inactive', created: 'Apr 20, 2025', icon: Gift, color: 'var(--admin-cyan)', bg: '#E0FAFC' },
-  { id: 8, name: 'Seasonal Pops', description: 'Limited edition seasonal cake pops.', products: 10, status: 'Inactive', created: 'Apr 18, 2025', icon: Snowflake, color: '#5C3317', bg: '#F5F5DC' },
-];
+const statsData = adminCategoryData.getStats();
+const categoriesData = adminCategoryData.getCategories();
 
 export function AdminCategories() {
   const [view, setView] = React.useState<'list' | 'grid'>('list');
@@ -34,6 +19,16 @@ export function AdminCategories() {
   const [isLoading, setIsLoading] = React.useState(true);
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
   const [categories, setCategories] = React.useState(categoriesData);
+  const [selectedCategory, setSelectedCategory] = React.useState<any | null>(null);
+
+  const toggleCategoryStatus = (id: string) => {
+    setCategories(prev => prev.map(c => {
+      if (c.id === id) {
+        return { ...c, status: c.status === 'Active' ? 'Inactive' : 'Active' };
+      }
+      return c;
+    }));
+  };
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
@@ -135,39 +130,47 @@ export function AdminCategories() {
                 const CategoryIcon = category.icon;
 
                 return (
-                  <tr key={category.id}>
-                    <td style={{ textAlign: 'center' }}>
-                      <input type="checkbox" className={styles.checkbox} aria-label={`Select ${category.name}`} />
-                    </td>
-                    <td>
-                      <div className={styles.categoryCell}>
-                        <div className={styles.categoryIconWrapper} style={{ backgroundColor: category.bg, color: category.color }}>
-                          <CategoryIcon size={18} />
+                    <tr key={category.id} className={category.status === 'Inactive' ? styles.inactiveRow : ''}>
+                      <td style={{ textAlign: 'center' }}>
+                        <input type="checkbox" className={styles.checkbox} aria-label={`Select ${category.name}`} />
+                      </td>
+                      <td>
+                        <div className={styles.categoryCell}>
+                          <div className={styles.categoryIconWrapper} style={{ backgroundColor: category.bg, color: category.color }}>
+                            <CategoryIcon size={18} />
+                          </div>
+                          <div className={styles.categoryName}>{category.name}</div>
                         </div>
-                        <div className={styles.categoryName}>{category.name}</div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className={styles.descriptionCell}>{category.description}</div>
-                    </td>
-                    <td>
-                      <div className={styles.cellText}>{category.products}</div>
-                    </td>
-                    <td>
-                      <span className={`${styles.statusBadge} ${statusClass}`}>
-                        {category.status}
-                      </span>
-                    </td>
-                    <td>
-                      <div className={styles.cellText}>{category.created}</div>
-                    </td>
-                    <td>
-                      <div className={styles.actionsCell}>
-                        <button className={styles.actionBtn} aria-label="Edit Category"><Edit2 size={16} /></button>
-                        <button className={styles.actionBtn} aria-label="More Actions"><MoreVertical size={16} /></button>
-                      </div>
-                    </td>
-                  </tr>
+                      </td>
+                      <td>
+                        <div className={styles.descriptionCell}>{category.description}</div>
+                      </td>
+                      <td>
+                        <div className={styles.cellText}>{category.products}</div>
+                      </td>
+                      <td>
+                        <span className={`${styles.statusBadge} ${statusClass}`}>
+                          {category.status}
+                        </span>
+                      </td>
+                      <td>
+                        <div className={styles.cellText}>{category.created}</div>
+                      </td>
+                      <td>
+                        <div className={styles.actionsCell}>
+                          <button className={styles.actionBtn} disabled={category.status === 'Inactive'} aria-label="Edit Category"><Edit2 size={16} /></button>
+                          <button className={styles.actionBtn} aria-label="View Details" onClick={() => setSelectedCategory(category)}><Eye size={16} /></button>
+                          <button 
+                            className={`${styles.actionBtn} ${category.status === 'Active' ? styles.dangerBtn : styles.successBtn}`}
+                            aria-label={category.status === 'Active' ? 'Deactivate Category' : 'Activate Category'}
+                            onClick={() => toggleCategoryStatus(category.id)}
+                            style={{ color: category.status === 'Active' ? '#DC2626' : 'var(--admin-green)' }}
+                          >
+                            {category.status === 'Active' ? <PowerOff size={16} /> : <Power size={16} />}
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
                 )
               })}
             </tbody>
@@ -181,7 +184,7 @@ export function AdminCategories() {
             const CategoryIcon = category.icon;
 
             return (
-              <div key={category.id} className={styles.mobileCard}>
+              <div key={category.id} className={`${styles.mobileCard} ${category.status === 'Inactive' ? styles.inactiveCard : ''}`}>
                 <div className={styles.mobileCardHeader}>
                   <div className={styles.categoryCell}>
                     <div className={styles.categoryIconWrapper} style={{ backgroundColor: category.bg, color: category.color }}>
@@ -212,8 +215,16 @@ export function AdminCategories() {
                     <input type="checkbox" className={styles.checkbox} aria-label={`Select ${category.name}`} />
                   </div>
                   <div className={styles.actionsCell}>
-                    <button className={styles.actionBtn} aria-label="Edit Category"><Edit2 size={16} /></button>
-                    <button className={styles.actionBtn} aria-label="More Actions"><MoreVertical size={16} /></button>
+                    <button className={styles.actionBtn} disabled={category.status === 'Inactive'} aria-label="Edit Category"><Edit2 size={16} /></button>
+                    <button className={styles.actionBtn} aria-label="View Details" onClick={() => setSelectedCategory(category)}><Eye size={16} /></button>
+                    <button 
+                      className={`${styles.actionBtn} ${category.status === 'Active' ? styles.dangerBtn : styles.successBtn}`}
+                      aria-label={category.status === 'Active' ? 'Deactivate Category' : 'Activate Category'}
+                      onClick={() => toggleCategoryStatus(category.id)}
+                      style={{ color: category.status === 'Active' ? '#DC2626' : 'var(--admin-green)' }}
+                    >
+                      {category.status === 'Active' ? <PowerOff size={16} /> : <Power size={16} />}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -241,8 +252,15 @@ export function AdminCategories() {
         existingCategories={categories}
         onSuccess={(newCategory) => {
           // Add new category at the top of the list
-          setCategories([newCategory, ...categories])
+          setCategories(prev => [newCategory as any, ...prev]);
         }}
+      />
+
+      <CategoryDetailsModal 
+        isOpen={!!selectedCategory}
+        onClose={() => setSelectedCategory(null)}
+        category={selectedCategory}
+        products={productsData}
       />
     </div>
   )

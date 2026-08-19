@@ -18,7 +18,7 @@ export const spawnSparkles = (ctx: ReactionContext) => {
   }, 1500);
 };
 
-export const spawnConfetti = (ctx: ReactionContext, config?: any) => {
+export const spawnConfetti = (ctx: ReactionContext, options?: Record<string, unknown>) => {
   if (ctx.prefersReducedMotion) return;
   ctx.setActiveParticles((prev: ParticleType[]) => [...prev, 'confetti']);
   setTimeout(() => {

@@ -1,0 +1,117 @@
+.bigTickWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px 16px 20px;
+}
+
+.authTickCircle {
+  width: 64px;
+  height: 64px;
+  background-color: #00d25b;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 14px rgba(0, 210, 91, 0.15);
+  margin-bottom: 16px;
+}
+
+.bigTickTitle {
+  font-family: var(--font-family-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-chocolate);
+  margin: 0 0 4px 0;
+  letter-spacing: -0.02em;
+}
+
+.bigTickSubtext {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.colorfulStepperContainer {
+  position: relative;
+  padding: 12px 10px 8px 10px;
+  border-top: 1px dashed rgba(92, 51, 23, 0.08);
+}
+
+.colorfulStepperTrack {
+  position: absolute;
+  top: 25px;
+  left: 16.66%;
+  right: 16.66%;
+  height: 3px;
+  background: #E5E7EB;
+  border-radius: 4px;
+  z-index: 1;
+}
+
+.colorfulStepperFill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #FFC700 0%, #F20D6F 50%, #07C2BB 100%);
+  border-radius: 4px;
+}
+
+.colorfulSteps {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+}
+
+.colorfulStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+
+.colorfulNode {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  margin-bottom: 6px;
+  transition: all 0.25s ease;
+}
+
+.colorfulLabel {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.stepYellow .colorfulNode {
+  background-color: #FFC700;
+  box-shadow: 0 0 0 4px rgba(255, 199, 0, 0.2);
+}
+
+.stepYellow .colorfulLabel {
+  color: #D97706;
+}
+
+.stepPink .colorfulNode {
+  background-color: #F20D6F;
+  box-shadow: 0 0 0 4px rgba(242, 13, 111, 0.2);
+}
+
+.stepPink .colorfulLabel {
+  color: #F20D6F;
+}
+
+.stepTurquoise .colorfulNode {
+  background-color: #07C2BB;
+  box-shadow: 0 0 0 4px rgba(7, 194, 187, 0.2);
+}
+
+.stepTurquoise .colorfulLabel {
+  color: #07C2BB;
+}

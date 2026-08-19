@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
-import { ArrowRight, Calendar, Users, Edit3, UploadCloud } from 'lucide-react';
+import { ArrowRight, Calendar, Users, UploadCloud, Phone } from 'lucide-react';
 import styles from './CustomOrderSteps.module.css';
 import { CustomOrderData } from '../types';
 
@@ -27,6 +27,7 @@ export const CustomOrderStep1: React.FC<Props> = ({ initialData, onNext }) => {
     if (!data.occasionDescription.trim()) newErrors.occasionDescription = 'Occasion Description is required';
     if (!data.targetDate) newErrors.targetDate = 'Target Date is required';
     if (!data.quantity || parseInt(data.quantity) < 1) newErrors.quantity = 'Quantity is required';
+    if (!data.mobileNumber.trim()) newErrors.mobileNumber = 'Mobile Number is required';
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -47,7 +48,7 @@ export const CustomOrderStep1: React.FC<Props> = ({ initialData, onNext }) => {
         <div className={styles.inputWrapper}>
           <label className={styles.label}>DESIGN INSPIRATION</label>
           <div 
-            className={`${styles.fileUploadBox} ${errors.design ? styles.error : ''}`} 
+            className={`${styles.fileUploadBox} ${data.design ? styles.hasImage : ''} ${errors.design ? styles.error : ''}`} 
             onClick={() => document.getElementById('design-upload')?.click()}
           >
             {data.design instanceof File ? (
@@ -85,6 +86,10 @@ export const CustomOrderStep1: React.FC<Props> = ({ initialData, onNext }) => {
             rows={3}
             value={data.occasionDescription}
             onChange={(e) => handleChange('occasionDescription', e.target.value)}
+            spellCheck={false}
+            data-gramm="false"
+            data-gramm_editor="false"
+            data-enable-grammarly="false"
           />
           {errors.occasionDescription && <span className={styles.errorMessage}>{errors.occasionDescription}</span>}
         </div>
@@ -108,6 +113,19 @@ export const CustomOrderStep1: React.FC<Props> = ({ initialData, onNext }) => {
             value={data.quantity}
             onChange={(e) => handleChange('quantity', e.target.value)}
             error={errors.quantity}
+            fullWidth
+          />
+        </div>
+        
+        <div className={styles.inputWrapper}>
+          <Input
+            label="MOBILE NUMBER"
+            type="tel"
+            placeholder="e.g. +1 234 567 8900"
+            leftIcon={<Phone size={18} />}
+            value={data.mobileNumber}
+            onChange={(e) => handleChange('mobileNumber', e.target.value)}
+            error={errors.mobileNumber}
             fullWidth
           />
         </div>

@@ -1,3 +1,5 @@
+import React from 'react';
+
 export interface ProductImage {
   id: string
   url: string
@@ -77,4 +79,18 @@ export interface Product {
   rating?: number
   reviewCount?: number
   relatedProducts?: string[] // IDs of related products
+}
+
+export interface Category {
+  id: string;
+  name: string;
+  description: string;
+  image?: string | null;
+  items?: number;
+  products: number;
+  status: string;
+  created: string;
+  icon?: React.ElementType;
+  color?: string;
+  bg?: string;
 }

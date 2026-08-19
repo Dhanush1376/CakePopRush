@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './ShopCategories.module.css'
 import { Container } from '@/components/layout/Container'
-import { mockCategories } from '@/mocks/products'
+import { productData } from '@/features/products'
 
 interface ShopCategoriesProps {
   activeCategory: string
@@ -102,7 +102,7 @@ export const ShopCategories = ({ activeCategory, onSelectCategory }: ShopCategor
           onMouseUp={handleMouseUp}
           onMouseMove={handleMouseMove}
         >
-          {mockCategories.map((cat) => {
+          {productData.getCategories().map((cat) => {
             const isActive = activeCategory === cat.id
             return (
               <button

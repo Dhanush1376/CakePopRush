@@ -1,35 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { ChevronLeft, BadgeCheck, Star, ArrowLeft } from 'lucide-react'
+import { BadgeCheck, Star, ArrowLeft } from 'lucide-react'
 import { Container } from '@/components/layout/Container'
-import { mockProducts } from '@/mocks/products'
-import { mockReviews } from '@/mocks/reviews'
-import { Product } from '@/types/product'
+import { productData } from '@/features/products'
+import { reviewData } from '@/features/reviews'
 import { ImageModal } from '@/components/ui/ImageModal'
 import styles from './ProductReviewsPage.module.css'
 
 export function ProductReviewsPage() {
   const { id } = useParams<{ id: string }>()
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
-  const [product, setProduct] = useState<Product | null>(null)
+  const product = productData.getProducts().find(p => p.slug === id || p.id === id) || null
   
   useEffect(() => {
-    const found = mockProducts.find(p => p.slug === id || p.id === id)
-    if (found) {
-      setProduct(found)
-      document.title = `${found.name} Reviews | CakePopRush`
+    if (product) {
+      document.title = `${product.name} Reviews | CakePopRush`
     }
     window.scrollTo(0, 0)
-  }, [id])
+  }, [product])
 
   if (!product) return null
 
-  const reviews = mockReviews.filter(r => r.productId === product.id)
+  const reviews = reviewData.getReviewsByProductId(product.id)
   
-  const distribution = [5, 4, 3, 2, 1].map(stars => {
-    const count = reviews.filter(r => Math.floor(r.rating) === stars).length
-    return { stars, count, percentage: reviews.length > 0 ? (count / reviews.length) * 100 : 0 }
-  })
+  
 
   const reviewPhotos = reviews.filter(r => !!r.photoUrl).map(r => r.photoUrl!)
 

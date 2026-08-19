@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import styles from './AdminDashboard.module.css'
-import { WelcomeSection } from './components/WelcomeSection'
-import { StatsGrid } from './components/StatsGrid'
-import { SalesOverviewChart } from './components/SalesOverviewChart'
-import { OrderStatusChart } from './components/OrderStatusChart'
-import { TopSellingProducts } from './components/TopSellingProducts'
-import { RecentOrders } from './components/RecentOrders'
-import { LowStockAlerts } from './components/LowStockAlerts'
-import { AdminDashboardSkeleton } from './components/AdminDashboardSkeleton'
+import { WelcomeSection } from '@/features/admin/components/WelcomeSection'
+import { StatsGrid } from '@/features/admin/components/StatsGrid'
+import { SalesOverviewChart } from '@/features/admin/components/SalesOverviewChart'
+import { OrderStatusChart } from '@/features/admin/components/OrderStatusChart'
+import { TopSellingProducts } from '@/features/admin/components/TopSellingProducts'
+import { RecentOrders } from '@/features/admin/components/RecentOrders'
+import { LowStockAlerts } from '@/features/admin/components/LowStockAlerts'
+import { AdminDashboardSkeleton } from '@/features/admin/components/AdminDashboardSkeleton'
 
 export function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(true)

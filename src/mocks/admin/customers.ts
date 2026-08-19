@@ -1,0 +1,123 @@
+import { Users, UserPlus, ShoppingCart, Wallet } from 'lucide-react'
+
+export const customerStatsData = [
+  { id: 1, label: 'TOTAL CUSTOMERS', value: '856', trend: '16.3%', isPositive: true, icon: Users, color: 'var(--admin-pink)', bg: '#FFF0F5' },
+  { id: 2, label: 'NEW CUSTOMERS', value: '128', trend: '18.6%', isPositive: true, icon: UserPlus, color: '#F59E0B', bg: '#FFF8E1' },
+  { id: 3, label: 'TOTAL ORDERS', value: '1,248', trend: '14.2%', isPositive: true, icon: ShoppingCart, color: 'var(--admin-cyan)', bg: '#E0FAFC' },
+  { id: 4, label: 'TOTAL SPENT', value: '₹3,65,240', trend: '22.4%', isPositive: true, icon: Wallet, color: 'var(--admin-pink)', bg: '#FFF0F5' }
+];
+
+export const customersData = [
+  {
+    id: 1,
+    name: 'Neha Sharma',
+    email: 'neha.sharma@email.com',
+    phone: '+91 98765 43210',
+    initials: 'NS',
+    avatarBg: '#FFF0F5',
+    avatarColor: 'var(--admin-pink)',
+    location: 'Delhi, India',
+    locColor: 'var(--admin-pink)',
+    orders: 12,
+    spent: '₹4,560',
+    lastOrderDate: 'May 24, 2025',
+    lastOrderTime: '10:30 AM',
+    status: 'Active'
+  },
+  {
+    id: 2,
+    name: 'Riya Patel',
+    email: 'riya.patel@email.com',
+    phone: '+91 91234 56789',
+    initials: 'RP',
+    avatarBg: '#FFF8E1',
+    avatarColor: '#F59E0B',
+    location: 'Mumbai, India',
+    locColor: '#F59E0B',
+    orders: 8,
+    spent: '₹3,240',
+    lastOrderDate: 'May 24, 2025',
+    lastOrderTime: '09:15 AM',
+    status: 'Active'
+  },
+  {
+    id: 3,
+    name: 'Ankit Verma',
+    email: 'ankit.verma@email.com',
+    phone: '+91 99887 76655',
+    initials: 'AV',
+    avatarBg: '#E0FAFC',
+    avatarColor: 'var(--admin-cyan)',
+    location: 'Bangalore, India',
+    locColor: 'var(--admin-cyan)',
+    orders: 15,
+    spent: '₹5,890',
+    lastOrderDate: 'May 23, 2025',
+    lastOrderTime: '08:45 PM',
+    status: 'Active'
+  },
+  {
+    id: 4,
+    name: 'Pooja Mehta',
+    email: 'pooja.mehta@email.com',
+    phone: '+91 88990 11223',
+    initials: 'PM',
+    avatarBg: '#F3E5F5',
+    avatarColor: 'var(--admin-purple)',
+    location: 'Ahmedabad, India',
+    locColor: 'var(--admin-purple)',
+    orders: 20,
+    spent: '₹8,450',
+    lastOrderDate: 'May 23, 2025',
+    lastOrderTime: '06:20 PM',
+    status: 'VIP'
+  },
+  {
+    id: 5,
+    name: 'Karan Singh',
+    email: 'karan.singh@email.com',
+    phone: '+91 77665 44321',
+    initials: 'KS',
+    avatarBg: '#F5F5DC',
+    avatarColor: '#5C3317',
+    location: 'Chandigarh, India',
+    locColor: '#5C3317',
+    orders: 6,
+    spent: '₹2,150',
+    lastOrderDate: 'May 23, 2025',
+    lastOrderTime: '04:10 PM',
+    status: 'Active'
+  },
+  {
+    id: 6,
+    name: 'Sneha Iyer',
+    email: 'sneha.iyer@email.com',
+    phone: '+91 96543 21098',
+    initials: 'SI',
+    avatarBg: '#FFF0F5',
+    avatarColor: 'var(--admin-pink)',
+    location: 'Hyderabad, India',
+    locColor: 'var(--admin-pink)',
+    orders: 9,
+    spent: '₹3,760',
+    lastOrderDate: 'May 22, 2025',
+    lastOrderTime: '02:35 PM',
+    status: 'Active'
+  },
+  {
+    id: 7,
+    name: 'Rahul Gupta',
+    email: 'rahul.gupta@email.com',
+    phone: '+91 90123 45678',
+    initials: 'RG',
+    avatarBg: '#E0FAFC',
+    avatarColor: 'var(--admin-cyan)',
+    location: 'Kolkata, India',
+    locColor: 'var(--admin-cyan)',
+    orders: 5,
+    spent: '₹1,890',
+    lastOrderDate: 'May 22, 2025',
+    lastOrderTime: '11:50 AM',
+    status: 'Inactive'
+  }
+];

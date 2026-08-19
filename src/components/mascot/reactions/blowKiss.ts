@@ -2,8 +2,6 @@ import { ReactionContext } from '../animations/animationTypes';
 import { applyPose } from '../poses/applyPose';
 import { blowKissPose } from '../poses/blowKissPose';
 import * as P from '../primitives';
-import { AnimationSequence } from 'framer-motion';
-
 export const playBlowKiss = async (ctx: ReactionContext) => {
   const { animate, speedMultiplier, prefersReducedMotion } = ctx;
   const speed = (ms: number) => (ms / 1000) / speedMultiplier;

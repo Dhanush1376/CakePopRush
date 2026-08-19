@@ -1,0 +1,18 @@
+import { MessageSquare, Star, ThumbsUp, AlertCircle } from 'lucide-react'
+
+export const reviewStatsData = [
+  { id: 1, label: 'TOTAL REVIEWS', value: '1,248', trend: '18.6%', isPositive: true, comparison: 'vs last 7 days', icon: MessageSquare, color: 'var(--admin-pink)', bg: '#FFF0F5' },
+  { id: 2, label: 'AVERAGE RATING', value: '4.8', trend: '2.4%', isPositive: true, comparison: 'vs last 7 days', icon: Star, color: '#F59E0B', bg: '#FFF8E1' },
+  { id: 3, label: 'POSITIVE REVIEWS', value: '92%', trend: '4.2%', isPositive: true, comparison: 'vs last 7 days', icon: ThumbsUp, color: 'var(--admin-cyan)', bg: '#E0FAFC' },
+  { id: 4, label: 'NEEDS ATTENTION', value: '12', trend: '14.5%', isPositive: false, comparison: 'vs last 7 days', icon: AlertCircle, color: '#DC2626', bg: '#FEE2E2' },
+];
+
+export const reviewsData = [
+  { id: 1, text: "Absolutely delicious! The strawberry flavor is so fresh and the cake pops are so soft and moist. Perfect for any occasion!", product: 'Strawberry Bliss Pops', sku: 'CPR-001', category: 'Cakes', image: '/images/Products/mini valentine cake.jpeg', rating: 5, customer: 'Neha Sharma', email: 'neha.sharma@email.com', initials: 'NS', avatarColor: 'var(--admin-pink)', avatarBg: '#FFF0F5', date: 'May 24, 2025', time: '10:30 AM', status: 'Approved' },
+  { id: 2, text: "Love the chocolate crunch! Great taste and beautifully decorated. Will definitely order again.", product: 'Chocolate Crunch Pops', sku: 'CPR-002', category: 'Cakes', image: '/images/Products/Dark choclate cakepops.jpeg', rating: 5, customer: 'Riya Patel', email: 'riya.patel@email.com', initials: 'RP', avatarColor: '#F59E0B', avatarBg: '#FFF8E1', date: 'May 24, 2025', time: '09:15 AM', status: 'Approved' },
+  { id: 3, text: "So cute and kids loved it! The packaging was amazing too.", product: 'Cute Chick Pops', sku: 'CPR-003', category: 'Cakes', image: '/images/Products/vanilla mango cupcakes.jpeg', rating: 4, customer: 'Ankit Verma', email: 'ankit.verma@email.com', initials: 'AV', avatarColor: 'var(--admin-cyan)', avatarBg: '#E0FAFC', date: 'May 23, 2025', time: '08:45 PM', status: 'Approved' },
+  { id: 4, text: "Good flavor and quality, but a bit on the smaller side than I expected.", product: 'Lavender Love Pops', sku: 'CPR-004', category: 'Cakes', image: '/images/Products/White choclate cakepops.jpeg', rating: 4, customer: 'Pooja Mehta', email: 'pooja.mehta@email.com', initials: 'PM', avatarColor: '#9333EA', avatarBg: '#F3E8FF', date: 'May 23, 2025', time: '06:20 PM', status: 'Pending' },
+  { id: 5, text: "The red velvet is out of this world. Super moist and the frosting is divine.", product: 'Red Velvet Pops', sku: 'CPR-005', category: 'Cakes', image: '/images/Products/Red velvet cookies.jpeg', rating: 5, customer: 'Vikram Singh', email: 'vikram.s@email.com', initials: 'VS', avatarColor: 'var(--admin-primary)', avatarBg: '#E5E7EB', date: 'May 22, 2025', time: '04:10 PM', status: 'Pending' },
+  { id: 6, text: "Not satisfied with the taste. It was too sweet for my liking.", product: 'Oreo Crunch Pops', sku: 'CPR-006', category: 'Cakes', image: '/images/Products/Oreo pops.jpeg', rating: 2, customer: 'Sneha Iyer', email: 'sneha.iyer@email.com', initials: 'SI', avatarColor: 'var(--admin-pink)', avatarBg: '#FFF0F5', date: 'May 22, 2025', time: '02:35 PM', status: 'Rejected' },
+  { id: 7, text: "Perfect for birthday celebrations! My guests loved it.", product: 'Birthday Sprinkle Pops', sku: 'CPR-007', category: 'Cakes', image: '/images/Products/asorted flavours of cookies.jpeg', rating: 5, customer: 'Rahul Gupta', email: 'rahulgupta@email.com', initials: 'RG', avatarColor: 'var(--admin-cyan)', avatarBg: '#E0FAFC', date: 'May 22, 2025', time: '11:50 AM', status: 'Approved' },
+];

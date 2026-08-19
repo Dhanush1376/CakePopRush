@@ -1,7 +1,5 @@
 import { MascotPose } from './types';
 import { defaultPose } from './defaultPose';
-import { ARM_PATHS } from '../primitives/arms';
-
 /** Reference #17 Love: Redesigned to be a soft, sweet, romantic sway (unlike the intense heartEyes) */
 export const lovePose: MascotPose = {
   ...defaultPose,

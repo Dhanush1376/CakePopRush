@@ -22,21 +22,30 @@
   .heroSection {
     margin-top: calc(-1 * var(--header-height-desktop, 80px));
     padding-top: var(--header-height-desktop, 80px);
-    min-height: 500px;
+    min-height: 350px;
   }
 
-  .balloonRight {
-    top: auto;
-    bottom: 10px;
-    right: calc(15% - 80px);
+  .organicBlob {
+    width: 85%;
+    max-width: 1200px;
+    height: 92%;
+    max-height: none;
   }
+
+  .organicBlobOutline {
+    width: 88%;
+    max-width: 1250px;
+    height: 98%;
+    max-height: none;
+  }
+
 
   .decorationsLayer {
     top: var(--header-height-desktop, 80px);
   }
 
   .buntingContainer {
-    top: 15%;
+    top: -5%;
     right: 0;
   }
 
@@ -196,7 +205,7 @@
 /* Bunting */
 .buntingContainer {
   position: absolute;
-  top: -2%;
+  top: 0;
   right: -2%;
   width: clamp(120px, 20vw, 250px);
 }
@@ -243,6 +252,24 @@
   width: 100%;
   height: auto;
   overflow: visible;
+}
+
+@media (min-width: 1024px) {
+  .balloonRight {
+    top: auto;
+    bottom: -5px;
+    right: calc(25% - 80px);
+  }
+
+  .balloonTopLeft {
+    top: 10%;
+    left: 1%;
+  }
+
+  .balloonBottomLeft {
+    bottom: 20px;
+    left: 8%;
+  }
 }
 
 

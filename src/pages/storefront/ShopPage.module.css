@@ -56,6 +56,13 @@
   }
 }
 
+@media (min-width: 1024px) {
+  .mascotStickyContainer {
+    transform: scale(1.5);
+    transform-origin: bottom center;
+  }
+}
+
 .mascotHandLeft,
 .mascotHandRight {
   position: absolute;

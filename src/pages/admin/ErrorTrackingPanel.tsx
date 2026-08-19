@@ -83,7 +83,7 @@ export const ErrorTrackingPanel = () => {
       </header>
       
       <div className={styles.timeline}>
-        {MOCK_ERRORS.map((error, idx) => (
+        {MOCK_ERRORS.map((error) => (
           <div key={error.id} className={styles.timelineItem}>
             <div className={styles.timelineLine} />
             <div className={styles.timelineDot} />

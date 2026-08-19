@@ -10,7 +10,7 @@ interface ShopToolbarProps {
   showingEnd: number
 }
 
-export const ShopToolbar = ({ totalProducts, showingStart, showingEnd }: ShopToolbarProps) => {
+export const ShopToolbar = ({ totalProducts }: ShopToolbarProps) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [isSortOpen, setIsSortOpen] = useState(false)
   const [activeSort, setActiveSort] = useState('Best Selling')

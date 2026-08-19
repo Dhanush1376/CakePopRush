@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapPinOff, Plus, Edit2, Phone } from 'lucide-react';
+import { MapPinOff, Edit2, Phone } from 'lucide-react';
 import styles from './CheckoutDeliveryPage.module.css';
 import { Container } from '@/components/layout/Container';
-import { CheckoutProgress } from '@/pages/storefront/cart/components/CheckoutProgress';
-import { OrderSummary } from '@/pages/storefront/cart/components/OrderSummary';
-import { MobileCheckoutBar } from '@/pages/storefront/cart/components/MobileCheckoutBar';
-import { TrustBadges } from '@/pages/storefront/cart/components/TrustBadges';
-import { useCart } from '@/lib/cartStore';
+import { CheckoutProgress, MobileCheckoutBar } from '@/features/cart';
+import { useCart } from '@/features/cart';
 import { AddressModal, AddressData } from './components/AddressModal';
-import { EmptyState } from '@/components/ui/EmptyState';
 import { Button } from '@/components/ui/Button';
 import { CheckoutDeliverySkeleton } from './components/CheckoutDeliverySkeleton';
 

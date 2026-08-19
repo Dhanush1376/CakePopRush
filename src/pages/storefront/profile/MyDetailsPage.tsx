@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { ChevronLeft, User, Mail, Phone, Calendar, Save, MessageCircle } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { User, Mail, Phone, Calendar, Save } from 'lucide-react'
 import styles from './MyDetailsPage.module.css'
 
 export const MyDetailsPage = () => {
@@ -41,36 +40,54 @@ export const MyDetailsPage = () => {
         <div className={styles.row}>
           <div className={styles.field}>
             <label className={styles.label}>First Name</label>
-            <input className={styles.input} name="firstName" value={form.firstName} onChange={handleChange} placeholder="First name" />
+            <div className={styles.inputGroup}>
+              <User className={styles.inputIcon} size={16} strokeWidth={1.5} />
+              <input className={styles.input} name="firstName" value={form.firstName} onChange={handleChange} placeholder="First name" />
+            </div>
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Last Name</label>
-            <input className={styles.input} name="lastName" value={form.lastName} onChange={handleChange} placeholder="Last name" />
+            <div className={styles.inputGroup}>
+              <User className={styles.inputIcon} size={16} strokeWidth={1.5} />
+              <input className={styles.input} name="lastName" value={form.lastName} onChange={handleChange} placeholder="Last name" />
+            </div>
           </div>
         </div>
 
         <div className={styles.field}>
-          <label className={styles.label}><Mail size={13} /> Email Address</label>
-          <input className={styles.input} name="email" type="email" value={form.email} onChange={handleChange} placeholder="Email" />
+          <label className={styles.label}>Email Address</label>
+          <div className={styles.inputGroup}>
+            <Mail className={styles.inputIcon} size={16} strokeWidth={1.5} />
+            <input className={styles.input} name="email" type="email" value={form.email} onChange={handleChange} placeholder="Email" />
+          </div>
         </div>
 
         <div className={styles.field}>
-          <label className={styles.label}><Phone size={13} /> Phone Number</label>
-          <input className={styles.input} name="phone" value={form.phone} onChange={handleChange} placeholder="Phone" />
+          <label className={styles.label}>Phone Number</label>
+          <div className={styles.inputGroup}>
+            <Phone className={styles.inputIcon} size={16} strokeWidth={1.5} />
+            <input className={styles.input} name="phone" value={form.phone} onChange={handleChange} placeholder="Phone" />
+          </div>
         </div>
 
         <div className={styles.row}>
           <div className={styles.field}>
-            <label className={styles.label}><Calendar size={13} /> Date of Birth</label>
-            <input className={styles.input} name="dob" type="date" value={form.dob} onChange={handleChange} />
+            <label className={styles.label}>Date of Birth</label>
+            <div className={styles.inputGroup}>
+              <Calendar className={styles.inputIcon} size={16} strokeWidth={1.5} />
+              <input className={styles.input} name="dob" type="date" value={form.dob} onChange={handleChange} />
+            </div>
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Gender</label>
-            <select className={styles.input} name="gender" value={form.gender} onChange={handleChange}>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="prefer-not">Prefer not to say</option>
-            </select>
+            <div className={styles.inputGroup}>
+              <User className={styles.inputIcon} size={16} strokeWidth={1.5} />
+              <select className={styles.input} name="gender" value={form.gender} onChange={handleChange}>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="prefer-not">Prefer not to say</option>
+              </select>
+            </div>
           </div>
         </div>
 

@@ -1,15 +1,12 @@
 .pageContainer {
   min-height: calc(100vh - 80px);
-  padding-top: var(--header-height-desktop, 80px);
+  padding-top: var(--space-10, 40px);
   padding-bottom: 40px;
-  background: var(--color-background);
-  background-image: 
-    radial-gradient(circle at 100% 0%, rgba(242, 13, 111, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 0% 100%, rgba(255, 199, 0, 0.05) 0%, transparent 40%),
-    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
-  background-position: 0 0, 0 0, -1px -1px, -1px -1px;
+  background-color: var(--color-background);
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 .container {
@@ -23,6 +20,8 @@
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 24px;
+  position: relative;
+  z-index: 10;
 }
 
 .headerRight {
@@ -40,16 +39,21 @@
 
 .title {
   font-family: var(--font-family-heading);
-  font-size: 2.5rem;
-  color: var(--color-text);
+  font-size: 2.25rem;
+  font-weight: 500;
+  color: var(--color-chocolate, var(--color-text));
   margin-top: 0;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
 }
 
 .subtitle {
   color: var(--color-text-muted);
-  font-size: 1rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
   margin: 0;
+  max-width: 540px;
 }
 
 .headerToggle {
@@ -103,12 +107,15 @@
 }
 
 .sidebarStepsCard {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--color-border);
-  border-radius: 24px;
-  padding: 32px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  border-left: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05), inset 0 0 16px rgba(255, 255, 255, 0.5);
 }
 
 .sidebarStep {
@@ -183,14 +190,16 @@
   background: var(--color-secondary);
 }
 
-/* Form Section (Right Main Area) */
 .formSection {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--color-border);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  border-left: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 24px;
-  padding: 40px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+  padding: 28px 32px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05), inset 0 0 16px rgba(255, 255, 255, 0.5);
   min-height: 500px;
 }
 
@@ -248,15 +257,11 @@
 
 @media (max-width: 600px) {
   .pageContainer {
-    padding-top: var(--header-height-mobile, 60px);
+    padding-top: var(--space-8, 32px);
   }
 
   .title {
     font-size: 2rem;
-  }
-  
-  .subtitle {
-    font-size: 0.9rem;
   }
   
   .headerToggle {

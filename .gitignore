@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# CakePopRush Generated Artifacts
+lint.json
+lint_output.txt
+eslint-errors.txt
+codebase_tree.txt
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -39,3 +45,5 @@ Thumbs.db
 
 # Dev artifacts
 eslint-errors.json
+codebase_tree.txt
+.claude

@@ -1,6 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-
 export const MascotWallHands = () => {
   return (
     <g id="wall-and-hands">

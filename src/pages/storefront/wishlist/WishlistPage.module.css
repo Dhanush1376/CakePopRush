@@ -3,7 +3,9 @@
   min-height: calc(100vh - var(--header-height-mobile) - 100px);
   padding-top: var(--space-8);
   padding-bottom: 110px; /* Space for BottomNavigation on mobile */
-  overflow: visible;
+  position: relative;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 @media (min-width: 1024px) {
@@ -21,7 +23,7 @@
     linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
   background-size: 24px 24px;
   padding-top: 16px;
-  padding-bottom: 24px;
+  padding-bottom: 180px; /* Gap to prevent overlap with FrostingCorner */
   border-radius: var(--radius-xl);
   overflow: visible;
 }

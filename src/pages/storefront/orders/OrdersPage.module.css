@@ -1,38 +1,19 @@
 /* ─── Page Shell ─────────────────────────────────────────────── */
 .page {
+  --font-family-display: 'Playfair Display', serif;
+  --font-family-heading: 'Playfair Display', serif;
+  --font-family-body: 'Inter', system-ui, sans-serif;
+  --font-family-price: 'Playfair Display', serif;
   min-height: 100vh;
-  background-color: #fff;
-  
-  background-size: 32px 32px;
+  background-color: var(--color-background);
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
   padding-top: var(--space-6);
   padding-bottom: calc(var(--space-16) + 80px);
   position: relative;
   overflow-x: hidden;
-}
-
-/* Decorative blobs */
-.blob1 {
-  position: fixed;
-  top: -80px;
-  right: -80px;
-  width: 260px;
-  height: 260px;
-  
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.blob2 {
-  position: fixed;
-  bottom: 120px;
-  left: -60px;
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle, rgba(7, 194, 187, 0.07) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
 }
 
 /* ─── Header ─────────────────────────────────────────────────── */
@@ -104,7 +85,9 @@
   -ms-overflow-style: none;
 }
 
-.tabs::-webkit-scrollbar { display: none; }
+.tabs::-webkit-scrollbar {
+  display: none;
+}
 
 .tab {
   display: flex;
@@ -123,15 +106,12 @@
 }
 
 .tab:hover {
-  border-color: var(--color-brand-pink);
-  color: var(--color-brand-pink);
+  border-color: var(--tab-color, var(--color-brand-pink));
+  color: var(--tab-color, var(--color-brand-pink));
 }
 
 .tabActive {
-  background: var(--color-brand-pink);
-  border-color: var(--color-brand-pink);
-  color: var(--color-white);
-  box-shadow: 0 4px 12px rgba(242, 13, 111, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .tabCount {
@@ -173,9 +153,7 @@
 }
 
 .minimalCard:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(242, 13, 111, 0.15);
-  border-color: rgba(242, 13, 111, 0.3);
+  cursor: pointer;
 }
 
 /* Header */
@@ -183,9 +161,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #FFF5F8; /* Light pink background */
   padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid rgba(242, 13, 111, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .minimalStatus {
@@ -208,20 +185,20 @@
 }
 
 .minimalActionBtn {
-  background: rgba(242, 13, 111, 0.08);
+  background: color-mix(in srgb, var(--btn-color) 12%, transparent);
   border: none;
   border-radius: 4px;
   padding: 4px 10px;
   font-size: 10px;
   font-weight: 700;
-  color: var(--color-brand-pink);
+  color: var(--btn-color);
   letter-spacing: 0.5px;
   cursor: pointer;
   transition: background 0.2s ease;
 }
 
 .minimalActionBtn:hover {
-  background: rgba(242, 13, 111, 0.15);
+  background: color-mix(in srgb, var(--btn-color) 25%, transparent);
 }
 
 /* Body */
@@ -229,20 +206,20 @@
   display: flex;
   align-items: stretch;
   padding: var(--space-4);
-  background: var(--color-white);
+  background: transparent;
 }
 
 .minimalImageContainer {
   flex-shrink: 0;
   width: 72px;
   height: 72px;
-  background: #FFF0F5;
+  background: rgba(255, 255, 255, 0.5);
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: var(--space-4);
-  border: 1px solid rgba(242, 13, 111, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   overflow: hidden;
 }
 
@@ -263,7 +240,8 @@
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 1px;
-  color: #B48D31; /* Gold color from screenshot */
+  color: #B48D31;
+  /* Gold color from screenshot */
   text-transform: uppercase;
   margin-bottom: 4px;
 }
@@ -291,7 +269,8 @@
 .minimalPrice {
   font-size: var(--font-size-sm);
   font-weight: 800;
-  color: #B48D31; /* Gold matching brand */
+  color: #000;
+  /* Black */
 }
 
 .minimalChevron {
@@ -321,8 +300,15 @@
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 .emptyTitle {

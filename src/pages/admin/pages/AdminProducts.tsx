@@ -1,33 +1,19 @@
+import { ActionDropdown } from '@/features/admin/components/ActionDropdown'
 import React from 'react'
 import { createPortal } from 'react-dom'
-import { 
-  Search, Plus, Download, ChevronDown, Filter, X, Trash2, AlertTriangle,
-  ShoppingBag, Package, Tag, TrendingDown, Heart, 
-  Edit2, MoreVertical, ChevronLeft, ChevronRight 
-} from 'lucide-react'
+import { Search, Plus, Download, Filter, X, Trash2, AlertTriangle, Edit2, MoreVertical, ChevronLeft, ChevronRight, Eye, Copy, Archive, Package, Power, PowerOff } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import styles from './AdminProducts.module.css'
-import { CustomSelect } from '../components/CustomSelect'
-import { ViewToggle } from '../components/ViewToggle'
-import { AdminProductsSkeleton } from '../components/AdminProductsSkeleton'
+import deleteBtnStyles from '@/features/admin/components/AdminDeleteButton.module.css'
+import { CustomSelect } from '@/features/admin/components/CustomSelect'
+import { ViewToggle } from '@/features/admin/components/ViewToggle'
+import { AdminProductsSkeleton } from '@/features/admin/components/AdminProductsSkeleton'
+import { ProductDetailsModal } from '@/features/admin/components/ProductDetailsModal'
 
-const statsData = [
-  { id: 1, label: 'TOTAL PRODUCTS', value: '128', trend: '12.4%', isPositive: true, comparison: 'vs last 7 days', icon: ShoppingBag, color: 'var(--admin-pink)', bg: '#FFF0F5' },
-  { id: 2, label: 'ACTIVE PRODUCTS', value: '112', trend: '10.1%', isPositive: true, comparison: 'vs last 7 days', icon: Package, color: '#F59E0B', bg: '#FFF8E1' },
-  { id: 3, label: 'OUT OF STOCK', value: '4', trend: '3.2%', isPositive: false, comparison: 'vs last 7 days', icon: Tag, color: 'var(--admin-cyan)', bg: '#E0FAFC' },
-  { id: 4, label: 'LOW STOCK', value: '12', trend: '5.6%', isPositive: false, comparison: 'vs last 7 days', icon: TrendingDown, color: '#5C3317', bg: '#F5F5DC' },
-  { id: 5, label: 'TOTAL VIEWS', value: '24,350', trend: '18.7%', isPositive: true, comparison: 'vs last 7 days', icon: Heart, color: 'var(--admin-pink)', bg: '#FFF0F5' },
-];
+import { adminProductData } from '@/features/admin/api/mockAdminDataProvider'
 
-const productsData = [
-  { sku: 'CPR-001', name: 'Strawberry Bliss Pops', image: '/images/Products/mini valentine cake.jpeg', category: 'Fruity', price: '₹499', stock: 48, stockState: 'In Stock', status: 'Active', sales: 512, views: '2,350' },
-  { sku: 'CPR-002', name: 'Chocolate Crunch Pops', image: '/images/Products/Dark choclate cakepops.jpeg', category: 'Chocolate', price: '₹499', stock: 36, stockState: 'In Stock', status: 'Active', sales: 498, views: '2,120' },
-  { sku: 'CPR-003', name: 'Cute Chick Pops', image: '/images/Products/vanilla mango cupcakes.jpeg', category: 'Special', price: '₹449', stock: 8, stockState: 'Low Stock', status: 'Active', sales: 423, views: '1,890' },
-  { sku: 'CPR-004', name: 'Lavender Love Pops', image: '/images/Products/White choclate cakepops.jpeg', category: 'Floral', price: '₹549', stock: 0, stockState: 'Out of Stock', status: 'Inactive', sales: 215, views: '1,450' },
-  { sku: 'CPR-005', name: 'Red Velvet Pops', image: '/images/Products/Red velvet cookies.jpeg', category: 'Classic', price: '₹499', stock: 65, stockState: 'In Stock', status: 'Active', sales: 678, views: '3,100' },
-  { sku: 'CPR-006', name: 'Oreo Crunch Pops', image: '/images/Products/Oreo pops.jpeg', category: 'Chocolate', price: '₹549', stock: 12, stockState: 'Low Stock', status: 'Active', sales: 345, views: '1,780' },
-  { sku: 'CPR-007', name: 'Birthday Sprinkle Pops', image: '/images/Products/asorted flavours of cookies.jpeg', category: 'Special', price: '₹599', stock: 42, stockState: 'In Stock', status: 'Active', sales: 890, views: '4,200' },
-];
+const statsData = adminProductData.getStats();
+const initialProductsData = adminProductData.getProducts();
 
 const categoryOptions = [
   { value: 'all', label: 'All Categories' },
@@ -56,6 +42,29 @@ export function AdminProducts() {
   const [selectedItems, setSelectedItems] = React.useState<string[]>([]);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = React.useState(false);
   const [confirmAction, setConfirmAction] = React.useState('');
+  const [selectedProductDetails, setSelectedProductDetails] = React.useState<any | null>(null);
+
+  const [products, setProducts] = React.useState(initialProductsData);
+  const [isInventoryMode, setIsInventoryMode] = React.useState(false);
+
+  const handleStockUpdate = (sku: string, newStock: number) => {
+    setProducts(prev => prev.map(p => {
+      if (p.sku === sku) {
+        const stockState = newStock === 0 ? 'Out of Stock' : newStock <= 10 ? 'Low Stock' : 'In Stock';
+        return { ...p, stock: newStock, stockState };
+      }
+      return p;
+    }));
+  };
+
+  const toggleProductStatus = (sku: string) => {
+    setProducts(prev => prev.map(p => {
+      if (p.sku === sku) {
+        return { ...p, status: p.status === 'Active' ? 'Inactive' : 'Active' };
+      }
+      return p;
+    }));
+  };
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
@@ -82,10 +91,19 @@ export function AdminProducts() {
           <h1 className={styles.title}>Products</h1>
           <p className={styles.subtitle}>Manage your cake pop catalog, inventory and pricing.</p>
         </div>
-        <Link to="/admin/products/add" className={styles.addBtn} style={{ textDecoration: 'none' }}>
-          <Plus size={18} strokeWidth={2.5} />
-          Add Product
-        </Link>
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <button 
+            className={`${styles.btnOutline} ${isInventoryMode ? styles.activeInventoryBtn : ''}`} 
+            title="Inventory Mode"
+            onClick={() => setIsInventoryMode(!isInventoryMode)}
+          >
+            <Package className={styles.btnIcon} /> <span className={styles.hideMobile}>Inventory Mode</span>
+          </button>
+          <Link to="/admin/products/add" className={styles.addBtn} style={{ textDecoration: 'none' }}>
+            <Plus size={18} strokeWidth={2.5} />
+            Add Product
+          </Link>
+        </div>
       </div>
 
       <div className={styles.stickyWrapper}>
@@ -211,7 +229,7 @@ export function AdminProducts() {
               <thead>
                 <tr>
                   <th style={{ width: '40px' }}>
-                    <input type="checkbox" className={styles.checkbox} aria-label="Select all" checked={selectedItems.length === productsData.length && productsData.length > 0} onChange={(e) => setSelectedItems(e.target.checked ? productsData.map(p => p.sku) : [])} />
+                    <input type="checkbox" className={styles.checkbox} aria-label="Select all" checked={selectedItems.length === products.length && products.length > 0} onChange={(e) => setSelectedItems(e.target.checked ? products.map(p => p.sku) : [])} />
                   </th>
                   <th>PRODUCT</th>
                   <th>CATEGORY</th>
@@ -224,14 +242,14 @@ export function AdminProducts() {
                 </tr>
               </thead>
               <tbody>
-                {productsData.map((product, idx) => {
+                {products.map((product, idx) => {
                   const badgeClass = styles[product.category.toLowerCase()] || '';
                   const stockStateClass = product.stockState === 'In Stock' ? styles.inStock : 
                                          product.stockState === 'Low Stock' ? styles.lowStock : styles.outOfStock;
                   const statusClass = product.status === 'Active' ? styles.active : styles.inactive;
 
                   return (
-                    <tr key={idx}>
+                    <tr key={idx} className={product.status === 'Inactive' ? styles.inactiveRow : ''}>
                       <td>
                         <input type="checkbox" className={styles.checkbox} aria-label={`Select ${product.name}`} checked={selectedItems.includes(product.sku)} onChange={(e) => { if (e.target.checked) setSelectedItems(prev => [...prev, product.sku]); else setSelectedItems(prev => prev.filter(id => id !== product.sku)); }} />
                       </td>
@@ -253,8 +271,23 @@ export function AdminProducts() {
                         <div className={styles.cellText}>{product.price}</div>
                       </td>
                       <td>
-                        <div className={styles.cellText}>{product.stock} in stock</div>
-                        <div className={`${styles.stockStatus} ${stockStateClass}`}>{product.stockState}</div>
+                        {isInventoryMode ? (
+                          <div className={styles.inventoryInputWrapper}>
+                            <input 
+                              type="number" 
+                              className={styles.inventoryInput} 
+                              value={product.stock} 
+                              onChange={(e) => handleStockUpdate(product.sku, parseInt(e.target.value) || 0)}
+                              min="0"
+                            />
+                            <div className={`${styles.stockStatus} ${stockStateClass}`} style={{marginTop: 0}}>{product.stockState}</div>
+                          </div>
+                        ) : (
+                          <>
+                            <div className={styles.cellText}>{product.stock} in stock</div>
+                            <div className={`${styles.stockStatus} ${stockStateClass}`}>{product.stockState}</div>
+                          </>
+                        )}
                       </td>
                       <td>
                         <span className={`${styles.statusBadge} ${statusClass}`}>
@@ -270,7 +303,7 @@ export function AdminProducts() {
                       <td>
                         <div className={styles.actionsCell}>
                           <button 
-                            className="global-delete-btn" 
+                            className={deleteBtnStyles.deleteBtn} 
                             aria-label="Delete Product"
                             onClick={() => {
                               setSelectedItems([String(product.sku)]);
@@ -283,9 +316,16 @@ export function AdminProducts() {
                           <button className={styles.actionBtn} aria-label="Edit Product">
                             <Edit2 size={16} />
                           </button>
-                          <button className={styles.actionBtn} aria-label="More Actions">
-                            <MoreVertical size={16} />
-                          </button>
+                          <ActionDropdown actions={[
+      { label: 'View Details', icon: Eye, onClick: () => setSelectedProductDetails(product) },
+      ...(product.status === 'Active' ? [{ label: 'Update Stock', icon: Package }] : []),
+      { 
+        label: product.status === 'Active' ? 'Deactivate Product' : 'Activate Product', 
+        icon: product.status === 'Active' ? PowerOff : Power, 
+        variant: product.status === 'Active' ? 'danger' : 'success',
+        onClick: () => toggleProductStatus(product.sku)
+      }
+    ]} />
                         </div>
                       </td>
                     </tr>
@@ -298,14 +338,14 @@ export function AdminProducts() {
 
         {view === 'grid' && (
           <div className={styles.itemsGrid}>
-            {productsData.map((product, idx) => {
+            {products.map((product, idx) => {
               const badgeClass = styles[product.category.toLowerCase()] || '';
               const stockStateClass = product.stockState === 'In Stock' ? styles.inStock : 
                                      product.stockState === 'Low Stock' ? styles.lowStock : styles.outOfStock;
               const statusClass = product.status === 'Active' ? styles.active : styles.inactive;
 
               return (
-                <div key={`grid-${idx}`} className={styles.gridCard}>
+                <div key={`grid-${idx}`} className={`${styles.gridCard} ${product.status === 'Inactive' ? styles.inactiveCard : ''}`}>
                   <div className={styles.mobileCardHeader}>
                     <div className={styles.productCell}>
                       <input type="checkbox" className={styles.checkbox} aria-label={`Select ${product.name}`} checked={selectedItems.includes(product.sku)} onChange={(e) => { if (e.target.checked) setSelectedItems(prev => [...prev, product.sku]); else setSelectedItems(prev => prev.filter(id => id !== product.sku)); }} />
@@ -327,7 +367,7 @@ export function AdminProducts() {
 
                   <div className={styles.mobileCardRow}>
                     <span className={styles.mobileCardLabel}>Price / Stock:</span>
-                    <span className={styles.cellText}>{product.price} <span className={styles.cellSubtext}>| {product.stock} (<span className={`${styles.stockStatus} ${stockStateClass}`}>{product.stockState}</span>)</span></span>
+                    <span className={styles.cellText}>{product.price} <span className={styles.cellSubtext}>| {isInventoryMode ? <input type="number" className={styles.inventoryInput} style={{padding: '2px 4px'}} value={product.stock} onChange={(e) => handleStockUpdate(product.sku, parseInt(e.target.value) || 0)} min="0" /> : product.stock} (<span className={`${styles.stockStatus} ${stockStateClass}`}>{product.stockState}</span>)</span></span>
                   </div>
 
                   <div className={styles.mobileCardRow}>
@@ -339,7 +379,7 @@ export function AdminProducts() {
                     <span className={styles.mobileCardLabel}>Actions:</span>
                     <div className={styles.actionsCell}>
                       <button 
-                        className="global-delete-btn" 
+                        className={deleteBtnStyles.deleteBtn} 
                         aria-label="Delete Product"
                         onClick={() => {
                           setSelectedItems([String(product.sku)]);
@@ -350,7 +390,16 @@ export function AdminProducts() {
                         <Trash2 size={16} />
                       </button>
                       <button className={styles.actionBtn} aria-label="Edit Product"><Edit2 size={16} /></button>
-                      <button className={styles.actionBtn} aria-label="More Actions"><MoreVertical size={16} /></button>
+                      <ActionDropdown actions={[
+      { label: 'View Details', icon: Eye, onClick: () => setSelectedProductDetails(product) },
+      ...(product.status === 'Active' ? [{ label: 'Update Stock', icon: Package }] : []),
+      { 
+        label: product.status === 'Active' ? 'Deactivate Product' : 'Activate Product', 
+        icon: product.status === 'Active' ? PowerOff : Power, 
+        variant: product.status === 'Active' ? 'danger' : 'success',
+        onClick: () => toggleProductStatus(product.sku)
+      }
+    ]} />
                     </div>
                   </div>
                 </div>
@@ -361,14 +410,14 @@ export function AdminProducts() {
 
         {/* Mobile View */}
         <div className={styles.mobileCards} style={{ display: view === 'list' ? 'none' : '' }}>
-          {productsData.map((product, idx) => {
+          {products.map((product, idx) => {
             const badgeClass = styles[product.category.toLowerCase()] || '';
             const stockStateClass = product.stockState === 'In Stock' ? styles.inStock : 
                                    product.stockState === 'Low Stock' ? styles.lowStock : styles.outOfStock;
             const statusClass = product.status === 'Active' ? styles.active : styles.inactive;
 
             return (
-              <div key={idx} className={styles.mobileCard}>
+              <div key={idx} className={`${styles.mobileCard} ${product.status === 'Inactive' ? styles.inactiveCard : ''}`}>
                 <div className={styles.mobileCardHeader}>
                   <div className={styles.productCell}>
                     <input type="checkbox" className={styles.checkbox} aria-label={`Select ${product.name}`} checked={selectedItems.includes(product.sku)} onChange={(e) => { if (e.target.checked) setSelectedItems(prev => [...prev, product.sku]); else setSelectedItems(prev => prev.filter(id => id !== product.sku)); }} />
@@ -390,7 +439,7 @@ export function AdminProducts() {
 
                 <div className={styles.mobileCardRow}>
                   <span className={styles.mobileCardLabel}>Price / Stock:</span>
-                  <span className={styles.cellText}>{product.price} <span className={styles.cellSubtext}>| {product.stock} (<span className={`${styles.stockStatus} ${stockStateClass}`}>{product.stockState}</span>)</span></span>
+                  <span className={styles.cellText}>{product.price} <span className={styles.cellSubtext}>| {isInventoryMode ? <input type="number" className={styles.inventoryInput} style={{padding: '2px 4px'}} value={product.stock} onChange={(e) => handleStockUpdate(product.sku, parseInt(e.target.value) || 0)} min="0" /> : product.stock} (<span className={`${styles.stockStatus} ${stockStateClass}`}>{product.stockState}</span>)</span></span>
                 </div>
 
                 <div className={styles.mobileCardRow}>
@@ -402,7 +451,7 @@ export function AdminProducts() {
                   <span className={styles.mobileCardLabel}>Actions:</span>
                   <div className={styles.actionsCell}>
                     <button 
-                      className="global-delete-btn" 
+                      className={deleteBtnStyles.deleteBtn} 
                       aria-label="Delete Product"
                       onClick={() => {
                         setSelectedItems([String(product.sku)]);
@@ -413,7 +462,16 @@ export function AdminProducts() {
                       <Trash2 size={16} />
                     </button>
                     <button className={styles.actionBtn} aria-label="Edit Product"><Edit2 size={16} /></button>
-                    <button className={styles.actionBtn} aria-label="More Actions"><MoreVertical size={16} /></button>
+                      <ActionDropdown actions={[
+      { label: 'View Details', icon: Eye, onClick: () => setSelectedProductDetails(product) },
+      ...(product.status === 'Active' ? [{ label: 'Update Stock', icon: Package }] : []),
+      { 
+        label: product.status === 'Active' ? 'Deactivate Product' : 'Activate Product', 
+        icon: product.status === 'Active' ? PowerOff : Power, 
+        variant: product.status === 'Active' ? 'danger' : 'success',
+        onClick: () => toggleProductStatus(product.sku)
+      }
+    ]} />
                   </div>
                 </div>
               </div>
@@ -467,6 +525,8 @@ export function AdminProducts() {
         </div>,
         document.body
       )}
+
+      <ProductDetailsModal product={selectedProductDetails} onClose={() => setSelectedProductDetails(null)} />
     </div>
   )
 }

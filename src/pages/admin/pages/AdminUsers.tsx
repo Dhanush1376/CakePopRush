@@ -1,75 +1,23 @@
 import React from 'react'
 import { createPortal } from 'react-dom'
+import { ActionDropdown } from '@/features/admin/components/ActionDropdown'
 import { 
-  Users, Shield, Edit, Key,
   Search, Filter, Download, 
-  Eye, MoreVertical, Plus, ChevronLeft, ChevronRight, X, Trash2, AlertTriangle
+  Eye, MoreVertical, Plus, ChevronLeft, ChevronRight, X, Trash2, AlertTriangle, Key, UserX
 } from 'lucide-react'
-import { CustomSelect } from '../components/CustomSelect'
-import { ViewToggle } from '../components/ViewToggle'
+import { CustomSelect } from '@/features/admin/components/CustomSelect'
+import { ViewToggle } from '@/features/admin/components/ViewToggle'
 import styles from './AdminUsers.module.css'
-import { AdminUsersSkeleton } from '../components/AdminUsersSkeleton';
+import deleteBtnStyles from '@/features/admin/components/AdminDeleteButton.module.css'
+import { AdminUsersSkeleton } from '@/features/admin/components/AdminUsersSkeleton';
 import { ResponsiveModal } from '@/components/ui/ResponsiveModal'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 
-// KPI Data
-const kpiData = [
-  { id: 1, label: 'TOTAL USERS', value: '3', trend: '0.0%', isPositive: true, isNeutral: true, icon: Users, color: 'var(--admin-pink)', bg: '#FFF0F5' },
-  { id: 2, label: 'ACTIVE USERS', value: '3', trend: '100%', isPositive: true, isNeutral: false, icon: Shield, color: '#F59E0B', bg: '#FFF8E1' },
-  { id: 3, label: 'ADMINISTRATORS', value: '1', trend: '33.3%', isPositive: true, isNeutral: false, icon: Shield, color: 'var(--admin-cyan)', bg: '#E0FAFC' },
-  { id: 4, label: 'EDITORS', value: '1', trend: '33.3%', isPositive: true, isNeutral: false, icon: Edit, color: 'var(--admin-purple)', bg: '#F3E5F5' },
-  { id: 5, label: 'SUPER ADMINS', value: '1', trend: '33.3%', isPositive: true, isNeutral: false, icon: Key, color: '#5C3317', bg: '#F5F5DC' },
-];
+import { adminUserData } from '@/features/admin/api/mockAdminDataProvider'
 
-// Mock Users
-const users = [
-  {
-    id: 1,
-    name: 'Priyanka',
-    email: 'priyanka@cakepoprush.com',
-    initials: 'PR',
-    avatarBg: '#FFF0F5',
-    avatarColor: 'var(--admin-pink)',
-    isYou: false,
-    role: 'Super Admin',
-    status: 'Active',
-    lastLoginDate: 'May 24, 2025',
-    lastLoginTime: '10:30 AM',
-    joinDate: 'Jan 01, 2024',
-    joinTime: '11:00 AM'
-  },
-  {
-    id: 2,
-    name: 'Sravani',
-    email: 'sravani@cakepoprush.com',
-    initials: 'SR',
-    avatarBg: '#FFF8E1',
-    avatarColor: '#F59E0B',
-    isYou: false,
-    role: 'Administrator',
-    status: 'Active',
-    lastLoginDate: 'May 24, 2025',
-    lastLoginTime: '09:15 AM',
-    joinDate: 'Jan 10, 2024',
-    joinTime: '09:30 AM'
-  },
-  {
-    id: 3,
-    name: 'Dhanush',
-    email: 'dhanush@cakepoprush.com',
-    initials: 'DH',
-    avatarBg: '#E0FAFC',
-    avatarColor: 'var(--admin-cyan)',
-    isYou: true,
-    role: 'Editor',
-    status: 'Active',
-    lastLoginDate: 'May 24, 2025',
-    lastLoginTime: '08:45 AM',
-    joinDate: 'Jan 15, 2024',
-    joinTime: '02:20 PM'
-  }
-];
+const kpiData = adminUserData.getStats();
+const users = adminUserData.getUsers();
 
 const roleOptions = [
   { value: 'all', label: 'All Roles' },
@@ -344,7 +292,7 @@ export function AdminUsers() {
                   <td>
                     <div className={styles.actionsCell}>
                       <button 
-                        className="global-delete-btn" 
+                        className={deleteBtnStyles.deleteBtn} 
                         aria-label="Delete User"
                         onClick={() => {
                           setSelectedItems([String(user.id)]);
@@ -354,8 +302,11 @@ export function AdminUsers() {
                       >
                         <Trash2 size={14} />
                       </button>
-                      <button className={styles.actionBtn}><Eye size={14} /></button>
-                      <button className={styles.actionBtn}><MoreVertical size={14} /></button>
+                      <ActionDropdown actions={[
+                        { label: 'View Profile', icon: Eye },
+                        { label: 'Reset Password', icon: Key },
+                        { label: 'Deactivate User', icon: UserX, variant: 'danger' as const }
+                      ]} />
                     </div>
                   </td>
                 </tr>
@@ -417,7 +368,7 @@ export function AdminUsers() {
 
               <div className={styles.mcActions}>
                 <button 
-                  className="global-delete-btn" 
+                  className={deleteBtnStyles.deleteBtn} 
                   aria-label="Delete User"
                   onClick={() => {
                     setSelectedItems([String(user.id)]);
@@ -427,8 +378,11 @@ export function AdminUsers() {
                 >
                   <Trash2 size={14} />
                 </button>
-                <button className={styles.actionBtn}><Eye size={14} /></button>
-                <button className={styles.actionBtn}><MoreVertical size={14} /></button>
+                <ActionDropdown actions={[
+                  { label: 'View Profile', icon: Eye },
+                  { label: 'Reset Password', icon: Key },
+                  { label: 'Deactivate User', icon: UserX, variant: 'danger' as const }
+                ]} />
               </div>
             </div>
           ))}

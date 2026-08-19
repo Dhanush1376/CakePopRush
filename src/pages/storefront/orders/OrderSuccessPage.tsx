@@ -1,57 +1,23 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useParams, Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CheckCircle2, Package, Truck, ShoppingBag, MapPin, Phone, Star, Receipt, Box, ArrowRight, X, Download } from 'lucide-react'
+import { Truck, MapPin, Receipt, Box, ArrowRight, X } from 'lucide-react'
 
 import { CakePopMascot } from '@/components/mascot/CakePopMascot'
 import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator'
-import { useCart } from '@/lib/cartStore' // Used for empty cart fallback check if needed
-import { MOCK_ORDERS } from './OrdersPage'
-import { InvoiceViewer, downloadInvoicePDF } from '@/components/invoice/InvoiceViewer'
-import { mapOrderToInvoiceData } from '@/types/invoice'
+import { useCart } from '@/features/cart' // Used for empty cart fallback check if needed
+import { orderData } from '@/features/orders'
+import { InvoiceViewer } from '@/components/invoice/InvoiceViewer'
+import { mapOrderToInvoiceData } from '@/lib/invoiceMapper'
+import { productData } from '@/features/products'
+
+import { OrderTimeline } from './components/OrderTimeline'
+import { DeliveryCard } from './components/DeliveryCard'
+import { PaymentSummaryCard } from './components/PaymentSummaryCard'
+
 import styles from './OrderSuccessPage.module.css'
 
-// We will use a mock order structure similar to OrderTrackingPage for display
-const MOCK_SUCCESS_ORDER = {
-  date: 'Today',
-  time: 'Just now',
-  status: 'confirmed',
-  orderType: 'Delivery',
-  estimatedDelivery: 'Today',
-  estimatedTime: '6:30 PM – 7:00 PM',
-  items: [
-    { id: '1', name: 'Assorted Cake Pops Box', qty: 1, unitPrice: 599, subtotal: 599, icon: <Star size={16} /> }
-  ],
-  totalProducts: 1,
-  totalQuantity: 1,
-  address: {
-    recipientName: 'Dhanush',
-    phone: '+91 98765 43210',
-    houseNo: '12A',
-    street: 'MG Road',
-    area: 'Koramangala',
-    city: 'Bangalore',
-    state: 'Karnataka',
-    pincode: '560034',
-    type: 'Home'
-  },
-  price: {
-    itemSubtotal: 599,
-    productDiscount: 0,
-    couponDiscount: 50,
-    deliveryFee: 40,
-    packagingFee: 0,
-    taxes: 0,
-    totalDiscount: 50,
-    amountPaid: 589
-  },
-  payment: {
-    method: 'UPI',
-    status: 'Paid',
-    provider: 'Google Pay'
-  }
-}
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -354,90 +320,33 @@ export function OrderSuccessPage() {
         <div className={styles.mainColumn}>
           {/* Order Status */}
           <Section>
-            {/* Auth Modal Animated Green Tick */}
-            <div className={styles.bigTickWrapper}>
-              <motion.div 
-                className={styles.authTickCircle}
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.1 }}
-              >
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <motion.path 
-                    d="M5 13L9 17L19 7"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.5, ease: "easeOut", delay: 0.3 }}
-                  />
-                </svg>
-              </motion.div>
-              <h3 className={styles.bigTickTitle}>Order Confirmed!</h3>
-              <p className={styles.bigTickSubtext}>We've received your order and started preparing it.</p>
-            </div>
-
-            {/* Horizontal Stepper with Yellow, Pink & Turquoise Green */}
-            <div className={styles.colorfulStepperContainer}>
-              <div className={styles.colorfulStepperTrack}>
-                <div className={styles.colorfulStepperFill} />
-              </div>
-
-              <div className={styles.colorfulSteps}>
-                {/* Step 1: Yellow */}
-                <div className={`${styles.colorfulStep} ${styles.stepYellow}`}>
-                  <div className={styles.colorfulNode}>
-                    <CheckCircle2 size={16} />
-                  </div>
-                  <span className={styles.colorfulLabel}>Order Placed</span>
-                </div>
-
-                {/* Step 2: Pink */}
-                <div className={`${styles.colorfulStep} ${styles.stepPink}`}>
-                  <div className={styles.colorfulNode}>
-                    <CheckCircle2 size={16} />
-                  </div>
-                  <span className={styles.colorfulLabel}>Confirmed</span>
-                </div>
-
-                {/* Step 3: Turquoise Green */}
-                <div className={`${styles.colorfulStep} ${styles.stepTurquoise}`}>
-                  <div className={styles.colorfulNode}>
-                    <Package size={16} />
-                  </div>
-                  <span className={styles.colorfulLabel}>Preparing</span>
-                </div>
-              </div>
-            </div>
+            <OrderTimeline />
           </Section>
 
           {/* Delivery Address */}
           <Section title="Delivery Address" icon={<MapPin size={18} />}>
-            <div className={styles.addressCard}>
-              <div className={styles.addressType}>
-                <MapPin size={14} />
-                <span>{MOCK_SUCCESS_ORDER.address.type}</span>
-              </div>
-              <p className={styles.addressName}>{MOCK_SUCCESS_ORDER.address.recipientName}</p>
-              <p className={styles.addressLine}>
-                {MOCK_SUCCESS_ORDER.address.houseNo}<br />
-                {MOCK_SUCCESS_ORDER.address.street}, {MOCK_SUCCESS_ORDER.address.area}<br />
-                {MOCK_SUCCESS_ORDER.address.city}, {MOCK_SUCCESS_ORDER.address.state} – {MOCK_SUCCESS_ORDER.address.pincode}
-              </p>
-              <p className={styles.addressPhone}>
-                <Phone size={12} /> {MOCK_SUCCESS_ORDER.address.phone}
-              </p>
-            </div>
-            {MOCK_SUCCESS_ORDER.estimatedDelivery && (
-              <div className={styles.metaRowGroup}>
-                <InfoRow label="Estimated Delivery" value={`${MOCK_SUCCESS_ORDER.estimatedDelivery}, ${MOCK_SUCCESS_ORDER.estimatedTime}`} accent compact />
-              </div>
-            )}
+            <DeliveryCard 
+              address={orderData.getOrderById('CPR-20482')!.address}
+              estimatedDelivery={orderData.getOrderById('CPR-20482')!.estimatedDelivery}
+              estimatedTime={orderData.getOrderById('CPR-20482')!.estimatedTime}
+              InfoRowComponent={InfoRow}
+            />
           </Section>
 
           {/* Order Items */}
-          <Section title={`Order Items (${MOCK_SUCCESS_ORDER.totalProducts} items)`} icon={<Box size={18} />}>
-            {MOCK_SUCCESS_ORDER.items.map(item => (
+          <Section title={`Order Items (${orderData.getOrderById('CPR-20482')!.totalProducts} items)`} icon={<Box size={18} />}>
+            {orderData.getOrderById('CPR-20482')!.items.map(item => {
+              const product = productData.getProductById(item.id);
+              const imageUrl = item.image || product?.images?.[0]?.url;
+              return (
               <div key={item.id} className={styles.itemCard}>
-                <div className={styles.itemIcon}>{item.icon}</div>
+                <div className={styles.itemIcon}>
+                  {imageUrl ? (
+                    <img src={imageUrl} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+                  ) : (
+                    item.icon
+                  )}
+                </div>
                 <div className={styles.itemDetails}>
                   <span className={styles.itemName}>{item.name}</span>
                   <span className={styles.itemQty}>Qty: {item.qty} × Rs.{item.unitPrice}</span>
@@ -446,27 +355,18 @@ export function OrderSuccessPage() {
                   <span className={styles.itemSubtotal}>Rs.{item.subtotal}</span>
                 </div>
               </div>
-            ))}
+            )})}
           </Section>
         </div>
 
         <div className={styles.sideColumn}>
           {/* Price Details */}
           <Section title="Payment Summary" icon={<Receipt size={18} />}>
-            <InfoRow label="Subtotal" value={`Rs.${MOCK_SUCCESS_ORDER.price.itemSubtotal}`} />
-            <InfoRow label="Delivery" value={`Rs.${MOCK_SUCCESS_ORDER.price.deliveryFee}`} />
-            {MOCK_SUCCESS_ORDER.price.couponDiscount > 0 && (
-              <InfoRow label="Discount" value={`-Rs.${MOCK_SUCCESS_ORDER.price.couponDiscount}`} />
-            )}
-            <div className={styles.totalRow}>
-              <span>Total</span>
-              <span>Rs.{MOCK_SUCCESS_ORDER.price.amountPaid}</span>
-            </div>
-            
-            <div className={styles.paymentMetaBox}>
-               <InfoRow label="Payment Method" value={MOCK_SUCCESS_ORDER.payment.method} compact />
-               <InfoRow label="Status" value="Paid" statusBadge compact />
-            </div>
+            <PaymentSummaryCard 
+              price={orderData.getOrderById('CPR-20482')!.price}
+              payment={orderData.getOrderById('CPR-20482')!.payment}
+              InfoRowComponent={InfoRow}
+            />
           </Section>
 
           <div className={styles.globalActions}>
@@ -487,7 +387,7 @@ export function OrderSuccessPage() {
       <InvoiceViewer 
         isOpen={showInvoice}
         onClose={() => setShowInvoice(false)}
-        data={mapOrderToInvoiceData({ ...MOCK_SUCCESS_ORDER, id: id || '0' })}
+        data={mapOrderToInvoiceData({ ...orderData.getOrderById('CPR-20482')!, id: id || '0' })}
       />
     </div>
   )

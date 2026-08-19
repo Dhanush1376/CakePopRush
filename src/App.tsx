@@ -28,6 +28,9 @@ function App() {
   }
 
 
+  const hideFooterRoutes = ['/profile', '/orders', '/cart', '/checkout', '/wishlist']
+  const shouldHideFooter = hideFooterRoutes.some(route => pathname === route || pathname.startsWith(`${route}/`))
+
   return (
     <>
       <AnimatePresence>
@@ -36,12 +39,13 @@ function App() {
 
       <div className="app-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <MascotOrchestrationProvider>
+          <a href="#main-content" className="skip-link">Skip to main content</a>
           <GlobalHeartAnimation />
           <Header />
-          <main style={{ flex: '1 0 auto' }}>
+          <main id="main-content" style={{ flex: '1 0 auto', outline: 'none' }} tabIndex={-1}>
             <Outlet />
           </main>
-          <Footer />
+          {!shouldHideFooter && <Footer />}
           <BottomNavigation />
           <ToastContainer />
           {!showSplash && (

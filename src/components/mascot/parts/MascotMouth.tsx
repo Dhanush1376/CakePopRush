@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, Variants } from 'framer-motion';
 import { MOUTH } from '../config/mascotConfig';
-import { LIMB_BLACK, MASCOT_PINK, MASCOT_TONGUE } from '../config/mascotConstants';
+import { LIMB_BLACK, MASCOT_TONGUE } from '../config/mascotConstants';
 
 export type MascotMouthShape =
   | 'neutral' | 'smallSmile' | 'happy' | 'openSmile'

@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
+import React, {} from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowRight, UploadCloud, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowRight, UploadCloud } from 'lucide-react'
 import styles from './HomePage.module.css'
 import { Container } from '@/components/layout/Container'
 import { Button } from '@/components/ui/Button'
 import { ProductCard } from '@/components/commerce/ProductCard'
-import { CategoryChip } from '@/components/commerce/CategoryChip'
-import { mockProducts, mockCategories, getBestSellingProducts } from '@/mocks/products'
+import { productData } from '@/features/products'
 
 const CATEGORY_IMAGES: Record<string, string> = {
   'cake-pops': '/images/Products/White choclate cakepops.jpeg',
@@ -34,8 +33,8 @@ export const ShopByCategorySection = () => {
           </button>
         </div>
         <div className={styles.categoryGrid}>
-          {mockCategories.slice(1).map((category) => {
-            const imageUrl = CATEGORY_IMAGES[category.id] || mockProducts.find(p => p.categoryName === category.name)?.images[0]?.url || '/images/Products/White choclate cakepops.jpeg';
+          {productData.getCategories().slice(1).map((category) => {
+            const imageUrl = CATEGORY_IMAGES[category.id] || productData.getProducts().find(p => p.categoryName === category.name)?.images[0]?.url || '/images/Products/White choclate cakepops.jpeg';
             return (
               <div 
                 key={category.id} 
@@ -58,7 +57,7 @@ export const ShopByCategorySection = () => {
 
 export const NewLaunchSection = () => {
   const navigate = useNavigate()
-  const newLaunches = mockProducts.filter(p => p.isNew)
+  const newLaunches = productData.getProducts().filter(p => p.isNew)
 
   if (newLaunches.length === 0) return null;
 
@@ -86,7 +85,7 @@ export const NewLaunchSection = () => {
 
 export const BestSellersSection = () => {
   const navigate = useNavigate()
-  const bestSellers = getBestSellingProducts(8)
+  const bestSellers = productData.getBestSellingProducts(8)
   return (
     <section className={styles.section}>
       <Container>

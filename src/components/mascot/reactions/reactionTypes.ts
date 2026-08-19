@@ -1,4 +1,5 @@
 export type MascotReaction =
+  | 'happy' | 'determined' // newly registered
   | 'winking' | 'blushing' | 'heartEyes' | 'laughing'
   | 'excited' | 'surprised' | 'oops'
   | 'confused' | 'cool' | 'sleeping' | 'tired'

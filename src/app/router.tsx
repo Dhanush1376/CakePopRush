@@ -1,155 +1,179 @@
+import React, { Suspense, lazy } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import App from '@/App'
 import { HomePage } from '@/pages/storefront/HomePage'
 import { ShopPage } from '@/pages/storefront/ShopPage'
 import { ProductDetailPage } from '@/pages/storefront/product/ProductDetailPage'
-import { ProductReviewsPage } from '@/pages/storefront/product/ProductReviewsPage'
 import { CartPage } from '@/pages/storefront/cart/CartPage'
-import { CheckoutDeliveryPage } from '@/pages/storefront/checkout/CheckoutDeliveryPage'
-import { CheckoutPaymentPage } from '@/pages/storefront/checkout/CheckoutPaymentPage'
-import { DesignSystemPage } from '@/pages/storefront/DesignSystemPage'
-import { AdminMascotPlayground } from '@/pages/admin/pages/AdminMascotPlayground'
-import { AdminErrorBoundary } from '@/pages/admin/components/AdminErrorBoundary'
-import { ServerErrorPage } from '@/pages/error/ServerErrorPage'
-import { NotFoundPage } from '@/pages/error/NotFoundPage'
-import { ErrorTrackingPanel } from '@/pages/admin/ErrorTrackingPanel'
 import { WishlistPage } from '@/pages/storefront/wishlist/WishlistPage'
+
+import { AdminErrorBoundary } from '@/features/admin/components/AdminErrorBoundary'
+import { GlobalErrorBoundary } from '@/components/error/GlobalErrorBoundary'
+import { StorefrontErrorBoundary } from '@/components/error/StorefrontErrorBoundary'
+import { NotFoundPage } from '@/pages/error/NotFoundPage'
+
 import { ProfilePage } from '@/pages/storefront/profile/ProfilePage'
 import { TermsPage } from '@/pages/storefront/legal/TermsPage'
 import { PrivacyPage } from '@/pages/storefront/legal/PrivacyPage'
 import { ContactPage } from '@/pages/storefront/info/ContactPage'
-import { OrdersPage } from '@/pages/storefront/orders/OrdersPage'
-import { OrderTrackingPage } from '@/pages/storefront/orders/OrderTrackingPage'
-import { OrderSuccessPage } from '@/pages/storefront/orders/OrderSuccessPage'
-import { CustomOrdersPage } from '@/pages/storefront/custom-orders/CustomOrdersPage'
-import { AdminLayout } from '@/pages/admin/AdminLayout'
-import { AdminDashboard } from '@/pages/admin/AdminDashboard'
-import { AdminOrders } from '@/pages/admin/pages/AdminOrders'
-import { AdminNewOrder } from '@/pages/admin/pages/AdminNewOrder'
-import { AdminProducts } from '@/pages/admin/pages/AdminProducts'
-import { AdminAddProduct } from '@/pages/admin/pages/AdminAddProduct'
-import { AdminCategories } from '@/pages/admin/pages/AdminCategories'
-import { AdminCustomers } from '@/pages/admin/pages/AdminCustomers'
-import { AdminCustomOrders } from '@/pages/admin/pages/AdminCustomOrders'
-import { AdminReviews } from '@/pages/admin/pages/AdminReviews'
-import { AdminCoupons } from '@/pages/admin/pages/AdminCoupons'
-import { AdminAddCoupon } from '@/pages/admin/pages/AdminAddCoupon'
-import { AdminAnalytics } from '@/pages/admin/pages/AdminAnalytics'
-import { AdminBanners } from '@/pages/admin/pages/AdminBanners'
-import { AdminSettings } from '@/pages/admin/pages/AdminSettings'
-import { AdminUsers } from '@/pages/admin/pages/AdminUsers'
-import { AdminNotifications } from '@/pages/admin/pages/AdminNotifications'
-import { AdminStorefrontCMS } from '@/pages/admin/pages/AdminStorefrontCMS'
-import { AdminAddCustomOrder } from '@/pages/admin/pages/AdminAddCustomOrder'
+
+import { SuspenseFallback } from '@/components/ui/SuspenseFallback'
+
+// Lazy-loaded heavy storefront pages
+const ProductReviewsPage = lazy(() => import('@/pages/storefront/product/ProductReviewsPage').then(m => ({ default: m.ProductReviewsPage })))
+const CheckoutDeliveryPage = lazy(() => import('@/pages/storefront/checkout/CheckoutDeliveryPage').then(m => ({ default: m.CheckoutDeliveryPage })))
+const CheckoutPaymentPage = lazy(() => import('@/pages/storefront/checkout/CheckoutPaymentPage').then(m => ({ default: m.CheckoutPaymentPage })))
+const DesignSystemPage = lazy(() => import('@/pages/storefront/DesignSystemPage').then(m => ({ default: m.DesignSystemPage })))
+const OrdersPage = lazy(() => import('@/pages/storefront/orders/OrdersPage').then(m => ({ default: m.OrdersPage })))
+const OrderTrackingPage = lazy(() => import('@/pages/storefront/orders/OrderTrackingPage').then(m => ({ default: m.OrderTrackingPage })))
+const OrderSuccessPage = lazy(() => import('@/pages/storefront/orders/OrderSuccessPage').then(m => ({ default: m.OrderSuccessPage })))
+const CustomOrdersPage = lazy(() => import('@/pages/storefront/custom-orders/CustomOrdersPage').then(m => ({ default: m.CustomOrdersPage })))
+
+// Lazy-loaded admin pages
+const AdminLayout = lazy(() => import('@/pages/admin/AdminLayout').then(m => ({ default: m.AdminLayout })))
+const AdminDashboard = lazy(() => import('@/pages/admin/AdminDashboard').then(m => ({ default: m.AdminDashboard })))
+const AdminOrders = lazy(() => import('@/pages/admin/pages/AdminOrders').then(m => ({ default: m.AdminOrders })))
+const AdminOrderDetail = lazy(() => import('@/pages/admin/pages/AdminOrderDetail').then(m => ({ default: m.AdminOrderDetail })))
+const AdminNewOrder = lazy(() => import('@/pages/admin/pages/AdminNewOrder').then(m => ({ default: m.AdminNewOrder })))
+const AdminProducts = lazy(() => import('@/pages/admin/pages/AdminProducts').then(m => ({ default: m.AdminProducts })))
+const AdminAddProduct = lazy(() => import('@/pages/admin/pages/AdminAddProduct').then(m => ({ default: m.AdminAddProduct })))
+const AdminCategories = lazy(() => import('@/pages/admin/pages/AdminCategories').then(m => ({ default: m.AdminCategories })))
+const AdminCustomers = lazy(() => import('@/pages/admin/pages/AdminCustomers').then(m => ({ default: m.AdminCustomers })))
+const AdminCustomOrders = lazy(() => import('@/pages/admin/pages/AdminCustomOrders').then(m => ({ default: m.AdminCustomOrders })))
+const AdminReviews = lazy(() => import('@/pages/admin/pages/AdminReviews').then(m => ({ default: m.AdminReviews })))
+const AdminCoupons = lazy(() => import('@/pages/admin/pages/AdminCoupons').then(m => ({ default: m.AdminCoupons })))
+const AdminAddCoupon = lazy(() => import('@/pages/admin/pages/AdminAddCoupon').then(m => ({ default: m.AdminAddCoupon })))
+const AdminAnalytics = lazy(() => import('@/pages/admin/pages/AdminAnalytics').then(m => ({ default: m.AdminAnalytics })))
+const AdminBanners = lazy(() => import('@/pages/admin/pages/AdminBanners').then(m => ({ default: m.AdminBanners })))
+const AdminSettings = lazy(() => import('@/pages/admin/pages/AdminSettings').then(m => ({ default: m.AdminSettings })))
+const AdminUsers = lazy(() => import('@/pages/admin/pages/AdminUsers').then(m => ({ default: m.AdminUsers })))
+const AdminNotifications = lazy(() => import('@/pages/admin/pages/AdminNotifications').then(m => ({ default: m.AdminNotifications })))
+const AdminStorefrontCMS = lazy(() => import('@/pages/admin/pages/AdminStorefrontCMS').then(m => ({ default: m.AdminStorefrontCMS })))
+const AdminAddCustomOrder = lazy(() => import('@/pages/admin/pages/AdminAddCustomOrder').then(m => ({ default: m.AdminAddCustomOrder })))
+const ErrorTrackingPanel = lazy(() => import('@/pages/admin/ErrorTrackingPanel').then(m => ({ default: m.ErrorTrackingPanel })))
+const AdminMascotPlayground = lazy(() => import('@/pages/admin/pages/AdminMascotPlayground').then(m => ({ default: m.AdminMascotPlayground })))
+
+// Helper for wrapping lazy routes
+const LazyWrap = ({ children }: { children: React.ReactNode }) => (
+  <Suspense fallback={<SuspenseFallback />}>
+    {children}
+  </Suspense>
+);
+
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    errorElement: <ServerErrorPage />,
+    errorElement: <GlobalErrorBoundary />,
     children: [
       {
-        index: true,
-        element: <HomePage />,
-      },
-      {
-        path: 'shop',
-        element: <ShopPage />,
-      },
-      {
-        path: 'product/:id',
-        element: <ProductDetailPage />,
-      },
-      {
-        path: 'wishlist',
-        element: <WishlistPage />,
-      },
-      {
-        path: 'cart',
-        element: <CartPage />,
-      },
-      {
-        path: 'checkout',
-        element: <CheckoutDeliveryPage />,
-      },
-      {
-        path: 'payment',
-        element: <CheckoutPaymentPage />,
-      },
-      {
-        path: 'profile',
-        element: <ProfilePage />,
-      },
-      {
-        path: 'orders',
-        element: <OrdersPage />,
-      },
-      {
-        path: 'orders/:id',
-        element: <OrderTrackingPage />,
-      },
-      {
-        path: 'order-success/:id',
-        element: <OrderSuccessPage />,
-      },
-
-      {
-        path: 'product/:id/reviews',
-        element: <ProductReviewsPage />,
-      },
-      {
-        path: 'design-system',
-        element: <DesignSystemPage />,
-      },
-      {
-        path: 'terms',
-        element: <TermsPage />,
-      },
-      {
-        path: 'contact',
-        element: <ContactPage />,
-      },
-      {
-        path: 'privacy',
-        element: <PrivacyPage />,
-      },
-      {
-        path: 'custom-orders',
-        element: <CustomOrdersPage />,
-      },
-      {
-        path: '*',
-        element: <NotFoundPage />,
+        errorElement: <StorefrontErrorBoundary />,
+        children: [
+          {
+            index: true,
+            element: <HomePage />,
+          },
+          {
+            path: 'shop',
+            element: <ShopPage />,
+          },
+          {
+            path: 'product/:id',
+            element: <ProductDetailPage />,
+          },
+          {
+            path: 'wishlist',
+            element: <WishlistPage />,
+          },
+          {
+            path: 'cart',
+            element: <CartPage />,
+          },
+          {
+            path: 'checkout',
+            element: <LazyWrap><CheckoutDeliveryPage /></LazyWrap>,
+          },
+          {
+            path: 'payment',
+            element: <LazyWrap><CheckoutPaymentPage /></LazyWrap>,
+          },
+          {
+            path: 'profile',
+            element: <ProfilePage />,
+          },
+          {
+            path: 'orders',
+            element: <LazyWrap><OrdersPage /></LazyWrap>,
+          },
+          {
+            path: 'orders/:id',
+            element: <LazyWrap><OrderTrackingPage /></LazyWrap>,
+          },
+          {
+            path: 'order-success/:id',
+            element: <LazyWrap><OrderSuccessPage /></LazyWrap>,
+          },
+          {
+            path: 'product/:id/reviews',
+            element: <LazyWrap><ProductReviewsPage /></LazyWrap>,
+          },
+          {
+            path: 'design-system',
+            element: <LazyWrap><DesignSystemPage /></LazyWrap>,
+          },
+          {
+            path: 'terms',
+            element: <TermsPage />,
+          },
+          {
+            path: 'contact',
+            element: <ContactPage />,
+          },
+          {
+            path: 'privacy',
+            element: <PrivacyPage />,
+          },
+          {
+            path: 'custom-orders',
+            element: <LazyWrap><CustomOrdersPage /></LazyWrap>,
+          },
+          {
+            path: '*',
+            element: <NotFoundPage />,
+          }
+        ],
       }
     ],
   },
   {
     path: '/admin',
-    element: <AdminLayout />,
+    element: <LazyWrap><AdminLayout /></LazyWrap>,
     errorElement: <AdminErrorBoundary />,
     children: [
       {
         index: true,
-        element: <AdminDashboard />,
+        element: <LazyWrap><AdminDashboard /></LazyWrap>,
       },
-      { path: 'orders', element: <AdminOrders /> },
-      { path: 'orders/new', element: <AdminNewOrder /> },
-      { path: 'products', element: <AdminProducts /> },
-      { path: 'products/add', element: <AdminAddProduct /> },
-      { path: 'categories', element: <AdminCategories /> },
-      { path: 'customers', element: <AdminCustomers /> },
-      { path: 'custom-orders', element: <AdminCustomOrders /> },
-      { path: 'custom-orders/add', element: <AdminAddCustomOrder /> },
-      { path: 'reviews', element: <AdminReviews /> },
-      { path: 'coupons', element: <AdminCoupons /> },
-      { path: 'coupons/add', element: <AdminAddCoupon /> },
-      { path: 'analytics', element: <AdminAnalytics /> },
-      { path: 'banners', element: <AdminBanners /> },
-      { path: 'settings', element: <AdminSettings /> },
-      { path: 'users', element: <AdminUsers /> },
-      { path: 'notifications', element: <AdminNotifications /> },
-      { path: 'storefront-cms', element: <AdminStorefrontCMS /> },
-      { path: 'errors', element: <ErrorTrackingPanel /> },
-      { path: 'mascot', element: <AdminMascotPlayground /> },
+      { path: 'orders', element: <LazyWrap><AdminOrders /></LazyWrap> },
+      { path: 'orders/new', element: <LazyWrap><AdminNewOrder /></LazyWrap> },
+      { path: 'orders/:orderId', element: <LazyWrap><AdminOrderDetail /></LazyWrap> },
+      { path: 'products', element: <LazyWrap><AdminProducts /></LazyWrap> },
+      { path: 'products/add', element: <LazyWrap><AdminAddProduct /></LazyWrap> },
+      { path: 'categories', element: <LazyWrap><AdminCategories /></LazyWrap> },
+      { path: 'customers', element: <LazyWrap><AdminCustomers /></LazyWrap> },
+      { path: 'custom-orders', element: <LazyWrap><AdminCustomOrders /></LazyWrap> },
+      { path: 'custom-orders/add', element: <LazyWrap><AdminAddCustomOrder /></LazyWrap> },
+      { path: 'reviews', element: <LazyWrap><AdminReviews /></LazyWrap> },
+      { path: 'coupons', element: <LazyWrap><AdminCoupons /></LazyWrap> },
+      { path: 'coupons/add', element: <LazyWrap><AdminAddCoupon /></LazyWrap> },
+      { path: 'analytics', element: <LazyWrap><AdminAnalytics /></LazyWrap> },
+      { path: 'banners', element: <LazyWrap><AdminBanners /></LazyWrap> },
+      { path: 'settings', element: <LazyWrap><AdminSettings /></LazyWrap> },
+      { path: 'users', element: <LazyWrap><AdminUsers /></LazyWrap> },
+      { path: 'notifications', element: <LazyWrap><AdminNotifications /></LazyWrap> },
+      { path: 'storefront-cms', element: <LazyWrap><AdminStorefrontCMS /></LazyWrap> },
+      { path: 'errors', element: <LazyWrap><ErrorTrackingPanel /></LazyWrap> },
+      { path: 'mascot', element: <LazyWrap><AdminMascotPlayground /></LazyWrap> },
     ]
   }
 ])

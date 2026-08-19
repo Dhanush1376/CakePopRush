@@ -20,10 +20,11 @@ export const MascotEmptyState: React.FC<MascotEmptyStateProps> = ({
   useEffect(() => {
     let index = 0;
     setTypedText('');
+    let interval: ReturnType<typeof setInterval>;
     
     // Start typing right as the mascot and bubble finish their entrance
     const timeout = setTimeout(() => {
-      const interval = setInterval(() => {
+      interval = setInterval(() => {
         if (index <= message.length) {
           setTypedText(message.slice(0, index));
           index++;
@@ -31,11 +32,12 @@ export const MascotEmptyState: React.FC<MascotEmptyStateProps> = ({
           clearInterval(interval);
         }
       }, 35);
-      
-      return () => clearInterval(interval);
     }, 850);
 
-    return () => clearTimeout(timeout);
+    return () => {
+      clearTimeout(timeout);
+      if (interval) clearInterval(interval);
+    };
   }, [message]);
 
   return (

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, RefObject, useCallback } from 'react';
-import { useMotionValue, useSpring, useScroll, useMotionValueEvent, animate } from 'framer-motion';
+import { useMotionValue, useSpring, useScroll, useMotionValueEvent } from 'framer-motion';
 import { SmartMascotState, MascotDirection, INTRO_KEY } from './MascotState';
 
 interface SmartMascotOptions {

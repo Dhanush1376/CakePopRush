@@ -49,7 +49,7 @@
   transform: translateY(-3px);
 }
 
-.mascotInner > div {
+.mascotInner>div {
   width: 100% !important;
   height: 100% !important;
 }
@@ -113,10 +113,12 @@
 /* Speech Bubble positioned closely above the mascot, slightly offset with corner arrow */
 .speechBubble {
   position: absolute;
-  bottom: 95px; /* Moved down slightly to overlap mascot */
+  bottom: 95px;
+  /* Moved down slightly to overlap mascot */
   top: auto;
   left: 50%;
-  transform: translateX(-60%); /* Moved more to the left */
+  transform: translateX(-60%);
+  /* Moved more to the left */
   margin-left: 0;
   background: #ffffff;
   border: 1.5px solid var(--color-brand-pink, #F20D6F);
@@ -142,7 +144,8 @@
   content: '';
   position: absolute;
   bottom: -6px;
-  left: 20px; /* At the bottom-left corner */
+  left: 20px;
+  /* At the bottom-left corner */
   margin-left: 0;
   width: 9px;
   height: 9px;

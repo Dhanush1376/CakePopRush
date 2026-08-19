@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import styles from './AdminLayout.module.css'
-import { AdminSidebar } from './components/AdminSidebar'
-import { AdminHeader } from './components/AdminHeader'
-import { AdminBottomNav } from './components/AdminBottomNav'
+import { AdminSidebar } from '@/features/admin/components/AdminSidebar'
+import { AdminHeader } from '@/features/admin/components/AdminHeader'
+import { AdminBottomNav } from '@/features/admin/components/AdminBottomNav'
 
 export function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 992)

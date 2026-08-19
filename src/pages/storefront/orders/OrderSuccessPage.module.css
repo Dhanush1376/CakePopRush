@@ -1,4 +1,8 @@
 .page {
+  --font-family-display: 'Playfair Display', serif;
+  --font-family-heading: 'Playfair Display', serif;
+  --font-family-body: 'Inter', system-ui, sans-serif;
+  --font-family-price: 'Playfair Display', serif;
   padding-bottom: 120px;
   min-height: 100vh;
   background-color: #fff;
@@ -522,22 +526,9 @@
   text-transform: uppercase;
 }
 
-.metaRowGroup {
-  margin-top: 10px;
-  padding: 8px 12px;
-  background: var(--color-hero-cream);
-  border-radius: var(--radius-md);
-  border: 1px dashed rgba(92, 51, 23, 0.12);
-}
 
-.paymentMetaBox {
-  margin-top: 12px;
-  padding-top: 10px;
-  border-top: 1px dashed rgba(92, 51, 23, 0.12);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+
+
 
 .infoLabel {
   color: var(--color-text-muted);
@@ -556,177 +547,9 @@
   font-weight: var(--font-weight-bold);
 }
 
-/* ─── Auth Modal Animated Green Tick ─────────────────────────── */
-.bigTickWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 24px 16px 20px;
-}
 
-.authTickCircle {
-  width: 64px;
-  height: 64px;
-  background-color: #00d25b;
-  /* Vibrant green from Auth Modal */
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 0 14px rgba(0, 210, 91, 0.15);
-  /* Ripple halo from Auth Modal */
-  margin-bottom: 16px;
-}
 
-.bigTickTitle {
-  font-family: var(--font-family-display);
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--color-chocolate);
-  margin: 0 0 4px 0;
-  letter-spacing: -0.02em;
-}
 
-.bigTickSubtext {
-  font-size: 13px;
-  color: var(--color-text-muted);
-  margin: 0;
-}
-
-/* ─── Colorful Stepper (Yellow, Pink & Turquoise Green) ─────── */
-.colorfulStepperContainer {
-  position: relative;
-  padding: 12px 10px 8px 10px;
-  border-top: 1px dashed rgba(92, 51, 23, 0.08);
-}
-
-.colorfulStepperTrack {
-  position: absolute;
-  top: 25px;
-  left: 16.66%;
-  right: 16.66%;
-  height: 3px;
-  background: #E5E7EB;
-  border-radius: 4px;
-  z-index: 1;
-}
-
-.colorfulStepperFill {
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(90deg, #FFC700 0%, #F20D6F 50%, #07C2BB 100%);
-  border-radius: 4px;
-}
-
-.colorfulSteps {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  justify-content: space-between;
-}
-
-.colorfulStep {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  flex: 1;
-}
-
-.colorfulNode {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #FFFFFF;
-  margin-bottom: 6px;
-  transition: all 0.25s ease;
-}
-
-.colorfulLabel {
-  font-size: 11px;
-  font-weight: 700;
-}
-
-/* Step 1: Yellow */
-.stepYellow .colorfulNode {
-  background-color: #FFC700;
-  box-shadow: 0 0 0 4px rgba(255, 199, 0, 0.2);
-}
-
-.stepYellow .colorfulLabel {
-  color: #D97706;
-}
-
-/* Step 2: Pink */
-.stepPink .colorfulNode {
-  background-color: #F20D6F;
-  box-shadow: 0 0 0 4px rgba(242, 13, 111, 0.2);
-}
-
-.stepPink .colorfulLabel {
-  color: #F20D6F;
-}
-
-/* Step 3: Turquoise Green */
-.stepTurquoise .colorfulNode {
-  background-color: #07C2BB;
-  box-shadow: 0 0 0 4px rgba(7, 194, 187, 0.2);
-}
-
-.stepTurquoise .colorfulLabel {
-  color: #07C2BB;
-}
-
-/* ─── Address ────────────────────────────────────────────────── */
-.addressCard {
-  background: var(--color-hero-cream);
-  padding: var(--space-3);
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(92, 51, 23, 0.05);
-}
-
-.addressType {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--color-white);
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--color-chocolate);
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.addressName {
-  margin: 0 0 4px 0;
-  font-weight: 700;
-  color: var(--color-chocolate);
-  font-size: 14px;
-}
-
-.addressLine {
-  margin: 0 0 8px 0;
-  font-size: 13px;
-  color: var(--color-text-muted);
-  line-height: 1.5;
-}
-
-.addressPhone {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--color-chocolate);
-}
 
 /* ─── Order Items ────────────────────────────────────────────── */
 .itemCard {
@@ -809,18 +632,7 @@
   font-size: var(--font-size-sm);
 }
 
-.totalRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: var(--space-3);
-  margin-top: var(--space-2);
-  border-top: 1px dashed var(--color-border);
-  font-family: var(--font-family-display);
-  font-size: var(--font-size-xl);
-  font-weight: 700;
-  color: var(--color-chocolate);
-}
+
 
 /* ─── Global Actions ─────────────────────────────────────────── */
 .globalActions {
@@ -880,15 +692,15 @@
   border-color: var(--color-chocolate);
 }
 .invoiceBtn {
-  background: var(--color-white);
-  color: var(--color-brand-pink);
-  border: 1px solid var(--color-brand-pink);
-  border-radius: 100px;
-  padding: 14px 24px;
+  background: var(--color-brand-yellow);
+  color: var(--color-chocolate);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 12px 24px;
   font-family: var(--font-family-body);
   font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 1px;
+  font-size: 12px;
+  letter-spacing: 0.5px;
   cursor: pointer;
   transition: all var(--duration-fast) ease;
   display: flex;
@@ -896,10 +708,10 @@
   justify-content: center;
   gap: 8px;
   text-transform: uppercase;
+  width: 100%;
 }
 .invoiceBtn:hover {
-  background: var(--color-brand-pink);
-  color: var(--color-white);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(242, 13, 111, 0.25);
+  box-shadow: 0 4px 12px rgba(255, 199, 0, 0.3);
+  filter: brightness(0.95);
 }

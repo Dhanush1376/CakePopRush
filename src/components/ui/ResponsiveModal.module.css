@@ -65,8 +65,8 @@
 
 .title {
   font-family: var(--font-family-body) !important;
-  font-size: 18px;
-  font-weight: var(--font-weight-bold);
+  font-size: 16px;
+  font-weight: 700;
   color: var(--color-chocolate);
   margin: 0;
 }

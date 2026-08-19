@@ -1,140 +1,22 @@
 import React from 'react'
 import { createPortal } from 'react-dom'
 import {
-  Users, UserPlus, ShoppingCart, Wallet,
   Search, Filter, Download,
   MapPin, Eye, MoreVertical, ChevronLeft, ChevronRight,
-  AlertTriangle, Trash2, X
+  AlertTriangle, Trash2, X, MessageSquare, Ban
 } from 'lucide-react'
-import { ViewToggle } from '../components/ViewToggle'
-import { CustomSelect } from '../components/CustomSelect'
-import { CustomerDetailsModal } from '../components/CustomerDetailsModal'
-import { AdminCustomersSkeleton } from '../components/AdminCustomersSkeleton'
+import { ViewToggle } from '@/features/admin/components/ViewToggle'
+import { CustomSelect } from '@/features/admin/components/CustomSelect'
+import { CustomerDetailsModal } from '@/features/admin/components/CustomerDetailsModal'
+import { AdminCustomersSkeleton } from '@/features/admin/components/AdminCustomersSkeleton'
+import { ActionDropdown } from '@/features/admin/components/ActionDropdown'
 import styles from './AdminCustomers.module.css'
+import deleteBtnStyles from '@/features/admin/components/AdminDeleteButton.module.css'
 
-// KPI Data
-const kpiData = [
-  { id: 1, label: 'TOTAL CUSTOMERS', value: '856', trend: '16.3%', isPositive: true, icon: Users, color: 'var(--admin-pink)', bg: '#FFF0F5' },
-  { id: 2, label: 'NEW CUSTOMERS', value: '128', trend: '18.6%', isPositive: true, icon: UserPlus, color: '#F59E0B', bg: '#FFF8E1' },
-  { id: 3, label: 'TOTAL ORDERS', value: '1,248', trend: '14.2%', isPositive: true, icon: ShoppingCart, color: 'var(--admin-cyan)', bg: '#E0FAFC' },
-  { id: 4, label: 'TOTAL SPENT', value: '₹3,65,240', trend: '22.4%', isPositive: true, icon: Wallet, color: 'var(--admin-pink)', bg: '#FFF0F5' }
-];
+import { adminCustomerData } from '@/features/admin/api/mockAdminDataProvider'
 
-// Mock Customers
-const customers = [
-  {
-    id: 1,
-    name: 'Neha Sharma',
-    email: 'neha.sharma@email.com',
-    phone: '+91 98765 43210',
-    initials: 'NS',
-    avatarBg: '#FFF0F5',
-    avatarColor: 'var(--admin-pink)',
-    location: 'Delhi, India',
-    locColor: 'var(--admin-pink)',
-    orders: 12,
-    spent: '₹4,560',
-    lastOrderDate: 'May 24, 2025',
-    lastOrderTime: '10:30 AM',
-    status: 'Active'
-  },
-  {
-    id: 2,
-    name: 'Riya Patel',
-    email: 'riya.patel@email.com',
-    phone: '+91 91234 56789',
-    initials: 'RP',
-    avatarBg: '#FFF8E1',
-    avatarColor: '#F59E0B',
-    location: 'Mumbai, India',
-    locColor: '#F59E0B',
-    orders: 8,
-    spent: '₹3,240',
-    lastOrderDate: 'May 24, 2025',
-    lastOrderTime: '09:15 AM',
-    status: 'Active'
-  },
-  {
-    id: 3,
-    name: 'Ankit Verma',
-    email: 'ankit.verma@email.com',
-    phone: '+91 99887 76655',
-    initials: 'AV',
-    avatarBg: '#E0FAFC',
-    avatarColor: 'var(--admin-cyan)',
-    location: 'Bangalore, India',
-    locColor: 'var(--admin-cyan)',
-    orders: 15,
-    spent: '₹5,890',
-    lastOrderDate: 'May 23, 2025',
-    lastOrderTime: '08:45 PM',
-    status: 'Active'
-  },
-  {
-    id: 4,
-    name: 'Pooja Mehta',
-    email: 'pooja.mehta@email.com',
-    phone: '+91 88990 11223',
-    initials: 'PM',
-    avatarBg: '#F3E5F5',
-    avatarColor: 'var(--admin-purple)',
-    location: 'Ahmedabad, India',
-    locColor: 'var(--admin-purple)',
-    orders: 20,
-    spent: '₹8,450',
-    lastOrderDate: 'May 23, 2025',
-    lastOrderTime: '06:20 PM',
-    status: 'VIP'
-  },
-  {
-    id: 5,
-    name: 'Karan Singh',
-    email: 'karan.singh@email.com',
-    phone: '+91 77665 44321',
-    initials: 'KS',
-    avatarBg: '#F5F5DC',
-    avatarColor: '#5C3317',
-    location: 'Chandigarh, India',
-    locColor: '#5C3317',
-    orders: 6,
-    spent: '₹2,150',
-    lastOrderDate: 'May 23, 2025',
-    lastOrderTime: '04:10 PM',
-    status: 'Active'
-  },
-  {
-    id: 6,
-    name: 'Sneha Iyer',
-    email: 'sneha.iyer@email.com',
-    phone: '+91 96543 21098',
-    initials: 'SI',
-    avatarBg: '#FFF0F5',
-    avatarColor: 'var(--admin-pink)',
-    location: 'Hyderabad, India',
-    locColor: 'var(--admin-pink)',
-    orders: 9,
-    spent: '₹3,760',
-    lastOrderDate: 'May 22, 2025',
-    lastOrderTime: '02:35 PM',
-    status: 'Active'
-  },
-  {
-    id: 7,
-    name: 'Rahul Gupta',
-    email: 'rahul.gupta@email.com',
-    phone: '+91 90123 45678',
-    initials: 'RG',
-    avatarBg: '#E0FAFC',
-    avatarColor: 'var(--admin-cyan)',
-    location: 'Kolkata, India',
-    locColor: 'var(--admin-cyan)',
-    orders: 5,
-    spent: '₹1,890',
-    lastOrderDate: 'May 22, 2025',
-    lastOrderTime: '11:50 AM',
-    status: 'Inactive'
-  }
-];
+const kpiData = adminCustomerData.getStats();
+const customers = adminCustomerData.getCustomers();
 
 export function AdminCustomers() {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -145,7 +27,6 @@ export function AdminCustomers() {
   const [statusFilter, setStatusFilter] = React.useState('all');
   const [locationFilter, setLocationFilter] = React.useState('all');
   const [dateFilter, setDateFilter] = React.useState('all');
-  const [activeActionMenu, setActiveActionMenu] = React.useState<number | string | null>(null);
   const [selectedCustomer, setSelectedCustomer] = React.useState<any | null>(null);
 
   React.useEffect(() => {
@@ -304,9 +185,6 @@ export function AdminCustomers() {
         })}
       </div>
 
-      {/* Filter Toolbar */}
-      
-
       {/* Table Card */}
       <div className={styles.tableCard}>
         <div className={styles.tableHeader}>
@@ -376,9 +254,9 @@ export function AdminCustomers() {
                       </span>
                     </td>
                     <td>
-                      <div className={styles.actionsCell} style={{ position: 'relative' }}>
+                      <div className={styles.actionsCell} style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '8px' }}>
                         <button 
-                          className="global-delete-btn" 
+                          className={deleteBtnStyles.deleteBtn} 
                           aria-label="Delete Customer"
                           onClick={() => {
                             setSelectedItems([String(cust.id)]);
@@ -391,19 +269,11 @@ export function AdminCustomers() {
                         <button className={styles.actionBtn} onClick={() => setSelectedCustomer(cust)}>
                           <Eye size={14} />
                         </button>
-                        <button 
-                          className={styles.actionBtn} 
-                          onClick={() => setActiveActionMenu(activeActionMenu === `list-${cust.id}` ? null : `list-${cust.id}`)}
-                        >
-                          <MoreVertical size={14} />
-                        </button>
-                        {activeActionMenu === `list-${cust.id}` && (
-                          <div className={styles.actionMenu}>
-                            <button className={styles.actionMenuItem}>Edit Customer</button>
-                            <button className={styles.actionMenuItem}>View Orders</button>
-                            <button className={`${styles.actionMenuItem} ${styles.dangerText}`}>Suspend Account</button>
-                          </div>
-                        )}
+                        <ActionDropdown actions={[
+                          { label: 'View Profile', icon: Eye },
+                          { label: 'Message Customer', icon: MessageSquare },
+                          { label: 'Block Customer', icon: Ban, variant: 'danger' as const }
+                        ]} />
                       </div>
                     </td>
                   </tr>
@@ -457,9 +327,9 @@ export function AdminCustomers() {
                 </div>
               </div>
 
-              <div className={styles.mcActions} style={{ position: 'relative' }}>
+              <div className={styles.mcActions} style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px' }}>
                 <button 
-                  className="global-delete-btn" 
+                  className={deleteBtnStyles.deleteBtn} 
                   aria-label="Delete Customer"
                   onClick={() => {
                     setSelectedItems([String(cust.id)]);
@@ -472,19 +342,11 @@ export function AdminCustomers() {
                 <button className={styles.actionBtn} onClick={() => setSelectedCustomer(cust)}>
                   <Eye size={14} />
                 </button>
-                <button 
-                  className={styles.actionBtn} 
-                  onClick={() => setActiveActionMenu(activeActionMenu === `grid-${cust.id}` ? null : `grid-${cust.id}`)}
-                >
-                  <MoreVertical size={14} />
-                </button>
-                {activeActionMenu === `grid-${cust.id}` && (
-                  <div className={styles.actionMenu} style={{ bottom: 'calc(100% + 4px)', top: 'auto', right: 0 }}>
-                    <button className={styles.actionMenuItem}>Edit Customer</button>
-                    <button className={styles.actionMenuItem}>View Orders</button>
-                    <button className={`${styles.actionMenuItem} ${styles.dangerText}`}>Suspend Account</button>
-                  </div>
-                )}
+                <ActionDropdown actions={[
+                  { label: 'View Profile', icon: Eye },
+                  { label: 'Message Customer', icon: MessageSquare },
+                  { label: 'Block Customer', icon: Ban, variant: 'danger' as const }
+                ]} />
               </div>
             </div>
           ))}

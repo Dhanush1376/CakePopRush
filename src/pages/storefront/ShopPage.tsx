@@ -5,12 +5,12 @@ import { ProductCard } from '@/components/commerce/ProductCard'
 import { ShopHero } from './shop/ShopHero'
 import { ShopCategories } from './shop/ShopCategories'
 import { ShopToolbar } from './shop/ShopToolbar'
-import { mockProducts, getProductsByCategory } from '@/mocks/products'
+import { productData } from '@/features/products'
 import { Pagination } from '@/components/ui/Pagination'
 import { ProductCardSkeleton } from '@/components/commerce/ProductCardSkeleton'
 import { EmptyWishlistIllustration } from '@/assets/illustrations/EmptyWishlistIllustration'
 import { motion } from 'framer-motion'
-import { useWishlist } from '@/lib/wishlistStore'
+import { useWishlist } from '@/features/wishlist'
 import { useSearchParams } from 'react-router-dom'
 import { useMotionValue, useSpring } from 'framer-motion'
 import { CakePopMascot } from '@/components/mascot/CakePopMascot'
@@ -162,7 +162,7 @@ export function ShopPage() {
       const stickyEl = document.getElementById('shop-sticky-header');
       if (stickyEl) {
         const rect = stickyEl.getBoundingClientRect();
-        setIsDocked(rect.top <= 1);
+        setIsDocked(rect.top <= 85);
       }
     };
 
@@ -170,7 +170,7 @@ export function ShopPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const filteredProducts = getProductsByCategory(activeCategory)
+  const filteredProducts = productData.getProductsByCategory(activeCategory)
 
   return (
     <div className={styles.shopPage}>
@@ -198,7 +198,7 @@ export function ShopPage() {
         />
         
         <ShopToolbar 
-          totalProducts={mockProducts.length}
+          totalProducts={productData.getProducts().length}
           showingStart={filteredProducts.length > 0 ? 1 : 0}
           showingEnd={filteredProducts.length}
         />

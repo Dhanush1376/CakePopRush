@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 import { X, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './SideCart.module.css';
-import { useCart } from '@/lib/cartStore';
+import { useCart } from '@/features/cart';
 import { Button } from '../ui/Button';
 import { IconButton } from '../ui/IconButton';
 import { Price } from './Price';
@@ -12,8 +12,24 @@ import { QuantitySelector } from './QuantitySelector';
 import { formatCurrency } from '@/lib/formatters/currency';
 import { ProductImage } from './ProductImage';
 import { CakePopMascot } from '@/components/mascot/CakePopMascot';
-import { MascotRef, MascotReaction } from '@/components/mascot/reactions/reactionTypes';
+import { MascotRef } from '@/components/mascot/reactions/reactionTypes';
 import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator';
+import { getCartReaction, extractProductTags, CartAction, CartAIContext } from './cartAIReactions';
+
+const TypingText = ({ text }: { text: string }) => {
+  const [displayed, setDisplayed] = React.useState('');
+  React.useEffect(() => {
+    setDisplayed('');
+    let i = 0;
+    const interval = setInterval(() => {
+      setDisplayed(text.slice(0, i + 1));
+      i++;
+      if (i >= text.length) clearInterval(interval);
+    }, 25);
+    return () => clearInterval(interval);
+  }, [text]);
+  return <>{displayed}</>;
+};
 
 let hasMascotAppeared = false;
 
@@ -47,10 +63,63 @@ export const SideCart = () => {
   const handInitialOpacity = hasAppeared ? 1 : 0;
   const handInitialScale = hasAppeared ? 1 : 0.8;
 
-  const { currentReaction, currentMessage, triggerReaction, tapMascot, prefersReducedMotion } = useMascotOrchestrator();
+  const { currentReaction, currentMessage, playDirectEmotion, setMessage, tapMascot, prefersReducedMotion } = useMascotOrchestrator();
   const [itemToDelete, setItemToDelete] = useState<string | null>(null);
   const mascotRef = useRef<HTMLDivElement>(null);
   const mascotControlRef = useRef<MascotRef>(null);
+
+  // AI Companion state
+  const messageHistoryRef = useRef<string[]>([]);
+  const lastMessageTimeRef = useRef<number>(0);
+  const MESSAGE_COOLDOWN = 800; // ms between text updates
+
+  // Build context and generate AI message
+  const reactWithAI = useCallback((action: CartAction, productName?: string, categoryName?: string, quantity?: number, previousQuantity?: number) => {
+    const now = Date.now();
+    const timeSinceLast = now - lastMessageTimeRef.current;
+
+    // Collect all categories and tags from cart
+    const categories = [...new Set(items.map(i => i.product.categoryName))];
+    const cartTags = items.flatMap(i => extractProductTags(i.product.name, i.product.categoryName));
+    const sameCategoryCount = categoryName 
+      ? items.filter(i => i.product.categoryName.toLowerCase() === categoryName.toLowerCase()).length
+      : 0;
+    const hasDiscount = productName 
+      ? items.some(i => i.product.name === productName && i.product.compareAtPrice && i.product.compareAtPrice > i.product.basePrice)
+      : false;
+
+    const context: CartAIContext = {
+      action,
+      productName,
+      categoryName,
+      quantity,
+      previousQuantity,
+      hasDiscount,
+      cartSize: items.length,
+      totalQuantity: totalItems,
+      totalDiscount,
+      categories,
+      sameCategoryCount,
+      productTags: productName && categoryName ? extractProductTags(productName, categoryName) : [],
+      cartTags,
+    };
+
+    const reactionData = getCartReaction(context, messageHistoryRef.current);
+
+    // Always trigger mascot animation using the dynamically selected emotion
+    playDirectEmotion(reactionData.emotion, reactionData.message);
+
+    // Text message respects cooldown (except for critical actions)
+    const criticalActions: CartAction[] = ['delete-confirm', 'delete-cancel', 'remove', 'empty'];
+    if (timeSinceLast < MESSAGE_COOLDOWN && !criticalActions.includes(action)) {
+      return; // Skip text update, animation still plays
+    }
+
+    messageHistoryRef.current.push(reactionData.message);
+    if (messageHistoryRef.current.length > 8) messageHistoryRef.current.shift();
+    lastMessageTimeRef.current = now;
+    setMessage(reactionData.message);
+  }, [items, totalItems, totalDiscount, playDirectEmotion, setMessage]);
 
   const eyeTargetX = useMotionValue(0);
   const eyeTargetY = useMotionValue(0);
@@ -163,7 +232,7 @@ export const SideCart = () => {
             onClick={() => {
               if (itemToDelete) {
                 setItemToDelete(null);
-                triggerReaction('cart:item-delete-canceled', 'Yay! Thank you! 🥰');
+                reactWithAI('delete-cancel');
               }
             }}
           >
@@ -241,8 +310,14 @@ export const SideCart = () => {
                             onChange={(q) => {
                               if (q === 0) {
                                 setItemToDelete(item.id);
-                                triggerReaction('cart:item-delete-confirm', "Please noo... 🥺");
+                                reactWithAI('delete-confirm', item.product.name, item.product.categoryName);
                               } else {
+                                const prevQty = item.quantity;
+                                if (q > item.quantity) {
+                                  reactWithAI('increase', item.product.name, item.product.categoryName, q, prevQty);
+                                } else if (q < item.quantity) {
+                                  reactWithAI('decrease', item.product.name, item.product.categoryName, q, prevQty);
+                                }
                                 updateQuantity(item.id, q);
                               }
                             }}
@@ -263,6 +338,7 @@ export const SideCart = () => {
                               e.stopPropagation();
                               removeItem(item.id);
                               setItemToDelete(null);
+                              reactWithAI('remove', item.product.name, item.product.categoryName);
                             }}
                           >
                             <Trash2 size={18} color="white" />
@@ -282,11 +358,12 @@ export const SideCart = () => {
                   {currentMessage && (
                     <motion.div
                       className={styles.speechBubble}
-                      initial={{ opacity: 0, scale: 0.8, y: 10 }}
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.8, y: 10 }}
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      transition={{ type: 'spring', damping: 15, stiffness: 300 }}
                     >
-                      {currentMessage}
+                      <TypingText text={currentMessage} />
                     </motion.div>
                   )}
                 </AnimatePresence>

@@ -1,0 +1,20 @@
+.deleteBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background-color: transparent !important;
+  color: var(--color-text-muted) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none !important;
+  cursor: pointer;
+  filter: none !important;
+  opacity: 1 !important;
+  transition: all 0.2s ease;
+}
+
+.deleteBtn:hover {
+  background-color: #FEE2E2 !important;
+  color: #DC2626 !important;
+}

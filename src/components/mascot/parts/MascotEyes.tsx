@@ -1,7 +1,7 @@
 import React, { useId } from 'react';
 import { motion, MotionValue, useTransform, useMotionValue } from 'framer-motion';
 import { LEFT_EYE, RIGHT_EYE } from '../config/mascotConfig';
-import { EYE_WHITE, PUPIL_BLACK, HIGHLIGHT_WHITE, HEART_RED } from '../config/mascotConstants';
+import { EYE_WHITE, PUPIL_BLACK, HIGHLIGHT_WHITE } from '../config/mascotConstants';
 
 const Eye = ({
   id,
@@ -32,7 +32,7 @@ const Eye = ({
       <rect x={geo.cx - 75} y={geo.cy - 75} width={150} height={150} fill="transparent" />
       
       {/* Normal open eye */}
-      <motion.g id={`${id}-eye-normal`}>
+      <motion.g id={`${id}-eye-normal`} initial={{ opacity: 1 }}>
         {/* Sclera (white outer circle) */}
         <circle
           id={`${id}-sclera`}

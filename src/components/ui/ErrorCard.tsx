@@ -2,8 +2,6 @@ import React, { ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import styles from './ErrorCard.module.css'
-import { Button } from './Button'
-
 interface ErrorCardProps {
   icon?: ReactNode
   title: string
