@@ -538,7 +538,7 @@
   .kpiGrid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .statsGrid { grid-template-columns: repeat(2, 1fr); }
   
-  .table, .tableWrapper { display: none !important; }
+  
   
   /* Show mobile cards */
   .mobileCard {

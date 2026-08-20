@@ -126,6 +126,13 @@
   gap: 16px;
 }
 
+@media (max-width: 480px) {
+  .stackOnMobile {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
 .row .field { flex: 1; }
 
 .field {

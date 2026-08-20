@@ -94,7 +94,7 @@ export const AddressDrawer = ({ isOpen, onClose, onSave }: AddressDrawerProps) =
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
           >
             <div className={styles.header}>
               <h2 className={styles.title}>{step === 1 ? 'Add New Address' : 'Contact Details'}</h2>

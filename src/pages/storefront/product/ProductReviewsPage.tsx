@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { BadgeCheck, Star, ArrowLeft } from 'lucide-react'
+import { BadgeCheck, Star } from 'lucide-react'
 import { Container } from '@/components/layout/Container'
 import { productData } from '@/features/products'
 import { reviewData } from '@/features/reviews'
@@ -30,21 +30,17 @@ export function ProductReviewsPage() {
   return (
     <div className={styles.pageContainer}>
       <Container>
-        <Link to={`/product/${product?.slug || ''}`} className={styles.backLink}>
-          <ArrowLeft size={16} /> Back to Product
-        </Link>
-        
         <div className={styles.header}>
-          <div className={styles.titleRow}>
+          <div className={styles.headerLeft}>
             <h1 className={styles.title}>Reviews</h1>
-            <div className={styles.ratingGroup}>
-              <span className={styles.ratingNumber}>{product.rating}</span>
-              <span className={styles.starFilled}><Star size={16} fill="currentColor" strokeWidth={0} /></span>
-            </div>
-          </div>
-          <div className={styles.subtitleRow}>
             <span className={styles.productName}>for {product.name}</span>
-            <span className={styles.dot}>•</span>
+          </div>
+          <div className={styles.headerRight}>
+            <div className={styles.ratingGroup}>
+              <span className={styles.ratingNumber}>
+                {product.rating} <Star size={14} fill="currentColor" strokeWidth={0} />
+              </span>
+            </div>
             <span className={styles.count}>{product.reviewCount} reviews</span>
           </div>
         </div>

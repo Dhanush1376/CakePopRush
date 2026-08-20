@@ -1,40 +1,36 @@
 .pageContainer {
   background-color: var(--color-background);
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
   min-height: 100vh;
   padding-bottom: var(--space-12);
 }
 
-.backLink {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-family: var(--font-family-body);
-  font-size: var(--font-size-sm);
-  color: var(--color-chocolate);
-  text-decoration: none;
-  padding: var(--space-4) 0;
-  transition: opacity var(--duration-fast);
-}
 
-.backLink:hover {
-  opacity: 0.7;
-}
 
 .header {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
+  justify-content: space-between;
+  align-items: flex-end;
   margin-bottom: var(--space-8);
   margin-top: var(--space-6);
   padding-bottom: var(--space-4);
   border-bottom: 1px solid var(--color-border);
 }
 
-.titleRow {
+.headerLeft {
   display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.headerRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
 }
 
 .title {
@@ -49,25 +45,20 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  background-color: var(--color-brand-yellow);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
 }
 
 .ratingNumber {
-  font-family: var(--font-family-display);
-  font-size: var(--font-size-3xl);
+  font-family: var(--font-family-body);
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
   line-height: 1;
   color: var(--color-chocolate);
-}
-
-.starFilled {
-  color: var(--color-brand-yellow);
-  font-size: var(--font-size-2xl);
-}
-
-.subtitleRow {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .productName {
@@ -75,11 +66,6 @@
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);
   font-style: italic;
-}
-
-.dot {
-  color: var(--color-border);
-  font-size: var(--font-size-sm);
 }
 
 .count {
@@ -106,13 +92,15 @@
 }
 
 .reviewCard {
-  background: var(--color-hero-cream);
+  background: var(--color-white);
   padding: var(--space-6);
   border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
   height: 100%;
+  box-shadow: 0 8px 24px rgba(92, 51, 23, 0.08);
+  border: 1px solid rgba(92, 51, 23, 0.12);
 }
 
 .reviewImageContainer {
@@ -168,7 +156,7 @@
 }
 
 .name {
-  font-family: var(--font-family-heading);
+  font-family: var(--font-family-body);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-muted);

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { X, User, Home, LocateFixed, Truck } from 'lucide-react';
+import { X, User, Home, LocateFixed, Truck, Mail, Phone, Hash, Map, MapPin, MessageSquare } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import styles from './AddressModal.module.css';
-import { Input } from '@/components/ui/Input';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -97,7 +96,7 @@ export const AddressModal = ({ isOpen, onClose, onSave, initialData }: AddressMo
       <div className={styles.modal} onClick={e => e.stopPropagation()}>
         
         <div className={styles.header}>
-          <h3 className={styles.title}>{initialData ? 'EDIT ADDRESS' : 'ADD NEW ADDRESS'}</h3>
+          <h3 className={styles.title}>{initialData ? 'Edit Address' : 'Add New Address'}</h3>
           <button className={styles.closeBtn} onClick={onClose}>
             <X size={18} />
           </button>
@@ -110,10 +109,22 @@ export const AddressModal = ({ isOpen, onClose, onSave, initialData }: AddressMo
           </div>
 
           <div className={styles.formGrid}>
-            <Input label="RECEIVER FULL NAME*" name="name" value={formData.name} onChange={handleChange} placeholder="e.g. John Doe" />
-            <Input label="EMAIL ADDRESS" name="email" value={formData.email} onChange={handleChange} placeholder="e.g. john@example.com" />
-            <Input label="CONTACT PHONE NUMBER*" name="phone" value={formData.phone} onChange={handleChange} placeholder="e.g. 9876543210" />
-            <Input label="ALTERNATE PHONE NUMBER" name="altPhone" value={formData.altPhone} onChange={handleChange} placeholder="Optional alternate number" />
+            <div className={styles.inputGroup}>
+              <User className={styles.inputIcon} size={16} strokeWidth={1.5} />
+              <input type="text" name="name" className={styles.input} value={formData.name} onChange={handleChange} placeholder="RECEIVER FULL NAME*" />
+            </div>
+            <div className={styles.inputGroup}>
+              <Mail className={styles.inputIcon} size={16} strokeWidth={1.5} />
+              <input type="email" name="email" className={styles.input} value={formData.email} onChange={handleChange} placeholder="EMAIL ADDRESS" />
+            </div>
+            <div className={styles.inputGroup}>
+              <Phone className={styles.inputIcon} size={16} strokeWidth={1.5} />
+              <input type="tel" name="phone" className={styles.input} value={formData.phone} onChange={handleChange} placeholder="CONTACT PHONE NUMBER*" />
+            </div>
+            <div className={styles.inputGroup}>
+              <Phone className={styles.inputIcon} size={16} strokeWidth={1.5} />
+              <input type="tel" name="altPhone" className={styles.input} value={formData.altPhone} onChange={handleChange} placeholder="ALTERNATE PHONE NUMBER" />
+            </div>
           </div>
 
           <hr className={styles.divider} />
@@ -144,15 +155,28 @@ export const AddressModal = ({ isOpen, onClose, onSave, initialData }: AddressMo
           </div>
 
           <div className={styles.formGrid}>
-            <Input label="PINCODE*" name="pincode" value={formData.pincode} onChange={handleChange} placeholder="e.g. 560001" />
-            <Input label="FLAT / HOUSE NO. / FLOOR*" name="houseNo" value={formData.houseNo} onChange={handleChange} placeholder="e.g. Flat 302, 3rd Floor" />
-            
-            <div className={styles.fullWidth}>
-              <Input label="STREET / BUILDING NAME*" name="street" value={formData.street} onChange={handleChange} placeholder="e.g. MG Road, Brigade Residency" />
+            <div className={styles.inputGroup}>
+              <Hash className={styles.inputIcon} size={16} strokeWidth={1.5} />
+              <input type="text" name="pincode" className={styles.input} value={formData.pincode} onChange={handleChange} placeholder="PINCODE*" />
+            </div>
+            <div className={styles.inputGroup}>
+              <Home className={styles.inputIcon} size={16} strokeWidth={1.5} />
+              <input type="text" name="houseNo" className={styles.input} value={formData.houseNo} onChange={handleChange} placeholder="FLAT / HOUSE NO. / FLOOR*" />
             </div>
             
-            <Input label="LANDMARK*" name="landmark" value={formData.landmark} onChange={handleChange} placeholder="e.g. Near Metro Station" />
-            <Input label="LOCALITY / SECTOR*" name="locality" value={formData.locality} onChange={handleChange} placeholder="e.g. Indiranagar" />
+            <div className={`${styles.inputGroup} ${styles.fullWidth}`}>
+              <Map className={styles.inputIcon} size={16} strokeWidth={1.5} />
+              <input type="text" name="street" className={styles.input} value={formData.street} onChange={handleChange} placeholder="STREET / BUILDING NAME*" />
+            </div>
+            
+            <div className={styles.inputGroup}>
+              <MapPin className={styles.inputIcon} size={16} strokeWidth={1.5} />
+              <input type="text" name="landmark" className={styles.input} value={formData.landmark} onChange={handleChange} placeholder="LANDMARK*" />
+            </div>
+            <div className={styles.inputGroup}>
+              <MapPin className={styles.inputIcon} size={16} strokeWidth={1.5} />
+              <input type="text" name="locality" className={styles.input} value={formData.locality} onChange={handleChange} placeholder="LOCALITY / SECTOR*" />
+            </div>
           </div>
 
           <hr className={styles.divider} />
@@ -181,8 +205,10 @@ export const AddressModal = ({ isOpen, onClose, onSave, initialData }: AddressMo
               </div>
             </div>
             <div className={`${styles.formGroup} ${styles.fullWidth}`}>
-              <label className={styles.label}>DELIVERY INSTRUCTIONS</label>
-              <textarea name="deliveryInstructions" value={formData.deliveryInstructions} onChange={handleChange} className={styles.textarea} placeholder="E.g. Leave with security, call before delivery" />
+              <div className={styles.textareaGroup}>
+                <MessageSquare className={styles.textareaIcon} size={16} strokeWidth={1.5} />
+                <textarea name="deliveryInstructions" value={formData.deliveryInstructions} onChange={handleChange} className={styles.textarea} placeholder="DELIVERY INSTRUCTIONS (E.g. Leave with security)" />
+              </div>
             </div>
           </div>
 

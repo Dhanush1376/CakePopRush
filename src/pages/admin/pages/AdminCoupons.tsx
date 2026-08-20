@@ -40,6 +40,21 @@ export function AdminCoupons() {
   const [typeFilter, setTypeFilter] = React.useState('all');
   const [expiryFilter, setExpiryFilter] = React.useState('all');
   const [view, setView] = React.useState<'list' | 'grid'>('list');
+
+  React.useEffect(() => {
+    const checkView = () => {
+      if (typeof window !== 'undefined') {
+        setView(window.innerWidth <= 768 ? 'grid' : 'list');
+      }
+    };
+    
+    // Check on mount
+    checkView();
+    
+    // Check on resize (useful for responsive testing)
+    window.addEventListener('resize', checkView);
+    return () => window.removeEventListener('resize', checkView);
+  }, []);
   const [selectedItems, setSelectedItems] = React.useState<number[]>([]);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = React.useState(false);
   const [confirmAction, setConfirmAction] = React.useState('');
@@ -190,11 +205,11 @@ export function AdminCoupons() {
             <table className={styles.table}>
               <thead>
                 <tr>
-                  <th style={{ width: '40px', padding: '16px 12px', textAlign: 'center' }}>
+                  <th style={{ width: '40px', padding: '10px 4px', textAlign: 'center' }}>
                     <input type="checkbox" className={styles.checkbox} aria-label="Select all coupons" checked={selectedItems.length === coupons.length && coupons.length > 0} onChange={(e) => setSelectedItems(e.target.checked ? coupons.map(c => c.id) : [])} />
                   </th>
                   <th style={{ whiteSpace: 'nowrap' }}>COUPON CODE</th>
-                  <th style={{ minWidth: '160px' }}>COUPON NAME</th>
+                  <th style={{ minWidth: '100px' }}>COUPON NAME</th>
                   <th>DISCOUNT</th>
                   <th>TYPE</th>
                   <th>MIN ORDER</th>
@@ -219,7 +234,7 @@ export function AdminCoupons() {
 
                   return (
                     <tr key={coupon.id} className={coupon.status === 'Expired' ? styles.expiredState : ''}>
-                      <td style={{ width: '40px', padding: '16px 12px', textAlign: 'center' }}>
+                      <td style={{ width: '40px', padding: '10px 4px', textAlign: 'center' }}>
                         <input type="checkbox" className={styles.checkbox} aria-label={`Select ${coupon.code}`} checked={selectedItems.includes(coupon.id)} onChange={(e) => { if (e.target.checked) setSelectedItems(prev => [...prev, coupon.id]); else setSelectedItems(prev => prev.filter(id => id !== coupon.id)); }} />
                       </td>
                       <td>

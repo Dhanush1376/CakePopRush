@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { Container } from '@/components/layout/Container'
 import { Link } from 'react-router-dom'
 import { Review } from '@/types/review'
-import { BadgeCheck, ArrowRight, Star } from 'lucide-react'
+import { BadgeCheck, ArrowRight, Star, PencilLine } from 'lucide-react'
 import { ImageModal } from '@/components/ui/ImageModal'
+import { WriteReviewDrawer } from './WriteReviewDrawer'
 import styles from './ReviewsSection.module.css'
 
 interface ReviewsSectionProps {
@@ -15,25 +16,43 @@ interface ReviewsSectionProps {
 
 export const ReviewsSection = ({ rating, reviewCount, reviews, productSlug }: ReviewsSectionProps) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
+  const [isWriteReviewOpen, setIsWriteReviewOpen] = useState(false)
 
   if (!rating || !reviewCount || reviews.length === 0) return null
 
   const reviewPhotos = reviews.filter(r => !!r.photoUrl).map(r => r.photoUrl!)
+
+  const handleReviewSubmit = (submittedRating: number, reviewText: string) => {
+    // Mock submission handling
+    setIsWriteReviewOpen(false)
+    // Could add a toast notification here
+  }
 
   return (
     <div id="reviews" className={styles.section}>
       <Container>
         <div className={styles.header}>
           <div className={styles.headerLeft}>
-            <h2 className={styles.title}>Customer Reviews</h2>
+            <div className={styles.titleRow}>
+              <h2 className={styles.title}>Customer Reviews</h2>
+            </div>
             <div className={styles.summaryInfo}>
               <span className={styles.ratingNumber}>{rating} <Star size={14} fill="currentColor" strokeWidth={0} /></span>
               <span className={styles.count}>{reviewCount} reviews</span>
             </div>
           </div>
-          <Link to={`/product/${productSlug}/reviews`} className={styles.seeAllBtn}>
-            See all <ArrowRight size={14} />
-          </Link>
+          <div className={styles.headerRight}>
+            <button 
+              className={styles.writeReviewBtn} 
+              onClick={() => setIsWriteReviewOpen(true)}
+              aria-label="Write a review"
+            >
+              <PencilLine size={20} strokeWidth={2} />
+            </button>
+            <Link to={`/product/${productSlug}/reviews`} className={styles.seeAllBtn}>
+              See all <ArrowRight size={14} />
+            </Link>
+          </div>
         </div>
 
         <div className={styles.horizontalScroll}>
@@ -74,6 +93,12 @@ export const ReviewsSection = ({ rating, reviewCount, reviews, productSlug }: Re
         images={reviewPhotos}
         initialIndex={selectedImageIndex || 0}
         onClose={() => setSelectedImageIndex(null)} 
+      />
+
+      <WriteReviewDrawer
+        isOpen={isWriteReviewOpen}
+        onClose={() => setIsWriteReviewOpen(false)}
+        onSubmit={handleReviewSubmit}
       />
     </div>
   )

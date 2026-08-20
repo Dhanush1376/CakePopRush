@@ -252,7 +252,7 @@ const MESSAGES = {
     mixed: [
 'Cookies and brownies? Perfect.',
 'A bit of everything.',
-"Nice mix. You\'ve got range.",
+"Nice mix. You've got range.",
 'Diverse taste. I appreciate that.',
 'Sweet tooth activated.',
     ],

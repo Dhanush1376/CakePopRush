@@ -266,7 +266,7 @@ export const CheckoutPaymentPage = () => {
                 initial={{ y: '100%' }}
                 animate={{ y: 0 }}
                 exit={{ y: '100%' }}
-                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
                 onClick={(e) => e.stopPropagation()}
               >
                 {paymentPhase !== 'success' ? (

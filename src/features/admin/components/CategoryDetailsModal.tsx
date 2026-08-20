@@ -30,12 +30,10 @@ export const CategoryDetailsModal: React.FC<CategoryDetailsModalProps> = ({
   category,
   products
 }) => {
-  if (!isOpen || !category) return null;
-
   // Filter products by category name, or show all if "All Items"
-  const categoryProducts = category.name === 'All Items' 
+  const categoryProducts = category?.name === 'All Items' 
     ? products 
-    : products.filter(p => p.category === category.name);
+    : products.filter(p => p.category === category?.name);
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -48,6 +46,8 @@ export const CategoryDetailsModal: React.FC<CategoryDetailsModalProps> = ({
       document.body.style.overflow = '';
     };
   }, [isOpen]);
+
+  if (!isOpen || !category) return null;
 
   const modalContent = (
     <div className={styles.modalOverlay} onClick={onClose}>

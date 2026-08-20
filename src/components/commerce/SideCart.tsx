@@ -348,7 +348,7 @@ export const SideCart = () => {
             </div>
 
             {items.length > 0 && (
-              <div className={styles.footer}>
+              <div className={styles.footerWrapper}>
                 <AnimatePresence>
                   {currentMessage && (
                     <motion.div
@@ -392,20 +392,22 @@ export const SideCart = () => {
                   animate={{ y: 0, opacity: 1, scale: 1 }}
                   transition={{ type: "spring", stiffness: 260, damping: 20, delay: hasAppeared ? 0 : 0.1 }}
                 />
-                <div className={styles.summaryRow}>
-                  <span>Subtotal</span>
-                  <span>{formatCurrency(subtotal)}</span>
-                </div>
-                {totalDiscount > 0 && (
-                  <div className={`${styles.summaryRow} ${styles.discountRow}`}>
-                    <span>Discount</span>
-                    <span>- {formatCurrency(totalDiscount)}</span>
+                
+                <div className={styles.footerContent}>
+                  <div className={styles.summaryRow}>
+                    <span>Subtotal</span>
+                    <span className={styles.totalPriceValue}>{formatCurrency(subtotal)}</span>
                   </div>
-                )}
+                  {totalDiscount > 0 && (
+                    <div className={`${styles.summaryRow} ${styles.discountRow}`}>
+                      <span>Discount</span>
+                      <span className={styles.totalPriceValue}>- {formatCurrency(totalDiscount)}</span>
+                    </div>
+                  )}
                 <div className={`${styles.summaryRow} ${styles.totalRow}`}>
                   <span>Total</span>
                   <div style={{ textAlign: 'right' }}>
-                    <div>{formatCurrency(total)}</div>
+                    <div className={styles.totalPriceValue}>{formatCurrency(total)}</div>
                     <div className={styles.calculatedText}>Calculated at checkout</div>
                   </div>
                 </div>
@@ -424,6 +426,7 @@ export const SideCart = () => {
                     Checkout
                   </Button>
                 </div>
+              </div>
               </div>
             )}
           </motion.div>

@@ -75,6 +75,21 @@ export function AdminCustomOrders() {
   const [dateFilter, setDateFilter] = React.useState('all');
   const [view, setView] = React.useState<'list' | 'grid'>('list');
 
+  React.useEffect(() => {
+    const checkView = () => {
+      if (typeof window !== 'undefined') {
+        setView(window.innerWidth <= 768 ? 'grid' : 'list');
+      }
+    };
+    
+    // Check on mount
+    checkView();
+    
+    // Check on resize (useful for responsive testing)
+    window.addEventListener('resize', checkView);
+    return () => window.removeEventListener('resize', checkView);
+  }, []);
+
   if (isLoading) return <AdminCustomOrdersSkeleton />;
 
   return (
@@ -384,9 +399,8 @@ export function AdminCustomOrders() {
           </div>
         )}
 
-        {/* Mobile Cards View (displayed on mobile screens when in list view) */}
-        {view === 'list' && (
-          <div className={styles.mobileCards}>
+        {/* Mobile Cards View */}
+        <div className={styles.mobileCards} style={{ display: view === 'list' ? 'none' : '' }}>
           {customOrders.map(order => {
             const OccasionIcon = OccasionIconMap[order.occasion] || Star;
             const occColors = OccasionColorMap[order.occasion] || { bg: '#FFF0F5', color: 'var(--admin-pink)' };
@@ -467,7 +481,6 @@ export function AdminCustomOrders() {
             )
           })}
         </div>
-      )}
 
         <div className={styles.pagination}>
           <span className={styles.pageInfo}>Showing 1 to 6 of 1,452 requests</span>

@@ -59,6 +59,21 @@ export function AdminOrders() {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = React.useState(false);
   const [confirmAction, setConfirmAction] = React.useState('');
   const [view, setView] = React.useState<'list' | 'grid'>('list');
+
+  React.useEffect(() => {
+    const checkView = () => {
+      if (typeof window !== 'undefined') {
+        setView(window.innerWidth <= 768 ? 'grid' : 'list');
+      }
+    };
+    
+    // Check on mount
+    checkView();
+    
+    // Check on resize (useful for responsive testing)
+    window.addEventListener('resize', checkView);
+    return () => window.removeEventListener('resize', checkView);
+  }, []);
   const [statusFilter, setStatusFilter] = React.useState('all');
   const [paymentFilter, setPaymentFilter] = React.useState('all');
   const [dateFilter, setDateFilter] = React.useState('7days');

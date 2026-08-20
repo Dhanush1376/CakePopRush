@@ -1,0 +1,230 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 399;
+  animation: fadeIn 0.3s ease;
+}
+
+.drawer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--color-white);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  z-index: 400;
+  max-height: 90dvh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.12);
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: visible;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.header h3 {
+  font-family: var(--font-family-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-chocolate);
+  margin: 0;
+}
+
+.closeButton {
+  background: var(--color-surface);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  color: var(--color-text);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeButton:hover {
+  background-color: var(--color-surface-hover);
+  transform: scale(1.05);
+}
+
+.content {
+  padding: 24px 20px 40px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ratingSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.ratingLabel {
+  font-family: var(--font-family-body);
+  font-weight: 600;
+  color: var(--color-chocolate);
+  font-size: 16px;
+}
+
+.starsContainer {
+  display: flex;
+  gap: 8px;
+}
+
+.starBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.starBtn:hover {
+  transform: scale(1.1);
+}
+
+.starFilled {
+  color: var(--color-brand-yellow);
+}
+
+.starEmpty {
+  color: #E2E8F0;
+}
+
+.inputSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.textarea {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.7);
+  transition: all var(--duration-fast);
+  resize: vertical;
+  min-height: 100px;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--color-brand-pink);
+  background: #FFF;
+  box-shadow: 0 4px 12px rgba(246, 168, 200, 0.15);
+}
+
+.textarea::placeholder {
+  color: #A0AEC0;
+}
+
+.imageUploadSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.uploadLabel {
+  font-family: var(--font-family-body);
+  font-weight: 600;
+  color: var(--color-chocolate);
+  font-size: 14px;
+}
+
+.uploadBox {
+  border: 1px dashed var(--color-border);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  font-family: var(--font-family-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  background: rgba(255, 255, 255, 0.7);
+  transition: all var(--duration-fast);
+}
+
+.uploadBox:hover {
+  background: #FFF;
+  border-color: var(--color-brand-pink);
+  color: var(--color-brand-pink);
+}
+
+.footerActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.submitBtn {
+  background-color: var(--color-brand-pink);
+  color: white;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 10px 24px;
+  font-family: var(--font-family-body);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submitBtn:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.submitBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@media (min-width: 768px) {
+  .drawer {
+    width: 440px;
+    left: auto;
+    right: 20px;
+    bottom: 20px;
+    border-radius: 24px;
+    max-height: 80dvh;
+  }
+}

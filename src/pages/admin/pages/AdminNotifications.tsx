@@ -35,7 +35,7 @@ const channelOptions = [
 ];
 
 export function AdminNotifications() {
-  const [view, setView] = useState<'list' | 'grid'>('list');
+  const [view, setView] = useState<'list' | 'grid'>(typeof window !== 'undefined' && window.innerWidth <= 768 ? 'grid' : 'list');
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('All Notifications');
   const [typeFilter, setTypeFilter] = useState('all');

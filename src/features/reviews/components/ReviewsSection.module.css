@@ -31,12 +31,15 @@
 
 .ratingNumber {
   font-family: var(--font-family-body);
-  font-size: var(--font-size-base);
+  font-size: 13px;
   font-weight: var(--font-weight-bold);
   color: var(--color-chocolate);
   display: flex;
   align-items: center;
   gap: 4px;
+  background-color: var(--color-brand-yellow);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
 }
 
 .count {
@@ -69,6 +72,36 @@
   border-bottom-color: var(--color-chocolate);
 }
 
+.writeReviewBtn {
+  background: none;
+  border: none;
+  color: var(--color-chocolate);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--duration-fast) var(--ease-out);
+  margin-bottom: 4px;
+}
+
+.writeReviewBtn:hover {
+  background-color: rgba(91, 41, 26, 0.05);
+  transform: scale(1.1);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+}
+
+.headerRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
 /* Horizontal Scroll for Cards */
 .horizontalScroll {
   display: flex;
@@ -89,12 +122,14 @@
 .reviewCard {
   flex: 0 0 280px;
   scroll-snap-align: start;
-  background: var(--color-hero-cream);
+  background: var(--color-white);
   padding: var(--space-4);
   border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+  box-shadow: 0 8px 24px rgba(92, 51, 23, 0.08);
+  border: 1px solid rgba(92, 51, 23, 0.12);
 }
 
 .reviewImageContainer {
@@ -150,7 +185,7 @@
 }
 
 .name {
-  font-family: var(--font-family-heading);
+  font-family: var(--font-family-body);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-muted);

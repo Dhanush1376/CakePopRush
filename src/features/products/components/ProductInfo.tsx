@@ -179,11 +179,7 @@ export const ProductInfo = ({ product, calculatedTotal, mascotMessage }: Product
         
         {/* Embedded Mascot */}
         <div className={styles.mascotContainer} ref={mascotRef} onClick={triggerTapReaction}>
-          {activeBubble && (
-            <div className={styles.speechBubble}>
-              <span>{activeBubble}</span>
-            </div>
-          )}
+
           <div className={styles.mascotClip}>
             <div className={styles.mascotWrapper}>
               <CakePopMascot size="small" reaction={reaction} eyeX={eyeSpringX} eyeY={eyeSpringY} hideArms={true} />

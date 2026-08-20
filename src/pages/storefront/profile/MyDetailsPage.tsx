@@ -70,7 +70,7 @@ export const MyDetailsPage = () => {
           </div>
         </div>
 
-        <div className={styles.row}>
+        <div className={`${styles.row} ${styles.stackOnMobile}`}>
           <div className={styles.field}>
             <label className={styles.label}>Date of Birth</label>
             <div className={styles.inputGroup}>
