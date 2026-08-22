@@ -8,7 +8,7 @@ import {
 import { createPortal } from 'react-dom';
 import styles from './AdminOrderDetail.module.css';
 
-import { adminOrderData } from '@/features/admin/api/mockAdminDataProvider';
+import { adminOrderData } from '@/features/admin/api/adminDataProvider';
 import { AdminOrderDetailSkeleton } from '@/features/admin/components/AdminOrderDetailSkeleton';
 import { CustomSelect } from '@/features/admin/components/CustomSelect';
 import { useToast } from '@/components/ui/ToastContext';
@@ -22,6 +22,7 @@ export function AdminOrderDetail() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [order, setOrder] = useState<any>(null);
+  const [orderStatuses, setOrderStatuses] = useState<string[]>([]);
   const [isInvoiceOpen, setIsInvoiceOpen] = useState(false);
   
   // Status Update State
@@ -54,22 +55,23 @@ export function AdminOrderDetail() {
   };
 
   useEffect(() => {
-    // Simulate API fetch
-    const fetchOrder = () => {
-      setIsLoading(true);
-      setTimeout(() => {
-        if (orderId) {
-          const data = adminOrderData.getOrderById(orderId);
-          if (data) {
-            setOrder(data);
-            setShippingForm(data.address);
-          }
-        }
+    // Fetch order async
+    if (orderId) {
+      Promise.all([
+        adminOrderData.getOrderById(orderId),
+        adminOrderData.getOrderStatuses()
+      ]).then(([fetchedOrder, statuses]) => {
+        setOrder(fetchedOrder);
+        setShippingForm(fetchedOrder?.address || {});
+        setOrderStatuses(statuses);
         setIsLoading(false);
-      }, 1200);
-    };
-
-    fetchOrder();
+      }).catch(err => {
+        console.error('Failed to fetch order details:', err);
+        setIsLoading(false);
+      });
+    } else {
+      setIsLoading(false);
+    }
   }, [orderId]);
 
   const handleStatusUpdate = (label: string) => {
@@ -83,12 +85,14 @@ export function AdminOrderDetail() {
         note: ''
       };
 
-      setOrder((prev: any) => ({
-        ...prev,
-        status: label,
-        timeline: [...prev.timeline, newEvent]
-      }));
-      
+      adminOrderData.updateOrder(order.id, { 
+        status: label, 
+        timeline: [...order.timeline, newEvent] 
+      }).then((updatedOrder) => {
+        if (updatedOrder) {
+          setOrder(updatedOrder);
+        }
+      });
       setIsActionLoading(false);
       setIsConfirmModalOpen(false);
       setConfirmAction(null);
@@ -117,11 +121,14 @@ export function AdminOrderDetail() {
             timestamp: new Date().toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' }) + ' · ' + new Date().toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit' }),
             note: 'Cancelled by Administrator'
           };
-          setOrder((prev: any) => ({
-            ...prev,
-            status: 'Cancelled',
-            timeline: [...prev.timeline, newEvent]
-          }));
+          adminOrderData.updateOrder(order.id, { 
+            status: 'Cancelled', 
+            timeline: [...order.timeline, newEvent] 
+          }).then((updatedOrder) => {
+            if (updatedOrder) {
+              setOrder(updatedOrder);
+            }
+          });
           setIsActionLoading(false);
           setIsConfirmModalOpen(false);
           toast({
@@ -139,10 +146,11 @@ export function AdminOrderDetail() {
     e.preventDefault();
     setIsActionLoading(true);
     setTimeout(() => {
-      setOrder((prev: any) => ({
-        ...prev,
-        address: shippingForm
-      }));
+      adminOrderData.updateOrder(order.id, { address: shippingForm }).then((updatedOrder) => {
+        if (updatedOrder) {
+          setOrder(updatedOrder);
+        }
+      });
       setIsActionLoading(false);
       setIsEditingShipping(false);
       toast({
@@ -165,10 +173,11 @@ export function AdminOrderDetail() {
         content: newNote
       };
       
-      setOrder((prev: any) => ({
-        ...prev,
-        notes: [note, ...prev.notes]
-      }));
+      adminOrderData.updateOrder(order.id, { notes: [note, ...order.notes] }).then((updatedOrder) => {
+        if (updatedOrder) {
+          setOrder(updatedOrder);
+        }
+      });
       
       setNewNote('');
       setIsActionLoading(false);
@@ -197,10 +206,10 @@ export function AdminOrderDetail() {
     );
   }
 
-  const statusOptions = adminOrderData.getOrderStatuses().map(status => ({
+  const statusOptions = orderStatuses.map((status: string) => ({
     value: status.toLowerCase(),
     label: status
-  })).filter(opt => opt.label !== order.status);
+  })).filter((opt: any) => opt.label !== order.status);
 
   const fixedSteps = [
     { title: 'Order Confirmed', subtitle: 'We have received your order', keyword: 'confirm' },
@@ -287,7 +296,7 @@ export function AdminOrderDetail() {
             value=""
             onChange={(val) => {
               if (val) {
-                const opt = statusOptions.find(o => o.value === val);
+                const opt = statusOptions.find((o: any) => o.value === val);
                 if (opt) {
                   setConfirmAction({
                     type: 'status',

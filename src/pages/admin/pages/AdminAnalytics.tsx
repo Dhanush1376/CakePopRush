@@ -6,15 +6,15 @@ import styles from './AdminAnalytics.module.css'
 import { AdminAnalyticsSkeleton } from '@/features/admin/components/AdminAnalyticsSkeleton';
 
 // KPI Data
-import { adminAnalyticsData } from '@/features/admin/api/mockAdminDataProvider'
+import { adminAnalyticsData } from '@/features/admin/api/adminDataProvider'
 
-const kpiData = adminAnalyticsData.getKpiStats();
-const revenueData = adminAnalyticsData.getRevenueData();
-const salesData = adminAnalyticsData.getSalesData();
-const ordersOverview = adminAnalyticsData.getOrdersOverview();
-const trafficSources = adminAnalyticsData.getTrafficSources();
-const bestSellingProducts = adminAnalyticsData.getBestSellingProducts();
-const userActivity = adminAnalyticsData.getUserActivity();
+const kpiDataStatic = null;
+const revenueDataStatic = null;
+const salesDataStatic = null;
+const ordersOverviewStatic = null;
+const trafficSourcesStatic = null;
+const bestSellingProductsStatic = null;
+const userActivityStatic = null;
 
 const Sparkline = ({ data, color }: { data: number[], color: string }) => {
   const max = Math.max(...data);
@@ -195,10 +195,34 @@ const BarChart = ({ data }: { data: number[] }) => {
 
 export function AdminAnalytics() {
   const [isLoading, setIsLoading] = React.useState(true);
+  const [kpiData, setKpiData] = React.useState<any[]>([]);
+  const [revenueData, setRevenueData] = React.useState<any[]>([]);
+  const [salesData, setSalesData] = React.useState<any[]>([]);
+  const [ordersOverview, setOrdersOverview] = React.useState<any[]>([]);
+  const [trafficSources, setTrafficSources] = React.useState<any[]>([]);
+  const [bestSellingProducts, setBestSellingProducts] = React.useState<any[]>([]);
+  const [userActivity, setUserActivity] = React.useState<any[]>([]);
 
   React.useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
+    Promise.all([
+      adminAnalyticsData.getKpiStats(),
+      adminAnalyticsData.getRevenueData(),
+      adminAnalyticsData.getSalesData(),
+      adminAnalyticsData.getOrdersOverview(),
+      adminAnalyticsData.getTrafficSources(),
+      adminAnalyticsData.getBestSellingProducts(),
+      adminAnalyticsData.getUserActivity()
+    ]).then(([kpi, rev, sal, ord, tr, b, u]) => {
+      setKpiData(kpi);
+      setRevenueData(rev);
+      setSalesData(sal);
+      setOrdersOverview(ord);
+      setTrafficSources(tr);
+      setBestSellingProducts(b);
+      setUserActivity(u);
+    }).finally(() => {
+      setIsLoading(false);
+    });
   }, []);
 
   if (isLoading) return <AdminAnalyticsSkeleton />;

@@ -1,0 +1,72 @@
+{
+  "salesData": [
+    {
+      "date": "May 18",
+      "value": 15000
+    },
+    {
+      "date": "May 19",
+      "value": 43000
+    },
+    {
+      "date": "May 20",
+      "value": 75000
+    },
+    {
+      "date": "May 21",
+      "value": 50000
+    },
+    {
+      "date": "May 22",
+      "value": 86000
+    },
+    {
+      "date": "May 23",
+      "value": 50000
+    },
+    {
+      "date": "May 24",
+      "value": 68000
+    }
+  ],
+  "recentOrders": [
+    {
+      "id": "#CPR-1254",
+      "customer": "Neha Sharma",
+      "amount": "₹1,260",
+      "status": "Pending"
+    },
+    {
+      "id": "#CPR-1253",
+      "customer": "Riya Patel",
+      "amount": "₹980",
+      "status": "Processing"
+    },
+    {
+      "id": "#CPR-1252",
+      "customer": "Ankit Verma",
+      "amount": "₹1,450",
+      "status": "Shipped"
+    },
+    {
+      "id": "#CPR-1251",
+      "customer": "Pooja Mehta",
+      "amount": "₹2,350",
+      "status": "Delivered"
+    },
+    {
+      "id": "#CPR-1250",
+      "customer": "Karan Singh",
+      "amount": "₹890",
+      "status": "Pending"
+    }
+  ],
+  "adminUser": {
+    "name": "Admin User",
+    "role": "Super Admin",
+    "avatar": null
+  },
+  "notifications": {
+    "count": 5
+  }
+}

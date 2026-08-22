@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { Product } from '@/types/product'
 import styles from './ShopPage.module.css'
 import { Container } from '@/components/layout/Container'
 import { ProductCard } from '@/components/commerce/ProductCard'
@@ -25,7 +26,23 @@ export function ShopPage() {
   const [activeCategory, setActiveCategory] = useState(initialCategory)
   const [isHeaderHidden, setIsHeaderHidden] = useState(false)
   const [isDocked, setIsDocked] = useState(false)
+  
+  const [products, setProducts] = useState<Product[]>([])
+  const [totalProductsCount, setTotalProductsCount] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    setIsLoading(true);
+    Promise.all([
+      productData.getProductsByCategory(activeCategory),
+      productData.getProducts()
+    ]).then(([filtered, all]) => {
+      setProducts(filtered);
+      setTotalProductsCount(all.length);
+    }).finally(() => {
+      setIsLoading(false);
+    });
+  }, [activeCategory]);
 
   const mascotRef = React.useRef<HTMLDivElement>(null);
   const mascotControlRef = React.useRef<MascotRef>(null);
@@ -170,7 +187,6 @@ export function ShopPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const filteredProducts = productData.getProductsByCategory(activeCategory)
 
   return (
     <div className={styles.shopPage}>
@@ -198,9 +214,9 @@ export function ShopPage() {
         />
         
         <ShopToolbar 
-          totalProducts={productData.getProducts().length}
-          showingStart={filteredProducts.length > 0 ? 1 : 0}
-          showingEnd={filteredProducts.length}
+          totalProducts={totalProductsCount}
+          showingStart={products.length > 0 ? 1 : 0}
+          showingEnd={products.length}
         />
       </div>
 
@@ -212,8 +228,8 @@ export function ShopPage() {
               Array.from({ length: 8 }).map((_, i) => (
                 <ProductCardSkeleton key={i} />
               ))
-            ) : (
-              filteredProducts.map(product => (
+            ) : products.length > 0 ? (
+              products.map(product => (
                 <ProductCard 
                   key={product.id} 
                   product={product} 
@@ -227,9 +243,9 @@ export function ShopPage() {
                   }}
                 />
               ))
-            )}
+            ) : null}
           </div>
-          {!isLoading && filteredProducts.length === 0 && (
+          {!isLoading && products.length === 0 && (
             <motion.div 
               className={styles.emptyState}
               initial={{ opacity: 0, y: 15 }}
@@ -241,7 +257,7 @@ export function ShopPage() {
             </motion.div>
           )}
           
-          {!isLoading && filteredProducts.length > 0 && (
+          {!isLoading && products.length > 0 && (
             <Pagination />
           )}
         </Container>

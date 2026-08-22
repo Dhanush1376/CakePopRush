@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ChevronLeft, Package, ChevronRight, ShoppingBag, CheckCircle2, Truck, MessageCircle, Clock } from 'lucide-react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import styles from './OrdersPage.module.css'
@@ -112,9 +112,16 @@ const EmptyState = () => (
 export const OrdersPage = () => {
   const location = useLocation()
   const [activeTab, setActiveTab] = useState<'all' | OrderStatus>((location.state as any)?.tab || 'all')
+  const [orders, setOrders] = useState<Order[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    orderData.getOrders().then(setOrders).finally(() => setIsLoading(false))
+  }, [])
+
   const filtered = activeTab === 'all'
-    ? orderData.getOrders()
-    : orderData.getOrders().filter(o => o.status === activeTab)
+    ? orders
+    : orders.filter(o => o.status === activeTab)
 
   return (
     <ProfileLayout isMobileStandalone={true}>
@@ -168,7 +175,7 @@ export const OrdersPage = () => {
                   {tab.label}
                   {tab.key !== 'all' && (
                     <span className={styles.tabCount} style={isActive ? { background: `${STATUS_CONFIG[tab.key].color}20` } : undefined}>
-                      {orderData.getOrders().filter(o => o.status === tab.key).length}
+                      {orders.filter(o => o.status === tab.key).length}
                     </span>
                   )}
                 </button>
@@ -178,7 +185,9 @@ export const OrdersPage = () => {
         </div>
 
         <div className={styles.list}>
-          {filtered.length === 0 ? (
+          {isLoading ? (
+            <p style={{ textAlign: 'center', padding: '2rem', color: 'var(--color-text-secondary)' }}>Loading orders...</p>
+          ) : filtered.length === 0 ? (
             <EmptyState />
           ) : (
             filtered.map(order => <OrderCard key={order.id} order={order} />)

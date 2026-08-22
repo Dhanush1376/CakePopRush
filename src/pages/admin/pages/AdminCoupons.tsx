@@ -5,13 +5,15 @@ import { Search, Plus, Download, Filter, MoreVertical, Edit2, Trash2, ChevronLef
 import { createPortal } from 'react-dom'
 import styles from './AdminCoupons.module.css'
 import { CustomSelect } from '@/features/admin/components/CustomSelect'
+import { AdminFilterModal } from '@/features/admin/components/AdminFilterModal'
+import filterModalStyles from '@/features/admin/components/AdminFilterModal.module.css'
 import { ViewToggle } from '@/features/admin/components/ViewToggle'
 import { AdminCouponsSkeleton } from '@/features/admin/components/AdminCouponsSkeleton';
 
-import { adminCouponData } from '@/features/admin/api/mockAdminDataProvider'
+import { adminCouponData } from '@/features/admin/api/adminDataProvider'
 
-const statsData = adminCouponData.getStats();
-const couponsData = adminCouponData.getCoupons();
+const statsDataStatic = null;
+const couponsDataStatic = null;
 
 const statusOptions = [
   { value: 'all', label: 'All Status' },
@@ -35,11 +37,28 @@ export function AdminCoupons() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(true);
   
-  const [coupons, setCoupons] = React.useState(couponsData);
+  const [statsData, setStatsData] = React.useState<any[]>([]);
+  const [coupons, setCoupons] = React.useState<any[]>([]);
   const [statusFilter, setStatusFilter] = React.useState('all');
   const [typeFilter, setTypeFilter] = React.useState('all');
   const [expiryFilter, setExpiryFilter] = React.useState('all');
   const [view, setView] = React.useState<'list' | 'grid'>('list');
+
+  const defaultAdvFilters = { minOrder: 'all', usageLimit: 'all' };
+  const [isAdvFilterOpen, setIsAdvFilterOpen] = React.useState(false);
+  const [draftAdvFilters, setDraftAdvFilters] = React.useState(defaultAdvFilters);
+  const [appliedAdvFilters, setAppliedAdvFilters] = React.useState(defaultAdvFilters);
+
+  const activeFilterCount = Object.values(appliedAdvFilters).filter(v => v !== 'all').length;
+
+  const handleApplyAdvFilters = () => {
+    setAppliedAdvFilters(draftAdvFilters);
+    setIsAdvFilterOpen(false);
+  };
+
+  const handleResetAdvFilters = () => {
+    setDraftAdvFilters(defaultAdvFilters);
+  };
 
   React.useEffect(() => {
     const checkView = () => {
@@ -60,12 +79,23 @@ export function AdminCoupons() {
   const [confirmAction, setConfirmAction] = React.useState('');
   
   React.useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
+    Promise.all([
+      adminCouponData.getStats(),
+      adminCouponData.getCoupons()
+    ]).then(([stats, c]) => {
+      setStatsData(stats);
+      setCoupons(c);
+    }).finally(() => {
+      setIsLoading(false);
+    });
   }, []);
 
   const handleDelete = (id: number) => {
-    setCoupons(prev => prev.filter(c => c.id !== id));
+    adminCouponData.deleteCoupon(id).then((success) => {
+      if (success) {
+        setCoupons(prev => prev.filter(c => c.id !== id));
+      }
+    });
   };
 
   if (isLoading) return <AdminCouponsSkeleton />;
@@ -160,9 +190,10 @@ export function AdminCoupons() {
             </div>
 
             <div className={styles.actionButtons}>
-              <button className={styles.btnOutline}>
+              <button className={styles.btnOutline} onClick={() => setIsAdvFilterOpen(true)}>
                 <Filter size={14} className={styles.btnIcon} />
                 <span className={styles.hideMobile}>Filter</span>
+                {activeFilterCount > 0 && <span className={styles.filterBadge}>{activeFilterCount}</span>}
               </button>
   
               <button className={styles.btnOutline}>
@@ -512,6 +543,56 @@ export function AdminCoupons() {
         </div>,
         document.body
       )}
+
+      <AdminFilterModal
+        isOpen={isAdvFilterOpen}
+        onClose={() => {
+          setIsAdvFilterOpen(false);
+          setDraftAdvFilters(appliedAdvFilters);
+        }}
+        onApply={handleApplyAdvFilters}
+        onReset={handleResetAdvFilters}
+      >
+        <div className={filterModalStyles.filterGroup}>
+          <span className={filterModalStyles.filterLabel}>Minimum Order</span>
+          <div className={filterModalStyles.bracketGrid}>
+            {[
+              { value: 'all', label: 'Any' },
+              { value: 'none', label: 'None' },
+              { value: '1-50', label: '₹1 - ₹50' },
+              { value: '50+', label: 'Over ₹50' },
+            ].map(opt => (
+              <button
+                key={opt.value}
+                className={`${filterModalStyles.bracketBtn} ${draftAdvFilters.minOrder === opt.value ? filterModalStyles.active : ''}`}
+                onClick={() => setDraftAdvFilters(prev => ({ ...prev, minOrder: opt.value }))}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className={filterModalStyles.filterGroup}>
+          <span className={filterModalStyles.filterLabel}>Usage Limit</span>
+          <div className={filterModalStyles.bracketGrid}>
+            {[
+              { value: 'all', label: 'Any' },
+              { value: 'unlimited', label: 'Unlimited' },
+              { value: '1-100', label: '1 - 100 uses' },
+              { value: '100+', label: 'Over 100 uses' },
+            ].map(opt => (
+              <button
+                key={opt.value}
+                className={`${filterModalStyles.bracketBtn} ${draftAdvFilters.usageLimit === opt.value ? filterModalStyles.active : ''}`}
+                onClick={() => setDraftAdvFilters(prev => ({ ...prev, usageLimit: opt.value }))}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </AdminFilterModal>
     </div>
   )
 }

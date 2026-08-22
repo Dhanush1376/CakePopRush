@@ -20,6 +20,15 @@ export function AdminLayout() {
     }
   }, [location.pathname])
 
+  // Apply admin theme class to body globally while AdminLayout is mounted
+  // This ensures CSS variables properly cascade to both the layout and body-appended React Portals (modals, popups)
+  useEffect(() => {
+    document.body.classList.add('admin-theme')
+    return () => {
+      document.body.classList.remove('admin-theme')
+    }
+  }, [])
+
   // Close sidebar on navigation on mobile only
   useEffect(() => {
     if (window.innerWidth < 992) {

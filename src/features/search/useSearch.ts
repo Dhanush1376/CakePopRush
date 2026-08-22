@@ -33,16 +33,11 @@ export function useSearch(onClose?: () => void, onFocusChange?: (focused: boolea
 
     setIsLoading(true);
     // Simulate network delay
-    const timer = setTimeout(() => {
-      const lowercaseQuery = debouncedQuery.toLowerCase();
-      const filtered = productData.searchProducts(lowercaseQuery).slice(0, 5);
-      
-      setResults(filtered);
+    const lowercaseQuery = debouncedQuery.toLowerCase();
+    productData.searchProducts(lowercaseQuery).then((filtered: any) => {
+      setResults(filtered.slice(0, 5));
       setIsLoading(false);
-      setActiveIndex(-1);
-    }, 400);
-
-    return () => clearTimeout(timer);
+    });
   }, [debouncedQuery]);
 
   // Reset loading state immediately on new input

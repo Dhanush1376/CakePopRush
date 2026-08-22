@@ -1,7 +1,14 @@
+import React, { useState, useEffect } from 'react';
 import styles from './AdminComponents.module.css'
-import { adminDashboardData } from '@/features/admin/api/mockAdminDataProvider';
+import { adminDashboardData } from '@/features/admin/api/adminDataProvider';
 export function OrderStatusChart() {
-  const orderStatusData = adminDashboardData.getOrderStatusData();
+  const [orderStatusData, setOrderStatusData] = useState<any[]>([]);
+
+  useEffect(() => {
+    adminDashboardData.getOrderStatusData().then(setOrderStatusData);
+  }, []);
+
+  if (orderStatusData.length === 0) return null;
   const total = orderStatusData.reduce((acc, curr) => acc + curr.value, 0)
   
   // Donut chart calculations

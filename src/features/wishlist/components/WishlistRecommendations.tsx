@@ -9,10 +9,15 @@ import { useWishlist } from '@/features/wishlist';
 export const WishlistRecommendations: React.FC = () => {
   const { isInWishlist, addToWishlist, removeFromWishlist } = useWishlist();
 
-  // Pick 4 popular / bestselling products
-  const recommendedProducts = productData.getProducts().slice(0, 4);
+  const [recommendedProducts, setRecommendedProducts] = React.useState<any[]>([]);
 
-  const handleToggleWishlist = (product: ReturnType<typeof productData.getProducts>[0]) => {
+  React.useEffect(() => {
+    productData.getProducts().then((products: any) => {
+      setRecommendedProducts(products.slice(0, 4));
+    });
+  }, []);
+
+  const handleToggleWishlist = (product: any) => {
     if (isInWishlist(product.id)) {
       removeFromWishlist(product.id);
     } else {
@@ -30,7 +35,7 @@ export const WishlistRecommendations: React.FC = () => {
       </div>
 
       <div className={styles.grid}>
-        {recommendedProducts.map((product) => (
+        {recommendedProducts.map((product: any) => (
           <ProductCard
             key={product.id}
             product={product}

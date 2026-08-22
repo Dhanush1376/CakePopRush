@@ -1,8 +1,15 @@
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import styles from './AdminComponents.module.css'
-import { adminDashboardData } from '@/features/admin/api/mockAdminDataProvider';
+import { adminDashboardData } from '@/features/admin/api/adminDataProvider';
 export function TopSellingProducts() {
-  const topSellingProducts = adminDashboardData.getTopSellingProducts();
+  const [topSellingProducts, setTopSellingProducts] = useState<any[]>([]);
+
+  useEffect(() => {
+    adminDashboardData.getTopSellingProducts().then(setTopSellingProducts);
+  }, []);
+
+  if (topSellingProducts.length === 0) return null;
   return (
     <div className={styles.card}>
       <div className={styles.cardHeader}>

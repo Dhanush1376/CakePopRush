@@ -1,10 +1,18 @@
+import React, { useState, useEffect } from 'react';
 import { StatCard } from './StatCard'
-import { adminDashboardData } from '@/features/admin/api/mockAdminDataProvider';
+import { adminDashboardData } from '@/features/admin/api/adminDataProvider';
 import { ShoppingBag, IndianRupee, Users, Heart } from 'lucide-react'
 import styles from './AdminComponents.module.css'
 
 export function StatsGrid() {
-  const adminStats = adminDashboardData.getStats();
+  const [adminStats, setAdminStats] = useState<any>(null);
+
+  useEffect(() => {
+    adminDashboardData.getStats().then(setAdminStats);
+  }, []);
+
+  if (!adminStats) return null;
+
   return (
     <div className={styles.statsGrid}>
       <StatCard 

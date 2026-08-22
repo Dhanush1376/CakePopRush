@@ -38,8 +38,8 @@ export const getCanonicalResetSequence = (duration: number = 0.3): AnimationSequ
   ['#left-eye-cute-tear, #right-eye-cute-tear', { opacity: 0, scale: 0 }, { duration, ease: 'easeOut' }],
   
   // Eyebrows
-  ['#left-eyebrow', { y: 0, x: 0, rotate: 0 }, { duration, ease: 'easeOut' }],
-  ['#right-eyebrow', { y: 0, x: 0, rotate: 0 }, { duration, ease: 'easeOut' }],
+  ['#left-eyebrow', { y: 0, x: 0, rotate: 0, scaleX: 1, scaleY: 1 }, { duration, ease: 'easeOut' }],
+  ['#right-eyebrow', { y: 0, x: 0, rotate: 0, scaleX: 1, scaleY: 1 }, { duration, ease: 'easeOut' }],
   
   // Cheeks & Mouth
   ['#left-cheek, #right-cheek', { opacity: 0, scale: 1, x: 0, y: 0 }, { duration, ease: 'easeOut' }],

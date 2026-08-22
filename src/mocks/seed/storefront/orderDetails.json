@@ -1,0 +1,296 @@
+{
+  "CPR-20482": {
+    "id": "CPR-20482",
+    "date": "Aug 8, 2026",
+    "time": "2:35 PM",
+    "status": "delivered",
+    "orderType": "Delivery",
+    "estimatedDelivery": "Aug 9, 2026",
+    "estimatedTime": "3:00 PM – 5:00 PM",
+    "actualDelivery": "Aug 9, 2026 at 4:12 PM",
+    "items": [
+      {
+        "id": "SKU-001",
+        "name": "Strawberry Velvet Cake Pop",
+        "variant": "Classic",
+        "size": "Regular",
+        "qty": 2,
+        "unitPrice": 149,
+        "discount": 0,
+        "subtotal": 298,
+        "icon": "star",
+        "image": "/images/Products/mini valentine cake.jpeg"
+      },
+      {
+        "id": "SKU-002",
+        "name": "Chocolate Truffle Delight",
+        "variant": "Premium",
+        "size": "Large",
+        "qty": 1,
+        "unitPrice": 189,
+        "discount": 0,
+        "subtotal": 189,
+        "icon": "star",
+        "image": "/images/Products/Dark choclate cakepops.jpeg"
+      }
+    ],
+    "totalProducts": 2,
+    "totalQuantity": 3,
+    "address": {
+      "recipientName": "Dhanush",
+      "phone": "+91 98765 43210",
+      "houseNo": "12A",
+      "building": "Sunshine Towers",
+      "street": "MG Road",
+      "area": "Koramangala",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "pincode": "560034",
+      "type": "Home",
+      "instructions": "Ring the bell twice. Gate code: 4521"
+    },
+    "price": {
+      "itemSubtotal": 487,
+      "productDiscount": 0,
+      "couponDiscount": 50,
+      "deliveryFee": 40,
+      "packagingFee": 15,
+      "taxes": 35,
+      "totalDiscount": 50,
+      "amountPaid": 527
+    },
+    "payment": {
+      "method": "UPI",
+      "status": "Paid",
+      "transactionId": "TXN-9823749823",
+      "date": "Aug 8, 2026",
+      "time": "2:36 PM",
+      "provider": "Google Pay",
+      "amountPaid": 527
+    },
+    "customer": {
+      "id": "mock-1",
+      "orderCount": 1,
+      "name": "Dhanush",
+      "email": "dhanush@gmail.com",
+      "phone": "+91 98765 43210"
+    },
+    "notes": "Please make the frosting extra thick!",
+    "giftMessage": "Happy Birthday, Mom!",
+    "invoiceNumber": "INV-CPR-20482",
+    "invoiceDate": "Aug 9, 2026"
+  },
+  "CPR-20391": {
+    "id": "CPR-20391",
+    "date": "Aug 6, 2026",
+    "time": "11:20 AM",
+    "status": "shipped",
+    "orderType": "Delivery",
+    "estimatedDelivery": "Aug 10, 2026",
+    "estimatedTime": "10:00 AM – 12:00 PM",
+    "items": [
+      {
+        "id": "SKU-003",
+        "name": "Rainbow Sprinkle Pop",
+        "variant": "Party Pack",
+        "size": "Regular",
+        "qty": 3,
+        "unitPrice": 129,
+        "discount": 10,
+        "subtotal": 357,
+        "icon": "star",
+        "image": "/images/Products/White choclate cakepops.jpeg"
+      }
+    ],
+    "totalProducts": 1,
+    "totalQuantity": 3,
+    "address": {
+      "recipientName": "Dhanush",
+      "phone": "+91 98765 43210",
+      "houseNo": "12A",
+      "building": "Sunshine Towers",
+      "street": "MG Road",
+      "area": "Koramangala",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "pincode": "560034",
+      "type": "Home"
+    },
+    "price": {
+      "itemSubtotal": 387,
+      "productDiscount": 30,
+      "couponDiscount": 0,
+      "deliveryFee": 40,
+      "packagingFee": 15,
+      "taxes": 28,
+      "totalDiscount": 30,
+      "amountPaid": 440
+    },
+    "payment": {
+      "method": "Credit Card",
+      "status": "Paid",
+      "transactionId": "TXN-7812394812",
+      "date": "Aug 6, 2026",
+      "time": "11:21 AM",
+      "provider": "Visa ****4523",
+      "amountPaid": 440
+    },
+    "customer": {
+      "id": "mock-1",
+      "orderCount": 1,
+      "name": "Dhanush",
+      "email": "dhanush@gmail.com",
+      "phone": "+91 98765 43210"
+    },
+    "agent": {
+      "name": "Alex D.",
+      "avatar": "https://api.dicebear.com/7.x/notionists/svg?seed=Alex&backgroundColor=F20D6F",
+      "rating": 4.9,
+      "phone": "+91 90000 12345"
+    },
+    "invoiceNumber": "INV-CPR-20391",
+    "invoiceDate": "Aug 6, 2026"
+  },
+  "CPR-20210": {
+    "id": "CPR-20210",
+    "date": "Aug 3, 2026",
+    "time": "4:45 PM",
+    "status": "confirmed",
+    "orderType": "Delivery",
+    "estimatedDelivery": "Aug 12, 2026",
+    "estimatedTime": "2:00 PM – 4:00 PM",
+    "items": [
+      {
+        "id": "SKU-004",
+        "name": "Caramel Drizzle Pop",
+        "variant": "Gourmet",
+        "size": "Regular",
+        "qty": 2,
+        "unitPrice": 159,
+        "discount": 0,
+        "subtotal": 318,
+        "icon": "star",
+        "image": "/images/Products/mini valentine cake.jpeg"
+      },
+      {
+        "id": "SKU-005",
+        "name": "Birthday Bliss Cake Pop",
+        "variant": "Celebration",
+        "size": "Large",
+        "qty": 2,
+        "unitPrice": 179,
+        "discount": 0,
+        "subtotal": 358,
+        "icon": "star",
+        "image": "/images/Products/Dark choclate cakepops.jpeg"
+      }
+    ],
+    "totalProducts": 2,
+    "totalQuantity": 4,
+    "address": {
+      "recipientName": "Dhanush",
+      "phone": "+91 98765 43210",
+      "houseNo": "12A",
+      "building": "Sunshine Towers",
+      "street": "MG Road",
+      "area": "Koramangala",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "pincode": "560034",
+      "type": "Home"
+    },
+    "price": {
+      "itemSubtotal": 676,
+      "productDiscount": 0,
+      "couponDiscount": 75,
+      "deliveryFee": 0,
+      "packagingFee": 20,
+      "taxes": 48,
+      "totalDiscount": 75,
+      "amountPaid": 669
+    },
+    "payment": {
+      "method": "Wallet",
+      "status": "Paid",
+      "transactionId": "TXN-5529384712",
+      "date": "Aug 3, 2026",
+      "time": "4:46 PM",
+      "provider": "CakePopRush Wallet",
+      "amountPaid": 669
+    },
+    "customer": {
+      "id": "mock-1",
+      "orderCount": 1,
+      "name": "Dhanush",
+      "email": "dhanush@gmail.com",
+      "phone": "+91 98765 43210"
+    },
+    "invoiceNumber": "INV-CPR-20210",
+    "invoiceDate": "Aug 3, 2026"
+  },
+  "CPR-20105": {
+    "id": "CPR-20105",
+    "date": "Jul 28, 2026",
+    "time": "9:15 AM",
+    "status": "pending",
+    "orderType": "Pickup",
+    "estimatedDelivery": "Jul 29, 2026",
+    "estimatedTime": "10:00 AM – 11:00 AM",
+    "items": [
+      {
+        "id": "SKU-006",
+        "name": "Matcha Zen Pop",
+        "variant": "Classic",
+        "size": "Regular",
+        "qty": 4,
+        "unitPrice": 139,
+        "discount": 0,
+        "subtotal": 556,
+        "icon": "star",
+        "image": "/images/Products/White choclate cakepops.jpeg"
+      }
+    ],
+    "totalProducts": 1,
+    "totalQuantity": 4,
+    "address": {
+      "recipientName": "Dhanush",
+      "phone": "+91 98765 43210",
+      "houseNo": "12A",
+      "building": "Sunshine Towers",
+      "street": "MG Road",
+      "area": "Koramangala",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "pincode": "560034",
+      "type": "Work"
+    },
+    "price": {
+      "itemSubtotal": 556,
+      "productDiscount": 0,
+      "couponDiscount": 0,
+      "deliveryFee": 0,
+      "packagingFee": 10,
+      "taxes": 40,
+      "totalDiscount": 0,
+      "amountPaid": 606
+    },
+    "payment": {
+      "method": "UPI",
+      "status": "Paid",
+      "transactionId": "TXN-1192837465",
+      "date": "Jul 28, 2026",
+      "time": "9:16 AM",
+      "provider": "PhonePe",
+      "amountPaid": 606
+    },
+    "customer": {
+      "id": "mock-1",
+      "orderCount": 1,
+      "name": "Dhanush",
+      "email": "dhanush@gmail.com",
+      "phone": "+91 98765 43210"
+    },
+    "invoiceNumber": "INV-CPR-20105",
+    "invoiceDate": "Jul 28, 2026"
+  }
+}

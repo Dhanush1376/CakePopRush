@@ -6,14 +6,16 @@ import { Link } from 'react-router-dom'
 import styles from './AdminProducts.module.css'
 import deleteBtnStyles from '@/features/admin/components/AdminDeleteButton.module.css'
 import { CustomSelect } from '@/features/admin/components/CustomSelect'
+import { AdminFilterModal } from '@/features/admin/components/AdminFilterModal'
+import filterModalStyles from '@/features/admin/components/AdminFilterModal.module.css'
 import { ViewToggle } from '@/features/admin/components/ViewToggle'
 import { AdminProductsSkeleton } from '@/features/admin/components/AdminProductsSkeleton'
 import { ProductDetailsModal } from '@/features/admin/components/ProductDetailsModal'
 
-import { adminProductData } from '@/features/admin/api/mockAdminDataProvider'
+import { adminProductData } from '@/features/admin/api/adminDataProvider'
 
-const statsData = adminProductData.getStats();
-const initialProductsData = adminProductData.getProducts();
+const statsDataStatic = null;
+const initialProductsDataStatic = null;
 
 const categoryOptions = [
   { value: 'all', label: 'All Categories' },
@@ -44,7 +46,8 @@ export function AdminProducts() {
   const [confirmAction, setConfirmAction] = React.useState('');
   const [selectedProductDetails, setSelectedProductDetails] = React.useState<any | null>(null);
 
-  const [products, setProducts] = React.useState(initialProductsData);
+  const [statsData, setStatsData] = React.useState<any>(null);
+  const [products, setProducts] = React.useState<any[]>([]);
   const [isInventoryMode, setIsInventoryMode] = React.useState(false);
 
   const handleStockUpdate = (sku: string, newStock: number) => {
@@ -67,10 +70,15 @@ export function AdminProducts() {
   };
 
   React.useEffect(() => {
-    const timer = setTimeout(() => {
+    Promise.all([
+      adminProductData.getStats(),
+      adminProductData.getProducts()
+    ]).then(([stats, prods]) => {
+      setStatsData(stats);
+      setProducts(prods);
+    }).finally(() => {
       setIsLoading(false);
-    }, 1500);
-    return () => clearTimeout(timer);
+    });
   }, []);
 
 
@@ -79,6 +87,22 @@ export function AdminProducts() {
   const [stockFilter, setStockFilter] = React.useState('all');
   const [statusFilter, setStatusFilter] = React.useState('all');
   const [view, setView] = React.useState<'list' | 'grid'>('list');
+
+  const defaultAdvFilters = { price: 'all', sales: 'all', views: 'all' };
+  const [isAdvFilterOpen, setIsAdvFilterOpen] = React.useState(false);
+  const [draftAdvFilters, setDraftAdvFilters] = React.useState(defaultAdvFilters);
+  const [appliedAdvFilters, setAppliedAdvFilters] = React.useState(defaultAdvFilters);
+
+  const activeFilterCount = Object.values(appliedAdvFilters).filter(v => v !== 'all').length;
+
+  const handleApplyAdvFilters = () => {
+    setAppliedAdvFilters(draftAdvFilters);
+    setIsAdvFilterOpen(false);
+  };
+
+  const handleResetAdvFilters = () => {
+    setDraftAdvFilters(defaultAdvFilters);
+  };
 
   React.useEffect(() => {
     const checkView = () => {
@@ -198,8 +222,9 @@ export function AdminProducts() {
           </div>
   
           <div className={styles.actionButtons}>
-            <button className={styles.btnOutline} title="Filters">
+            <button className={styles.btnOutline} title="Filters" onClick={() => setIsAdvFilterOpen(true)}>
               <Filter className={styles.btnIcon} /> <span className={styles.hideMobile}>Filters</span>
+              {activeFilterCount > 0 && <span className={styles.filterBadge}>{activeFilterCount}</span>}
             </button>
   
             <button className={styles.btnOutline} title="Export">
@@ -215,7 +240,7 @@ export function AdminProducts() {
       </div>
 
       <div className={styles.statsGrid}>
-        {statsData.map((stat) => {
+        {statsData.map((stat: any) => {
           const Icon = stat.icon;
           return (
             <div key={stat.id} className={styles.statCard}>
@@ -542,6 +567,76 @@ export function AdminProducts() {
       )}
 
       <ProductDetailsModal product={selectedProductDetails} onClose={() => setSelectedProductDetails(null)} />
+
+      <AdminFilterModal
+        isOpen={isAdvFilterOpen}
+        onClose={() => {
+          setIsAdvFilterOpen(false);
+          setDraftAdvFilters(appliedAdvFilters); // reset draft to applied on close
+        }}
+        onApply={handleApplyAdvFilters}
+        onReset={handleResetAdvFilters}
+      >
+        <div className={filterModalStyles.filterGroup}>
+          <span className={filterModalStyles.filterLabel}>Price Range</span>
+          <div className={filterModalStyles.bracketGrid}>
+            {[
+              { value: 'all', label: 'Any' },
+              { value: '0-50', label: 'Up to ₹50' },
+              { value: '50-100', label: '₹50 - ₹100' },
+              { value: '100+', label: 'Over ₹100' },
+            ].map(opt => (
+              <button
+                key={opt.value}
+                className={`${filterModalStyles.bracketBtn} ${draftAdvFilters.price === opt.value ? filterModalStyles.active : ''}`}
+                onClick={() => setDraftAdvFilters(prev => ({ ...prev, price: opt.value }))}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className={filterModalStyles.filterGroup}>
+          <span className={filterModalStyles.filterLabel}>Sales Range</span>
+          <div className={filterModalStyles.bracketGrid}>
+            {[
+              { value: 'all', label: 'Any' },
+              { value: '0-500', label: '0 - 500' },
+              { value: '500-2000', label: '500 - 2,000' },
+              { value: '2000+', label: '2,000+' },
+            ].map(opt => (
+              <button
+                key={opt.value}
+                className={`${filterModalStyles.bracketBtn} ${draftAdvFilters.sales === opt.value ? filterModalStyles.active : ''}`}
+                onClick={() => setDraftAdvFilters(prev => ({ ...prev, sales: opt.value }))}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className={filterModalStyles.filterGroup}>
+          <span className={filterModalStyles.filterLabel}>Views Range</span>
+          <div className={filterModalStyles.bracketGrid}>
+            {[
+              { value: 'all', label: 'Any' },
+              { value: '0-5000', label: '0 - 5,000' },
+              { value: '5000-20000', label: '5k - 20k' },
+              { value: '20000+', label: '20k+' },
+            ].map(opt => (
+              <button
+                key={opt.value}
+                className={`${filterModalStyles.bracketBtn} ${draftAdvFilters.views === opt.value ? filterModalStyles.active : ''}`}
+                onClick={() => setDraftAdvFilters(prev => ({ ...prev, views: opt.value }))}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </AdminFilterModal>
     </div>
   )
 }

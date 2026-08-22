@@ -6,13 +6,15 @@ import { Search, Plus, Download, Filter, Calendar, ChevronRight, ChevronLeft, Im
 import styles from './AdminCustomOrders.module.css'
 import deleteBtnStyles from '@/features/admin/components/AdminDeleteButton.module.css'
 import { CustomSelect } from '@/features/admin/components/CustomSelect'
+import { AdminFilterModal } from '@/features/admin/components/AdminFilterModal'
+import filterModalStyles from '@/features/admin/components/AdminFilterModal.module.css'
 import { ViewToggle } from '@/features/admin/components/ViewToggle'
 import { AdminCustomOrdersSkeleton } from '@/features/admin/components/AdminCustomOrdersSkeleton'
 
-import { adminCustomOrderData } from '@/features/admin/api/mockAdminDataProvider'
+import { adminCustomOrderData } from '@/features/admin/api/adminDataProvider'
 
-const statsData = adminCustomOrderData.getStats();
-const customOrders = adminCustomOrderData.getCustomOrders();
+const statsDataStatic = null;
+const customOrdersStatic = null;
 
 const statusOptions = [
   { value: 'all', label: 'All Status' },
@@ -63,17 +65,41 @@ export function AdminCustomOrders() {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = React.useState(false);
   const [confirmAction, setConfirmAction] = React.useState('');
 
+  const [statsData, setStatsData] = React.useState<any[]>([]);
+  const [customOrders, setCustomOrders] = React.useState<any[]>([]);
+
   React.useEffect(() => {
-    const timer = setTimeout(() => {
+    Promise.all([
+      adminCustomOrderData.getStats(),
+      adminCustomOrderData.getCustomOrders()
+    ]).then(([stats, orders]) => {
+      setStatsData(stats);
+      setCustomOrders(orders);
+    }).finally(() => {
       setIsLoading(false);
-    }, 1500);
-    return () => clearTimeout(timer);
+    });
   }, []);
 
   const [statusFilter, setStatusFilter] = React.useState('all');
   const [occasionFilter, setOccasionFilter] = React.useState('all');
   const [dateFilter, setDateFilter] = React.useState('all');
   const [view, setView] = React.useState<'list' | 'grid'>('list');
+
+  const defaultAdvFilters = { budget: 'all', guests: 'all' };
+  const [isAdvFilterOpen, setIsAdvFilterOpen] = React.useState(false);
+  const [draftAdvFilters, setDraftAdvFilters] = React.useState(defaultAdvFilters);
+  const [appliedAdvFilters, setAppliedAdvFilters] = React.useState(defaultAdvFilters);
+
+  const activeFilterCount = Object.values(appliedAdvFilters).filter(v => v !== 'all').length;
+
+  const handleApplyAdvFilters = () => {
+    setAppliedAdvFilters(draftAdvFilters);
+    setIsAdvFilterOpen(false);
+  };
+
+  const handleResetAdvFilters = () => {
+    setDraftAdvFilters(defaultAdvFilters);
+  };
 
   React.useEffect(() => {
     const checkView = () => {
@@ -182,8 +208,9 @@ export function AdminCustomOrders() {
           </div>
   
           <div className={styles.actionButtons}>
-            <button className={styles.btnOutline} title="Filter">
+            <button className={styles.btnOutline} title="Filter" onClick={() => setIsAdvFilterOpen(true)}>
               <Filter className={styles.btnIcon} /> <span className={styles.hideMobile}>Filter</span>
+              {activeFilterCount > 0 && <span className={styles.filterBadge}>{activeFilterCount}</span>}
             </button>
             <button className={styles.btnOutline} title="Export">
               <Download className={styles.btnIcon} /> <span className={styles.hideMobile}>Export</span>
@@ -528,6 +555,56 @@ export function AdminCustomOrders() {
         </div>,
         document.body
       )}
+
+      <AdminFilterModal
+        isOpen={isAdvFilterOpen}
+        onClose={() => {
+          setIsAdvFilterOpen(false);
+          setDraftAdvFilters(appliedAdvFilters);
+        }}
+        onApply={handleApplyAdvFilters}
+        onReset={handleResetAdvFilters}
+      >
+        <div className={filterModalStyles.filterGroup}>
+          <span className={filterModalStyles.filterLabel}>Budget Range</span>
+          <div className={filterModalStyles.bracketGrid}>
+            {[
+              { value: 'all', label: 'Any' },
+              { value: '0-500', label: 'Up to ₹500' },
+              { value: '500-2000', label: '₹500 - ₹2,000' },
+              { value: '2000+', label: 'Over ₹2,000' },
+            ].map(opt => (
+              <button
+                key={opt.value}
+                className={`${filterModalStyles.bracketBtn} ${draftAdvFilters.budget === opt.value ? filterModalStyles.active : ''}`}
+                onClick={() => setDraftAdvFilters(prev => ({ ...prev, budget: opt.value }))}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className={filterModalStyles.filterGroup}>
+          <span className={filterModalStyles.filterLabel}>Guest Count</span>
+          <div className={filterModalStyles.bracketGrid}>
+            {[
+              { value: 'all', label: 'Any' },
+              { value: '1-50', label: '1 - 50' },
+              { value: '51-200', label: '51 - 200' },
+              { value: '200+', label: '200+' },
+            ].map(opt => (
+              <button
+                key={opt.value}
+                className={`${filterModalStyles.bracketBtn} ${draftAdvFilters.guests === opt.value ? filterModalStyles.active : ''}`}
+                onClick={() => setDraftAdvFilters(prev => ({ ...prev, guests: opt.value }))}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </AdminFilterModal>
     </div>
   )
 }

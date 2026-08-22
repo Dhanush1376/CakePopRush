@@ -2,14 +2,16 @@ import { ActionDropdown } from '@/features/admin/components/ActionDropdown'
 import React, { useState } from 'react'
 import { Search, Download, ChevronDown, Filter, Calendar, Bell, Mail, Eye, Gift, Heart, AlertTriangle, Smartphone, MoreVertical, Edit2, ChevronLeft, ChevronRight, Archive } from 'lucide-react'
 import { CustomSelect } from '@/features/admin/components/CustomSelect'
+import { AdminFilterModal } from '@/features/admin/components/AdminFilterModal'
+import filterModalStyles from '@/features/admin/components/AdminFilterModal.module.css'
 import { ViewToggle } from '@/features/admin/components/ViewToggle'
 import styles from './AdminNotifications.module.css'
 import { AdminNotificationsSkeleton } from '@/features/admin/components/AdminNotificationsSkeleton';
 
-import { adminNotificationData } from '@/features/admin/api/mockAdminDataProvider'
+import { adminNotificationData } from '@/features/admin/api/adminDataProvider'
 
-const statsData = adminNotificationData.getStats();
-const notificationsData = adminNotificationData.getNotifications();
+const statsDataStatic = null;
+const notificationsDataStatic = null;
 
 const tabs = ['All Notifications', 'Scheduled', 'Sent', 'Drafts', 'Failed'];
 
@@ -42,9 +44,34 @@ export function AdminNotifications() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [channelFilter, setChannelFilter] = useState('all');
 
+  const defaultAdvFilters = { dateRange: 'all', performance: 'all' };
+  const [isAdvFilterOpen, setIsAdvFilterOpen] = useState(false);
+  const [draftAdvFilters, setDraftAdvFilters] = useState(defaultAdvFilters);
+  const [appliedAdvFilters, setAppliedAdvFilters] = useState(defaultAdvFilters);
+
+  const activeFilterCount = Object.values(appliedAdvFilters).filter(v => v !== 'all').length;
+
+  const handleApplyAdvFilters = () => {
+    setAppliedAdvFilters(draftAdvFilters);
+    setIsAdvFilterOpen(false);
+  };
+
+  const handleResetAdvFilters = () => {
+    setDraftAdvFilters(defaultAdvFilters);
+  };
+  const [statsData, setStatsData] = useState<any[]>([]);
+  const [notificationsData, setNotificationsData] = useState<any[]>([]);
+
   React.useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
+    Promise.all([
+      adminNotificationData.getStats(),
+      adminNotificationData.getNotifications()
+    ]).then(([stats, notifs]) => {
+      setStatsData(stats);
+      setNotificationsData(notifs);
+    }).finally(() => {
+      setIsLoading(false);
+    });
   }, []);
 
   if (isLoading) return <AdminNotificationsSkeleton />;
@@ -97,8 +124,9 @@ export function AdminNotifications() {
           </div>
   
           <div className={styles.actionButtons}>
-            <button className={styles.btnOutline} title="Filter">
+            <button className={styles.btnOutline} title="Filter" onClick={() => setIsAdvFilterOpen(true)}>
               <Filter className={styles.btnIcon} /> <span className={styles.hideMobile}>Filter</span>
+              {activeFilterCount > 0 && <span className={styles.filterBadge}>{activeFilterCount}</span>}
             </button>
             <button className={styles.btnOutline} title="Export">
               <Download className={styles.btnIcon} /> <span className={styles.hideMobile}>Export</span>
@@ -412,6 +440,56 @@ export function AdminNotifications() {
           </div>
         </div>
       </div>
+
+      <AdminFilterModal
+        isOpen={isAdvFilterOpen}
+        onClose={() => {
+          setIsAdvFilterOpen(false);
+          setDraftAdvFilters(appliedAdvFilters);
+        }}
+        onApply={handleApplyAdvFilters}
+        onReset={handleResetAdvFilters}
+      >
+        <div className={filterModalStyles.filterGroup}>
+          <span className={filterModalStyles.filterLabel}>Date Range</span>
+          <div className={filterModalStyles.bracketGrid}>
+            {[
+              { value: 'all', label: 'All Time' },
+              { value: 'today', label: 'Today' },
+              { value: '7d', label: 'Last 7 Days' },
+              { value: '30d', label: 'Last 30 Days' },
+            ].map(opt => (
+              <button
+                key={opt.value}
+                className={`${filterModalStyles.bracketBtn} ${draftAdvFilters.dateRange === opt.value ? filterModalStyles.active : ''}`}
+                onClick={() => setDraftAdvFilters(prev => ({ ...prev, dateRange: opt.value }))}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className={filterModalStyles.filterGroup}>
+          <span className={filterModalStyles.filterLabel}>Performance</span>
+          <div className={filterModalStyles.bracketGrid}>
+            {[
+              { value: 'all', label: 'Any' },
+              { value: 'high', label: 'High (>20%)' },
+              { value: 'medium', label: 'Medium (5-20%)' },
+              { value: 'low', label: 'Low (<5%)' },
+            ].map(opt => (
+              <button
+                key={opt.value}
+                className={`${filterModalStyles.bracketBtn} ${draftAdvFilters.performance === opt.value ? filterModalStyles.active : ''}`}
+                onClick={() => setDraftAdvFilters(prev => ({ ...prev, performance: opt.value }))}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </AdminFilterModal>
     </div>
   )
 }

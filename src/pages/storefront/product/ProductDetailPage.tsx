@@ -4,6 +4,7 @@ import { ChevronRight, ShoppingBag, Tag, Info } from 'lucide-react'
 import { productData } from '@/features/products'
 import { reviewData } from '@/features/reviews'
 import { Product } from '@/types/product'
+import { Review } from '@/types/review'
 
 import styles from './ProductDetailPage.module.css'
 import { Container } from '@/components/layout/Container'
@@ -29,6 +30,8 @@ export function ProductDetailPage() {
   const { id } = useParams<{ id: string }>()
 
   const [product, setProduct] = useState<Product | null>(null)
+  const [relatedProds, setRelatedProds] = useState<Product[]>([])
+  const [reviews, setReviews] = useState<Review[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -36,20 +39,36 @@ export function ProductDetailPage() {
   const { state, actions } = usePDPState(product || undefined)
 
   useEffect(() => {
-    // Simulate API fetch
-    setIsLoading(true)
+    // Reset state for new ID
+    setProduct(null)
     setError(null)
 
-    setTimeout(() => {
-      const found = productData.getProducts().find(p => p.slug === id || p.id === id)
+    if (!id) return;
+    productData.getProducts().then(products => {
+      const found = products.find(p => p.slug === id || p.id === id)
       if (found) {
         setProduct(found)
         document.title = `${found.name} | CakePopRush`
+        
+        // Fetch related info
+        Promise.all([
+          productData.getRelatedProducts(found.id),
+          reviewData.getReviewsByProductId(found.id)
+        ]).then(([related, revs]) => {
+          setRelatedProds(related)
+          setReviews(revs)
+        }).finally(() => {
+          setIsLoading(false)
+        })
       } else {
         setError("We couldn't find the sweet treat you're looking for.")
+        setIsLoading(false)
       }
+    }).catch(err => {
+      console.error('Failed to load product:', err)
+      setError("We encountered a problem loading this product.")
       setIsLoading(false)
-    }, 800) // Simulate network delay for skeleton preview
+    })
 
     // Cleanup scroll to top on mount
     window.scrollTo(0, 0)
@@ -69,7 +88,6 @@ export function ProductDetailPage() {
   }
 
   const isOutOfStock = false // Hardcoded for now, could be in product data
-  const relatedProds = productData.getRelatedProducts(product.id)
 
   return (
     <div className={styles.productPage}>
@@ -177,7 +195,7 @@ export function ProductDetailPage() {
       <ReviewsSection
         rating={product.rating}
         reviewCount={product.reviewCount}
-        reviews={reviewData.getReviewsByProductId(product.id)}
+        reviews={reviews}
         productSlug={product.slug}
       />
 

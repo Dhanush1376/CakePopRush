@@ -5,13 +5,15 @@ import { createPortal } from 'react-dom'
 import { Search, Download, Filter, Star, Eye, MoreVertical, ChevronLeft, ChevronRight, AlertTriangle, Trash2, X, CornerUpLeft, EyeOff } from 'lucide-react'
 import styles from './AdminReviews.module.css'
 import { CustomSelect } from '@/features/admin/components/CustomSelect'
+import { AdminFilterModal } from '@/features/admin/components/AdminFilterModal'
+import filterModalStyles from '@/features/admin/components/AdminFilterModal.module.css'
 import { ViewToggle } from '@/features/admin/components/ViewToggle'
 import { AdminReviewsSkeleton } from '@/features/admin/components/AdminReviewsSkeleton';
 
-import { adminReviewData } from '@/features/admin/api/mockAdminDataProvider'
+import { adminReviewData } from '@/features/admin/api/adminDataProvider'
 
-const statsData = adminReviewData.getStats();
-const reviewsData = adminReviewData.getReviews();
+const statsDataStatic = null;
+const reviewsDataStatic = null;
 
 const productOptions = [
   { value: 'all', label: 'All Products' },
@@ -65,9 +67,19 @@ export function AdminReviews() {
   const [selectedReviewDetails, setSelectedReviewDetails] = React.useState<any>(null);
   const [confirmAction, setConfirmAction] = React.useState('');
   
+  const [statsData, setStatsData] = React.useState<any[]>([]);
+  const [reviewsData, setReviewsData] = React.useState<any[]>([]);
+
   React.useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
+    Promise.all([
+      adminReviewData.getStats(),
+      adminReviewData.getReviews()
+    ]).then(([stats, reviews]) => {
+      setStatsData(stats);
+      setReviewsData(reviews);
+    }).finally(() => {
+      setIsLoading(false);
+    });
   }, []);
 
   const [productFilter, setProductFilter] = React.useState('all');
@@ -75,6 +87,22 @@ export function AdminReviews() {
   const [statusFilter, setStatusFilter] = React.useState('all');
   const [dateFilter, setDateFilter] = React.useState('all');
   const [view, setView] = React.useState<'list' | 'grid'>('list');
+
+  const defaultAdvFilters = { category: 'all', hasReply: 'all' };
+  const [isAdvFilterOpen, setIsAdvFilterOpen] = React.useState(false);
+  const [draftAdvFilters, setDraftAdvFilters] = React.useState(defaultAdvFilters);
+  const [appliedAdvFilters, setAppliedAdvFilters] = React.useState(defaultAdvFilters);
+
+  const activeFilterCount = Object.values(appliedAdvFilters).filter(v => v !== 'all').length;
+
+  const handleApplyAdvFilters = () => {
+    setAppliedAdvFilters(draftAdvFilters);
+    setIsAdvFilterOpen(false);
+  };
+
+  const handleResetAdvFilters = () => {
+    setDraftAdvFilters(defaultAdvFilters);
+  };
 
   React.useEffect(() => {
     const checkView = () => {
@@ -186,8 +214,9 @@ export function AdminReviews() {
           </div>
   
           <div className={styles.actionButtons}>
-            <button className={styles.btnOutline} title="Filter">
+            <button className={styles.btnOutline} title="Filter" onClick={() => setIsAdvFilterOpen(true)}>
               <Filter className={styles.btnIcon} /> <span className={styles.hideMobile}>Filter</span>
+              {activeFilterCount > 0 && <span className={styles.filterBadge}>{activeFilterCount}</span>}
             </button>
             <button className={styles.btnOutline} title="Export">
               <Download className={styles.btnIcon} /> <span className={styles.hideMobile}>Export</span>
@@ -574,6 +603,55 @@ export function AdminReviews() {
         </div>,
         document.body
       )}
+
+      <AdminFilterModal
+        isOpen={isAdvFilterOpen}
+        onClose={() => {
+          setIsAdvFilterOpen(false);
+          setDraftAdvFilters(appliedAdvFilters);
+        }}
+        onApply={handleApplyAdvFilters}
+        onReset={handleResetAdvFilters}
+      >
+        <div className={filterModalStyles.filterGroup}>
+          <span className={filterModalStyles.filterLabel}>Category</span>
+          <div className={filterModalStyles.bracketGrid}>
+            {[
+              { value: 'all', label: 'All' },
+              { value: 'cakes', label: 'Cakes' },
+              { value: 'cupcakes', label: 'Cupcakes' },
+              { value: 'cakepops', label: 'Cake Pops' },
+            ].map(opt => (
+              <button
+                key={opt.value}
+                className={`${filterModalStyles.bracketBtn} ${draftAdvFilters.category === opt.value ? filterModalStyles.active : ''}`}
+                onClick={() => setDraftAdvFilters(prev => ({ ...prev, category: opt.value }))}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className={filterModalStyles.filterGroup}>
+          <span className={filterModalStyles.filterLabel}>Reply Status</span>
+          <div className={filterModalStyles.bracketGrid}>
+            {[
+              { value: 'all', label: 'All' },
+              { value: 'replied', label: 'Replied' },
+              { value: 'unreplied', label: 'Unreplied' },
+            ].map(opt => (
+              <button
+                key={opt.value}
+                className={`${filterModalStyles.bracketBtn} ${draftAdvFilters.hasReply === opt.value ? filterModalStyles.active : ''}`}
+                onClick={() => setDraftAdvFilters(prev => ({ ...prev, hasReply: opt.value }))}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </AdminFilterModal>
     </div>
   )
 }

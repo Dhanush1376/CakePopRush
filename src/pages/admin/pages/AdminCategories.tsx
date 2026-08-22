@@ -1,5 +1,4 @@
 import { CategoryDetailsModal } from '@/features/admin/components/CategoryDetailsModal'
-import { productsData } from '@/mocks/admin/products'
 import React from 'react'
 import { Search, Plus, Download, Filter, Edit2, ChevronLeft, ChevronRight, Eye, Power, PowerOff } from 'lucide-react'
 import styles from './AdminCategories.module.css'
@@ -8,10 +7,12 @@ import { AdminCategoriesSkeleton } from '@/features/admin/components/AdminCatego
 import { AdminAddCategoryModal } from '@/features/admin/components/AdminAddCategoryModal'
 import { CustomSelect } from '@/features/admin/components/CustomSelect'
 
-import { adminCategoryData } from '@/features/admin/api/mockAdminDataProvider'
+import { adminCategoryData, adminProductData } from '@/features/admin/api/adminDataProvider'
 
-const statsData = adminCategoryData.getStats();
-const categoriesData = adminCategoryData.getCategories();
+const statsDataStatic = null;
+const categoriesDataStatic = null;
+const productsDataStatic = null;
+
 
 export function AdminCategories() {
   const [view, setView] = React.useState<'list' | 'grid'>('list');
@@ -33,23 +34,34 @@ export function AdminCategories() {
   const [statusFilter, setStatusFilter] = React.useState('all');
   const [isLoading, setIsLoading] = React.useState(true);
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false);
-  const [categories, setCategories] = React.useState(categoriesData);
+  const [categories, setCategories] = React.useState<any[]>([]);
+  const [statsData, setStatsData] = React.useState<any[]>([]);
+  const [productsData, setProductsData] = React.useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = React.useState<any | null>(null);
 
   const toggleCategoryStatus = (id: string) => {
-    setCategories(prev => prev.map(c => {
-      if (c.id === id) {
-        return { ...c, status: c.status === 'Active' ? 'Inactive' : 'Active' };
+    const category = categories.find(c => c.id === id);
+    if (!category) return;
+    const newStatus = category.status === 'Active' ? 'Inactive' : 'Active';
+    adminCategoryData.updateCategory(id, { status: newStatus }).then(updated => {
+      if (updated) {
+        setCategories(prev => prev.map(c => c.id === id ? updated : c));
       }
-      return c;
-    }));
+    });
   };
 
   React.useEffect(() => {
-    const timer = setTimeout(() => {
+    Promise.all([
+      adminCategoryData.getStats(),
+      adminCategoryData.getCategories(),
+      adminProductData.getProducts()
+    ]).then(([stats, cats, prods]) => {
+      setStatsData(stats);
+      setCategories(cats);
+      setProductsData(prods);
+    }).finally(() => {
       setIsLoading(false);
-    }, 1500);
-    return () => clearTimeout(timer);
+    });
   }, []);
 
   if (isLoading) {
@@ -266,8 +278,10 @@ export function AdminCategories() {
         onClose={() => setIsAddModalOpen(false)} 
         existingCategories={categories}
         onSuccess={(newCategory) => {
-          // Add new category at the top of the list
-          setCategories(prev => [newCategory as any, ...prev]);
+          return adminCategoryData.addCategory(newCategory as any).then((added) => {
+            setCategories(prev => [added as any, ...prev]);
+            return added;
+          });
         }}
       />
 

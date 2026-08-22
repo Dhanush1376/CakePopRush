@@ -12,9 +12,12 @@ export const CartRecommendations = () => {
   const { items, addItem } = useCart();
   const { toast } = useToast();
   
-  // Get some recommendations based on the first item in cart, or just random/bestsellers if empty
-  const baseProductId = items.length > 0 ? items[0].product.id : 'prod_1';
-  const recommendedProducts = productData.getRelatedProducts(baseProductId, 4);
+  const [recommendedProducts, setRecommendedProducts] = React.useState<any[]>([]);
+
+  React.useEffect(() => {
+    const baseProductId = items.length > 0 ? items[0].product.id : 'prod_1';
+    productData.getRelatedProducts(baseProductId, 4).then(setRecommendedProducts);
+  }, [items]);
 
   if (recommendedProducts.length === 0) return null;
 
@@ -33,7 +36,7 @@ export const CartRecommendations = () => {
 
       <div className={styles.scrollContainer}>
         <div className={styles.productGrid}>
-          {recommendedProducts.map((product) => (
+          {recommendedProducts.map((product: any) => (
             <div key={product.id} className={styles.productWrapper}>
               <ProductCard 
                 product={product} 

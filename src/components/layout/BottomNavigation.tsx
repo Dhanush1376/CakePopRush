@@ -8,12 +8,12 @@ import { useCart } from '@/features/cart'
 export const BottomNavigation = () => {
   const location = useLocation()
   const { items } = useCart()
-  
+
   // Hide BottomNavigation on cart (if not empty) and checkout pages
   if ((location.pathname === '/cart' && items.length > 0) || location.pathname.startsWith('/checkout')) {
     return null;
   }
-  
+
   const navItems = [
     { label: 'Home', to: '/', icon: <Home size={20} strokeWidth={1.5} /> },
     { label: 'Shop', to: '/shop', icon: <Store size={20} strokeWidth={1.5} /> },

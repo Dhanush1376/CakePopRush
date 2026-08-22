@@ -8,30 +8,13 @@ export const analyticsKpiData = [
   { id: 5, label: 'TOTAL VIEWS', value: '24,350', trend: '12.7%', isPositive: true, icon: Eye, color: '#5C3317', bg: '#F5F5DC', chart: [5, 20, 15, 35, 30, 55, 75] },
 ];
 
-export const revenueData = [18000, 45000, 80000, 55000, 100000, 55000, 80000];
-export const salesData = [18000, 42000, 75000, 50000, 86000, 49000, 65000];
+import analyticsJson from '../seed/admin/analytics.json';
 
-export const ordersOverviewData = [
-  { label: 'Pending', value: 312, percentage: 25, color: 'var(--admin-pink)' },
-  { label: 'Processing', value: 456, percentage: 36, color: '#F59E0B' },
-  { label: 'Shipped', value: 312, percentage: 25, color: 'var(--admin-cyan)' },
-  { label: 'Delivered', value: 168, percentage: 14, color: '#5C3317' },
-];
-
-export const trafficSourcesData = [
-  { label: 'Direct', value: 8450, percentage: 34.7, color: 'var(--admin-pink)' },
-  { label: 'Organic Search', value: 7250, percentage: 29.8, color: '#F59E0B' },
-  { label: 'Social Media', value: 5120, percentage: 21.0, color: 'var(--admin-cyan)' },
-  { label: 'Referral', value: 3530, percentage: 14.5, color: '#5C3317' },
-];
-
-export const bestSellingProductsData = [
-  { id: 1, name: 'Strawberry Bliss Pops', sales: 512, img: '/images/Products/mini valentine cake.jpeg' },
-  { id: 2, name: 'Chocolate Crunch Pops', sales: 498, img: '/images/Products/Dark choclate cakepops.jpeg' },
-  { id: 3, name: 'Cute Chick Pops', sales: 423, img: '/images/Products/vanilla mango cupcakes.jpeg' },
-  { id: 4, name: 'Lavender Love Pops', sales: 310, img: '/images/Products/White choclate cakepops.jpeg' },
-  { id: 5, name: 'Red Velvet Pops', sales: 298, img: '/images/Products/Red velvet cookies.jpeg' },
-];
+export const revenueData = analyticsJson.revenueData;
+export const salesData = analyticsJson.salesData;
+export const ordersOverviewData = analyticsJson.ordersOverviewData;
+export const trafficSourcesData = analyticsJson.trafficSourcesData;
+export const bestSellingProductsData = analyticsJson.bestSellingProductsData;
 
 export const userActivityData = [
   { id: 1, label: 'New Customers', sub: 'Joined this week', value: '128', trend: '18.6%', icon: UserPlus, color: 'var(--admin-pink)', bg: '#FFF0F5' },

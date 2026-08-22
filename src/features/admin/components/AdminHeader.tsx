@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Menu, Search, Bell, User, ChevronRight, Settings, LogOut } from 'lucide-react'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
 import styles from './AdminHeader.module.css'
-import { adminDashboardData } from '@/features/admin/api/mockAdminDataProvider'
+import { adminDashboardData } from '@/features/admin/api/adminDataProvider'
 import { AdminSearchPalette } from './AdminSearchPalette'
 
 interface AdminHeaderProps {
@@ -17,7 +17,12 @@ export function AdminHeader({ onMenuClick, isOpen }: AdminHeaderProps) {
 
   const [activeDropdown, setActiveDropdown] = useState<'notifications' | 'profile' | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [notifications, setNotifications] = useState<any>(null);
   const headerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    adminDashboardData.getNotifications().then(setNotifications);
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -121,8 +126,8 @@ export function AdminHeader({ onMenuClick, isOpen }: AdminHeaderProps) {
             onClick={() => toggleDropdown('notifications')}
           >
             <Bell size={20} strokeWidth={2} />
-            {adminDashboardData.getNotifications().count > 0 && (
-              <span className={styles.badge}>{adminDashboardData.getNotifications().count}</span>
+            {notifications && notifications.count > 0 && (
+              <span className={styles.badge}>{notifications.count}</span>
             )}
           </button>
           

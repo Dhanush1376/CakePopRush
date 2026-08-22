@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Category } from '@/types/product'
 import styles from './ShopCategories.module.css'
 import { Container } from '@/components/layout/Container'
 import { productData } from '@/features/products'
@@ -60,8 +61,12 @@ export const ShopCategories = ({ activeCategory, onSelectCategory }: ShopCategor
   const [isDragging, setIsDragging] = React.useState(false);
   const [startX, setStartX] = React.useState(0);
   const [scrollLeft, setScrollLeft] = React.useState(0);
-  // Track if a real drag occurred vs just a click
   const [hasDragged, setHasDragged] = React.useState(false);
+  const [categories, setCategories] = useState<any[]>([]);
+
+  useEffect(() => {
+    productData.getCategories().then(setCategories);
+  }, []);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!scrollRef.current) return;
@@ -102,7 +107,7 @@ export const ShopCategories = ({ activeCategory, onSelectCategory }: ShopCategor
           onMouseUp={handleMouseUp}
           onMouseMove={handleMouseMove}
         >
-          {productData.getCategories().map((cat) => {
+          {categories.map((cat) => {
             const isActive = activeCategory === cat.id
             return (
               <button

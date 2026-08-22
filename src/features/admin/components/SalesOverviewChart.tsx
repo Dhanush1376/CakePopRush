@@ -1,7 +1,14 @@
+import React, { useState, useEffect } from 'react';
 import styles from './AdminComponents.module.css'
-import { adminDashboardData } from '@/features/admin/api/mockAdminDataProvider';
+import { adminDashboardData } from '@/features/admin/api/adminDataProvider';
 export function SalesOverviewChart() {
-  const salesData = adminDashboardData.getSalesData();
+  const [salesData, setSalesData] = useState<any[]>([]);
+
+  useEffect(() => {
+    adminDashboardData.getSalesData().then(setSalesData);
+  }, []);
+
+  if (salesData.length === 0) return null;
   // SVG Chart dimensions
   const width = 800;
   const height = 300;

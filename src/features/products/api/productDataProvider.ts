@@ -6,14 +6,14 @@ export interface Category {
 }
 
 export interface ProductDataProvider {
-  getProducts(): Product[];
-  getCategories(): Category[];
-  getProductById(id: string): Product | undefined;
-  getProductBySlug(slug: string): Product | undefined;
-  getProductsByCategory(category: string): Product[];
-  getFeaturedProducts(limit?: number): Product[];
-  getBestSellingProducts(limit?: number): Product[];
-  getNewArrivals(limit?: number): Product[];
-  getRelatedProducts(productId: string, limit?: number): Product[];
-  searchProducts(query: string): Product[];
+  getProducts(): Promise<Product[]>;
+  getCategories(): Promise<Category[]>;
+  getProductById(id: string): Promise<Product | undefined>;
+  getProductBySlug(slug: string): Promise<Product | undefined>;
+  getProductsByCategory(category: string): Promise<Product[]>;
+  getFeaturedProducts(limit?: number): Promise<Product[]>;
+  getBestSellingProducts(limit?: number): Promise<Product[]>;
+  getNewArrivals(limit?: number): Promise<Product[]>;
+  getRelatedProducts(productId: string, limit?: number): Promise<Product[]>;
+  searchProducts(query: string): Promise<Product[]>;
 }

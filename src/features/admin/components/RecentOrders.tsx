@@ -1,8 +1,15 @@
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import styles from './AdminComponents.module.css'
-import { adminDashboardData } from '@/features/admin/api/mockAdminDataProvider';
+import { adminDashboardData } from '@/features/admin/api/adminDataProvider';
 export function RecentOrders() {
-  const recentOrders = adminDashboardData.getRecentOrders();
+  const [recentOrders, setRecentOrders] = useState<any[]>([]);
+
+  useEffect(() => {
+    adminDashboardData.getRecentOrders().then(setRecentOrders);
+  }, []);
+
+  if (recentOrders.length === 0) return null;
   const getBadgeStyle = (status: string) => {
     switch (status) {
       case 'Pending':

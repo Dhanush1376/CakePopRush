@@ -5,7 +5,8 @@ import styles from './HomePage.module.css'
 import { Container } from '@/components/layout/Container'
 import { Button } from '@/components/ui/Button'
 import { ProductCard } from '@/components/commerce/ProductCard'
-import { productData } from '@/features/products'
+import { productData, Category } from '@/features/products'
+import { Product } from '@/types/product'
 
 const CATEGORY_IMAGES: Record<string, string> = {
   'cake-pops': '/images/Products/White choclate cakepops.jpeg',
@@ -21,6 +22,18 @@ const CATEGORY_IMAGES: Record<string, string> = {
 
 export const ShopByCategorySection = () => {
   const navigate = useNavigate()
+  const [categories, setCategories] = React.useState<Category[]>([])
+  const [products, setProducts] = React.useState<Product[]>([])
+
+  React.useEffect(() => {
+    Promise.all([
+      productData.getCategories(),
+      productData.getProducts()
+    ]).then(([cats, prods]) => {
+      setCategories(cats)
+      setProducts(prods)
+    })
+  }, [])
 
   return (
     <section className={styles.section}>
@@ -33,8 +46,8 @@ export const ShopByCategorySection = () => {
           </button>
         </div>
         <div className={styles.categoryGrid}>
-          {productData.getCategories().slice(1).map((category) => {
-            const imageUrl = CATEGORY_IMAGES[category.id] || productData.getProducts().find(p => p.categoryName === category.name)?.images[0]?.url || '/images/Products/White choclate cakepops.jpeg';
+          {categories.slice(1).map((category) => {
+            const imageUrl = CATEGORY_IMAGES[category.id] || products.find(p => p.categoryName === category.name)?.images[0]?.url || '/images/Products/White choclate cakepops.jpeg';
             return (
               <div 
                 key={category.id} 
@@ -57,7 +70,13 @@ export const ShopByCategorySection = () => {
 
 export const NewLaunchSection = () => {
   const navigate = useNavigate()
-  const newLaunches = productData.getProducts().filter(p => p.isNew)
+  const [newLaunches, setNewLaunches] = React.useState<Product[]>([])
+  
+  React.useEffect(() => {
+    productData.getProducts().then(products => {
+      setNewLaunches(products.filter(p => p.isNew))
+    })
+  }, [])
 
   if (newLaunches.length === 0) return null;
 
@@ -85,7 +104,11 @@ export const NewLaunchSection = () => {
 
 export const BestSellersSection = () => {
   const navigate = useNavigate()
-  const bestSellers = productData.getBestSellingProducts(8)
+  const [bestSellers, setBestSellers] = React.useState<Product[]>([])
+  
+  React.useEffect(() => {
+    productData.getBestSellingProducts(8).then(setBestSellers)
+  }, [])
   return (
     <section className={styles.section}>
       <Container>

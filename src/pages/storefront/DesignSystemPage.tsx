@@ -10,9 +10,18 @@ import { Balloon } from '@/components/decorative/Balloon'
 import { Bunting } from '@/components/decorative/Bunting'
 import { WavyDivider } from '@/components/decorative/WavyDivider'
 import { ShoppingBag, Heart, Search, Menu, ArrowRight, Star } from 'lucide-react'
-import { mockProducts } from '@/mocks/products'
+import { productData } from '@/features/products'
+
+import React, { useState, useEffect } from 'react';
+const mockProductsStatic = null;
 
 export function DesignSystemPage() {
+  const [mockProducts, setMockProducts] = useState<any[]>([]);
+
+  useEffect(() => {
+    productData.getProducts().then(setMockProducts);
+  }, []);
+
   return (
     <div style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto', position: 'relative' }}>
       <h1 style={{ marginBottom: '2rem', color: 'var(--color-brand-pink)' }}>Design System</h1>

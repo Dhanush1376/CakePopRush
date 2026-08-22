@@ -82,12 +82,15 @@ export const OrderTrackingPage = () => {
   }
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const found = id ? orderData.getOrderById(id) : null
-      setOrder(found || null)
+    if (!id) {
       setLoading(false)
-    }, 600)
-    return () => clearTimeout(timer)
+      return
+    }
+    orderData.getOrderById(id).then(found => {
+      setOrder(found || null)
+    }).finally(() => {
+      setLoading(false)
+    })
   }, [id])
 
   if (loading) {
@@ -232,8 +235,7 @@ export const OrderTrackingPage = () => {
           {/* ─── 5. Order Items ─── */}
           <Section title={`Order Items (${order.totalProducts} products, ${order.totalQuantity} items)`} icon={<Box size={18} />}>
             {order.items.map((item: any) => {
-              const product = productData.getProductById(item.id);
-              const imageUrl = item.image || product?.images?.[0]?.url;
+              const imageUrl = item.image;
               return (
               <div key={item.id} className={styles.itemCard}>
                 <div className={styles.itemIcon}>

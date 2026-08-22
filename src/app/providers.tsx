@@ -11,21 +11,21 @@ import { CartProvider } from '@/features/cart'
 import { productData } from '@/features/products'
 import type { CartItem } from '@/features/cart'
 
-const products = productData.getProducts();
+import { mockProducts } from '@/mocks/products'
 
 const MOCK_INITIAL_CART: CartItem[] = [
   {
-    id: `cart-item-${Math.random().toString(36).substring(2, 9)}`,
-    product: products[0], // Chocolate Chip Cookies
+    id: 'sample-cart-item-1',
+    product: mockProducts[0],
     quantity: 1,
+  },
+  {
+    id: 'sample-cart-item-2',
+    product: mockProducts[1],
+    quantity: 2,
   }
 ];
-
-const MOCK_INITIAL_WISHLIST = [
-  products[0],
-  products[2],
-  products[4]
-];
+const MOCK_INITIAL_WISHLIST: any[] = [];
 
 export function Providers({ children }: ProvidersProps) {
   const [queryClient] = useState(

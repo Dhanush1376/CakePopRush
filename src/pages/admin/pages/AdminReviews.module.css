@@ -702,3 +702,19 @@
   display: none !important;
 }
 }
+
+.filterBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  background-color: var(--admin-pink);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 0 4px;
+  margin-left: 4px;
+  line-height: 1;
+}

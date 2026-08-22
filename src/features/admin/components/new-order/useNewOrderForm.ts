@@ -6,8 +6,8 @@ import {
 
 export function useNewOrderForm() {
   // Mock Data
-  const MOCK_CUSTOMERS = useMemo(() => adminNewOrderData.getCustomers(), []);
-  const MOCK_PRODUCTS = useMemo(() => adminNewOrderData.getProducts(), []);
+  const [MOCK_CUSTOMERS, setMOCK_CUSTOMERS] = useState<any[]>([]);
+  const [MOCK_PRODUCTS, setMOCK_PRODUCTS] = useState<any[]>([]);
 
   // --- Wizard State ---
   const [currentStep, setCurrentStep] = useState(1);
@@ -25,10 +25,15 @@ export function useNewOrderForm() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    Promise.all([
+      adminNewOrderData.getCustomers(),
+      adminNewOrderData.getProducts()
+    ]).then(([custs, prods]) => {
+      setMOCK_CUSTOMERS(custs);
+      setMOCK_PRODUCTS(prods);
+    }).finally(() => {
       setIsLoading(false);
-    }, 1500);
-    return () => clearTimeout(timer);
+    });
   }, []);
 
   const [customerName, setCustomerName] = useState('');

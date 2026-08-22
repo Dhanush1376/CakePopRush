@@ -1,8 +1,11 @@
 import { mockProductDataProvider } from './api/mockProductDataProvider';
+import { apiProductDataProvider } from './api/apiProductDataProvider';
+import { getProviderMode } from '@/lib/providerConfig';
+
 export type { ProductDataProvider, Category } from './api/productDataProvider';
 
 // Provide a stable domain data-access object backed by the current active provider
-export const productData = mockProductDataProvider;
+export const productData = getProviderMode() === 'api' ? apiProductDataProvider : mockProductDataProvider;
 
 // Domain components
 export { PDPSkeleton } from './components/PDPSkeleton';

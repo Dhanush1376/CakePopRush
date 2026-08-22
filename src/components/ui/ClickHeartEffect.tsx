@@ -19,10 +19,10 @@ export const ClickHeartEffect = () => {
       
       setHearts(prev => [...prev, newHeart]);
 
-      // Remove after 300ms as requested
+      // Remove after 2000ms to allow a slower, floatier animation
       setTimeout(() => {
         setHearts(prev => prev.filter(h => h.id !== newHeart.id));
-      }, 300);
+      }, 5000);
     };
 
     window.addEventListener('click', handleClick);
@@ -35,19 +35,26 @@ export const ClickHeartEffect = () => {
         {hearts.map(heart => (
           <motion.div
             key={heart.id}
-            initial={{ opacity: 0, scale: 0.2, y: 0 }}
-            animate={{ opacity: 1, scale: 1, y: -20 }}
-            exit={{ opacity: 0, scale: 1.2, y: -40 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
+            initial={{ opacity: 0, scale: 0, rotate: -20 }}
+            animate={{ 
+              opacity: [0, 1, 1, 0.8, 0], 
+              scale: [0, 1.6, 1.2, 1.4, 1.5],
+              rotate: [-20, 15, -15, 10, 0],
+              y: [0, -30, -60, -120, -180]
+            }}
+            exit={{ opacity: 0, scale: 0 }}
+            transition={{ duration: 5, ease: 'easeOut' }}
             style={{
               position: 'absolute',
-              left: heart.x - 16, 
-              top: heart.y - 16,
+              left: heart.x - 40, // Centered for size 80
+              top: heart.y - 40,
               pointerEvents: 'none',
-              color: 'var(--color-brand-pink)'
+              color: 'var(--color-brand-pink)',
+              filter: 'drop-shadow(0px 8px 16px rgba(230, 48, 102, 0.6))',
+              transformOrigin: 'center'
             }}
           >
-            <Heart size={32} fill="var(--color-brand-pink)" />
+            <Heart size={80} fill="var(--color-brand-pink)" strokeWidth={1.5} color="white" />
           </motion.div>
         ))}
       </AnimatePresence>

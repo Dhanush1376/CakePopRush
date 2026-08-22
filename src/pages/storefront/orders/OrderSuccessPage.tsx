@@ -73,6 +73,7 @@ export function OrderSuccessPage() {
   const [showCelebration, setShowCelebration] = useState(false)
   const [showInvoice, setShowInvoice] = useState(false)
   const [isReady, setIsReady] = useState(false)
+  const [order, setOrder] = useState<any | null>(null)
   const { currentReaction, triggerReaction, tapMascot, prefersReducedMotion } = useMascotOrchestrator()
 
   // Generate dual-side confetti blast (left & right cannons)
@@ -146,9 +147,15 @@ export function OrderSuccessPage() {
       // but it's safe to trigger it to ensure the checkout success specifically plays on the modal
       triggerReaction('checkout:success')
     }
-    
-    // Simulate slight load time for data
-    const readyTimer = setTimeout(() => setIsReady(true), 300)
+    if (id) {
+      orderData.getOrderById(id).then(found => {
+        setOrder(found || MOCK_SUCCESS_ORDER)
+        setIsReady(true)
+      })
+    } else {
+      setOrder(MOCK_SUCCESS_ORDER)
+      setIsReady(true)
+    }
     
     // Auto-close celebration after 4.5 seconds
     let closeTimer: ReturnType<typeof setTimeout>
@@ -159,7 +166,6 @@ export function OrderSuccessPage() {
     }
 
     return () => {
-      clearTimeout(readyTimer)
       if (closeTimer) clearTimeout(closeTimer)
     }
   }, [id, location.state])
@@ -169,11 +175,7 @@ export function OrderSuccessPage() {
     window.scrollTo(0, 0)
   }
 
-  if (!isReady) return null // simple blank screen while checking state
-
-  // ─── Get Order Data ───
-  const fetchedOrder = id ? orderData.getOrderById(id) : undefined;
-  const order = fetchedOrder || MOCK_SUCCESS_ORDER;
+  if (!isReady || !order) return null // simple blank screen while checking state
 
   return (
     <div className={styles.page}>
@@ -340,9 +342,8 @@ export function OrderSuccessPage() {
 
           {/* Order Items */}
           <Section title={`Order Items (${order.totalProducts} items)`} icon={<Box size={18} />}>
-            {order.items.map(item => {
-              const product = productData.getProductById(item.id);
-              const imageUrl = item.image || product?.images?.[0]?.url;
+            {order.items.map((item: any) => {
+              const imageUrl = item.image;
               return (
               <div key={item.id} className={styles.itemCard}>
                 <div className={styles.itemIcon}>

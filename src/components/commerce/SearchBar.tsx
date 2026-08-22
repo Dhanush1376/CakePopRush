@@ -54,6 +54,19 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
   const [isFocused, setIsFocused] = useState(isOpen)
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024)
 
+  const [categories, setCategories] = useState<any[]>([]);
+  const [bestSelling, setBestSelling] = useState<any[]>([]);
+
+  useEffect(() => {
+    Promise.all([
+      productData.getCategories(),
+      productData.getBestSellingProducts(3)
+    ]).then(([cats, bests]) => {
+      setCategories(cats);
+      setBestSelling(bests);
+    });
+  }, []);
+
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth)
     window.addEventListener('resize', handleResize)
@@ -185,7 +198,7 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
               </button>
             </div>
             <div className={styles.categoryScroll}>
-              {productData.getCategories().map((cat) => {
+              {categories.map((cat: any) => {
                 const isActive = cat.id === 'all'
                 return (
                   <button
@@ -229,7 +242,7 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
               </button>
             </div>
             <div className={styles.trendingGrid}>
-              {productData.getBestSellingProducts(3).map(product => (
+              {bestSelling.map((product: any) => (
                 <button 
                   key={product.id} 
                   className={styles.resultRow}
@@ -470,7 +483,7 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
                             <span className={styles.columnTitle}>EXPLORE COLLECTIONS</span>
                           </div>
                           <div className={styles.collectionsList}>
-                            {productData.getCategories().slice(0, 5).map((cat) => (
+                            {categories.slice(0, 5).map((cat: any) => (
                               <button
                                 key={cat.id}
                                 className={styles.collectionItemRow}
@@ -494,7 +507,7 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
                             <span className={styles.columnTitle}>NEW ARRIVALS</span>
                           </div>
                           <div className={styles.trendingCardsList}>
-                            {productData.getBestSellingProducts(3).map((product) => (
+                            {bestSelling.map((product: any) => (
                               <button
                                 key={product.id}
                                 className={styles.trendingCardRow}

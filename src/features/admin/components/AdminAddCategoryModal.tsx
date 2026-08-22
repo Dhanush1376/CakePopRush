@@ -8,7 +8,7 @@ import styles from './AdminAddCategoryModal.module.css'
 interface AdminAddCategoryModalProps {
   isOpen: boolean
   onClose: () => void
-  onSuccess: (newCategory: Category) => void
+  onSuccess: (newCategory: Category) => Promise<any> | void
   existingCategories: Category[]
 }
 
@@ -81,27 +81,21 @@ export const AdminAddCategoryModal: React.FC<AdminAddCategoryModalProps> = ({
 
     setIsSubmitting(true)
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false)
-      
+    try {
       const newCategory = {
-        id: Date.now().toString(), // Mock ID
         name: name.trim(),
-        description: 'New category description', // Default mock
-        products: 0,
-        status: 'Active',
-        created: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
-        icon: Package, // Default
-        color: 'var(--admin-pink)',
-        bg: '#FFF0F5',
         image: image
-      }
+      } as Category
 
+      await onSuccess(newCategory)
       toast({ type: 'success', title: 'Success', message: 'Category created successfully!' })
-      onSuccess(newCategory)
       onClose()
-    }, 800)
+    } catch (err) {
+      console.error(err)
+      toast({ type: 'error', title: 'Error', message: 'Failed to create category.' })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (

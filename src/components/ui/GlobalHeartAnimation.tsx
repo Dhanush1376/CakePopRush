@@ -6,13 +6,18 @@ export const GlobalHeartAnimation = () => {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout>;
     const handleShowHeart = () => {
       setShow(true);
-      setTimeout(() => setShow(false), 300); // 0.3 seconds as requested
+      clearTimeout(timeout);
+      timeout = setTimeout(() => setShow(false), 2000); 
     };
 
     window.addEventListener('show-global-heart', handleShowHeart);
-    return () => window.removeEventListener('show-global-heart', handleShowHeart);
+    return () => {
+      window.removeEventListener('show-global-heart', handleShowHeart);
+      clearTimeout(timeout);
+    };
   }, []);
 
   return (
@@ -20,17 +25,26 @@ export const GlobalHeartAnimation = () => {
       <AnimatePresence>
         {show && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.5, y: 0 }}
-            animate={{ opacity: 1, scale: 1, y: -20 }}
-            exit={{ opacity: 0, scale: 1.1, y: -80 }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
+            key="global-heart"
+            initial={{ opacity: 0, scale: 0, y: 0 }}
+            animate={{ 
+              opacity: [0, 1, 0], 
+              scale: [0, 1.1, 1], 
+              y: [0, -40, -120]
+            }}
+            exit={{ opacity: 0, scale: 0.8, y: -150 }}
+            transition={{ 
+              duration: 1.5, 
+              ease: 'easeOut',
+              times: [0, 0.08, 1] // Pops up very fast (8%), then fades slowly (92%)
+            }}
             style={{
               color: 'var(--color-brand-pink)',
               pointerEvents: 'none',
-              filter: 'drop-shadow(0px 8px 16px rgba(230, 48, 102, 0.4))'
+              transformOrigin: 'center'
             }}
           >
-            <Heart size={100} fill="var(--color-brand-pink)" stroke="none" />
+            <Heart size={80} fill="var(--color-brand-pink)" stroke="none" />
           </motion.div>
         )}
       </AnimatePresence>

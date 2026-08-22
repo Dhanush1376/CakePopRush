@@ -19,8 +19,14 @@ export const WishlistButton = ({
   return (
     <div className={className}>
       <motion.div
-        animate={isActive ? { scale: [1, 1.3, 1] } : { scale: 1 }}
-        transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 15 }}
+        whileHover={{ scale: 1.15 }}
+        whileTap={{ scale: 0.85 }}
+        animate={isActive ? { 
+          scale: [1, 1.5, 0.9, 1.2, 1],
+          rotate: [0, -15, 15, -15, 0] 
+        } : { scale: 1 }}
+        transition={{ duration: 0.5, type: "spring", stiffness: 400, damping: 15 }}
+        style={{ borderRadius: '50%', display: 'inline-flex' }}
       >
         <IconButton
           icon={

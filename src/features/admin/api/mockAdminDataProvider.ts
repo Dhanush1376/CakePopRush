@@ -25,80 +25,83 @@ import {
   bestSellingProductsData, userActivityData 
 } from '@/mocks/admin/analytics';
 
+import { simulateAsync } from '@/lib/simulateAsync';
+import { runtimeStore, AdminCategory, AdminCoupon, AdminOrderDetail } from '@/mocks/runtimeStore';
+
 export const adminProductData = {
-  getStats: () => productStatsData,
-  getProducts: () => productsData,
+  getStats: () => simulateAsync(productStatsData),
+  getProducts: () => simulateAsync(productsData),
 };
 
 export const adminOrderData = {
-  getStats: () => orderStatsData,
-  getOrders: () => ordersData,
-  getOrderById: (id: string) => {
-    // In a real app, this would fetch the specific order.
-    // For mock purposes, we return our detailed mock data but overwrite the ID.
-    return { ...orderDetailData, id };
-  },
-  getOrderStatuses: () => ['Confirmed', 'Preparing', 'Packed', 'Out for Delivery', 'Delivered'],
+  getStats: () => simulateAsync(orderStatsData),
+  getOrders: () => simulateAsync(ordersData),
+  getOrderById: (id: string) => simulateAsync(runtimeStore.getOrderDetail(id)),
+  updateOrder: (id: string, updates: Partial<AdminOrderDetail>) => simulateAsync(runtimeStore.updateOrderDetail(id, updates)),
+  getOrderStatuses: () => simulateAsync(['Confirmed', 'Preparing', 'Packed', 'Out for Delivery', 'Delivered']),
 };
 
 export const adminCategoryData = {
-  getStats: () => categoryStatsData,
-  getCategories: () => categoriesData,
+  getStats: () => simulateAsync(categoryStatsData),
+  getCategories: () => simulateAsync(runtimeStore.getCategories()),
+  updateCategory: (id: string, updates: Partial<AdminCategory>) => simulateAsync(runtimeStore.updateCategory(id, updates)),
+  addCategory: (category: Partial<AdminCategory>) => simulateAsync(runtimeStore.addCategory(category)),
 };
 
 export const adminCouponData = {
-  getStats: () => couponStatsData,
-  getCoupons: () => couponsData,
+  getStats: () => simulateAsync(couponStatsData),
+  getCoupons: () => simulateAsync(runtimeStore.getCoupons()),
+  deleteCoupon: (id: number) => simulateAsync(runtimeStore.deleteCoupon(id)),
 };
 
 export const adminCustomerData = {
-  getStats: () => customerStatsData,
-  getCustomers: () => customersData,
+  getStats: () => simulateAsync(customerStatsData),
+  getCustomers: () => simulateAsync(customersData),
 };
 
 export const adminCustomOrderData = {
-  getStats: () => customOrderStatsData,
-  getCustomOrders: () => customOrdersData,
+  getStats: () => simulateAsync(customOrderStatsData),
+  getCustomOrders: () => simulateAsync(customOrdersData),
 };
 
 export const adminReviewData = {
-  getStats: () => reviewStatsData,
-  getReviews: () => reviewsData,
+  getStats: () => simulateAsync(reviewStatsData),
+  getReviews: () => simulateAsync(reviewsData),
 };
 
 export const adminNotificationData = {
-  getStats: () => notificationStatsData,
-  getNotifications: () => notificationsData,
+  getStats: () => simulateAsync(notificationStatsData),
+  getNotifications: () => simulateAsync(notificationsData),
 };
 
 export const adminUserData = {
-  getStats: () => userStatsData,
-  getUsers: () => usersData,
+  getStats: () => simulateAsync(userStatsData),
+  getUsers: () => simulateAsync(usersData),
 };
 
 export const adminAnalyticsData = {
-  getKpiStats: () => analyticsKpiData,
-  getRevenueData: () => revenueData,
-  getSalesData: () => analyticsSalesData,
-  getOrdersOverview: () => ordersOverviewData,
-  getTrafficSources: () => trafficSourcesData,
-  getBestSellingProducts: () => bestSellingProductsData,
-  getUserActivity: () => userActivityData,
+  getKpiStats: () => simulateAsync(analyticsKpiData),
+  getRevenueData: () => simulateAsync(revenueData),
+  getSalesData: () => simulateAsync(analyticsSalesData),
+  getOrdersOverview: () => simulateAsync(ordersOverviewData),
+  getTrafficSources: () => simulateAsync(trafficSourcesData),
+  getBestSellingProducts: () => simulateAsync(bestSellingProductsData),
+  getUserActivity: () => simulateAsync(userActivityData),
 };
 
 
 export const adminNewOrderData = {
-  getCustomers: () => MOCK_CUSTOMERS,
-  getProducts: () => MOCK_PRODUCTS,
+  getCustomers: () => simulateAsync(MOCK_CUSTOMERS),
+  getProducts: () => simulateAsync(MOCK_PRODUCTS),
 };
 
 export const adminDashboardData = {
-  getStats: () => adminStats,
-  getSalesData: () => dashboardSalesData,
-  getOrderStatusData: () => orderStatusData,
-  getTopSellingProducts: () => topSellingProducts,
-  getRecentOrders: () => recentOrders,
-  getLowStockProducts: () => lowStockProducts,
-  getAdminUser: () => adminUser,
-  getNotifications: () => notifications,
+  getStats: () => simulateAsync(adminStats),
+  getSalesData: () => simulateAsync(dashboardSalesData),
+  getOrderStatusData: () => simulateAsync(orderStatusData),
+  getTopSellingProducts: () => simulateAsync(topSellingProducts),
+  getRecentOrders: () => simulateAsync(recentOrders),
+  getLowStockProducts: () => simulateAsync(lowStockProducts),
+  getAdminUser: () => simulateAsync(adminUser),
+  getNotifications: () => simulateAsync(notifications),
 };
