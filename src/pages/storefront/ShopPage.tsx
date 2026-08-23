@@ -56,15 +56,13 @@ export function ShopPage() {
     if (shopFilters) {
       // Category filter (from MobileFilters)
       if (shopFilters.categories.length > 0 && !shopFilters.categories.includes('all')) {
-        result = result.filter(p => shopFilters.categories.includes(p.categoryId || p.categoryName.toLowerCase().replace(' ', '-')));
+        result = result.filter(p => shopFilters.categories.includes(p.categoryName.toLowerCase().replace(' ', '-')));
       }
 
       // Max price filter
       if (shopFilters.maxPrice) {
         result = result.filter(p => {
-          const priceStr = p.price.replace(/[^0-9.]/g, '');
-          const priceNum = parseFloat(priceStr);
-          return !isNaN(priceNum) && priceNum <= shopFilters.maxPrice;
+          return p.basePrice <= shopFilters.maxPrice!;
         });
       }
 
@@ -75,15 +73,11 @@ export function ShopPage() {
       // Sorting
       if (shopFilters.sort === 'price_asc') {
         result.sort((a, b) => {
-          const pa = parseFloat(a.price.replace(/[^0-9.]/g, ''));
-          const pb = parseFloat(b.price.replace(/[^0-9.]/g, ''));
-          return pa - pb;
+          return a.basePrice - b.basePrice;
         });
       } else if (shopFilters.sort === 'price_desc') {
         result.sort((a, b) => {
-          const pa = parseFloat(a.price.replace(/[^0-9.]/g, ''));
-          const pb = parseFloat(b.price.replace(/[^0-9.]/g, ''));
-          return pb - pa;
+          return b.basePrice - a.basePrice;
         });
       } else if (shopFilters.sort === 'recommended') {
         // Assume bestsellers/new are recommended

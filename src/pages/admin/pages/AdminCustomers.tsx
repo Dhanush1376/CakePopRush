@@ -44,6 +44,9 @@ export function AdminCustomers() {
     window.addEventListener('resize', checkView);
     return () => window.removeEventListener('resize', checkView);
   }, []);
+  const [kpiData, setKpiData] = React.useState<any>(null);
+  const [customers, setCustomers] = React.useState<any[]>([]);
+
   const {
     searchTerm,
     setSearchTerm,
@@ -84,9 +87,6 @@ export function AdminCustomers() {
   const handleResetAdvFilters = () => {
     setDraftAdvFilters(defaultAdvFilters);
   };
-
-  const [kpiData, setKpiData] = React.useState<any>(null);
-  const [customers, setCustomers] = React.useState<any[]>([]);
 
   React.useEffect(() => {
     Promise.all([
