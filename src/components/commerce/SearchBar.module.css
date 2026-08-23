@@ -1079,11 +1079,12 @@
 }
 
 .mobileTitle {
-  font-family: var(--font-family-body);
-  font-size: 24px;
-  font-weight: 700;
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
   color: var(--color-chocolate);
   margin: 0;
+  line-height: 1;
 }
 
 .mobileTopRight {
