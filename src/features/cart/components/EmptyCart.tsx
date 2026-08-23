@@ -29,22 +29,7 @@ export const EmptyCart = () => {
     setEmptyState(EMPTY_STATES[Math.floor(Math.random() * EMPTY_STATES.length)]);
   }, []);
 
-  const handleTreatMe = async () => {
-    try {
-      // Pick a featured product as the "treat"
-      const featured = await productData.getFeaturedProducts(3);
-      if (featured && featured.length > 0) {
-        const treat = featured[Math.floor(Math.random() * featured.length)];
-        addItem({
-          product: treat,
-          quantity: 1
-        });
-        triggerReaction('product:treat-me');
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
+
 
   return (
     <div className={styles.container}>
@@ -66,12 +51,7 @@ export const EmptyCart = () => {
             <ArrowRight size={22} strokeWidth={2.5} />
           </button>
           
-          <button 
-            className={styles.treatMeBtn}
-            onClick={handleTreatMe}
-          >
-            <span>Surprise Treat Me! ✨</span>
-          </button>
+
         </div>
       </div>
       
