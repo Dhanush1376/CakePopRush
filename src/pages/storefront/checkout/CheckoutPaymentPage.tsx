@@ -7,6 +7,7 @@ import styles from './CheckoutPaymentPage.module.css';
 import { Container } from '@/components/layout/Container';
 import { CheckoutProgress, OrderSummary, MobileCheckoutBar, TrustBadges } from '@/features/cart';
 import { useCart } from '@/features/cart';
+import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator';
 import { formatCurrency } from '@/lib/formatters/currency';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -16,6 +17,7 @@ export const CheckoutPaymentPage = () => {
   const { items, totalItems, subtotal, totalDiscount, couponDiscountValue, shippingFee, total, isLoading, clearCart } = useCart();
   const isShippingCalculated = shippingFee > 0 || totalItems === 0;
   const navigate = useNavigate();
+  const { triggerReaction } = useMascotOrchestrator();
   const [selectedPayment, setSelectedPayment] = useState<string>('razorpay');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [paymentPhase, setPaymentPhase] = useState<'idle' | 'loading' | 'success'>('idle');
@@ -66,6 +68,7 @@ export const CheckoutPaymentPage = () => {
     // Simulate Razorpay / backend processing
     setTimeout(() => {
       setPaymentPhase('success');
+      triggerReaction('checkout:payment-processing');
       
       // Navigate to success page after tick is shown
       setTimeout(() => {

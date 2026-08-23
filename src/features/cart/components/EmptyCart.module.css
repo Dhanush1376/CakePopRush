@@ -58,9 +58,36 @@
 }
 
 .exploreLink:hover {
+  gap: 12px;
+  color: var(--color-strawberry);
+  border-color: var(--color-strawberry);
+}
+
+.treatMeBtn {
+  background: var(--color-vanilla);
+  border: 1px solid var(--color-border);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-chocolate);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+  margin-left: var(--space-4);
+}
+
+.treatMeBtn span {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.treatMeBtn:hover {
+  background: var(--color-frosting);
+  color: var(--color-vanilla);
+  border-color: var(--color-frosting);
   transform: translateY(-2px);
-  color: var(--color-brand-pink);
-  border-bottom-color: var(--color-brand-pink);
 }
 
 .recommendationsWrap {

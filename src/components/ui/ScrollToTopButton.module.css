@@ -26,3 +26,10 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
+
+@media (min-width: 1024px) {
+  .scrollToTopWrapper {
+    bottom: 100px; /* 40px (WA bottom) + 48px (WA height) + 12px (gap) */
+    right: 45px; /* 40px (WA right) + 5px offset to center */
+  }
+}

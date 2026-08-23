@@ -149,6 +149,63 @@
   display: none;
 }
 
+.mobileOnlyIcon {
+  display: flex;
+}
+
+.searchBarDesktop {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  width: 220px;
+  height: 36px;
+  padding: 0 12px;
+  background-color: var(--color-white);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(59, 33, 23, 0.05);
+  transition: all 0.2s ease;
+  margin-right: 8px;
+}
+
+.searchBarDesktop:hover {
+  border-color: var(--color-brand-pink);
+  box-shadow: 0 4px 12px rgba(247, 37, 103, 0.12);
+}
+
+.searchLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.searchIconMuted {
+  color: var(--color-chocolate);
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.searchPlaceholder {
+  color: var(--color-chocolate);
+  opacity: 0.7;
+  font-size: 13px;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.shortcutKey {
+  background-color: #F3F4F6;
+  color: #6B7280;
+  border: 1px solid #E5E7EB;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 600;
+  font-family: inherit;
+}
+
 @media (min-width: 1024px) {
   .mobileCategories {
     display: none; /* Hide the scrolling categories on desktop since they have the inline nav */
@@ -156,6 +213,14 @@
 
   .desktopOnlyIcon {
     display: flex;
+  }
+  
+  .searchBarDesktop {
+    display: flex;
+  }
+  
+  .mobileOnlyIcon {
+    display: none;
   }
 }
 

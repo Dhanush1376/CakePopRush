@@ -4,6 +4,22 @@ import { useCart } from '@/features/cart';
 import { useWishlist } from '@/features/wishlist';
 import { mascotEmotionController } from './mascotEmotionController';
 import { EventKey } from './mascotEventMap';
+import { MascotPageContext } from './mascotEmotionTypes';
+
+const getPageContextFromPath = (path: string): MascotPageContext => {
+  if (path === '/') return 'home';
+  if (path === '/shop') return 'shop';
+  if (path.startsWith('/product/')) return 'product';
+  if (path === '/cart') return 'cart';
+  if (path === '/checkout' || path === '/payment') return 'checkout';
+  if (path.startsWith('/order-success/')) return 'orderSuccess';
+  if (path.startsWith('/orders/')) return 'orderTracking';
+  if (path === '/wishlist') return 'wishlist';
+  if (path.endsWith('/reviews')) return 'reviews';
+  if (path.startsWith('/admin')) return 'admin';
+  if (path === '/profile') return 'profile';
+  return 'other';
+};
 
 interface MascotOrchestrationContextType {
   triggerMascotReaction: (eventKey: EventKey, message?: string) => void;
@@ -87,7 +103,16 @@ export const MascotOrchestrationProvider = ({ children }: { children: ReactNode 
       // Contextual route arrival reactions
       if (pathname === '/checkout' || pathname === '/payment') {
          mascotEmotionController.triggerEvent('checkout:started');
+      } else if (pathname === '/') {
+         mascotEmotionController.triggerEvent('page:home-arrived');
+      } else if (pathname === '/shop') {
+         mascotEmotionController.triggerEvent('page:shop-arrived');
+      } else if (pathname.startsWith('/admin')) {
+         mascotEmotionController.triggerEvent('page:admin-arrived');
       }
+      
+      const newContext = getPageContextFromPath(pathname);
+      mascotEmotionController.setPageContext(newContext);
       
       prevPathname.current = pathname;
     }

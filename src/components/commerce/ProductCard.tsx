@@ -9,6 +9,7 @@ import { Button } from '../ui/Button'
 import { Product } from '@/types/product'
 import { useCart } from '@/features/cart'
 import { useToast } from '@/components/ui/ToastContext'
+import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator'
 
 interface ProductCardProps {
   product: Product
@@ -26,6 +27,7 @@ export const ProductCard = ({
   const [isHovered, setIsHovered] = useState(false)
   const { addItem } = useCart()
   const { toast } = useToast()
+  const { triggerReaction } = useMascotOrchestrator()
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -64,7 +66,14 @@ export const ProductCard = ({
     <Link 
       to={`/product/${product.slug}`}
       className={styles.card}
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={() => {
+        setIsHovered(true)
+        if (product.basePrice >= 40) {
+          triggerReaction('product:premium-viewed');
+        } else if (product.categoryName?.toLowerCase().includes('chocolate')) {
+          triggerReaction('product:category-chocolate');
+        }
+      }}
       onMouseLeave={() => setIsHovered(false)}
       onFocus={() => setIsHovered(true)}
       onBlur={() => setIsHovered(false)}

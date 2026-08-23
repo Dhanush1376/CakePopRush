@@ -2,11 +2,13 @@ import { useEffect, useState, useCallback, useRef } from 'react';
 import { MascotReaction } from '../reactions/reactionTypes';
 import { mascotEmotionController } from './mascotEmotionController';
 import { EventKey } from './mascotEventMap';
+import { MascotPageContext } from './mascotEmotionTypes';
 
 export const useMascotOrchestrator = () => {
   const [currentReaction, setCurrentReaction] = useState<MascotReaction | null>(null);
   const [currentMessage, setCurrentMessage] = useState<string | null>(null);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [pageContext, setPageContext] = useState<MascotPageContext>(mascotEmotionController.getPageContext());
   const messageTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -22,9 +24,15 @@ export const useMascotOrchestrator = () => {
       setCurrentReaction(initialIdle);
     }
 
+    setPageContext(mascotEmotionController.getPageContext());
+
     // Subscribe to controller updates
     const unsubscribe = mascotEmotionController.subscribe((reaction, message) => {
       setCurrentReaction(reaction);
+      
+      // Keep page context in sync (controller doesn't broadcast page context changes specifically, 
+      // but they are updated on route change, so we can poll it or just update it here)
+      setPageContext(mascotEmotionController.getPageContext());
       
       // Handle message with auto-clear
       if (message) {
@@ -77,6 +85,7 @@ export const useMascotOrchestrator = () => {
   return {
     currentReaction,
     currentMessage,
+    pageContext,
     prefersReducedMotion,
     triggerReaction,
     playDirectEmotion,

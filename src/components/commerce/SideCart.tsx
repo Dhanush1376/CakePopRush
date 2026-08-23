@@ -63,7 +63,7 @@ export const SideCart = () => {
   const handInitialOpacity = hasAppeared ? 1 : 0;
   const handInitialScale = hasAppeared ? 1 : 0.8;
 
-  const { currentReaction, currentMessage, playDirectEmotion, setMessage, tapMascot, prefersReducedMotion } = useMascotOrchestrator();
+  const { currentReaction, currentMessage, triggerReaction, playDirectEmotion, setMessage, tapMascot, prefersReducedMotion } = useMascotOrchestrator();
   const [itemToDelete, setItemToDelete] = useState<string | null>(null);
   const mascotRef = useRef<HTMLDivElement>(null);
   const mascotControlRef = useRef<MascotRef>(null);
@@ -176,8 +176,7 @@ export const SideCart = () => {
       document.body.style.overflow = 'hidden';
         const arrivalTimer = setTimeout(() => {
           if (!hasMascotAppeared) {
-            const GREETINGS = ['winking', 'cool', 'silly', 'love', 'blushing', 'party', 'emotionalCute'] as any;
-            mascotControlRef.current?.play(GREETINGS[Math.floor(Math.random() * GREETINGS.length)]);
+             triggerReaction('page:cart-opened');
           }
       }, 600);
       return () => {

@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './WishlistEmptyState.module.css';
 import { MascotEmptyState } from '@/components/mascot/MascotEmptyState';
 import { WishlistRecommendations } from './WishlistRecommendations';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { MascotReaction } from '@/components/mascot/reactions/reactionTypes';
+
+const EMPTY_STATES: { message: string, reaction: MascotReaction }[] = [
+  { message: "Your wishlist is empty!\nSave your favorites here.", reaction: "pleadingCute" },
+  { message: "Nothing here yet.\nLet's find something sweet!", reaction: "confused" },
+  { message: "I'll keep your favorites safe.\nWhenever you find them!", reaction: "happy" },
+  { message: "Still looking for the perfect treat?", reaction: "tired" },
+];
 
 export const WishlistEmptyState: React.FC = () => {
+  const [emptyState, setEmptyState] = React.useState(EMPTY_STATES[0]);
+  
+  React.useEffect(() => {
+    setEmptyState(EMPTY_STATES[Math.floor(Math.random() * EMPTY_STATES.length)]);
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.emptyHero}>
@@ -18,8 +32,8 @@ export const WishlistEmptyState: React.FC = () => {
           transition={{ duration: 0.5, ease: 'easeOut' }}
         >
           <MascotEmptyState 
-            message={"Your wishlist is empty!\nSave your favorites here."} 
-            reaction="pleadingCute" 
+            message={emptyState.message} 
+            reaction={emptyState.reaction} 
             size="medium"
           />
         </motion.div>

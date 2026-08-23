@@ -5,6 +5,7 @@ import styles from './CheckoutDeliveryPage.module.css';
 import { Container } from '@/components/layout/Container';
 import { CheckoutProgress, MobileCheckoutBar } from '@/features/cart';
 import { useCart } from '@/features/cart';
+import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator';
 import { AddressModal, AddressData } from './components/AddressModal';
 import { Button } from '@/components/ui/Button';
 import { CheckoutDeliverySkeleton } from './components/CheckoutDeliverySkeleton';
@@ -12,6 +13,7 @@ import { CheckoutDeliverySkeleton } from './components/CheckoutDeliverySkeleton'
 export const CheckoutDeliveryPage = () => {
   const { items, isLoading } = useCart();
   const navigate = useNavigate();
+  const { triggerReaction } = useMascotOrchestrator();
 
   const [addresses, setAddresses] = useState<AddressData[]>(() => {
     try {
@@ -203,6 +205,10 @@ export const CheckoutDeliveryPage = () => {
           nextRoute="/payment" 
           showBack={true}
           onBack={() => navigate(-1)}
+          onNext={() => {
+            triggerReaction('checkout:address-completed')
+            navigate('/payment')
+          }}
         />
       ) : (
         <div className={styles.disabledMobileBar}>

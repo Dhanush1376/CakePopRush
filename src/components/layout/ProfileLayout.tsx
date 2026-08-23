@@ -12,10 +12,11 @@ let hasMascotAppeared = false;
 
 const phrases = [
   "Hi there!",
-  "Order something sweet!",
+  "Welcome back, Chocolate Explorer!",
+  "Taste Profile: Sweet Tooth 🍫",
   "How was your day?",
-  "Explore new collections!",
-  "Life is better with sprinkles!"
+  "Life is better with sprinkles!",
+  "Your wishlist is looking sweet!"
 ]
 
 const TypingText = ({ text }: { text: string }) => {

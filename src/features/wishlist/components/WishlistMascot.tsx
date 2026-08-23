@@ -5,27 +5,17 @@ import { CakePopMascot } from '@/components/mascot/CakePopMascot';
 import { MascotReaction, MascotRef } from '@/components/mascot/reactions/reactionTypes';
 import { useWishlist } from '@/features/wishlist';
 
-const tapPhrases = [
-  'Hi there!',
-  'Saved your favorites?',
-  'Treat yourself!',
-  'Sweet choices!',
-  "Can't wait for these!",
-  'Life is sweet!',
-  'Sweet tooth approved!',
-];
+import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator';
 
 let hasMascotAppeared = false;
 
 export const WishlistMascot: React.FC = () => {
   const { items } = useWishlist();
-  const [speechText, setSpeechText] = useState<string | null>(null);
+  const { currentReaction, currentMessage, triggerReaction, tapMascot, prefersReducedMotion } = useMascotOrchestrator();
 
   const mascotRef = useRef<HTMLDivElement>(null);
   const mascotControlRef = useRef<MascotRef>(null);
-  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const previousItemCount = useRef<number | null>(null);
-  const initialMountDone = useRef(false);
 
   // Eye tracking setup
   const eyeTargetX = useMotionValue(0);
@@ -33,54 +23,28 @@ export const WishlistMascot: React.FC = () => {
   const eyeSpringX = useSpring(eyeTargetX, { stiffness: 200, damping: 25 });
   const eyeSpringY = useSpring(eyeTargetY, { stiffness: 200, damping: 25 });
 
-  // Show a temporary message that automatically hides
-  const showTemporaryMessage = useCallback((msg: string, durationMs: number = 3500) => {
-    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    setSpeechText(msg);
-    hideTimerRef.current = setTimeout(() => {
-      setSpeechText(null);
-    }, durationMs);
-  }, []);
-
-  // 1. Arrival reaction: Blow a kiss and briefly greet, then hide
+  // 1. Arrival reaction: handled by MascotOrchestrationProvider or local trigger if needed
+  // (Wishlist is a page, so MascotOrchestrationProvider already handles route arrivals if we configured it,
+  // but let's just trigger a wishlist arrival here if it hasn't appeared)
   useEffect(() => {
     if (!hasMascotAppeared) {
       hasMascotAppeared = true;
       const arrivalTimer = setTimeout(() => {
-        const GREETINGS = ['winking', 'cool', 'silly', 'love', 'blushing', 'party', 'emotionalCute'] as const;
-        mascotControlRef.current?.play(GREETINGS[Math.floor(Math.random() * GREETINGS.length)]);
-        showTemporaryMessage('Hi there!', 3500);
+        triggerReaction('page:cart-opened'); // using a playful generic arrival
       }, 1000);
 
       return () => clearTimeout(arrivalTimer);
     }
-  }, [showTemporaryMessage]);
+  }, [triggerReaction]);
 
   const mascotInitialY = hasMascotAppeared ? 0 : 120;
   const mascotInitialOpacity = hasMascotAppeared ? 1 : 0;
   
-  // 2. Event-driven reactions: removal or restoring items
-  useEffect(() => {
-    if (previousItemCount.current !== null) {
-      if (items.length < previousItemCount.current) {
-        // An item was removed -> cry and show temporary sad message
-        mascotControlRef.current?.play('cryingFountain');
-        showTemporaryMessage('Aww... removed!', 4000);
-      } else if (items.length > previousItemCount.current) {
-        // An item was added/restored -> celebrate!
-        mascotControlRef.current?.play('excited');
-        showTemporaryMessage('Yay, sweet treat back!', 3200);
-      }
-    }
-    previousItemCount.current = items.length;
-  }, [items.length, showTemporaryMessage]);
+  // 2. Event-driven reactions: The MascotOrchestrationProvider ALREADY auto-detects wishlist
+  // additions/removals and triggers 'wishlist:item-added' or 'wishlist:item-removed'.
+  // We don't need local triggering here anymore!
 
-  // Clean up timer on unmount
-  useEffect(() => {
-    return () => {
-      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    };
-  }, []);
+  // Clean up timer on unmount (no local timer needed anymore)
 
   // Pointer follower for mascot eyes
   useEffect(() => {
@@ -106,39 +70,25 @@ export const WishlistMascot: React.FC = () => {
     };
   }, [eyeTargetX, eyeTargetY]);
 
-  // 3. User taps/clicks on mascot -> play reaction and briefly speak
+  // 3. User taps/clicks on mascot -> play reaction
   const handleMascotClick = () => {
-    const TAP_REACTIONS: MascotReaction[] = [
-      'love',
-      'blowKiss',
-      'excited',
-      'party',
-      'laughing',
-      'winking',
-      'silly',
-      'cool',
-    ];
-    const randomReaction = TAP_REACTIONS[Math.floor(Math.random() * TAP_REACTIONS.length)];
-    const randomPhrase = tapPhrases[Math.floor(Math.random() * tapPhrases.length)];
-
-    mascotControlRef.current?.play(randomReaction);
-    showTemporaryMessage(randomPhrase, 3000);
+    tapMascot();
   };
 
   return (
     <div className={styles.mascotContainer}>
       {/* Speech Bubble: Only appears during user activity / events */}
       <AnimatePresence>
-        {speechText && (
+        {currentMessage && (
           <motion.div
-            key={speechText}
+            key={currentMessage}
             className={styles.speechBubble}
             initial={{ opacity: 0, scale: 0.85, y: 6 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.85, y: 6 }}
             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
           >
-            <span>{speechText}</span>
+            <span>{currentMessage}</span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -155,9 +105,11 @@ export const WishlistMascot: React.FC = () => {
           <CakePopMascot
             ref={mascotControlRef}
             size="large"
+            reaction={currentReaction}
             eyeX={eyeSpringX}
             eyeY={eyeSpringY}
             hideArms={true}
+            speedMultiplier={prefersReducedMotion ? 1 : 2}
           />
         </motion.div>
       </div>

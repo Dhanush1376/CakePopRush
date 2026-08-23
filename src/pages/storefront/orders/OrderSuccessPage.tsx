@@ -157,12 +157,12 @@ export function OrderSuccessPage() {
       setIsReady(true)
     }
     
-    // Auto-close celebration after 4.5 seconds
+    // Auto-close celebration after 15 seconds to allow full chained sequence
     let closeTimer: ReturnType<typeof setTimeout>
     if (fromCheckout && !alreadyShown) {
       closeTimer = setTimeout(() => {
         handleDismiss()
-      }, 4500)
+      }, 15000)
     }
 
     return () => {

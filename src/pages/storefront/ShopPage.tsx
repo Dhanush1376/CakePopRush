@@ -16,8 +16,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useMotionValue, useSpring } from 'framer-motion'
 import { CakePopMascot } from '@/components/mascot/CakePopMascot'
 import { MascotReaction, MascotRef } from '@/components/mascot/reactions/reactionTypes'
-
-let hasPlayedEntrance = false;
+import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator'
 
 export function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -26,6 +25,8 @@ export function ShopPage() {
   const [activeCategory, setActiveCategory] = useState(initialCategory)
   const [isHeaderHidden, setIsHeaderHidden] = useState(false)
   const [isDocked, setIsDocked] = useState(false)
+  
+  const { currentReaction, tapMascot, prefersReducedMotion } = useMascotOrchestrator()
   
   const [products, setProducts] = useState<Product[]>([])
   const [totalProductsCount, setTotalProductsCount] = useState(0)
@@ -85,21 +86,8 @@ export function ShopPage() {
   }, [eyeTargetX, eyeTargetY]);
 
   const handleMascotClick = () => {
-    const TAP_REACTIONS: MascotReaction[] = ['cool', 'blowKiss', 'love', 'excited', 'laughing', 'winking', 'silly', 'party'];
-    const random = TAP_REACTIONS[Math.floor(Math.random() * TAP_REACTIONS.length)];
-    mascotControlRef.current?.play(random);
+    tapMascot();
   };
-
-  // Page entrance: play blowKiss when mascot arrives (only once)
-  React.useEffect(() => {
-    if (!hasPlayedEntrance) {
-      hasPlayedEntrance = true;
-      const arrivalTimer = setTimeout(() => {
-        mascotControlRef.current?.play('blowKiss');
-      }, 1000);
-      return () => clearTimeout(arrivalTimer);
-    }
-  }, []);
 
   // Smooth scroll to categories section past hero
   const scrollToCategories = React.useCallback(() => {
@@ -205,13 +193,12 @@ export function ShopPage() {
             hideArms={true}
             eyeX={eyeSpringX}
             eyeY={eyeSpringY}
+            reaction={currentReaction}
+            speedMultiplier={prefersReducedMotion ? 1 : 2}
           />
         </div>
 
-        <ShopCategories 
-          activeCategory={activeCategory} 
-          onSelectCategory={handleSelectCategory} 
-        />
+
         
         <ShopToolbar 
           totalProducts={totalProductsCount}

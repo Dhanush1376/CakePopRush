@@ -1,44 +1,18 @@
-import { MascotTriggerEvent } from './mascotEmotionTypes';
+import { MascotTriggerEvent, EventKey } from './mascotEmotionTypes';
 import { MascotReaction } from '../reactions/reactionTypes';
 
-export type EventKey =
-  | 'cart:item-added'
-  | 'cart:quantity-increased'
-  | 'cart:quantity-decreased'
-  | 'cart:item-delete-confirm'
-  | 'cart:item-delete-canceled'
-  | 'cart:item-removed'
-  | 'cart:emptied'
-  | 'cart:abandoned'
-  | 'wishlist:item-added'
-  | 'wishlist:item-removed'
-  | 'wishlist:emptied'
-  | 'checkout:started'
-  | 'checkout:payment-processing'
-  | 'checkout:success'
-  | 'checkout:failure'
-  | 'product:opened'
-  | 'product:favorited'
-  | 'search:no-results'
-  | 'search:empty-query'
-  | 'navigation:not-found'
-  | 'navigation:server-error'
-  | 'navigation:network-error'
-  | 'account:login-success'
-  | 'account:login-failure'
-  | 'account:signup-success'
-  | 'user:returns'
-  | 'mascot:tapped'
-  | 'coupon:applied'
-  | 'profile:saved';
+export type { EventKey };
 
 export const MASCOT_EVENT_MAP: Record<EventKey, MascotTriggerEvent> = {
-  // Cart
+  // --- Cart ---
   'cart:item-added': {
     emotion: 'blowKiss',
     reason: 'PRODUCT_ADDED_TO_CART',
     priority: 'medium',
     category: 'cart',
+    intensity: 'normal',
+    probability: 1.0,
+    silenceWeight: 0.1,
     alternatives: ['love', 'emotionalCute', 'heartEyes', 'party'],
   },
   'cart:quantity-increased': {
@@ -46,27 +20,39 @@ export const MASCOT_EVENT_MAP: Record<EventKey, MascotTriggerEvent> = {
     reason: 'CART_QUANTITY_INCREASED',
     priority: 'low',
     category: 'cart',
+    intensity: 'micro',
+    probability: 0.6,
+    silenceWeight: 0.2,
     alternatives: ['excited', 'love', 'heartEyes'],
   },
   'cart:quantity-decreased': {
-    emotion: 'cryingFountain',
+    emotion: 'sad',
     reason: 'CART_QUANTITY_DECREASED',
     priority: 'medium',
     category: 'cart',
-    alternatives: ['sad', 'pleadingCute'],
+    intensity: 'normal',
+    probability: 0.8,
+    silenceWeight: 0.3,
+    alternatives: ['pleadingCute'],
   },
   'cart:item-delete-confirm': {
     emotion: 'pleadingCute',
     reason: 'CART_ITEM_DELETE_CONFIRM',
     priority: 'high',
     category: 'cart',
-    alternatives: ['cryingFountain', 'sad'],
+    intensity: 'strong',
+    probability: 1.0,
+    silenceWeight: 0,
+    alternatives: ['sad'],
   },
   'cart:item-delete-canceled': {
     emotion: 'excited',
     reason: 'CART_ITEM_DELETE_CANCELED',
     priority: 'medium',
     category: 'cart',
+    intensity: 'normal',
+    probability: 1.0,
+    silenceWeight: 0.1,
     alternatives: ['love', 'happy'],
   },
   'cart:item-removed': {
@@ -74,13 +60,19 @@ export const MASCOT_EVENT_MAP: Record<EventKey, MascotTriggerEvent> = {
     reason: 'CART_ITEM_REMOVED',
     priority: 'medium',
     category: 'cart',
-    alternatives: ['cryingFountain'],
+    intensity: 'normal',
+    probability: 1.0,
+    silenceWeight: 0.1,
+    alternatives: ['pleadingCute'],
   },
   'cart:emptied': {
     emotion: 'pleadingCute',
     reason: 'CART_EMPTIED',
     priority: 'high',
     category: 'cart',
+    intensity: 'strong',
+    probability: 1.0,
+    silenceWeight: 0,
     alternatives: ['sad'],
   },
   'cart:abandoned': {
@@ -88,15 +80,21 @@ export const MASCOT_EVENT_MAP: Record<EventKey, MascotTriggerEvent> = {
     reason: 'CART_ABANDONED',
     priority: 'medium',
     category: 'cart',
-    alternatives: ['pleadingCute'],
+    intensity: 'normal',
+    probability: 0.5,
+    silenceWeight: 0.5,
   },
 
-  // Wishlist
+  // --- Wishlist ---
   'wishlist:item-added': {
     emotion: 'heartEyes',
     reason: 'WISHLIST_ITEM_ADDED',
     priority: 'medium',
     category: 'wishlist',
+    intensity: 'normal',
+    probability: 0.9,
+    silenceWeight: 0.1,
+    messages: ['I\'ll keep this one safe for you!', 'Ooh, a favorite!', 'Good choice.', 'Saved it!'],
     alternatives: ['love', 'blushing'],
   },
   'wishlist:item-removed': {
@@ -104,6 +102,10 @@ export const MASCOT_EVENT_MAP: Record<EventKey, MascotTriggerEvent> = {
     reason: 'WISHLIST_ITEM_REMOVED',
     priority: 'medium',
     category: 'wishlist',
+    intensity: 'normal',
+    probability: 0.9,
+    silenceWeight: 0.1,
+    messages: ['Goodbye, little treat.', 'Changed your mind?', 'I\'ll let it go...'],
     alternatives: ['pleadingCute'],
   },
   'wishlist:emptied': {
@@ -111,44 +113,120 @@ export const MASCOT_EVENT_MAP: Record<EventKey, MascotTriggerEvent> = {
     reason: 'WISHLIST_EMPTIED',
     priority: 'high',
     category: 'wishlist',
-    alternatives: ['pleadingCute'],
+    intensity: 'strong',
+    probability: 1.0,
+    silenceWeight: 0,
   },
 
-  // Checkout
+  // --- Checkout ---
   'checkout:started': {
-    emotion: 'excited',
+    emotion: 'determined',
     reason: 'CHECKOUT_STARTED',
     priority: 'medium',
     category: 'checkout',
+    intensity: 'normal',
+    probability: 1.0,
+    silenceWeight: 0,
+    delayMs: 500,
   },
-  'checkout:payment-processing': {
-    emotion: 'emotionalCute',
-    reason: 'PAYMENT_PROCESSING',
+  'checkout:address-completed': {
+    emotion: 'happy',
+    reason: 'ADDRESS_COMPLETED',
     priority: 'low',
     category: 'checkout',
-    alternatives: ['surprised'],
+    intensity: 'micro',
+    probability: 0.8,
+    silenceWeight: 0.1,
+  },
+  'checkout:payment-started': {
+    emotion: 'pleadingCute',
+    reason: 'PAYMENT_STARTED',
+    priority: 'medium',
+    category: 'checkout',
+    intensity: 'normal',
+    probability: 0.7,
+    silenceWeight: 0.1,
+  },
+  'checkout:payment-processing': {
+    emotion: 'surprised',
+    reason: 'PAYMENT_PROCESSING',
+    priority: 'medium',
+    category: 'checkout',
+    intensity: 'normal',
+    probability: 1.0,
+    silenceWeight: 0,
   },
   'checkout:success': {
     emotion: 'party',
     reason: 'ORDER_SUCCESS',
     priority: 'critical',
     category: 'checkout',
-    alternatives: ['excited', 'blowKiss'],
+    intensity: 'milestone',
+    probability: 1.0,
+    silenceWeight: 0,
+    chainedEvent: 'checkout:success-surprise',
+  },
+  'checkout:success-surprise': {
+    emotion: 'surprised',
+    reason: 'ORDER_SUCCESS_SURPRISE',
+    priority: 'critical',
+    category: 'checkout',
+    intensity: 'milestone',
+    probability: 1.0,
+    silenceWeight: 0,
+    messages: ['Wait...'],
+    chainedEvent: 'checkout:success-realization',
+  },
+  'checkout:success-realization': {
+    emotion: 'happy',
+    reason: 'ORDER_SUCCESS_REALIZATION',
+    priority: 'critical',
+    category: 'checkout',
+    intensity: 'milestone',
+    probability: 1.0,
+    silenceWeight: 0,
+    messages: ['It is really yours!'],
+    chainedEvent: 'checkout:success-celebration',
+  },
+  'checkout:success-celebration': {
+    emotion: 'party',
+    reason: 'ORDER_SUCCESS_CELEBRATION',
+    priority: 'critical',
+    category: 'checkout',
+    intensity: 'milestone',
+    probability: 1.0,
+    silenceWeight: 0,
+    messages: ['Yesss!', 'We did it!', 'Your treat is on its way.'],
+    alternatives: ['excited', 'blowKiss', 'heartEyes'],
   },
   'checkout:failure': {
     emotion: 'oops',
     reason: 'PAYMENT_FAILED',
     priority: 'critical',
     category: 'checkout',
+    intensity: 'strong',
+    probability: 1.0,
+    silenceWeight: 0,
     alternatives: ['confused'],
   },
 
-  // Product
+  // --- Orders ---
+  'order:status-placed': { emotion: 'excited', reason: 'ORDER_PLACED', priority: 'medium', category: 'order', probability: 0.9, intensity: 'normal' },
+  'order:status-preparing': { emotion: 'winking', reason: 'ORDER_PREPARING', priority: 'low', category: 'order', probability: 0.7, intensity: 'micro' },
+  'order:status-ready': { emotion: 'cool', reason: 'ORDER_READY', priority: 'medium', category: 'order', probability: 0.9, intensity: 'normal' },
+  'order:status-delivering': { emotion: 'excited', reason: 'ORDER_DELIVERING', priority: 'medium', category: 'order', probability: 0.9, intensity: 'normal' },
+  'order:status-delivered': { emotion: 'party', reason: 'ORDER_DELIVERED', priority: 'high', category: 'order', probability: 1.0, intensity: 'strong' },
+  'order:status-cancelled': { emotion: 'sad', reason: 'ORDER_CANCELLED', priority: 'high', category: 'order', probability: 1.0, intensity: 'strong' },
+
+  // --- Product ---
   'product:opened': {
     emotion: 'winking',
     reason: 'PRODUCT_VIEWED',
     priority: 'low',
     category: 'product',
+    intensity: 'micro',
+    probability: 0.3,
+    silenceWeight: 0.5,
     alternatives: ['blowKiss', 'love'],
   },
   'product:favorited': {
@@ -156,15 +234,65 @@ export const MASCOT_EVENT_MAP: Record<EventKey, MascotTriggerEvent> = {
     reason: 'PRODUCT_FAVORITED',
     priority: 'medium',
     category: 'product',
-    alternatives: ['love'],
+    intensity: 'normal',
+    probability: 0.9,
+    silenceWeight: 0.1,
+  },
+  'product:premium-viewed': { 
+    emotion: 'surprised', 
+    reason: 'PREMIUM_VIEWED', 
+    priority: 'medium', 
+    category: 'product', 
+    probability: 0.8, 
+    intensity: 'normal',
+    messages: ['Wait...', 'That one looks GOOD.', 'Excellent taste.'],
+    delayMs: 1500,
+    silenceWeight: 0.2,
+    alternatives: ['cool', 'heartEyes'],
+  },
+  'product:category-chocolate': { 
+    emotion: 'love', 
+    reason: 'CHOCOLATE_VIEWED', 
+    priority: 'low', 
+    category: 'product', 
+    probability: 0.6, 
+    intensity: 'micro',
+    messages: ['Chocolate, huh?', 'A classic.', 'Always a good choice.'],
+    silenceWeight: 0.4,
+    delayMs: 1000,
+  },
+  'product:repeated-view': { 
+    emotion: 'winking', 
+    reason: 'REPEATED_VIEW', 
+    priority: 'medium', 
+    category: 'product', 
+    probability: 0.8, 
+    intensity: 'normal',
+    messages: ['You came back to this one 👀', 'Interesting choice...', 'Okayyy... I see you.'],
+    delayMs: 800,
+  },
+  'product:treat-me': {
+    emotion: 'cool',
+    reason: 'TREAT_ME',
+    priority: 'high',
+    category: 'product',
+    probability: 1.0,
+    intensity: 'strong',
+    messages: ['Don\'t think. I\'ve got you.'],
+    delayMs: 200,
   },
 
-  // Search
+  // --- Search & Filter ---
+  'search:query-submitted': { emotion: 'surprised', reason: 'SEARCH_SUBMITTED', priority: 'low', category: 'search', probability: 0.4, intensity: 'micro' },
+  'search:results-found': { emotion: 'happy', reason: 'SEARCH_RESULTS', priority: 'low', category: 'search', probability: 0.2, intensity: 'micro' },
   'search:no-results': {
     emotion: 'confused',
     reason: 'SEARCH_NO_RESULTS',
     priority: 'medium',
     category: 'search',
+    intensity: 'normal',
+    probability: 1.0,
+    silenceWeight: 0,
     alternatives: ['oops'],
   },
   'search:empty-query': {
@@ -172,87 +300,149 @@ export const MASCOT_EVENT_MAP: Record<EventKey, MascotTriggerEvent> = {
     reason: 'SEARCH_EMPTY',
     priority: 'low',
     category: 'search',
-    alternatives: ['confused'],
+    intensity: 'micro',
+    probability: 0.5,
+    silenceWeight: 0.3,
+  },
+  'filter:applied': { 
+    emotion: 'winking', 
+    reason: 'FILTER_APPLIED', 
+    priority: 'low', 
+    category: 'filter', 
+    probability: 0.15, 
+    intensity: 'micro', 
+    silenceWeight: 0.8 // heavy debounce
+  },
+  'filter:zero-results': { 
+    emotion: 'sad', 
+    reason: 'FILTER_ZERO_RESULTS', 
+    priority: 'medium', 
+    category: 'filter', 
+    probability: 0.8, 
+    intensity: 'normal',
+    messages: ['Hmm... let\'s try something else.', 'That one escaped us.'],
+    delayMs: 600,
   },
 
-  // Navigation
+  // --- Reviews ---
+  'review:submitted': { emotion: 'happy', reason: 'REVIEW_SUBMITTED', priority: 'medium', category: 'review', probability: 1.0, intensity: 'normal' },
+  'review:high-rating': { emotion: 'heartEyes', reason: 'HIGH_RATING', priority: 'high', category: 'review', probability: 1.0, intensity: 'strong' },
+  'review:low-rating': { emotion: 'sad', reason: 'LOW_RATING', priority: 'high', category: 'review', probability: 1.0, intensity: 'normal' },
+
+  // --- Navigation & Pages ---
+  'page:home-arrived': { emotion: 'happy', reason: 'HOME_ARRIVED', priority: 'low', category: 'page', probability: 0.6, intensity: 'micro' },
+  'page:shop-arrived': { emotion: 'winking', reason: 'SHOP_ARRIVED', priority: 'low', category: 'page', probability: 0.5, intensity: 'micro' },
+  'page:admin-arrived': { emotion: 'cool', reason: 'ADMIN_ARRIVED', priority: 'low', category: 'page', probability: 0.8, intensity: 'normal' },
+  'page:cart-opened': { emotion: 'happy', reason: 'CART_OPENED', priority: 'low', category: 'page', probability: 0.8, intensity: 'normal', alternatives: ['winking', 'cool', 'silly', 'love', 'blushing'] },
+  'page:drawer-opened': { emotion: 'winking', reason: 'DRAWER_OPENED', priority: 'low', category: 'page', probability: 0.7, intensity: 'micro', alternatives: ['happy', 'cool', 'silly'] },
+  
   'navigation:not-found': {
     emotion: 'oops',
     reason: 'PAGE_NOT_FOUND',
     priority: 'high',
     category: 'navigation',
-    alternatives: ['confused'],
+    intensity: 'strong',
+    probability: 1.0,
+    silenceWeight: 0,
   },
   'navigation:server-error': {
     emotion: 'oops',
     reason: 'SERVER_ERROR',
     priority: 'high',
     category: 'navigation',
-    alternatives: ['confused'],
+    intensity: 'strong',
+    probability: 1.0,
+    silenceWeight: 0,
   },
   'navigation:network-error': {
     emotion: 'confused',
     reason: 'NETWORK_ERROR',
     priority: 'high',
     category: 'navigation',
-    alternatives: ['oops'],
+    intensity: 'strong',
+    probability: 1.0,
+    silenceWeight: 0,
   },
 
-  // Account
+  // --- Account & Profile ---
   'account:login-success': {
     emotion: 'blowKiss',
     reason: 'LOGIN_SUCCESS',
     priority: 'medium',
     category: 'account',
+    intensity: 'normal',
+    probability: 1.0,
+    silenceWeight: 0,
   },
   'account:login-failure': {
     emotion: 'oops',
     reason: 'LOGIN_FAILURE',
     priority: 'medium',
     category: 'account',
-    alternatives: ['confused'],
+    intensity: 'normal',
+    probability: 1.0,
+    silenceWeight: 0,
   },
   'account:signup-success': {
-    emotion: 'blowKiss',
+    emotion: 'party',
     reason: 'SIGNUP_SUCCESS',
     priority: 'medium',
     category: 'account',
+    intensity: 'strong',
+    probability: 1.0,
+    silenceWeight: 0,
   },
   'user:returns': {
     emotion: 'blowKiss',
     reason: 'USER_RETURNED',
     priority: 'low',
     category: 'account',
-    alternatives: ['blowKiss', 'winking'],
-  },
-
-  // General interactions
-  'mascot:tapped': {
-    emotion: 'bonk', // default tap reaction, but will usually use the pool
-    reason: 'MASCOT_TAPPED',
-    priority: 'medium',
-    category: 'mascot',
-  },
-  'coupon:applied': {
-    emotion: 'winking',
-    reason: 'COUPON_APPLIED',
-    priority: 'medium',
-    category: 'coupon',
+    intensity: 'normal',
+    probability: 0.9,
+    silenceWeight: 0,
   },
   'profile:saved': {
     emotion: 'emotionalCute',
     reason: 'PROFILE_SAVED',
     priority: 'low',
     category: 'profile',
+    intensity: 'normal',
+    probability: 0.8,
+    silenceWeight: 0,
     alternatives: ['blushing'],
   },
+
+  // --- General interactions ---
+  'mascot:tapped': {
+    emotion: 'bonk', 
+    reason: 'MASCOT_TAPPED',
+    priority: 'medium',
+    category: 'mascot',
+    intensity: 'normal',
+    probability: 1.0,
+    silenceWeight: 0,
+  },
+  'coupon:applied': {
+    emotion: 'winking',
+    reason: 'COUPON_APPLIED',
+    priority: 'medium',
+    category: 'coupon',
+    intensity: 'normal',
+    probability: 1.0,
+    silenceWeight: 0,
+  },
+
+  // --- Admin ---
+  'admin:save-success': { emotion: 'happy', reason: 'ADMIN_SAVE', priority: 'low', category: 'admin', probability: 0.8, intensity: 'micro' },
+  'admin:delete-action': { emotion: 'oops', reason: 'ADMIN_DELETE', priority: 'medium', category: 'admin', probability: 0.9, intensity: 'normal' },
+  'admin:error': { emotion: 'confused', reason: 'ADMIN_ERROR', priority: 'high', category: 'admin', probability: 1.0, intensity: 'strong' },
 };
 
 // Playful pool for direct mascot taps
 export const TAP_REACTION_POOL: { emotion: MascotReaction; weight: number }[] = [
   { emotion: 'bonk', weight: 15 },
   { emotion: 'winking', weight: 15 },
-  { emotion: 'emotionalCute', weight: 15 }, // Using emotionalCute for "Cute"
+  { emotion: 'emotionalCute', weight: 15 }, 
   { emotion: 'blowKiss', weight: 12 },
   { emotion: 'blushing', weight: 12 },
   { emotion: 'silly', weight: 10 },

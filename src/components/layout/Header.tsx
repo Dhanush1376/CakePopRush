@@ -58,8 +58,18 @@ export const Header = () => {
         </nav>
 
         <div className={styles.actions}>
-          <button className={styles.iconButton} aria-label="Search" onClick={() => setIsSearchOpen(true)}>
+          {/* Mobile Search Icon */}
+          <button className={`${styles.iconButton} ${styles.mobileOnlyIcon}`} aria-label="Search" onClick={() => setIsSearchOpen(true)}>
             <Search size={20} strokeWidth={1.5} />
+          </button>
+
+          {/* Desktop Expanded Search Bar */}
+          <button className={styles.searchBarDesktop} onClick={() => setIsSearchOpen(true)}>
+            <div className={styles.searchLeft}>
+              <Search size={16} className={styles.searchIconMuted} />
+              <span className={styles.searchPlaceholder}>Search...</span>
+            </div>
+            <span className={styles.shortcutKey}>⌘K</span>
           </button>
 
           {/* Desktop Only Icons */}

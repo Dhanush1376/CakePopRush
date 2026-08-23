@@ -189,7 +189,8 @@
     "rating": 4.9,
     "reviewCount": 85,
     "isNew": true,
-    "description": "Rich chocolate brownie infused with crunchy Biscoff spread and biscuit crumbles."
+    "description": "Rich chocolate brownie infused with crunchy Biscoff spread and biscuit crumbles.",
+    "isBestSeller": true
   },
   {
     "isCustomizable": true,
@@ -285,7 +286,8 @@
     "rating": 4.7,
     "reviewCount": 200,
     "isBestSeller": true,
-    "description": "Ultimate fudgy chocolate brownie with a melt-in-your-mouth gooey center."
+    "description": "Ultimate fudgy chocolate brownie with a melt-in-your-mouth gooey center.",
+    "isNew": true
   },
   {
     "isCustomizable": true,

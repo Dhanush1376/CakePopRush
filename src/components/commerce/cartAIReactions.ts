@@ -160,52 +160,52 @@ const MESSAGES = {
 
   // --- QUANTITY DECREASE ---
   quantityDecrease: [
-    'But... I liked that one!',
-    'Wait, putting it back?',
-    'Aww, one less treat.',
-    'Please reconsider this!',
-    'Are we on a diet?',
-    'My heart is breaking!',
+    'Aww, maybe next time.',
+    'I will miss that one.',
+    'Still a great cart!',
+    'Saving room for later?',
+    'Taking a little off the top.',
+    'Keeping it simple.',
   ],
 
   // --- DELETE CONFIRM ---
   deleteConfirm: [
-    "Please don't do this!",
-    'Wait, spare the treats!',
-    'Nooo! Have mercy!',
-    'But it looked so yummy!',
-    'Think of the sugar!',
-    'We were so happy...',
+    "Are you sure?",
+    'Take it out?',
+    'Remove this one?',
+    'Saying goodbye?',
+    'Changed your mind?',
+    'Need to make room?',
   ],
 
   // --- DELETE CANCEL ---
   deleteCancel: [
-    'Yay! You kept it!',
-    'Oh thank goodness.',
-    'I love you again!',
+    'Yay! It stays!',
+    'Good choice.',
+    'I knew you liked it!',
     'Best decision ever.',
     'Safe and sound.',
-    'Phew! That was scary.',
+    'Phew! That was close.',
   ],
 
   // --- ITEM REMOVED ---
   itemRemoved: [
-    'Why did you do that?!',
-    'I will never forget you...',
-    'A tragic loss today.',
-    'My tummy is sad now.',
-    'I miss it already.',
-    'Gone too soon...',
+    'Maybe next time.',
+    'It was a good choice while it lasted.',
+    'Making room for something else?',
+    'I understand.',
+    'No worries!',
+    'Gone, but not forgotten.',
   ],
 
   // --- CART EMPTIED ---
   cartEmptied: [
-    "I'll just starve then.",
-    'My lawyer will hear this.',
-    "Fine, I'll eat them myself.",
-    'Wow. Just... wow.',
-    "I'm calling the police.",
-    'Hello darkness my old friend...',
+    "Starting fresh!",
+    'Clean slate.',
+    "We'll be ready when you are.",
+    'Take your time.',
+    "See you next time!",
+    'Empty cart, endless possibilities.',
   ],
 
   // --- MULTI-ITEM CART ---

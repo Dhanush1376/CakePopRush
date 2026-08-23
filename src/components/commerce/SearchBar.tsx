@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Search, X, Loader2, ArrowRight, Clock, ArrowLeft, Mic, Camera, Trash2 } from 'lucide-react'
+import { Search, X, Loader2, ArrowRight, Clock, ArrowLeft, Mic, Camera, Trash2, Bell, SlidersHorizontal, Star, ChevronDown, ChevronRight, CheckCircle2, MapPin } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { productData } from '@/features/products'
 import { useSearch } from '@/features/search/useSearch'
@@ -20,9 +20,11 @@ import {
 import { Button } from '../ui/Button'
 import styles from './SearchBar.module.css'
 import { createPortal } from 'react-dom'
+import { FrostingCorner } from '@/pages/storefront/custom-orders/components/FrostingCorner';
+import { MobileFilters } from './MobileFilters';
 
 const getCategoryIcon = (id: string) => {
-  switch(id) {
+  switch (id) {
     case 'all': return <AllItemsIcon width={32} height={32} />
     case 'cake-pops': return <CakePopsIcon width={32} height={32} />
     case 'cakesicles': return <CakesiclesIcon width={32} height={32} />
@@ -48,6 +50,20 @@ interface SearchBarProps {
 
 const POPULAR_SEARCHES = ['Cake Pops', 'Cookies', 'Cookie Dough', 'Truffles', 'Desserts']
 
+const HighlightText = ({ text, query }: { text: string, query: string }) => {
+  if (!query.trim()) return <span>{text}</span>;
+  const parts = text.split(new RegExp(`(${query})`, 'gi'));
+  return (
+    <span>
+      {parts.map((part, i) =>
+        part.toLowerCase() === query.toLowerCase()
+          ? <span key={i} className={styles.highlightWord}>{part}</span>
+          : <span key={i}>{part}</span>
+      )}
+    </span>
+  );
+};
+
 
 export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: SearchBarProps) => {
   const navigate = useNavigate()
@@ -56,11 +72,12 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
 
   const [categories, setCategories] = useState<any[]>([]);
   const [bestSelling, setBestSelling] = useState<any[]>([]);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   useEffect(() => {
     Promise.all([
       productData.getCategories(),
-      productData.getBestSellingProducts(3)
+      productData.getBestSellingProducts(10)
     ]).then(([cats, bests]) => {
       setCategories(cats);
       setBestSelling(bests);
@@ -152,128 +169,15 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
   }
 
   const renderContent = () => {
-    if (query.trim().length === 0) {
-      return (
-        <>
-          {recentSearches.length > 0 && (
-            <div className={styles.section}>
-              <div className={styles.sectionHeader}>
-                <div className={styles.sectionHeaderTitle}>
-                  Recent Searches
-                </div>
-                <button className={styles.clearAllBtn} onClick={() => setRecentSearches([])}>
-                  Clear all <Trash2 size={14} />
-                </button>
-              </div>
-              <ul className={styles.recentList}>
-                {recentSearches.map(term => (
-                  <li key={term}>
-                    <button className={styles.recentRow} onClick={() => handleSearchSubmit(term)}>
-                      <div className={styles.recentIconCircle}>
-                        <Clock size={16} />
-                      </div>
-                      <span className={styles.recentText}>{term}</span>
-                      <div className={styles.removeRecent} onClick={(e) => removeRecent(e, term)}>
-                        <X size={16} />
-                      </div>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          
-          <div className={styles.section}>
-            <div className={styles.sectionHeader}>
-              <div className={styles.sectionTitle} style={{ marginBottom: 0 }}>Explore Categories</div>
-              <button 
-                className={styles.viewAllBtn}
-                onClick={() => {
-                  navigate('/shop')
-                  setIsFocused(false)
-                  if (onClose) onClose()
-                }}
-              >
-                View all <ArrowRight size={14} />
-              </button>
-            </div>
-            <div className={styles.categoryScroll}>
-              {categories.map((cat: any) => {
-                const isActive = cat.id === 'all'
-                return (
-                  <button
-                    type="button"
-                    key={cat.id}
-                    className={`${styles.categoryBtn} ${isActive ? styles.active : ''}`}
-                    onClick={() => {
-                      if (cat.id !== 'all') {
-                        navigate(`/shop?category=${cat.id}`)
-                      } else {
-                        navigate(`/shop`)
-                      }
-                      setIsFocused(false)
-                      if (onClose) onClose()
-                    }}
-                  >
-                    <div className={styles.iconContainer}>
-                      {getCategoryIcon(cat.id)}
-                    </div>
-                    <span className={styles.label}>{cat.name}</span>
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-
-          <div className={styles.section} style={{ marginTop: '32px' }}>
-            <div className={styles.sectionHeader}>
-              <div className={styles.sectionTitle} style={{ marginBottom: 0 }}>
-                Trending Treats
-              </div>
-              <button 
-                className={styles.viewAllBtn}
-                onClick={() => {
-                  navigate('/shop')
-                  setIsFocused(false)
-                  if (onClose) onClose()
-                }}
-              >
-                View all <ArrowRight size={14} />
-              </button>
-            </div>
-            <div className={styles.trendingGrid}>
-              {bestSelling.map((product: any) => (
-                <button 
-                  key={product.id} 
-                  className={styles.resultRow}
-                  onClick={() => {
-                    navigate(`/product/${product.slug}`)
-                    setIsFocused(false)
-                    if (onClose) onClose()
-                  }}
-                >
-                  <div className={styles.resultImageWrapper}>
-                    <img src={product.images[0].url} alt={product.name} className={styles.resultImage} />
-                  </div>
-                  <div className={styles.resultInfo}>
-                    <h4 className={styles.resultName}>{product.name}</h4>
-                    <p className={styles.resultCategory}>{product.categoryName}</p>
-                  </div>
-                  <span className={styles.resultPrice}>₹{product.basePrice / 100}</span>
-                  <ArrowRight size={18} className={styles.resultArrow} />
-                </button>
-              ))}
-            </div>
-          </div>
-        </>
-      )
-    }
+    const isQueryEmpty = query.trim().length === 0;
+    const displayResults = isQueryEmpty ? bestSelling : results;
 
     if (isLoading) {
       return null // Show loading icon in the input field instead of jumping content
     }
 
-    if (results.length === 0) {
+    if (displayResults.length === 0) {
+      if (isQueryEmpty) return null;
       return (
         <div className={styles.noResults}>
           <h4 className={styles.noResultsTitle}>No treats found</h4>
@@ -286,28 +190,48 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
     }
 
     return (
-      <div className={styles.section}>
-        <div className={styles.sectionTitle}>Search Results</div>
-        <ul className={styles.resultList} role="listbox">
-          {results.map((product, index) => (
+      <div className={styles.resultsWrapper}>
+        {isMobile && (
+          <div className={styles.resultsHeaderRow}>
+            <span className={styles.resultsCount}>{displayResults.length} {isQueryEmpty ? 'trending treats' : 'results found'}</span>
+            <button className={styles.relevanceDropdown}>RELEVANCE <ChevronDown size={14} /></button>
+          </div>
+        )}
+        {!isMobile && <div className={styles.sectionTitle}>{isQueryEmpty ? 'Trending Treats' : 'Search Results'}</div>}
+        <ul className={styles.newResultList} role="listbox">
+          {displayResults.map((product, index) => (
             <li key={product.id}>
-              <button 
-                className={styles.resultRow} 
+              <button
+                className={styles.newResultCard}
                 data-active={index === activeIndex}
                 onClick={() => handleResultClick(product)}
                 onMouseEnter={() => setActiveIndex(index)}
                 role="option"
                 aria-selected={index === activeIndex}
               >
-                <div className={styles.resultImageWrapper}>
-                  <img src={product.images[0]?.url} alt={product.name} className={styles.resultImage} />
+                <div className={styles.cardImageWrapper}>
+                  {index === 0 && <div className={styles.bestsellerCheck}><CheckCircle2 size={12} /></div>}
+                  <img src={product.images[0]?.url} alt={product.name} />
                 </div>
-                <div className={styles.resultInfo}>
-                  <h4 className={styles.resultName}>{product.name}</h4>
-                  <p className={styles.resultCategory}>{product.categoryName}</p>
+                <div className={styles.cardInfo}>
+                  <h4 className={styles.cardTitle}>
+                    <HighlightText text={product.name} query={query} />
+                  </h4>
+
+
+                  <div className={styles.cardTags}>
+                    {index === 0 && <span className={`${styles.tagPill} ${styles.tagBestseller}`}>BESTSELLER</span>}
+                    <span className={styles.tagPill}>{product.categoryName}</span>
+
+                  </div>
                 </div>
-                <span className={styles.resultPrice}>₹{product.basePrice / 100}</span>
-                <ArrowRight size={18} className={styles.resultArrow} />
+                <div className={styles.cardRight}>
+                  <ChevronRight size={18} className={styles.cardArrow} />
+                  <div className={styles.priceWrapper}>
+                    <span className={styles.strikedPrice}>₹{Math.round(product.basePrice * 1.2) / 100}</span>
+                    <span className={styles.cardPrice}>₹{product.basePrice / 100}</span>
+                  </div>
+                </div>
               </button>
             </li>
           ))}
@@ -328,11 +252,10 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
     return () => window.removeEventListener('keydown', handleGlobalKeyDown);
   }, []);
 
-  // --- MOBILE RENDER ---
   if (isMobile) {
     return createPortal(
       <AnimatePresence>
-        <motion.div 
+        <motion.div
           className={styles.mobileOverlay}
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -340,17 +263,23 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
           transition={{ duration: 0.2 }}
           role="search"
         >
-          <div className={styles.mobileHeader}>
-            <button className={styles.backButton} onClick={onClose} aria-label="Close search">
-              <ArrowLeft size={24} />
-            </button>
-            <div className={styles.mobileSearchField}>
-              <Search size={20} className={styles.searchIcon} style={{ marginLeft: 12, marginRight: 8 }} />
+          <div className={styles.mobileTopBar}>
+            <h1 className={styles.mobileTitle}>Search</h1>
+            <div className={styles.mobileTopRight}>
+              <button className={styles.headerIconButton} onClick={onClose} aria-label="Close search">
+                <X size={20} strokeWidth={2} />
+              </button>
+            </div>
+          </div>
+
+          <div className={styles.mobileSearchContainer}>
+            <div className={styles.mobileSearchFieldWrapper}>
+              <Search size={20} className={styles.searchIconLeft} />
               <input
                 ref={inputRef}
                 type="text"
-                className={styles.searchInput}
-                placeholder="Search your favorite treats..."
+                className={styles.searchInputRedesigned}
+                placeholder="Search for sweet treats..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -362,22 +291,28 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
                   <button className={styles.clearButton} onClick={handleClear} aria-label="Clear search">
                     <X size={14} strokeWidth={2.5} />
                   </button>
-                ) : (
-                  <>
-                    <button className={styles.iconButton} aria-label="Voice search">
-                      <Mic size={18} strokeWidth={2} />
-                    </button>
-                    <button className={styles.iconButton} aria-label="Visual search">
-                      <Camera size={18} strokeWidth={2} />
-                    </button>
-                  </>
-                )}
+                ) : null}
+                <button className={styles.filterButton} aria-label="Filters" onClick={() => setIsFiltersOpen(true)}>
+                  <SlidersHorizontal size={18} strokeWidth={2.5} />
+                </button>
               </div>
             </div>
+
+            <div className={styles.filterPillsScroll}>
+              <button className={`${styles.filterPill} ${styles.filterPillActive}`}>
+                <Star size={14} fill="currentColor" /> All Results
+              </button>
+              <button className={styles.filterPill}>Cake Pops</button>
+              <button className={styles.filterPill}>Cupcakes</button>
+              <button className={styles.filterPill}>Macarons</button>
+              <button className={styles.filterPill}>Cookies</button>
+            </div>
           </div>
-          <div className={styles.mobileContent}>
+
+          <div className={styles.mobileContentRedesigned}>
             {renderContent()}
           </div>
+          <MobileFilters isOpen={isFiltersOpen} onClose={() => setIsFiltersOpen(false)} categories={categories} />
         </motion.div>
       </AnimatePresence>,
       document.body
@@ -388,8 +323,8 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
   return (
     <div className={styles.searchContainer} ref={containerRef} role="search">
       {/* Header Compact Trigger Bar */}
-      <div 
-        className={styles.compactSearchTrigger} 
+      <div
+        className={styles.compactSearchTrigger}
         onClick={() => setIsFocused(true)}
       >
         <Search size={16} className={styles.triggerSearchIcon} />
@@ -401,7 +336,7 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
       {createPortal(
         <AnimatePresence>
           {isFocused && (
-            <motion.div 
+            <motion.div
               className={styles.desktopModalOverlay}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -409,7 +344,7 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
               transition={{ duration: 0.2 }}
               onClick={() => setIsFocused(false)}
             >
-              <motion.div 
+              <motion.div
                 className={styles.desktopModalCard}
                 initial={{ opacity: 0, scale: 0.95, y: -20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}

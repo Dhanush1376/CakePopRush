@@ -27,7 +27,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, onClose }) => {
 
 
 
-  const { tapMascot } = useMascotOrchestrator()
+  const { tapMascot, currentReaction, triggerReaction, prefersReducedMotion } = useMascotOrchestrator()
   const mascotRef = useRef<HTMLDivElement>(null)
   const mascotControlRef = useRef<MascotRef>(null)
   
@@ -43,8 +43,7 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, onClose }) => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
       const arrivalTimer = setTimeout(() => {
-        const GREETINGS = ['winking', 'cool', 'silly', 'love', 'blushing', 'party', 'emotionalCute'] as any;
-        mascotControlRef.current?.play(GREETINGS[Math.floor(Math.random() * GREETINGS.length)])
+        triggerReaction('page:drawer-opened')
       }, 950)
       return () => {
         clearTimeout(arrivalTimer)
@@ -209,9 +208,11 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({ isOpen, onClose }) => {
               <CakePopMascot
                   ref={mascotControlRef}
                   size="large"
+                  reaction={currentReaction}
                   eyeX={eyeSpringX}
                   eyeY={eyeSpringY}
                   hideArms={true}
+                  speedMultiplier={prefersReducedMotion ? 1 : 2}
                 /></motion.div>
           </div>
           

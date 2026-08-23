@@ -1,6 +1,6 @@
 import React, {} from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowRight, UploadCloud } from 'lucide-react'
+import { ArrowRight, UploadCloud, ChevronLeft, ChevronRight } from 'lucide-react'
 import styles from './HomePage.module.css'
 import { Container } from '@/components/layout/Container'
 import { Button } from '@/components/ui/Button'
@@ -35,6 +35,15 @@ export const ShopByCategorySection = () => {
     })
   }, [])
 
+  const scrollRef = React.useRef<HTMLDivElement>(null)
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = direction === 'left' ? -300 : 300
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
+    }
+  }
+
   return (
     <section className={styles.section}>
       <Container>
@@ -45,23 +54,41 @@ export const ShopByCategorySection = () => {
             <ArrowRight size={10} strokeWidth={2} />
           </button>
         </div>
-        <div className={styles.categoryGrid}>
-          {categories.slice(1).map((category) => {
-            const imageUrl = CATEGORY_IMAGES[category.id] || products.find(p => p.categoryName === category.name)?.images[0]?.url || '/images/Products/White choclate cakepops.jpeg';
-            return (
-              <div 
-                key={category.id} 
-                className={styles.categoryCardImage}
-                onClick={() => navigate(`/shop?category=${category.id}`)}
-              >
-                <div className={styles.categoryImageWrapper}>
-                  <img src={imageUrl} alt={category.name} className={styles.categoryImage} loading="lazy" decoding="async" />
-                  <div className={styles.categoryImageOverlay} />
+        <div className={styles.scrollContainerWrapper}>
+          <button 
+            className={`${styles.scrollButton} ${styles.scrollLeft}`}
+            onClick={() => scroll('left')}
+            aria-label="Scroll left"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          
+          <div className={styles.categoryGrid} ref={scrollRef}>
+            {categories.slice(1).map((category) => {
+              const imageUrl = CATEGORY_IMAGES[category.id] || products.find(p => p.categoryName === category.name)?.images[0]?.url || '/images/Products/White choclate cakepops.jpeg';
+              return (
+                <div 
+                  key={category.id} 
+                  className={styles.categoryCardImage}
+                  onClick={() => navigate(`/shop?category=${category.id}`)}
+                >
+                  <div className={styles.categoryImageWrapper}>
+                    <img src={imageUrl} alt={category.name} className={styles.categoryImage} loading="lazy" decoding="async" />
+                    <div className={styles.categoryImageOverlay} />
+                  </div>
+                  <h3 className={styles.categoryImageTitle}>{category.name}</h3>
                 </div>
-                <h3 className={styles.categoryImageTitle}>{category.name}</h3>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
+
+          <button 
+            className={`${styles.scrollButton} ${styles.scrollRight}`}
+            onClick={() => scroll('right')}
+            aria-label="Scroll right"
+          >
+            <ChevronRight size={20} />
+          </button>
         </div>
       </Container>
     </section>

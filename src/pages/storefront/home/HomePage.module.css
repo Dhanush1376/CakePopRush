@@ -106,24 +106,31 @@
 
   .imageOverlayName {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 60px 24px 24px;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%) translateY(15px);
+    width: max-content;
+    max-width: 90%;
+    padding: 12px 24px;
+    background: rgba(25, 20, 20, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 40px;
     color: #ffffff !important;
     font-family: var(--font-family-display);
-    font-weight: 800;
-    font-size: 22px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 1px;
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
     pointer-events: none;
     display: flex;
-    align-items: flex-end;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     z-index: 10;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   }
 
   .imageOverlayName span {
@@ -132,6 +139,7 @@
 
   .imageLink:hover .imageOverlayName {
     opacity: 1;
+    transform: translateX(-50%) translateY(0);
   }
 }
 
@@ -566,6 +574,46 @@
 }
 
 /* Category Grid */
+.scrollContainerWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.scrollButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  color: var(--color-chocolate);
+  transition: all 0.2s ease;
+  opacity: 1;
+}
+
+.scrollButton:hover {
+  background: var(--color-brand-pink);
+  color: white;
+  transform: translateY(-50%) scale(1.1);
+  border-color: var(--color-brand-pink);
+}
+
+.scrollLeft {
+  left: -20px;
+}
+
+.scrollRight {
+  right: -20px;
+}
+
 .categoryGrid {
   display: flex;
   gap: var(--space-4);
@@ -584,14 +632,7 @@
   flex-shrink: 0;
 }
 
-@media (min-width: 768px) {
-  .categoryGrid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    overflow-x: visible;
-    padding-bottom: 0;
-  }
-}
+
 
 /* Product Grid */
 .productGrid {
@@ -693,20 +734,7 @@
   margin-bottom: var(--space-4);
 }
 
-/* Category Grid */
-.categoryGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-2);
-  width: 100%;
-}
 
-@media (min-width: 768px) {
-  .categoryGrid {
-    grid-template-columns: repeat(6, 1fr);
-    gap: var(--space-4);
-  }
-}
 
 .categoryCardImage {
   position: relative;
@@ -716,6 +744,14 @@
   aspect-ratio: 1 / 1;
   box-shadow: 0 4px 12px rgba(92, 51, 23, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex-shrink: 0;
+  width: 140px;
+}
+
+@media (min-width: 768px) {
+  .categoryCardImage {
+    width: 200px;
+  }
 }
 
 .categoryCardImage:hover {

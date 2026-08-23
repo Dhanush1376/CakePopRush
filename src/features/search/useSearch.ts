@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { productData } from '@/features/products';
 import { Product } from '@/types/product';
+import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator';
 
 export function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
@@ -19,6 +20,7 @@ export function useSearch(onClose?: () => void, onFocusChange?: (focused: boolea
   const [results, setResults] = useState<Product[]>([]);
   const [recentSearches, setRecentSearches] = useState<string[]>(['Chocolate cake pops', 'Strawberry cookies']);
   const [activeIndex, setActiveIndex] = useState(-1);
+  const { triggerReaction } = useMascotOrchestrator();
 
   const debouncedQuery = useDebounce(query, 300);
 
@@ -37,8 +39,11 @@ export function useSearch(onClose?: () => void, onFocusChange?: (focused: boolea
     productData.searchProducts(lowercaseQuery).then((filtered: any) => {
       setResults(filtered.slice(0, 5));
       setIsLoading(false);
+      if (filtered.length === 0 && debouncedQuery.trim().length > 0) {
+        triggerReaction('search:no-results', `I couldn't find "${debouncedQuery}"...`);
+      }
     });
-  }, [debouncedQuery]);
+  }, [debouncedQuery, triggerReaction]);
 
   // Reset loading state immediately on new input
   useEffect(() => {
@@ -67,6 +72,7 @@ export function useSearch(onClose?: () => void, onFocusChange?: (focused: boolea
       if (!recentSearches.includes(searchTerm)) {
         setRecentSearches(prev => [searchTerm, ...prev].slice(0, 4));
       }
+      triggerReaction('search:query-submitted', `Searching for ${searchTerm}...`);
     }
   };
 

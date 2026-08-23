@@ -90,6 +90,9 @@
   box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05), inset 0 0 16px rgba(255, 255, 255, 0.5);
   position: relative;
   z-index: 10;
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
 .formRow {
@@ -208,6 +211,9 @@
   flex-direction: column;
   gap: 2px;
   animation: slideDown 0.2s ease-out forwards;
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
 @keyframes slideDown {
@@ -373,6 +379,9 @@
   transition: transform var(--duration-normal), box-shadow var(--duration-normal);
   position: relative;
   z-index: 10;
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 
 .card:hover {
