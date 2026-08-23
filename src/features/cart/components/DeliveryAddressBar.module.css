@@ -49,17 +49,28 @@
   flex-direction: column;
 }
 
+.subtitle {
+  font-family: var(--font-family-body);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px; /* or use flex rules to constrain it */
+}
+
 .title {
   font-family: var(--font-family-body);
   font-size: 0.85rem;
   font-weight: var(--font-weight-bold);
   color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
 }
 
-.subtitle {
-  font-family: var(--font-family-body);
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
+.checkIcon {
+  color: #10B981;
 }
 
 .chevron {

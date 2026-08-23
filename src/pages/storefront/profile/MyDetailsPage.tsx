@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { User, Mail, Phone, Calendar, Save } from 'lucide-react'
+import { User, Mail, Phone, Calendar, Save, ChevronDown } from 'lucide-react'
 import styles from './MyDetailsPage.module.css'
 
 export const MyDetailsPage = () => {
@@ -87,6 +87,7 @@ export const MyDetailsPage = () => {
                 <option value="female">Female</option>
                 <option value="prefer-not">Prefer not to say</option>
               </select>
+              <ChevronDown className={styles.selectArrow} size={16} strokeWidth={1.5} />
             </div>
           </div>
         </div>

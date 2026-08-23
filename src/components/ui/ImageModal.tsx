@@ -132,29 +132,27 @@ export function ImageModal({ isOpen, images, initialIndex = 0, onClose }: ImageM
           </AnimatePresence>
         </div>
         
-        {images.length > 1 && (
-          <div className={styles.thumbnailSection}>
-            <hr className={styles.divider} />
-            <div className={styles.thumbnailStrip}>
-              {images.map((img, idx) => (
-                <button
-                  key={idx}
-                  className={`${styles.thumbnailBtn} ${idx === currentIndex ? styles.thumbnailActive : ''}`}
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    if (idx !== currentIndex) {
-                      setDirection(idx > currentIndex ? 1 : -1)
-                      setCurrentIndex(idx)
-                    }
-                  }}
-                  aria-label={`Go to image ${idx + 1}`}
-                >
-                  <img src={img} alt={`Thumbnail ${idx + 1}`} className={styles.thumbnailImg} />
-                </button>
-              ))}
-            </div>
+        <div className={styles.thumbnailSection}>
+          <hr className={styles.divider} />
+          <div className={styles.thumbnailStrip}>
+            {images.map((img, idx) => (
+              <button
+                key={idx}
+                className={`${styles.thumbnailBtn} ${idx === currentIndex ? styles.thumbnailActive : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  if (idx !== currentIndex) {
+                    setDirection(idx > currentIndex ? 1 : -1)
+                    setCurrentIndex(idx)
+                  }
+                }}
+                aria-label={`Go to image ${idx + 1}`}
+              >
+                <img src={img} alt={`Thumbnail ${idx + 1}`} className={styles.thumbnailImg} />
+              </button>
+            ))}
           </div>
-        )}
+        </div>
       </div>
     </div>
   , document.body)

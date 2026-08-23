@@ -1080,8 +1080,8 @@
 
 .mobileTitle {
   font-family: var(--font-family-display);
-  font-size: var(--font-size-3xl);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-chocolate);
   margin: 0;
   line-height: 1;

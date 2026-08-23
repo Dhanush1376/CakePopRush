@@ -1,4 +1,4 @@
-import React, {} from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowRight, UploadCloud, ChevronLeft, ChevronRight } from 'lucide-react'
 import styles from './HomePage.module.css'
@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/Button'
 import { ProductCard } from '@/components/commerce/ProductCard'
 import { productData, Category } from '@/features/products'
 import { Product } from '@/types/product'
+import { CustomOrderQuickModal } from '@/components/commerce/CustomOrderQuickModal'
+import { useToast } from '@/components/ui/ToastContext'
 
 const CATEGORY_IMAGES: Record<string, string> = {
   'cake-pops': '/images/Products/White choclate cakepops.jpeg',
@@ -249,6 +251,36 @@ export const BrandStorySection = () => {
 }
 
 export const CustomOrderSection = () => {
+  const [design, setDesign] = useState<File | null>(null);
+  const [description, setDescription] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [error, setError] = useState('');
+  const { toast } = useToast();
+
+  const handleInitialSubmit = () => {
+    if (!design) {
+      setError('Please upload a design inspiration image.');
+      return;
+    }
+    if (!description.trim()) {
+      setError('Please provide a description.');
+      return;
+    }
+    setError('');
+    setIsModalOpen(true);
+  };
+
+  const handleFinalSubmit = (data: any) => {
+    setIsModalOpen(false);
+    toast({
+      title: 'Custom request submitted!',
+      type: 'success',
+      duration: 3000
+    });
+    setDesign(null);
+    setDescription('');
+  };
+
   return (
     <section className={styles.customOrderSection}>
       <Container>
@@ -261,10 +293,42 @@ export const CustomOrderSection = () => {
           <div className={styles.flowStep}>
             <div className={styles.flowCard}>
               <div className={styles.stepIndicator}>Step 1 of 2</div>
-              <div className={styles.uploadArea} onClick={() => alert('Upload functionality coming soon!')}>
-                <UploadCloud className={styles.uploadIcon} size={32} strokeWidth={1.5} />
-                <span className={styles.uploadText}>Click to upload or drag & drop</span>
-                <span className={styles.uploadSubtext}>PNG, JPG or GIF (max. 5MB)</span>
+              <div 
+                className={`${styles.uploadArea} ${design ? styles.hasImage : ''}`} 
+                onClick={() => document.getElementById('home-design-upload')?.click()}
+                style={design ? { padding: 0, borderStyle: 'solid', borderWidth: '1px', borderColor: 'var(--color-brand-pink)', backgroundColor: '#fff', overflow: 'hidden' } : {}}
+              >
+                {design ? (
+                  <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                    <img 
+                      src={URL.createObjectURL(design)} 
+                      alt="Design preview" 
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '15px' }} 
+                    />
+                    <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '60px', background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%)', pointerEvents: 'none', borderBottomLeftRadius: '15px', borderBottomRightRadius: '15px' }}></div>
+                    <div style={{ position: 'absolute', bottom: '12px', left: 0, width: '100%', textAlign: 'center', fontSize: '0.8rem', color: 'white', fontWeight: 600, zIndex: 2, textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
+                      Click to change image
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <UploadCloud className={styles.uploadIcon} size={32} strokeWidth={1.5} />
+                    <span className={styles.uploadText}>Click to upload or drag & drop</span>
+                    <span className={styles.uploadSubtext}>PNG, JPG or GIF (max. 5MB)</span>
+                  </>
+                )}
+                <input 
+                  id="home-design-upload" 
+                  type="file" 
+                  accept="image/*" 
+                  style={{ display: 'none' }} 
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      setDesign(e.target.files[0]);
+                      setError('');
+                    }
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -279,10 +343,17 @@ export const CustomOrderSection = () => {
               <textarea 
                 className={styles.textArea} 
                 placeholder="E.g., It's for a baby shower. I need 2 dozen cake pops in pastel pink and white with vanilla flavor..."
+                value={description}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                  setError('');
+                }}
               />
 
+              {error && <span style={{ color: 'var(--color-error)', fontSize: '12px', marginTop: '8px', display: 'block' }}>{error}</span>}
+
               <div className={styles.stepNavTwo}>
-                <Button variant="primary" style={{ flex: 1, marginTop: '16px' }} onClick={() => { alert('Quote request submitted!'); }}>
+                <Button variant="primary" style={{ flex: 1, marginTop: '16px' }} onClick={handleInitialSubmit}>
                   Submit Request
                 </Button>
               </div>
@@ -290,6 +361,12 @@ export const CustomOrderSection = () => {
           </div>
         </div>
       </Container>
+      
+      <CustomOrderQuickModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleFinalSubmit}
+      />
     </section>
   )
 }

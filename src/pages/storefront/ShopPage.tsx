@@ -198,7 +198,10 @@ export function ShopPage() {
           />
         </div>
 
-
+        <ShopCategories 
+          activeCategory={activeCategory} 
+          onSelectCategory={handleSelectCategory} 
+        />
         
         <ShopToolbar 
           totalProducts={totalProductsCount}

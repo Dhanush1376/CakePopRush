@@ -296,7 +296,7 @@ export const MASCOT_EVENT_MAP: Record<EventKey, MascotTriggerEvent> = {
     alternatives: ['oops'],
   },
   'search:empty-query': {
-    emotion: 'emotionalCute',
+    emotion: 'winking',
     reason: 'SEARCH_EMPTY',
     priority: 'low',
     category: 'search',
@@ -314,7 +314,7 @@ export const MASCOT_EVENT_MAP: Record<EventKey, MascotTriggerEvent> = {
     silenceWeight: 0.8 // heavy debounce
   },
   'filter:zero-results': { 
-    emotion: 'sad', 
+    emotion: 'confused', 
     reason: 'FILTER_ZERO_RESULTS', 
     priority: 'medium', 
     category: 'filter', 
