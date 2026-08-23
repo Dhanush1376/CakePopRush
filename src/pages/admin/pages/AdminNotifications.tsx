@@ -7,6 +7,7 @@ import filterModalStyles from '@/features/admin/components/AdminFilterModal.modu
 import { ViewToggle } from '@/features/admin/components/ViewToggle'
 import styles from './AdminNotifications.module.css'
 import { AdminNotificationsSkeleton } from '@/features/admin/components/AdminNotificationsSkeleton';
+import { useAdminTableState } from '@/features/admin/hooks/useAdminTableState';
 
 import { adminNotificationData } from '@/features/admin/api/adminDataProvider'
 
@@ -40,9 +41,30 @@ export function AdminNotifications() {
   const [view, setView] = useState<'list' | 'grid'>(typeof window !== 'undefined' && window.innerWidth <= 768 ? 'grid' : 'list');
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('All Notifications');
-  const [typeFilter, setTypeFilter] = useState('all');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [channelFilter, setChannelFilter] = useState('all');
+  const [statsData, setStatsData] = useState<any[]>([]);
+  const [notificationsData, setNotificationsData] = useState<any[]>([]);
+  const {
+    searchTerm,
+    setSearchTerm,
+    activeFilters,
+    setFilter,
+    filteredData,
+    paginatedData,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    pageInfo,
+    resetAll
+  } = useAdminTableState({
+    data: notificationsData.filter(n => activeTab === 'All Notifications' || n.status === activeTab.replace('s', '') || n.status === activeTab),
+    searchFields: ['title', 'message'],
+    filterFns: {
+      type: (item, val) => item.type.toLowerCase() === val.toLowerCase(),
+      status: (item, val) => item.status.toLowerCase() === val.toLowerCase(),
+      channel: (item, val) => item.channels.includes(val.toLowerCase())
+    },
+    defaultPageSize: 10
+  });
 
   const defaultAdvFilters = { dateRange: 'all', performance: 'all' };
   const [isAdvFilterOpen, setIsAdvFilterOpen] = useState(false);
@@ -59,8 +81,7 @@ export function AdminNotifications() {
   const handleResetAdvFilters = () => {
     setDraftAdvFilters(defaultAdvFilters);
   };
-  const [statsData, setStatsData] = useState<any[]>([]);
-  const [notificationsData, setNotificationsData] = useState<any[]>([]);
+
 
   React.useEffect(() => {
     Promise.all([
@@ -96,28 +117,34 @@ export function AdminNotifications() {
         <div className={styles.toolbar}>
           <div className={styles.searchWrapper}>
             <Search size={16} className={styles.searchIcon} />
-            <input type="text" placeholder="Search notifications by title or message..." className={styles.searchInput} />
+            <input 
+              type="text" 
+              placeholder="Search notifications by title or message..." 
+              className={styles.searchInput} 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
   
           <div className={styles.filtersScrollContainer}>
             <CustomSelect
               options={typeOptions}
-              value={typeFilter}
-              onChange={setTypeFilter}
+              value={activeFilters.type || 'all'}
+              onChange={(val) => setFilter('type', val)}
               className={styles.filterSelect}
               variant="yellow"
             />
             <CustomSelect
               options={statusOptions}
-              value={statusFilter}
-              onChange={setStatusFilter}
+              value={activeFilters.status || 'all'}
+              onChange={(val) => setFilter('status', val)}
               className={styles.filterSelect}
               variant="pink"
             />
             <CustomSelect
               options={channelOptions}
-              value={channelFilter}
-              onChange={setChannelFilter}
+              value={activeFilters.channel || 'all'}
+              onChange={(val) => setFilter('channel', val)}
               className={styles.filterSelect}
               variant="turquoise"
             />
@@ -165,7 +192,10 @@ export function AdminNotifications() {
             <div 
               key={tab} 
               className={`${styles.tab} ${activeTab === tab ? styles.active : ''}`}
-              onClick={() => setActiveTab(tab)}
+              onClick={() => {
+                setActiveTab(tab);
+                setCurrentPage(1); // Reset page on tab change
+              }}
             >
               {tab}
             </div>
@@ -187,7 +217,27 @@ export function AdminNotifications() {
               </tr>
             </thead>
             <tbody>
-              {notificationsData.map((notif) => {
+              {filteredData.length === 0 ? (
+                <tr>
+                  <td colSpan={8} style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+                    {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                      <>
+                        <p>No notifications found matching your search or filters.</p>
+                        <button 
+                          className={styles.btnOutline} 
+                          style={{ margin: '16px auto 0' }}
+                          onClick={resetAll}
+                        >
+                          Clear Filters
+                        </button>
+                      </>
+                    ) : (
+                      <p>No notifications available.</p>
+                    )}
+                  </td>
+                </tr>
+              ) : (
+                paginatedData.map((notif) => {
                 const typeClass = styles[notif.type.toLowerCase()] || '';
                 const statusClass = styles[notif.status.toLowerCase()] || '';
                 
@@ -301,14 +351,33 @@ export function AdminNotifications() {
                     </td>
                   </tr>
                 )
-              })}
+              })
+            )}
             </tbody>
           </table>
         </div>
 
         {/* Mobile View */}
         <div className={styles.mobileCards} style={{ display: view === 'list' ? 'none' : '' }}>
-          {notificationsData.map((notif) => {
+          {filteredData.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+              {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                <>
+                  <p>No notifications found matching your search or filters.</p>
+                  <button 
+                    className={styles.btnOutline} 
+                    style={{ margin: '16px auto 0' }}
+                    onClick={resetAll}
+                  >
+                    Clear Filters
+                  </button>
+                </>
+              ) : (
+                <p>No notifications available.</p>
+              )}
+            </div>
+          ) : (
+            paginatedData.map((notif) => {
             const typeClass = styles[notif.type.toLowerCase()] || '';
             const statusClass = styles[notif.status.toLowerCase()] || '';
             
@@ -424,21 +493,44 @@ export function AdminNotifications() {
                 </div>
               </div>
             )
-          })}
+          })
+        )}
         </div>
 
-        <div className={styles.pagination}>
-          <div className={styles.paginationText}>Showing 1 to 6 of 128 notifications</div>
-          <div className={styles.pageControls}>
-            <button className={styles.pageBtn} aria-label="Previous page"><ChevronLeft size={16} /></button>
-            <button className={`${styles.pageBtn} ${styles.active}`}>1</button>
-            <button className={styles.pageBtn}>2</button>
-            <button className={styles.pageBtn}>3</button>
-            <span className={styles.pageEllipsis}>...</span>
-            <button className={styles.pageBtn}>22</button>
-            <button className={styles.pageBtn} aria-label="Next page"><ChevronRight size={16} /></button>
+        {totalPages > 0 && (
+          <div className={styles.pagination}>
+            <div className={styles.paginationText}>{pageInfo}</div>
+            <div className={styles.pageControls}>
+              <button 
+                className={styles.pageBtn} 
+                aria-label="Previous page"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              >
+                <ChevronLeft size={16} />
+              </button>
+              
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button 
+                  key={i}
+                  className={`${styles.pageBtn} ${currentPage === i + 1 ? styles.active : ''}`}
+                  onClick={() => setCurrentPage(i + 1)}
+                >
+                  {i + 1}
+                </button>
+              ))}
+
+              <button 
+                className={styles.pageBtn} 
+                aria-label="Next page"
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <AdminFilterModal

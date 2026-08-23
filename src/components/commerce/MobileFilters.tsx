@@ -4,10 +4,21 @@ import { X, Layers, Cookie, CakeSlice, IceCream, MapPin, RotateCcw, Gift, Heart,
 import styles from './MobileFilters.module.css'
 import { createPortal } from 'react-dom'
 
+export interface ShopFilters {
+  sort: string;
+  categories: string[];
+  maxPrice: number;
+  occasion: string;
+}
+
 interface MobileFiltersProps {
   isOpen: boolean
   onClose: () => void
   categories: any[]
+  initialFilters?: ShopFilters;
+  onApply?: (filters: ShopFilters) => void;
+  onReset?: () => void;
+  resultCount?: number;
 }
 
 const SORT_OPTIONS = [
@@ -30,11 +41,21 @@ const OCCASIONS = [
   { id: 'anniversary', label: 'Anniversaries', subtitle: 'Romantic & sweet', icon: PartyPopper },
 ]
 
-export const MobileFilters = ({ isOpen, onClose, categories }: MobileFiltersProps) => {
-  const [activeSort, setActiveSort] = useState('recommended')
-  const [activeCategories, setActiveCategories] = useState<string[]>(['all'])
-  const [maxPrice, setMaxPrice] = useState(250)
-  const [activeOccasion, setActiveOccasion] = useState('birthday')
+export const MobileFilters = ({ isOpen, onClose, categories, initialFilters, onApply, onReset, resultCount = 0 }: MobileFiltersProps) => {
+  const [activeSort, setActiveSort] = useState(initialFilters?.sort || 'recommended')
+  const [activeCategories, setActiveCategories] = useState<string[]>(initialFilters?.categories || ['all'])
+  const [maxPrice, setMaxPrice] = useState(initialFilters?.maxPrice || 250)
+  const [activeOccasion, setActiveOccasion] = useState(initialFilters?.occasion || 'birthday')
+
+  // Re-sync initial filters when drawer opens
+  React.useEffect(() => {
+    if (isOpen && initialFilters) {
+      setActiveSort(initialFilters.sort);
+      setActiveCategories(initialFilters.categories);
+      setMaxPrice(initialFilters.maxPrice);
+      setActiveOccasion(initialFilters.occasion);
+    }
+  }, [isOpen, initialFilters]);
 
   const toggleCategory = (id: string) => {
     if (id === 'all') {
@@ -85,11 +106,12 @@ export const MobileFilters = ({ isOpen, onClose, categories }: MobileFiltersProp
             <h2 className={styles.title}>Filters</h2>
             <div className={styles.headerRight}>
               <button className={styles.resetIconBtn} onClick={() => {
-              setActiveSort('recommended')
-              setActiveCategories(['all'])
-              setMaxPrice(250)
-              setActiveOccasion('birthday')
-            }} aria-label="Reset filters">
+                setActiveSort('recommended')
+                setActiveCategories(['all'])
+                setMaxPrice(250)
+                setActiveOccasion('birthday')
+                if (onReset) onReset();
+              }} aria-label="Reset filters">
                 <RotateCcw size={18} strokeWidth={2.5} />
                 <span>Reset</span>
               </button>
@@ -223,9 +245,14 @@ export const MobileFilters = ({ isOpen, onClose, categories }: MobileFiltersProp
 
           {/* Sticky Footer */}
           <div className={styles.footer}>
-            <button className={styles.applyButton} onClick={onClose}>
+            <button className={styles.applyButton} onClick={() => {
+              if (onApply) {
+                onApply({ sort: activeSort, categories: activeCategories, maxPrice, occasion: activeOccasion });
+              }
+              onClose();
+            }}>
               Apply Filters
-              <span className={styles.resultsBadge}>128 Results</span>
+              <span className={styles.resultsBadge}>{resultCount} Results</span>
             </button>
           </div>
         </motion.div>

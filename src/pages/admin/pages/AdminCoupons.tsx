@@ -9,6 +9,8 @@ import { AdminFilterModal } from '@/features/admin/components/AdminFilterModal'
 import filterModalStyles from '@/features/admin/components/AdminFilterModal.module.css'
 import { ViewToggle } from '@/features/admin/components/ViewToggle'
 import { AdminCouponsSkeleton } from '@/features/admin/components/AdminCouponsSkeleton';
+import { useAdminTableState } from '@/features/admin/hooks/useAdminTableState';
+import { exportToCSV } from '@/features/admin/utils/exportUtils';
 
 import { adminCouponData } from '@/features/admin/api/adminDataProvider'
 
@@ -39,9 +41,28 @@ export function AdminCoupons() {
   
   const [statsData, setStatsData] = React.useState<any[]>([]);
   const [coupons, setCoupons] = React.useState<any[]>([]);
-  const [statusFilter, setStatusFilter] = React.useState('all');
-  const [typeFilter, setTypeFilter] = React.useState('all');
-  const [expiryFilter, setExpiryFilter] = React.useState('all');
+  const {
+    searchTerm,
+    setSearchTerm,
+    activeFilters,
+    setFilter,
+    filteredData,
+    paginatedData,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    pageInfo,
+    resetAll
+  } = useAdminTableState({
+    data: coupons,
+    searchFields: ['code', 'name', 'description'],
+    filterFns: {
+      status: (item, val) => item.status.toLowerCase() === val.toLowerCase(),
+      type: (item, val) => item.type.toLowerCase() === val.toLowerCase(),
+      expiry: () => true // Mock expiry filter
+    },
+    defaultPageSize: 10
+  });
   const [view, setView] = React.useState<'list' | 'grid'>('list');
 
   const defaultAdvFilters = { minOrder: 'all', usageLimit: 'all' };
@@ -138,7 +159,12 @@ export function AdminCoupons() {
                   { value: 'inactive', label: 'Mark as Inactive' }
                 ]}
               />
-              <button className={styles.btnOutline} title="Export Selected" style={{ padding: '8px' }}>
+              <button 
+                className={styles.btnOutline} 
+                title="Export Selected" 
+                style={{ padding: '8px' }}
+                onClick={() => exportToCSV(coupons.filter(c => selectedItems.includes(c.id)), 'coupons-selected')}
+              >
                 <Download size={16} style={{ flexShrink: 0, minWidth: '16px' }} /> <span className={styles.hideMobile}>Export Selected</span>
               </button>
               <button className={styles.btnOutline} onClick={() => setSelectedItems([])} style={{ border: 'none', background: 'white', padding: '8px' }} title="Clear Selection">
@@ -162,28 +188,34 @@ export function AdminCoupons() {
           <div className={styles.toolbar}>
             <div className={styles.searchWrapper}>
               <Search size={16} className={styles.searchIcon} />
-              <input type="text" placeholder="Search coupons by code or name..." className={styles.searchInput} />
+              <input 
+                type="text" 
+                placeholder="Search coupons by code or name..." 
+                className={styles.searchInput} 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
             
             <div className={styles.filtersScrollContainer}>
               <CustomSelect
                 options={statusOptions}
-                value={statusFilter}
-                onChange={setStatusFilter}
+                value={activeFilters.status || 'all'}
+                onChange={(val) => setFilter('status', val)}
                 className={styles.filterSelect}
                 variant="yellow"
               />
               <CustomSelect
                 options={typeOptions}
-                value={typeFilter}
-                onChange={setTypeFilter}
+                value={activeFilters.type || 'all'}
+                onChange={(val) => setFilter('type', val)}
                 className={styles.filterSelect}
                 variant="pink"
               />
               <CustomSelect
                 options={expiryOptions}
-                value={expiryFilter}
-                onChange={setExpiryFilter}
+                value={activeFilters.expiry || 'all'}
+                onChange={(val) => setFilter('expiry', val)}
                 className={styles.filterSelect}
                 variant="turquoise"
               />
@@ -196,7 +228,10 @@ export function AdminCoupons() {
                 {activeFilterCount > 0 && <span className={styles.filterBadge}>{activeFilterCount}</span>}
               </button>
   
-              <button className={styles.btnOutline}>
+              <button 
+                className={styles.btnOutline}
+                onClick={() => exportToCSV(filteredData, 'coupons-export')}
+              >
                 <Download size={14} className={styles.btnIcon} />
                 <span className={styles.hideMobile}>Export</span>
               </button>
@@ -237,7 +272,7 @@ export function AdminCoupons() {
               <thead>
                 <tr>
                   <th style={{ width: '40px', padding: '10px 4px', textAlign: 'center' }}>
-                    <input type="checkbox" className={styles.checkbox} aria-label="Select all coupons" checked={selectedItems.length === coupons.length && coupons.length > 0} onChange={(e) => setSelectedItems(e.target.checked ? coupons.map(c => c.id) : [])} />
+                    <input type="checkbox" className={styles.checkbox} aria-label="Select all coupons" checked={selectedItems.length === paginatedData.length && paginatedData.length > 0} onChange={(e) => setSelectedItems(e.target.checked ? paginatedData.map(c => c.id) : [])} />
                   </th>
                   <th style={{ whiteSpace: 'nowrap' }}>COUPON CODE</th>
                   <th style={{ minWidth: '100px' }}>COUPON NAME</th>
@@ -251,7 +286,27 @@ export function AdminCoupons() {
                 </tr>
               </thead>
               <tbody>
-                {coupons.map((coupon) => {
+                {filteredData.length === 0 ? (
+                  <tr>
+                    <td colSpan={10} style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+                      {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                        <>
+                          <p>No coupons found matching your search or filters.</p>
+                          <button 
+                            className={styles.btnOutline} 
+                            style={{ margin: '16px auto 0' }}
+                            onClick={resetAll}
+                          >
+                            Clear Filters
+                          </button>
+                        </>
+                      ) : (
+                        <p>No coupons available.</p>
+                      )}
+                    </td>
+                  </tr>
+                ) : (
+                  paginatedData.map((coupon) => {
                   const typeClass = coupon.type === 'Percentage' ? styles.percentage : 
                                    coupon.type === 'Shipping' ? styles.shipping : styles.fixed;
                                    
@@ -335,7 +390,8 @@ export function AdminCoupons() {
                       </td>
                     </tr>
                   )
-                })}
+                })
+              )}
               </tbody>
             </table>
           </div>
@@ -343,7 +399,25 @@ export function AdminCoupons() {
 
         {view === 'grid' && (
           <div className={styles.itemsGrid}>
-            {coupons.map((coupon) => {
+            {filteredData.length === 0 ? (
+              <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+                {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                  <>
+                    <p>No coupons found matching your search or filters.</p>
+                    <button 
+                      className={styles.btnOutline} 
+                      style={{ margin: '16px auto 0' }}
+                      onClick={resetAll}
+                    >
+                      Clear Filters
+                    </button>
+                  </>
+                ) : (
+                  <p>No coupons available.</p>
+                )}
+              </div>
+            ) : (
+              paginatedData.map((coupon) => {
               const typeClass = coupon.type === 'Percentage' ? styles.percentage : 
                                coupon.type === 'Shipping' ? styles.shipping : styles.fixed;
                                
@@ -415,13 +489,32 @@ export function AdminCoupons() {
                   </div>
                 </div>
               )
-            })}
+            })
+          )}
           </div>
         )}
 
         {/* Mobile View */}
         <div className={styles.mobileCards} style={{ display: view === 'list' ? 'none' : '' }}>
-          {coupons.map((coupon) => {
+          {filteredData.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+              {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                <>
+                  <p>No coupons found matching your search or filters.</p>
+                  <button 
+                    className={styles.btnOutline} 
+                    style={{ margin: '16px auto 0' }}
+                    onClick={resetAll}
+                  >
+                    Clear Filters
+                  </button>
+                </>
+              ) : (
+                <p>No coupons available.</p>
+              )}
+            </div>
+          ) : (
+            paginatedData.map((coupon) => {
             const typeClass = coupon.type === 'Percentage' ? styles.percentage : 
                              coupon.type === 'Shipping' ? styles.shipping : styles.fixed;
                              
@@ -496,19 +589,42 @@ export function AdminCoupons() {
                 </div>
               </div>
             )
-          })}
+          })
+        )}
         </div>
 
-        <div className={styles.pagination}>
-          <span className={styles.pageInfo}>Showing 1 to 8 of 24 coupons</span>
-          <div className={styles.pageControls}>
-            <button className={styles.pageBtn}><ChevronLeft size={16} /></button>
-            <button className={`${styles.pageBtn} ${styles.active}`}>1</button>
-            <button className={styles.pageBtn}>2</button>
-            <button className={styles.pageBtn}>3</button>
-            <button className={styles.pageBtn}><ChevronRight size={16} /></button>
+        {totalPages > 0 && (
+          <div className={styles.pagination}>
+            <span className={styles.pageInfo}>{pageInfo}</span>
+            <div className={styles.pageControls}>
+              <button 
+                className={styles.pageBtn} 
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              >
+                <ChevronLeft size={16} />
+              </button>
+              
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button 
+                  key={i}
+                  className={`${styles.pageBtn} ${currentPage === i + 1 ? styles.active : ''}`}
+                  onClick={() => setCurrentPage(i + 1)}
+                >
+                  {i + 1}
+                </button>
+              ))}
+
+              <button 
+                className={styles.pageBtn} 
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
       
       {isConfirmModalOpen && createPortal(

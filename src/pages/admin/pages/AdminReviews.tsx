@@ -9,6 +9,7 @@ import { AdminFilterModal } from '@/features/admin/components/AdminFilterModal'
 import filterModalStyles from '@/features/admin/components/AdminFilterModal.module.css'
 import { ViewToggle } from '@/features/admin/components/ViewToggle'
 import { AdminReviewsSkeleton } from '@/features/admin/components/AdminReviewsSkeleton';
+import { useAdminTableState } from '@/features/admin/hooks/useAdminTableState';
 
 import { adminReviewData } from '@/features/admin/api/adminDataProvider'
 
@@ -82,10 +83,35 @@ export function AdminReviews() {
     });
   }, []);
 
-  const [productFilter, setProductFilter] = React.useState('all');
-  const [ratingFilter, setRatingFilter] = React.useState('all');
-  const [statusFilter, setStatusFilter] = React.useState('all');
-  const [dateFilter, setDateFilter] = React.useState('all');
+  const {
+    searchTerm,
+    setSearchTerm,
+    activeFilters,
+    setFilter,
+    filteredData,
+    paginatedData,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    pageInfo,
+    resetAll
+  } = useAdminTableState({
+    data: reviewsData,
+    searchFields: ['customer', 'text', 'product'],
+    filterFns: {
+      product: (item, val) => {
+        if (val === 'cakes') return item.category.toLowerCase().includes('cake') && !item.category.toLowerCase().includes('pop') && !item.category.toLowerCase().includes('cup');
+        if (val === 'cupcakes') return item.category.toLowerCase().includes('cupcake');
+        if (val === 'cakepops') return item.category.toLowerCase().includes('pop');
+        return true;
+      },
+      rating: (item, val) => item.rating >= parseInt(val, 10),
+      status: (item, val) => item.status.toLowerCase() === val.toLowerCase(),
+      date: () => true, // Mock date filtering
+    },
+    defaultPageSize: 10
+  });
+
   const [view, setView] = React.useState<'list' | 'grid'>('list');
 
   const defaultAdvFilters = { category: 'all', hasReply: 'all' };
@@ -179,35 +205,41 @@ export function AdminReviews() {
         <div className={styles.toolbar}>
           <div className={styles.searchWrapper}>
             <Search size={16} className={styles.searchIcon} />
-            <input type="text" placeholder="Search by customer, review text or product..." className={styles.searchInput} />
+            <input 
+              type="text" 
+              placeholder="Search by customer, review text or product..." 
+              className={styles.searchInput} 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
           
           <div className={styles.filtersScrollContainer}>
             <CustomSelect
-              options={productFilter === 'all' ? productOptions : productOptions}
-              value={productFilter}
-              onChange={setProductFilter}
+              options={productOptions}
+              value={activeFilters.product || 'all'}
+              onChange={(val) => setFilter('product', val)}
               className={styles.filterSelect}
               variant="yellow"
             />
             <CustomSelect
               options={ratingOptions}
-              value={ratingFilter}
-              onChange={setRatingFilter}
+              value={activeFilters.rating || 'all'}
+              onChange={(val) => setFilter('rating', val)}
               className={styles.filterSelect}
               variant="pink"
             />
             <CustomSelect
               options={statusOptions}
-              value={statusFilter}
-              onChange={setStatusFilter}
+              value={activeFilters.status || 'all'}
+              onChange={(val) => setFilter('status', val)}
               className={styles.filterSelect}
               variant="turquoise"
             />
             <CustomSelect
               options={dateOptions}
-              value={dateFilter}
-              onChange={setDateFilter}
+              value={activeFilters.date || 'all'}
+              onChange={(val) => setFilter('date', val)}
               className={styles.filterSelect}
               variant="yellow"
             />
@@ -259,7 +291,7 @@ export function AdminReviews() {
               <thead>
                 <tr>
                   <th className={styles.checkboxCell}>
-                    <input type="checkbox" className={styles.checkbox} aria-label="Select all reviews" checked={selectedItems.length === reviewsData.length && reviewsData.length > 0} onChange={(e) => setSelectedItems(e.target.checked ? reviewsData.map(r => r.id) : [])} />
+                    <input type="checkbox" className={styles.checkbox} aria-label="Select all reviews" checked={selectedItems.length === paginatedData.length && paginatedData.length > 0} onChange={(e) => setSelectedItems(e.target.checked ? paginatedData.map(r => r.id) : [])} />
                   </th>
                   <th>PRODUCT</th>
                   <th>REVIEW</th>
@@ -270,7 +302,27 @@ export function AdminReviews() {
                 </tr>
               </thead>
               <tbody>
-                {reviewsData.map((review) => {
+                {filteredData.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+                      {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                        <>
+                          <p>No reviews found matching your search or filters.</p>
+                          <button 
+                            className={styles.btnOutline} 
+                            style={{ margin: '16px auto 0' }}
+                            onClick={resetAll}
+                          >
+                            Clear Filters
+                          </button>
+                        </>
+                      ) : (
+                        <p>No reviews available.</p>
+                      )}
+                    </td>
+                  </tr>
+                ) : (
+                  paginatedData.map((review) => {
                   const statusClass = review.status === 'Approved' ? styles.approved : 
                                      review.status === 'Pending' ? styles.pending : styles.rejected;
 
@@ -339,7 +391,8 @@ export function AdminReviews() {
                       </td>
                     </tr>
                   )
-                })}
+                })
+              )}
               </tbody>
             </table>
           </div>
@@ -347,7 +400,25 @@ export function AdminReviews() {
 
         {view === 'grid' && (
           <div className={styles.itemsGrid}>
-            {reviewsData.map((review) => {
+            {filteredData.length === 0 ? (
+              <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+                {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                  <>
+                    <p>No reviews found matching your search or filters.</p>
+                    <button 
+                      className={styles.btnOutline} 
+                      style={{ margin: '16px auto 0' }}
+                      onClick={resetAll}
+                    >
+                      Clear Filters
+                    </button>
+                  </>
+                ) : (
+                  <p>No reviews available.</p>
+                )}
+              </div>
+            ) : (
+              paginatedData.map((review) => {
               const statusClass = review.status === 'Approved' ? styles.approved : 
                                  review.status === 'Pending' ? styles.pending : styles.rejected;
 
@@ -398,13 +469,32 @@ export function AdminReviews() {
                   </div>
                 </div>
               )
-            })}
+            })
+          )}
           </div>
         )}
 
         {/* Mobile View */}
         <div className={styles.mobileCards} style={{ display: view === 'list' ? 'none' : '' }}>
-          {reviewsData.map((review) => {
+          {filteredData.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+              {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                <>
+                  <p>No reviews found matching your search or filters.</p>
+                  <button 
+                    className={styles.btnOutline} 
+                    style={{ margin: '16px auto 0' }}
+                    onClick={resetAll}
+                  >
+                    Clear Filters
+                  </button>
+                </>
+              ) : (
+                <p>No reviews available.</p>
+              )}
+            </div>
+          ) : (
+            paginatedData.map((review) => {
               const statusClass = review.status === 'Approved' ? styles.approved : 
                                  review.status === 'Pending' ? styles.pending : styles.rejected;
 
@@ -469,21 +559,44 @@ export function AdminReviews() {
                 </div>
               </div>
             )
-          })}
+          })
+        )}
         </div>
 
-        <div className={styles.pagination}>
-          <div className={styles.paginationText}>Showing 1 to 7 of 1,248 reviews</div>
-          <div className={styles.pageControls}>
-            <button className={styles.pageBtn} aria-label="Previous page"><ChevronLeft size={16} /></button>
-            <button className={`${styles.pageBtn} ${styles.active}`}>1</button>
-            <button className={styles.pageBtn}>2</button>
-            <button className={styles.pageBtn}>3</button>
-            <span className={styles.pageEllipsis}>...</span>
-            <button className={styles.pageBtn}>179</button>
-            <button className={styles.pageBtn} aria-label="Next page"><ChevronRight size={16} /></button>
+        {totalPages > 0 && (
+          <div className={styles.pagination}>
+            <div className={styles.paginationText}>{pageInfo}</div>
+            <div className={styles.pageControls}>
+              <button 
+                className={styles.pageBtn} 
+                aria-label="Previous page"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              >
+                <ChevronLeft size={16} />
+              </button>
+              
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button 
+                  key={i}
+                  className={`${styles.pageBtn} ${currentPage === i + 1 ? styles.active : ''}`}
+                  onClick={() => setCurrentPage(i + 1)}
+                >
+                  {i + 1}
+                </button>
+              ))}
+
+              <button 
+                className={styles.pageBtn} 
+                aria-label="Next page"
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
     </div>
       
       {/* Review Details Modal */}

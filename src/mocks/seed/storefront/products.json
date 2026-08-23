@@ -22,60 +22,53 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Box of 4",
+        "pieces": 4,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
-        "pieces": 12,
+        "label": "Box of 8",
+        "pieces": 8,
         "priceModifier": 32000
+      },
+      {
+        "id": "q3",
+        "label": "Box of 12",
+        "pieces": 12,
+        "priceModifier": 64000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
+        "id": "gw",
+        "name": "Gift Wrap",
+        "price": 4900
       },
       {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "cmt",
+        "name": "Custom Message Tag",
+        "price": 2900
       }
     ],
     "occasions": [
       "Birthday",
-      "Anniversary",
       "Thank You",
+      "Festive",
       "Just Because"
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How long do cookies stay fresh?",
+        "answer": "Our cookies stay fresh for up to 5 days in an airtight container."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Can I warm them up?",
+        "answer": "Yes! Microwave for 5-10 seconds for that fresh-out-of-the-oven taste."
       }
     ],
     "id": "prod_1",
@@ -118,44 +111,37 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Box of 2",
+        "pieces": 2,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
-        "pieces": 12,
-        "priceModifier": 32000
+        "label": "Box of 4",
+        "pieces": 4,
+        "priceModifier": 40000
+      },
+      {
+        "id": "q3",
+        "label": "Box of 6",
+        "pieces": 6,
+        "priceModifier": 80000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
+        "id": "wp",
+        "name": "Warm & Serve Packaging",
+        "price": 2900
       },
       {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "gw",
+        "name": "Gift Wrap",
+        "price": 4900
       }
     ],
     "occasions": [
@@ -166,12 +152,12 @@
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How to store brownies?",
+        "answer": "Keep them in an airtight container at room temperature for up to 4 days."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Are these fudgy or cakey?",
+        "answer": "We specialize in rich, dense, and fudgy brownies!"
       }
     ],
     "id": "prod_2",
@@ -215,44 +201,37 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Box of 2",
+        "pieces": 2,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
-        "pieces": 12,
-        "priceModifier": 32000
+        "label": "Box of 4",
+        "pieces": 4,
+        "priceModifier": 40000
+      },
+      {
+        "id": "q3",
+        "label": "Box of 6",
+        "pieces": 6,
+        "priceModifier": 80000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
+        "id": "wp",
+        "name": "Warm & Serve Packaging",
+        "price": 2900
       },
       {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "gw",
+        "name": "Gift Wrap",
+        "price": 4900
       }
     ],
     "occasions": [
@@ -263,12 +242,12 @@
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How to store brownies?",
+        "answer": "Keep them in an airtight container at room temperature for up to 4 days."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Are these fudgy or cakey?",
+        "answer": "We specialize in rich, dense, and fudgy brownies!"
       }
     ],
     "id": "prod_3",
@@ -315,15 +294,21 @@
     "flavours": [
       {
         "id": "f1",
-        "name": "Chocolate",
+        "name": "Dark Chocolate",
         "priceModifier": 0,
         "colorHex": "#5B291A"
       },
       {
         "id": "f2",
-        "name": "Vanilla",
+        "name": "Milk Chocolate",
         "priceModifier": 0,
-        "colorHex": "#FFD8A3"
+        "colorHex": "#7B3F00"
+      },
+      {
+        "id": "f3",
+        "name": "White Chocolate",
+        "priceModifier": 0,
+        "colorHex": "#FDFBF7"
       }
     ],
     "quantities": [
@@ -338,16 +323,27 @@
         "label": "Party Box",
         "pieces": 12,
         "priceModifier": 32000
+      },
+      {
+        "id": "q3",
+        "label": "Celebration Box",
+        "pieces": 24,
+        "priceModifier": 70000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
+        "id": "driz",
         "name": "Chocolate Drizzle",
         "price": 4000
       },
       {
-        "id": "a2",
+        "id": "sprnk",
+        "name": "Rainbow Sprinkles",
+        "price": 3000
+      },
+      {
+        "id": "pkg",
         "name": "Premium Gift Packaging",
         "price": 9900
       }
@@ -355,17 +351,17 @@
     "occasions": [
       "Birthday",
       "Anniversary",
-      "Thank You",
-      "Just Because"
+      "Baby Shower",
+      "Thank You"
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "Do cake pops need refrigeration?",
+        "answer": "For best results, store in the fridge but bring to room temp before eating."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Can I order custom colors?",
+        "answer": "Yes, please reach out via our custom orders page!"
       }
     ],
     "id": "prod_4",
@@ -410,15 +406,21 @@
     "flavours": [
       {
         "id": "f1",
-        "name": "Chocolate",
+        "name": "Dark Chocolate",
         "priceModifier": 0,
         "colorHex": "#5B291A"
       },
       {
         "id": "f2",
-        "name": "Vanilla",
+        "name": "Milk Chocolate",
         "priceModifier": 0,
-        "colorHex": "#FFD8A3"
+        "colorHex": "#7B3F00"
+      },
+      {
+        "id": "f3",
+        "name": "White Chocolate",
+        "priceModifier": 0,
+        "colorHex": "#FDFBF7"
       }
     ],
     "quantities": [
@@ -433,16 +435,27 @@
         "label": "Party Box",
         "pieces": 12,
         "priceModifier": 32000
+      },
+      {
+        "id": "q3",
+        "label": "Celebration Box",
+        "pieces": 24,
+        "priceModifier": 70000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
+        "id": "driz",
         "name": "Chocolate Drizzle",
         "price": 4000
       },
       {
-        "id": "a2",
+        "id": "sprnk",
+        "name": "Rainbow Sprinkles",
+        "price": 3000
+      },
+      {
+        "id": "pkg",
         "name": "Premium Gift Packaging",
         "price": 9900
       }
@@ -450,17 +463,17 @@
     "occasions": [
       "Birthday",
       "Anniversary",
-      "Thank You",
-      "Just Because"
+      "Baby Shower",
+      "Thank You"
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "Do cake pops need refrigeration?",
+        "answer": "For best results, store in the fridge but bring to room temp before eating."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Can I order custom colors?",
+        "answer": "Yes, please reach out via our custom orders page!"
       }
     ],
     "id": "prod_5",
@@ -503,60 +516,53 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Box of 4",
+        "pieces": 4,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
-        "pieces": 12,
+        "label": "Box of 8",
+        "pieces": 8,
         "priceModifier": 32000
+      },
+      {
+        "id": "q3",
+        "label": "Box of 12",
+        "pieces": 12,
+        "priceModifier": 64000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
+        "id": "gw",
+        "name": "Gift Wrap",
+        "price": 4900
       },
       {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "cmt",
+        "name": "Custom Message Tag",
+        "price": 2900
       }
     ],
     "occasions": [
       "Birthday",
-      "Anniversary",
       "Thank You",
+      "Festive",
       "Just Because"
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How long do cookies stay fresh?",
+        "answer": "Our cookies stay fresh for up to 5 days in an airtight container."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Can I warm them up?",
+        "answer": "Yes! Microwave for 5-10 seconds for that fresh-out-of-the-oven taste."
       }
     ],
     "id": "prod_6",
@@ -602,15 +608,21 @@
     "flavours": [
       {
         "id": "f1",
-        "name": "Chocolate",
+        "name": "Dark Chocolate",
         "priceModifier": 0,
         "colorHex": "#5B291A"
       },
       {
         "id": "f2",
-        "name": "Vanilla",
+        "name": "Milk Chocolate",
         "priceModifier": 0,
-        "colorHex": "#FFD8A3"
+        "colorHex": "#7B3F00"
+      },
+      {
+        "id": "f3",
+        "name": "White Chocolate",
+        "priceModifier": 0,
+        "colorHex": "#FDFBF7"
       }
     ],
     "quantities": [
@@ -625,16 +637,27 @@
         "label": "Party Box",
         "pieces": 12,
         "priceModifier": 32000
+      },
+      {
+        "id": "q3",
+        "label": "Celebration Box",
+        "pieces": 24,
+        "priceModifier": 70000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
+        "id": "driz",
         "name": "Chocolate Drizzle",
         "price": 4000
       },
       {
-        "id": "a2",
+        "id": "sprnk",
+        "name": "Rainbow Sprinkles",
+        "price": 3000
+      },
+      {
+        "id": "pkg",
         "name": "Premium Gift Packaging",
         "price": 9900
       }
@@ -642,17 +665,17 @@
     "occasions": [
       "Birthday",
       "Anniversary",
-      "Thank You",
-      "Just Because"
+      "Baby Shower",
+      "Thank You"
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "Do cake pops need refrigeration?",
+        "answer": "For best results, store in the fridge but bring to room temp before eating."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Can I order custom colors?",
+        "answer": "Yes, please reach out via our custom orders page!"
       }
     ],
     "id": "prod_7",
@@ -694,60 +717,53 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Box of 4",
+        "pieces": 4,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
-        "pieces": 12,
+        "label": "Box of 8",
+        "pieces": 8,
         "priceModifier": 32000
+      },
+      {
+        "id": "q3",
+        "label": "Box of 12",
+        "pieces": 12,
+        "priceModifier": 64000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
+        "id": "gw",
+        "name": "Gift Wrap",
+        "price": 4900
       },
       {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "cmt",
+        "name": "Custom Message Tag",
+        "price": 2900
       }
     ],
     "occasions": [
       "Birthday",
-      "Anniversary",
       "Thank You",
+      "Festive",
       "Just Because"
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How long do cookies stay fresh?",
+        "answer": "Our cookies stay fresh for up to 5 days in an airtight container."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Can I warm them up?",
+        "answer": "Yes! Microwave for 5-10 seconds for that fresh-out-of-the-oven taste."
       }
     ],
     "id": "prod_8",
@@ -789,60 +805,53 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Box of 4",
+        "pieces": 4,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
-        "pieces": 12,
+        "label": "Box of 8",
+        "pieces": 8,
         "priceModifier": 32000
+      },
+      {
+        "id": "q3",
+        "label": "Box of 12",
+        "pieces": 12,
+        "priceModifier": 64000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
+        "id": "gw",
+        "name": "Gift Wrap",
+        "price": 4900
       },
       {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "cmt",
+        "name": "Custom Message Tag",
+        "price": 2900
       }
     ],
     "occasions": [
       "Birthday",
-      "Anniversary",
       "Thank You",
+      "Festive",
       "Just Because"
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How long do cookies stay fresh?",
+        "answer": "Our cookies stay fresh for up to 5 days in an airtight container."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Can I warm them up?",
+        "answer": "Yes! Microwave for 5-10 seconds for that fresh-out-of-the-oven taste."
       }
     ],
     "id": "prod_9",
@@ -887,15 +896,21 @@
     "flavours": [
       {
         "id": "f1",
-        "name": "Chocolate",
+        "name": "Dark Chocolate",
         "priceModifier": 0,
         "colorHex": "#5B291A"
       },
       {
         "id": "f2",
-        "name": "Vanilla",
+        "name": "Milk Chocolate",
         "priceModifier": 0,
-        "colorHex": "#FFD8A3"
+        "colorHex": "#7B3F00"
+      },
+      {
+        "id": "f3",
+        "name": "White Chocolate",
+        "priceModifier": 0,
+        "colorHex": "#FDFBF7"
       }
     ],
     "quantities": [
@@ -910,16 +925,27 @@
         "label": "Party Box",
         "pieces": 12,
         "priceModifier": 32000
+      },
+      {
+        "id": "q3",
+        "label": "Celebration Box",
+        "pieces": 24,
+        "priceModifier": 70000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
+        "id": "driz",
         "name": "Chocolate Drizzle",
         "price": 4000
       },
       {
-        "id": "a2",
+        "id": "sprnk",
+        "name": "Rainbow Sprinkles",
+        "price": 3000
+      },
+      {
+        "id": "pkg",
         "name": "Premium Gift Packaging",
         "price": 9900
       }
@@ -927,17 +953,17 @@
     "occasions": [
       "Birthday",
       "Anniversary",
-      "Thank You",
-      "Just Because"
+      "Baby Shower",
+      "Thank You"
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "Do cake pops need refrigeration?",
+        "answer": "For best results, store in the fridge but bring to room temp before eating."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Can I order custom colors?",
+        "answer": "Yes, please reach out via our custom orders page!"
       }
     ],
     "id": "prod_10",
@@ -979,60 +1005,53 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Box of 4",
+        "pieces": 4,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
-        "pieces": 12,
+        "label": "Box of 8",
+        "pieces": 8,
         "priceModifier": 32000
+      },
+      {
+        "id": "q3",
+        "label": "Box of 12",
+        "pieces": 12,
+        "priceModifier": 64000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
+        "id": "gw",
+        "name": "Gift Wrap",
+        "price": 4900
       },
       {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "cmt",
+        "name": "Custom Message Tag",
+        "price": 2900
       }
     ],
     "occasions": [
       "Birthday",
-      "Anniversary",
       "Thank You",
+      "Festive",
       "Just Because"
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How long do cookies stay fresh?",
+        "answer": "Our cookies stay fresh for up to 5 days in an airtight container."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Can I warm them up?",
+        "answer": "Yes! Microwave for 5-10 seconds for that fresh-out-of-the-oven taste."
       }
     ],
     "id": "prod_11",
@@ -1075,44 +1094,42 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Box of 4",
+        "pieces": 4,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
+        "label": "Box of 6",
+        "pieces": 6,
+        "priceModifier": 28000
+      },
+      {
+        "id": "q3",
+        "label": "Box of 12",
         "pieces": 12,
-        "priceModifier": 32000
+        "priceModifier": 60000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
+        "id": "sprnk",
+        "name": "Sprinkles",
+        "price": 2000
       },
       {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "top",
+        "name": "Edible Topper",
+        "price": 4900
+      },
+      {
+        "id": "gb",
+        "name": "Gift Box",
+        "price": 6900
       }
     ],
     "occasions": [
@@ -1123,12 +1140,12 @@
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How long do they last?",
+        "answer": "Best enjoyed within 2 days. Store in an airtight container."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Can I mix flavors in a box?",
+        "answer": "Our standard boxes come in a single flavor, but check out our assorted boxes!"
       }
     ],
     "id": "prod_12",
@@ -1171,44 +1188,42 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Box of 4",
+        "pieces": 4,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
+        "label": "Box of 6",
+        "pieces": 6,
+        "priceModifier": 28000
+      },
+      {
+        "id": "q3",
+        "label": "Box of 12",
         "pieces": 12,
-        "priceModifier": 32000
+        "priceModifier": 60000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
+        "id": "sprnk",
+        "name": "Sprinkles",
+        "price": 2000
       },
       {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "top",
+        "name": "Edible Topper",
+        "price": 4900
+      },
+      {
+        "id": "gb",
+        "name": "Gift Box",
+        "price": 6900
       }
     ],
     "occasions": [
@@ -1219,12 +1234,12 @@
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How long do they last?",
+        "answer": "Best enjoyed within 2 days. Store in an airtight container."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Can I mix flavors in a box?",
+        "answer": "Our standard boxes come in a single flavor, but check out our assorted boxes!"
       }
     ],
     "id": "prod_13",
@@ -1266,44 +1281,37 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Box of 2",
+        "pieces": 2,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
-        "pieces": 12,
-        "priceModifier": 32000
+        "label": "Box of 4",
+        "pieces": 4,
+        "priceModifier": 40000
+      },
+      {
+        "id": "q3",
+        "label": "Box of 6",
+        "pieces": 6,
+        "priceModifier": 80000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
+        "id": "wp",
+        "name": "Warm & Serve Packaging",
+        "price": 2900
       },
       {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "gw",
+        "name": "Gift Wrap",
+        "price": 4900
       }
     ],
     "occasions": [
@@ -1314,12 +1322,12 @@
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How to store brownies?",
+        "answer": "Keep them in an airtight container at room temperature for up to 4 days."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Are these fudgy or cakey?",
+        "answer": "We specialize in rich, dense, and fudgy brownies!"
       }
     ],
     "id": "prod_14",
@@ -1361,44 +1369,37 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Box of 2",
+        "pieces": 2,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
-        "pieces": 12,
-        "priceModifier": 32000
+        "label": "Box of 4",
+        "pieces": 4,
+        "priceModifier": 40000
+      },
+      {
+        "id": "q3",
+        "label": "Box of 6",
+        "pieces": 6,
+        "priceModifier": 80000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
+        "id": "wp",
+        "name": "Warm & Serve Packaging",
+        "price": 2900
       },
       {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "gw",
+        "name": "Gift Wrap",
+        "price": 4900
       }
     ],
     "occasions": [
@@ -1409,12 +1410,12 @@
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How to store brownies?",
+        "answer": "Keep them in an airtight container at room temperature for up to 4 days."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Are these fudgy or cakey?",
+        "answer": "We specialize in rich, dense, and fudgy brownies!"
       }
     ],
     "id": "prod_15",
@@ -1457,60 +1458,41 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Single",
+        "pieces": 1,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
-        "pieces": 12,
-        "priceModifier": 32000
+        "label": "Set of 2",
+        "pieces": 2,
+        "priceModifier": 35000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
-      },
-      {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "gw",
+        "name": "Gift Wrap",
+        "price": 4900
       }
     ],
     "occasions": [
       "Birthday",
-      "Anniversary",
       "Thank You",
       "Just Because"
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How to serve?",
+        "answer": "Instructions are included with each specific dessert."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Contains nuts?",
+        "answer": "Check the allergens list. We do process nuts in our facility."
       }
     ],
     "id": "prod_16",
@@ -1561,57 +1543,74 @@
       },
       {
         "id": "f2",
+        "name": "Red Velvet",
+        "priceModifier": 0,
+        "colorHex": "#8B0000"
+      },
+      {
+        "id": "f3",
         "name": "Vanilla",
         "priceModifier": 0,
-        "colorHex": "#FFD8A3"
+        "colorHex": "#FDFBF7"
       }
     ],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Mini 0.5kg",
+        "pieces": 1,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
-        "pieces": 12,
-        "priceModifier": 32000
+        "label": "Regular 1kg",
+        "pieces": 1,
+        "priceModifier": 80000
+      },
+      {
+        "id": "q3",
+        "label": "Large 1.5kg",
+        "pieces": 1,
+        "priceModifier": 160000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
+        "id": "fondant",
+        "name": "Fondant Topper",
+        "price": 19900
       },
       {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "plaque",
+        "name": "Message Plaque",
+        "price": 7900
+      },
+      {
+        "id": "candles",
+        "name": "Candles Set",
+        "price": 4900
       }
     ],
     "occasions": [
       "Birthday",
       "Anniversary",
-      "Thank You",
-      "Just Because"
+      "Wedding",
+      "Graduation"
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How much notice do you need?",
+        "answer": "We require 24 hours notice for standard cakes."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Can you write a message?",
+        "answer": "Yes! Add a message plaque to your order."
       }
     ],
     "id": "prod_17",
     "slug": "mini-valentine-cake",
     "name": "Mini Valentine Cake",
-    "categoryName": "Birthday Cakes",
+    "categoryName": "Cakes",
     "images": [
       {
         "id": "img_17",
@@ -1648,60 +1647,41 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Single",
+        "pieces": 1,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
-        "pieces": 12,
-        "priceModifier": 32000
+        "label": "Set of 2",
+        "pieces": 2,
+        "priceModifier": 35000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
-      },
-      {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "gw",
+        "name": "Gift Wrap",
+        "price": 4900
       }
     ],
     "occasions": [
       "Birthday",
-      "Anniversary",
       "Thank You",
       "Just Because"
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How to serve?",
+        "answer": "Instructions are included with each specific dessert."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Contains nuts?",
+        "answer": "Check the allergens list. We do process nuts in our facility."
       }
     ],
     "id": "prod_18",
@@ -1743,60 +1723,41 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Single",
+        "pieces": 1,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
-        "pieces": 12,
-        "priceModifier": 32000
+        "label": "Set of 2",
+        "pieces": 2,
+        "priceModifier": 35000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
-      },
-      {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "gw",
+        "name": "Gift Wrap",
+        "price": 4900
       }
     ],
     "occasions": [
       "Birthday",
-      "Anniversary",
       "Thank You",
       "Just Because"
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How to serve?",
+        "answer": "Instructions are included with each specific dessert."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Contains nuts?",
+        "answer": "Check the allergens list. We do process nuts in our facility."
       }
     ],
     "id": "prod_19",
@@ -1839,44 +1800,42 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Box of 4",
+        "pieces": 4,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
+        "label": "Box of 6",
+        "pieces": 6,
+        "priceModifier": 28000
+      },
+      {
+        "id": "q3",
+        "label": "Box of 12",
         "pieces": 12,
-        "priceModifier": 32000
+        "priceModifier": 60000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
+        "id": "sprnk",
+        "name": "Sprinkles",
+        "price": 2000
       },
       {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "top",
+        "name": "Edible Topper",
+        "price": 4900
+      },
+      {
+        "id": "gb",
+        "name": "Gift Box",
+        "price": 6900
       }
     ],
     "occasions": [
@@ -1887,12 +1846,12 @@
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How long do they last?",
+        "answer": "Best enjoyed within 2 days. Store in an airtight container."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Can I mix flavors in a box?",
+        "answer": "Our standard boxes come in a single flavor, but check out our assorted boxes!"
       }
     ],
     "id": "prod_20",
@@ -1934,60 +1893,53 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Box of 4",
+        "pieces": 4,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
-        "pieces": 12,
+        "label": "Box of 8",
+        "pieces": 8,
         "priceModifier": 32000
+      },
+      {
+        "id": "q3",
+        "label": "Box of 12",
+        "pieces": 12,
+        "priceModifier": 64000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
+        "id": "gw",
+        "name": "Gift Wrap",
+        "price": 4900
       },
       {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "cmt",
+        "name": "Custom Message Tag",
+        "price": 2900
       }
     ],
     "occasions": [
       "Birthday",
-      "Anniversary",
       "Thank You",
+      "Festive",
       "Just Because"
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How long do cookies stay fresh?",
+        "answer": "Our cookies stay fresh for up to 5 days in an airtight container."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Can I warm them up?",
+        "answer": "Yes! Microwave for 5-10 seconds for that fresh-out-of-the-oven taste."
       }
     ],
     "id": "prod_21",
@@ -2029,44 +1981,42 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Box of 4",
+        "pieces": 4,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
+        "label": "Box of 6",
+        "pieces": 6,
+        "priceModifier": 28000
+      },
+      {
+        "id": "q3",
+        "label": "Box of 12",
         "pieces": 12,
-        "priceModifier": 32000
+        "priceModifier": 60000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
+        "id": "sprnk",
+        "name": "Sprinkles",
+        "price": 2000
       },
       {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "top",
+        "name": "Edible Topper",
+        "price": 4900
+      },
+      {
+        "id": "gb",
+        "name": "Gift Box",
+        "price": 6900
       }
     ],
     "occasions": [
@@ -2077,12 +2027,12 @@
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How long do they last?",
+        "answer": "Best enjoyed within 2 days. Store in an airtight container."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Can I mix flavors in a box?",
+        "answer": "Our standard boxes come in a single flavor, but check out our assorted boxes!"
       }
     ],
     "id": "prod_22",
@@ -2125,60 +2075,42 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
+        "label": "Box of 6",
         "pieces": 6,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
+        "label": "Box of 12",
         "pieces": 12,
-        "priceModifier": 32000
+        "priceModifier": 80000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
-      },
-      {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "gbup",
+        "name": "Gift Box Upgrade",
+        "price": 7900
       }
     ],
     "occasions": [
       "Birthday",
       "Anniversary",
-      "Thank You",
-      "Just Because"
+      "Wedding",
+      "Thank You"
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "Are these gluten-free?",
+        "answer": "Yes, our macarons are naturally gluten-free as they are made with almond flour."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Storage instructions?",
+        "answer": "Refrigerate in an airtight container for up to 4 days."
       }
     ],
     "id": "prod_23",
@@ -2220,60 +2152,46 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Single Jar",
+        "pieces": 1,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
-        "pieces": 12,
-        "priceModifier": 32000
+        "label": "Set of 2",
+        "pieces": 2,
+        "priceModifier": 45000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
+        "id": "spoon",
+        "name": "Spoon Set",
+        "price": 1900
       },
       {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
-        "price": 9900
+        "id": "gw",
+        "name": "Gift Wrap",
+        "price": 4900
       }
     ],
     "occasions": [
       "Birthday",
-      "Anniversary",
       "Thank You",
       "Just Because"
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "How long do they last?",
+        "answer": "Up to 5 days in the refrigerator."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Are the jars reusable?",
+        "answer": "Yes! Our glass jars are fully washable and reusable."
       }
     ],
     "id": "prod_24",
@@ -2315,60 +2233,60 @@
     "shelfLife": "3 days",
     "storage": "Refrigerate after delivery. Best consumed at room temperature.",
     "deliveryInfo": "Freshly made and delivered within 24-48 hours. Carefully packed to ensure perfect condition upon arrival.",
-    "flavours": [
-      {
-        "id": "f1",
-        "name": "Chocolate",
-        "priceModifier": 0,
-        "colorHex": "#5B291A"
-      },
-      {
-        "id": "f2",
-        "name": "Vanilla",
-        "priceModifier": 0,
-        "colorHex": "#FFD8A3"
-      }
-    ],
+    "flavours": [],
     "quantities": [
       {
         "id": "q1",
-        "label": "Regular Box",
-        "pieces": 6,
+        "label": "Classic 6 items",
+        "pieces": 1,
         "priceModifier": 0
       },
       {
         "id": "q2",
-        "label": "Party Box",
-        "pieces": 12,
-        "priceModifier": 32000
+        "label": "Premium 12 items",
+        "pieces": 1,
+        "priceModifier": 150000
+      },
+      {
+        "id": "q3",
+        "label": "Grand 18 items",
+        "pieces": 1,
+        "priceModifier": 300000
       }
     ],
     "addOns": [
       {
-        "id": "a1",
-        "name": "Chocolate Drizzle",
-        "price": 4000
+        "id": "ribbon",
+        "name": "Custom Ribbon",
+        "price": 3900
       },
       {
-        "id": "a2",
-        "name": "Premium Gift Packaging",
+        "id": "note",
+        "name": "Personal Note Card",
+        "price": 2900
+      },
+      {
+        "id": "outer",
+        "name": "Premium Outer Box",
         "price": 9900
       }
     ],
     "occasions": [
       "Birthday",
       "Anniversary",
+      "Wedding",
       "Thank You",
-      "Just Because"
+      "Festive",
+      "Corporate"
     ],
     "faqs": [
       {
-        "question": "How long does delivery take?",
-        "answer": "We typically deliver within 24-48 hours depending on your pincode."
+        "question": "Can I customize the contents?",
+        "answer": "Currently, gift boxes come with a pre-set assorted selection of our bestsellers."
       },
       {
-        "question": "Are these eggless?",
-        "answer": "We offer both egg-based and eggless variants. You can select your preference during customization."
+        "question": "Do you do corporate orders?",
+        "answer": "Yes, we handle large corporate gifting. Visit our custom orders page!"
       }
     ],
     "id": "prod_25",

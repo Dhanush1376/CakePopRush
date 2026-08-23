@@ -14,6 +14,9 @@ import filterModalStyles from '@/features/admin/components/AdminFilterModal.modu
 import { AdminOrdersSkeleton } from '@/features/admin/components/AdminOrdersSkeleton'
 import { InvoiceViewer } from '@/components/invoice/InvoiceViewer'
 import { mapOrderToInvoiceData } from '@/lib/invoiceMapper'
+import { useAdminTableState } from '@/features/admin/hooks/useAdminTableState'
+import { exportToCSV } from '@/features/admin/utils/exportUtils'
+
 
 const statusOptions = [
   { value: 'all', label: 'All Status' },
@@ -84,9 +87,35 @@ export function AdminOrders() {
     window.addEventListener('resize', checkView);
     return () => window.removeEventListener('resize', checkView);
   }, []);
-  const [statusFilter, setStatusFilter] = React.useState('all');
-  const [paymentFilter, setPaymentFilter] = React.useState('all');
-  const [dateFilter, setDateFilter] = React.useState('7days');
+  const {
+    searchTerm,
+    setSearchTerm,
+    activeFilters,
+    setFilter,
+    filteredData,
+    paginatedData,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    pageInfo,
+    resetAll
+  } = useAdminTableState({
+    data: ordersData,
+    searchFields: ['id', 'customer', 'email'],
+    filterFns: {
+      status: (item, val) => item.status.toLowerCase() === val.toLowerCase(),
+      paymentStatus: (item, val) => {
+        const itemPayment = item.method.toLowerCase();
+        if (val === 'online') return itemPayment !== 'cod'; // mock mapping
+        if (val === 'cod') return itemPayment === 'cod';
+        if (val === 'upi') return itemPayment === 'upi';
+        return true;
+      },
+      // date is harder to mock without real dates, we'll just return true for demo
+      date: () => true,
+    },
+    defaultPageSize: 10
+  });
 
   const defaultAdvFilters = { paymentStatus: 'all', items: 'all', amount: 'all' };
   const [isAdvFilterOpen, setIsAdvFilterOpen] = React.useState(false);
@@ -160,7 +189,12 @@ export function AdminOrders() {
                 { value: 'delivered', label: 'Mark as Delivered' }
               ]}
             />
-            <button className={styles.btnOutline} title="Export Selected" style={{ padding: '8px' }}>
+            <button 
+              className={styles.btnOutline} 
+              title="Export Selected" 
+              style={{ padding: '8px' }}
+              onClick={() => exportToCSV(ordersData.filter(o => selectedOrders.includes(o.id)), 'orders-selected')}
+            >
               <Download size={16} style={{ flexShrink: 0, minWidth: '16px' }} /> <span className={styles.hideMobile}>Export Selected</span>
             </button>
             <button className={styles.btnOutline} onClick={() => setSelectedOrders([])} style={{ border: 'none', background: 'white', padding: '8px' }} title="Clear Selection">
@@ -184,28 +218,34 @@ export function AdminOrders() {
         <div className={styles.toolbar}>
           <div className={styles.searchWrapper}>
             <Search size={16} className={styles.searchIcon} />
-            <input type="text" placeholder="Search orders..." className={styles.searchInput} />
+            <input 
+              type="text" 
+              placeholder="Search orders..." 
+              className={styles.searchInput} 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
 
           <div className={styles.filtersScrollContainer}>
             <CustomSelect
               options={statusOptions}
-              value={statusFilter}
-              onChange={setStatusFilter}
+              value={activeFilters.status || 'all'}
+              onChange={(val) => setFilter('status', val)}
               className={styles.filterSelect}
               variant="yellow"
             />
             <CustomSelect
               options={paymentOptions}
-              value={paymentFilter}
-              onChange={setPaymentFilter}
+              value={activeFilters.paymentStatus || 'all'}
+              onChange={(val) => setFilter('paymentStatus', val)}
               className={styles.filterSelect}
               variant="pink"
             />
             <CustomSelect
               options={dateOptions}
-              value={dateFilter}
-              onChange={setDateFilter}
+              value={activeFilters.date || '7days'}
+              onChange={(val) => setFilter('date', val)}
               className={styles.filterSelect}
               variant="turquoise"
             />
@@ -216,7 +256,11 @@ export function AdminOrders() {
               <Filter className={styles.btnIcon} /> <span className={styles.hideMobile}>Filter</span>
               {activeFilterCount > 0 && <span className={styles.filterBadge}>{activeFilterCount}</span>}
             </button>
-            <button className={styles.btnOutline} title="Export">
+            <button 
+              className={styles.btnOutline} 
+              title="Export"
+              onClick={() => exportToCSV(filteredData, 'orders-export')}
+            >
               <Download className={styles.btnIcon} /> <span className={styles.hideMobile}>Export</span>
             </button>
             <div style={{ flexShrink: 0 }}>
@@ -256,8 +300,8 @@ export function AdminOrders() {
                   <input 
                     type="checkbox" 
                     className={styles.checkbox}
-                    checked={selectedOrders.length === ordersData.length && ordersData.length > 0}
-                    onChange={(e) => setSelectedOrders(e.target.checked ? ordersData.map(o => o.id) : [])}
+                    checked={selectedOrders.length === paginatedData.length && paginatedData.length > 0}
+                    onChange={(e) => setSelectedOrders(e.target.checked ? paginatedData.map(o => o.id) : [])}
                   />
                 </th>
                 <th>ORDER ID</th>
@@ -270,7 +314,27 @@ export function AdminOrders() {
               </tr>
             </thead>
             <tbody>
-              {ordersData.map((order, idx) => (
+              {filteredData.length === 0 ? (
+                <tr>
+                  <td colSpan={8} style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+                    {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                      <>
+                        <p>No orders found matching your search or filters.</p>
+                        <button 
+                          className={styles.btnOutline} 
+                          style={{ margin: '16px auto 0' }}
+                          onClick={resetAll}
+                        >
+                          Clear Filters
+                        </button>
+                      </>
+                    ) : (
+                      <p>No orders available.</p>
+                    )}
+                  </td>
+                </tr>
+              ) : (
+                paginatedData.map((order, idx) => (
                 <tr key={idx}>
                   <td style={{ textAlign: 'center' }}>
                     <input 
@@ -347,7 +411,8 @@ export function AdminOrders() {
                     </div>
                   </td>
                 </tr>
-              ))}
+              ))
+            )}
             </tbody>
           </table>
         </div>
@@ -359,15 +424,33 @@ export function AdminOrders() {
             <input 
               type="checkbox" 
               className={styles.checkbox}
-              checked={selectedOrders.length === ordersData.length && ordersData.length > 0}
-              onChange={(e) => setSelectedOrders(e.target.checked ? ordersData.map(o => o.id) : [])}
+              checked={selectedOrders.length === paginatedData.length && paginatedData.length > 0}
+              onChange={(e) => setSelectedOrders(e.target.checked ? paginatedData.map(o => o.id) : [])}
             />
             Select All Orders
           </label>
         </div>
         
         <div className={styles.ordersGrid} style={{ display: view === 'list' ? 'none' : '' }}>
-          {ordersData.map((order, idx) => (
+          {filteredData.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+              {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                <>
+                  <p>No orders found matching your search or filters.</p>
+                  <button 
+                    className={styles.btnOutline} 
+                    style={{ margin: '16px auto 0' }}
+                    onClick={resetAll}
+                  >
+                    Clear Filters
+                  </button>
+                </>
+              ) : (
+                <p>No orders available.</p>
+              )}
+            </div>
+          ) : (
+            paginatedData.map((order, idx) => (
             <div key={`grid-${order.id}-${idx}`} className={styles.orderCard}>
               <div className={styles.mcHeader}>
                 <div className={styles.customerCell}>
@@ -445,21 +528,42 @@ export function AdminOrders() {
                 )}
               </div>
             </div>
-          ))}
+          ))
+        )}
         </div>
         
-        <div className={styles.pagination}>
-          <span className={styles.pageText}>Showing 1 to 7 of 1,248 orders</span>
-          <div className={styles.pageControls}>
-            <button className={styles.pageBtn} disabled><ChevronLeft size={16} /></button>
-            <button className={`${styles.pageBtn} ${styles.active}`}>1</button>
-            <button className={styles.pageBtn}>2</button>
-            <button className={styles.pageBtn}>3</button>
-            <span className={styles.pageDots}>...</span>
-            <button className={styles.pageBtn}>178</button>
-            <button className={styles.pageBtn}><ChevronRight size={16} /></button>
+        {totalPages > 0 && (
+          <div className={styles.pagination}>
+            <span className={styles.pageText}>{pageInfo}</span>
+            <div className={styles.pageControls}>
+              <button 
+                className={styles.pageBtn} 
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              >
+                <ChevronLeft size={16} />
+              </button>
+              
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button 
+                  key={i}
+                  className={`${styles.pageBtn} ${currentPage === i + 1 ? styles.active : ''}`}
+                  onClick={() => setCurrentPage(i + 1)}
+                >
+                  {i + 1}
+                </button>
+              ))}
+
+              <button 
+                className={styles.pageBtn} 
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
       
       <InvoiceViewer 

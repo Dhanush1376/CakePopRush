@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { SlidersHorizontal } from 'lucide-react'
 import styles from './ShopToolbar.module.css'
 import { Container } from '@/components/layout/Container'
-import { MobileFilters } from '@/components/commerce/MobileFilters'
+import { MobileFilters, ShopFilters } from '@/components/commerce/MobileFilters'
 import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator'
 import { productData } from '@/features/products'
 
@@ -10,9 +10,13 @@ interface ShopToolbarProps {
   totalProducts: number
   showingStart: number
   showingEnd: number
+  initialFilters?: ShopFilters;
+  onApplyFilters?: (filters: ShopFilters) => void;
+  onResetFilters?: () => void;
+  resultCount?: number;
 }
 
-export const ShopToolbar = ({ totalProducts }: ShopToolbarProps) => {
+export const ShopToolbar = ({ totalProducts, initialFilters, onApplyFilters, onResetFilters, resultCount = 0 }: ShopToolbarProps) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const { triggerReaction } = useMascotOrchestrator()
   const [categories, setCategories] = useState<any[]>([])
@@ -53,7 +57,15 @@ export const ShopToolbar = ({ totalProducts }: ShopToolbarProps) => {
         </div>
       </Container>
 
-      <MobileFilters isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)} categories={categories} />
+      <MobileFilters 
+        isOpen={isFilterOpen} 
+        onClose={() => setIsFilterOpen(false)} 
+        categories={categories} 
+        initialFilters={initialFilters}
+        onApply={onApplyFilters}
+        onReset={onResetFilters}
+        resultCount={resultCount}
+      />
     </section>
   )
 }

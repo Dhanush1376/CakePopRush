@@ -12,6 +12,7 @@ import { ViewToggle } from '@/features/admin/components/ViewToggle'
 import styles from './AdminUsers.module.css'
 import deleteBtnStyles from '@/features/admin/components/AdminDeleteButton.module.css'
 import { AdminUsersSkeleton } from '@/features/admin/components/AdminUsersSkeleton';
+import { useAdminTableState } from '@/features/admin/hooks/useAdminTableState';
 import { ResponsiveModal } from '@/components/ui/ResponsiveModal'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
@@ -60,9 +61,35 @@ export function AdminUsers() {
     });
   }, []);
 
-  const [roleFilter, setRoleFilter] = React.useState('all');
-  const [statusFilter, setStatusFilter] = React.useState('all');
-  const [dateFilter, setDateFilter] = React.useState('all');
+  const {
+    searchTerm,
+    setSearchTerm,
+    activeFilters,
+    setFilter,
+    filteredData,
+    paginatedData,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    pageInfo,
+    resetAll
+  } = useAdminTableState({
+    data: users,
+    searchFields: ['name', 'email'],
+    filterFns: {
+      role: (item, val) => {
+        if (val === 'superadmin') return item.role === 'Super Admin';
+        if (val === 'admin') return item.role === 'Administrator';
+        if (val === 'editor') return item.role === 'Editor';
+        if (val === 'viewer') return item.role === 'Viewer';
+        return true;
+      },
+      status: (item, val) => item.status.toLowerCase() === val.toLowerCase(),
+      date: () => true
+    },
+    defaultPageSize: 10
+  });
+
   const [view, setView] = React.useState<'list' | 'grid'>('list');
 
   const defaultAdvFilters = { orderCount: 'all', accountType: 'all' };
@@ -193,28 +220,34 @@ export function AdminUsers() {
         <div className={styles.toolbar}>
           <div className={styles.searchWrapper}>
             <Search size={16} className={styles.searchIcon} />
-            <input type="text" placeholder="Search by name, email or role..." className={styles.searchInput} />
+            <input 
+              type="text" 
+              placeholder="Search by name, email or role..." 
+              className={styles.searchInput} 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
           
           <div className={styles.filtersScrollContainer}>
             <CustomSelect
               options={roleOptions}
-              value={roleFilter}
-              onChange={setRoleFilter}
+              value={activeFilters.role || 'all'}
+              onChange={(val) => setFilter('role', val)}
               className={styles.filterSelect}
               variant="yellow"
             />
             <CustomSelect
               options={statusOptions}
-              value={statusFilter}
-              onChange={setStatusFilter}
+              value={activeFilters.status || 'all'}
+              onChange={(val) => setFilter('status', val)}
               className={styles.filterSelect}
               variant="pink"
             />
             <CustomSelect
               options={dateOptions}
-              value={dateFilter}
-              onChange={setDateFilter}
+              value={activeFilters.date || 'all'}
+              onChange={(val) => setFilter('date', val)}
               className={styles.filterSelect}
               variant="turquoise"
             />
@@ -269,7 +302,12 @@ export function AdminUsers() {
               <tr>
                 <th>
                   <label className={styles.checkboxLabel}>
-                    <input type="checkbox" className={styles.checkboxInput} />
+                    <input 
+                      type="checkbox" 
+                      className={styles.checkboxInput} 
+                      checked={selectedItems.length === paginatedData.length && paginatedData.length > 0} 
+                      onChange={(e) => setSelectedItems(e.target.checked ? paginatedData.map(u => u.id) : [])}
+                    />
                     <span className={styles.checkboxCustom}></span>
                   </label>
                 </th>
@@ -282,11 +320,39 @@ export function AdminUsers() {
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
+              {filteredData.length === 0 ? (
+                <tr>
+                  <td colSpan={7} style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+                    {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                      <>
+                        <p>No users found matching your search or filters.</p>
+                        <button 
+                          className={styles.btnOutline} 
+                          style={{ margin: '16px auto 0' }}
+                          onClick={resetAll}
+                        >
+                          Clear Filters
+                        </button>
+                      </>
+                    ) : (
+                      <p>No users available.</p>
+                    )}
+                  </td>
+                </tr>
+              ) : (
+                paginatedData.map((user) => (
                 <tr key={user.id}>
                   <td>
                     <label className={styles.checkboxLabel}>
-                      <input type="checkbox" className={styles.checkboxInput} />
+                      <input 
+                        type="checkbox" 
+                        className={styles.checkboxInput} 
+                        checked={selectedItems.includes(user.id)}
+                        onChange={(e) => {
+                          if (e.target.checked) setSelectedItems(prev => [...prev, user.id]);
+                          else setSelectedItems(prev => prev.filter(id => id !== user.id));
+                        }}
+                      />
                       <span className={styles.checkboxCustom}></span>
                     </label>
                   </td>
@@ -354,7 +420,7 @@ export function AdminUsers() {
                     </div>
                   </td>
                 </tr>
-              ))}
+              )))}
             </tbody>
           </table>
         </div>
@@ -362,7 +428,25 @@ export function AdminUsers() {
 
         {/* Grid View / Mobile View */}
         <div className={styles.usersGrid} style={{ display: view === 'list' ? 'none' : '' }}>
-          {users.map(user => (
+          {filteredData.length === 0 ? (
+            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+              {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                <>
+                  <p>No users found matching your search or filters.</p>
+                  <button 
+                    className={styles.btnOutline} 
+                    style={{ margin: '16px auto 0' }}
+                    onClick={resetAll}
+                  >
+                    Clear Filters
+                  </button>
+                </>
+              ) : (
+                <p>No users available.</p>
+              )}
+            </div>
+          ) : (
+            paginatedData.map(user => (
             <div key={`mob-${user.id}`} className={styles.mobileCard}>
               <div className={styles.mcHeader}>
                 <div className={styles.userCell}>
@@ -429,18 +513,43 @@ export function AdminUsers() {
                 ]} />
               </div>
             </div>
-          ))}
+          )))}
         </div>
 
-        <div className={styles.pagination}>
-          <span className={styles.pageInfo}>Showing 1 to 3 of 3 users</span>
-          <div className={styles.pageControls}>
-            <button className={styles.pageBtn}><ChevronLeft size={16} /></button>
-            <button className={`${styles.pageBtn} ${styles.active}`}>1</button>
-            <button className={styles.pageBtn}>2</button>
-            <button className={styles.pageBtn}><ChevronRight size={16} /></button>
+        {totalPages > 0 && (
+          <div className={styles.pagination}>
+            <div className={styles.paginationText}>{pageInfo}</div>
+            <div className={styles.pageControls}>
+              <button 
+                className={styles.pageBtn} 
+                aria-label="Previous page"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              >
+                <ChevronLeft size={16} />
+              </button>
+              
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button 
+                  key={i}
+                  className={`${styles.pageBtn} ${currentPage === i + 1 ? styles.active : ''}`}
+                  onClick={() => setCurrentPage(i + 1)}
+                >
+                  {i + 1}
+                </button>
+              ))}
+
+              <button 
+                className={styles.pageBtn} 
+                aria-label="Next page"
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <ResponsiveModal

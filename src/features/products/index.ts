@@ -23,3 +23,5 @@ export { CustomThemeCTA } from './components/CustomThemeCTA';
 export { StickyMobileCTA } from './components/StickyMobileCTA';
 export { IngredientsAndNutrition } from './components/IngredientsAndNutrition';
 export { RelatedProducts } from './components/RelatedProducts';
+export { ConfigurationRenderer } from './components/ConfigurationRenderer';
+export { InlineOptionSelector } from './components/InlineOptionSelector';

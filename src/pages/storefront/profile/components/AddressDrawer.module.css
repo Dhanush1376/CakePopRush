@@ -248,6 +248,7 @@
 
 .footer {
   padding: var(--space-4) var(--space-5);
+  padding-bottom: calc(var(--space-4) + env(safe-area-inset-bottom, 16px));
   border-top: 1px solid rgba(92, 51, 23, 0.08);
   background: var(--color-cream);
   display: flex;

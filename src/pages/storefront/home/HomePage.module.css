@@ -615,17 +615,25 @@
 }
 
 .categoryGrid {
-  display: flex;
-  gap: var(--space-4);
-  overflow-x: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
   padding-bottom: var(--space-4);
-  /* Hide scrollbar for cleaner look */
-  scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
-.categoryGrid::-webkit-scrollbar {
-  display: none;
+@media (min-width: 768px) {
+  .categoryGrid {
+    display: flex;
+    gap: var(--space-4);
+    overflow-x: auto;
+    /* Hide scrollbar for cleaner look */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .categoryGrid::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .categoryCard {
@@ -744,13 +752,13 @@
   aspect-ratio: 1 / 1;
   box-shadow: 0 4px 12px rgba(92, 51, 23, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  flex-shrink: 0;
-  width: 140px;
+  width: 100%;
 }
 
 @media (min-width: 768px) {
   .categoryCardImage {
     width: 200px;
+    flex-shrink: 0;
   }
 }
 

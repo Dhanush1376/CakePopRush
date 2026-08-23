@@ -10,6 +10,7 @@ import { Product } from '@/types/product'
 import { useCart } from '@/features/cart'
 import { useToast } from '@/components/ui/ToastContext'
 import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator'
+import { QuickAddDrawer } from './QuickAddDrawer'
 
 interface ProductCardProps {
   product: Product
@@ -25,6 +26,7 @@ export const ProductCard = ({
   isWishlisted = false,
 }: ProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false)
+  const [isQuickAddOpen, setIsQuickAddOpen] = useState(false)
   const { addItem } = useCart()
   const { toast } = useToast()
   const { triggerReaction } = useMascotOrchestrator()
@@ -33,14 +35,7 @@ export const ProductCard = ({
     e.preventDefault()
     e.stopPropagation()
     
-    // Use store directly for immediate functionality
-    addItem({ product, quantity: 1 })
-    toast({
-      type: 'success',
-      title: 'Added to bag'
-    })
-    
-    if (onAddToCart) onAddToCart(product.id)
+    setIsQuickAddOpen(true)
   }
 
   const handleToggleWishlist = (e?: React.MouseEvent) => {
@@ -63,9 +58,10 @@ export const ProductCard = ({
     : 0
 
   return (
-    <Link 
-      to={`/product/${product.slug}`}
-      className={styles.card}
+    <>
+      <Link 
+        to={`/product/${product.slug}`}
+        className={styles.card}
       onMouseEnter={() => {
         setIsHovered(true)
         if (product.basePrice >= 40) {
@@ -158,6 +154,12 @@ export const ProductCard = ({
           />
         </div>
       </div>
-    </Link>
+      </Link>
+      <QuickAddDrawer 
+        isOpen={isQuickAddOpen} 
+        onClose={() => setIsQuickAddOpen(false)} 
+        product={product} 
+      />
+    </>
   )
 }

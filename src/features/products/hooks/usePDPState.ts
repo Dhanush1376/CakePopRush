@@ -3,11 +3,14 @@ import { Product } from '@/types/product'
 import { useToast } from '@/components/ui/ToastContext'
 import { useCart } from '@/features/cart'
 import { useWishlist } from '@/features/wishlist'
+import { getConfigForProduct } from '../config/productConfigurations'
+import { ConfigGroupSchema, InlineOption } from '../config/configurationTypes'
 
 export interface PDPState {
   selectedFlavourId: string | null
   selectedQuantityId: string | null
   selectedAddOns: Set<string>
+  selectedInlineOptions: Record<string, string | Set<string>>
   personalMessage: string
   selectedOccasion: string | null
   pincode: string
@@ -27,6 +30,7 @@ export const usePDPState = (product: Product | undefined) => {
     product?.quantities?.[1]?.id || null // Default to regular box
   )
   const [selectedAddOns, setSelectedAddOns] = useState<Set<string>>(new Set())
+  const [selectedInlineOptions, setSelectedInlineOptions] = useState<Record<string, string | Set<string>>>({})
   const [personalMessage, setPersonalMessage] = useState('')
   const [selectedOccasion, setSelectedOccasion] = useState<string | null>(null)
   const [pincode, setPincode] = useState('')
@@ -48,6 +52,19 @@ export const usePDPState = (product: Product | undefined) => {
         next.add(id)
       }
       return next
+    })
+  }, [])
+
+  const handleToggleInlineOption = useCallback((groupId: string, optionId: string, multiSelect?: boolean) => {
+    setSelectedInlineOptions(prev => {
+      if (multiSelect) {
+        const next = new Set((prev[groupId] as Set<string>) || new Set())
+        if (next.has(optionId)) next.delete(optionId)
+        else next.add(optionId)
+        return { ...prev, [groupId]: next }
+      } else {
+        return { ...prev, [groupId]: prev[groupId] === optionId ? '' : optionId }
+      }
     })
   }, [])
 
@@ -84,8 +101,24 @@ export const usePDPState = (product: Product | undefined) => {
       }
     })
 
+    const configGroups = getConfigForProduct(product)
+    configGroups.forEach((group: ConfigGroupSchema) => {
+      if (group.type === 'inline' && group.inlineOptions) {
+        const selected = selectedInlineOptions[group.id]
+        if (selected) {
+          group.inlineOptions.forEach((opt: InlineOption) => {
+            if (group.multiSelect) {
+              if ((selected as Set<string>).has(opt.id)) total += opt.priceDelta
+            } else {
+              if (selected === opt.id) total += opt.priceDelta
+            }
+          })
+        }
+      }
+    })
+
     return total
-  }, [product, selectedFlavourId, selectedQuantityId, selectedAddOns])
+  }, [product, selectedFlavourId, selectedQuantityId, selectedAddOns, selectedInlineOptions])
 
   const handleAddToCart = useCallback(() => {
     if (!product) return
@@ -160,12 +193,14 @@ export const usePDPState = (product: Product | undefined) => {
       isCheckingDelivery,
       isWishlisted,
       calculatedTotal,
-      mascotMessage
+      mascotMessage,
+      selectedInlineOptions
     },
     actions: {
       setSelectedFlavourId: handleFlavourChange,
       setSelectedQuantityId,
       toggleAddOn: handleToggleAddOn,
+      toggleInlineOption: handleToggleInlineOption,
       setPersonalMessage,
       setSelectedOccasion: handleOccasionChange,
       checkDelivery: handleCheckDelivery,

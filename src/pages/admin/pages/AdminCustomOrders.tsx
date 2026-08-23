@@ -10,6 +10,7 @@ import { AdminFilterModal } from '@/features/admin/components/AdminFilterModal'
 import filterModalStyles from '@/features/admin/components/AdminFilterModal.module.css'
 import { ViewToggle } from '@/features/admin/components/ViewToggle'
 import { AdminCustomOrdersSkeleton } from '@/features/admin/components/AdminCustomOrdersSkeleton'
+import { useAdminTableState } from '@/features/admin/hooks/useAdminTableState'
 
 import { adminCustomOrderData } from '@/features/admin/api/adminDataProvider'
 
@@ -80,9 +81,31 @@ export function AdminCustomOrders() {
     });
   }, []);
 
-  const [statusFilter, setStatusFilter] = React.useState('all');
-  const [occasionFilter, setOccasionFilter] = React.useState('all');
-  const [dateFilter, setDateFilter] = React.useState('all');
+  const {
+    searchTerm,
+    setSearchTerm,
+    activeFilters,
+    setFilter,
+    filteredData,
+    paginatedData,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    pageInfo,
+    resetAll
+  } = useAdminTableState({
+    data: customOrders,
+    searchFields: ['id', 'customerName', 'email', 'phone'],
+    filterFns: {
+      status: (item, val) => item.status.toLowerCase().includes(val.toLowerCase()) || val.toLowerCase().includes(item.status.toLowerCase()), // 'pending' matches 'Pending Quote', etc.
+      occasion: (item, val) => {
+        if (val === 'custom') return item.occasion === 'Custom';
+        return item.occasion.toLowerCase() === val.toLowerCase();
+      },
+      date: () => true // Mock date filtering
+    },
+    defaultPageSize: 10
+  });
   const [view, setView] = React.useState<'list' | 'grid'>('list');
 
   const defaultAdvFilters = { budget: 'all', guests: 'all' };
@@ -180,28 +203,34 @@ export function AdminCustomOrders() {
         <div className={styles.toolbar}>
           <div className={styles.searchWrapper}>
             <Search size={16} className={styles.searchIcon} />
-            <input type="text" placeholder="Search requests by ID, customer name or email..." className={styles.searchInput} />
+            <input 
+              type="text" 
+              placeholder="Search requests by ID, customer name or email..." 
+              className={styles.searchInput} 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
           
           <div className={styles.filtersScrollContainer}>
             <CustomSelect
               options={statusOptions}
-              value={statusFilter}
-              onChange={setStatusFilter}
+              value={activeFilters.status || 'all'}
+              onChange={(val) => setFilter('status', val)}
               className={styles.filterSelect}
               variant="yellow"
             />
             <CustomSelect
               options={occasionOptions}
-              value={occasionFilter}
-              onChange={setOccasionFilter}
+              value={activeFilters.occasion || 'all'}
+              onChange={(val) => setFilter('occasion', val)}
               className={styles.filterSelect}
               variant="pink"
             />
             <CustomSelect
               options={dateOptions}
-              value={dateFilter}
-              onChange={setDateFilter}
+              value={activeFilters.date || 'all'}
+              onChange={(val) => setFilter('date', val)}
               className={styles.filterSelect}
               variant="turquoise"
             />
@@ -253,7 +282,7 @@ export function AdminCustomOrders() {
               <thead>
                 <tr>
                   <th className={styles.checkboxCell}>
-                    <input type="checkbox" className={styles.checkbox} aria-label="Select all orders" checked={selectedItems.length === customOrders.length && customOrders.length > 0} onChange={(e) => setSelectedItems(e.target.checked ? customOrders.map(c => c.id) : [])} />
+                    <input type="checkbox" className={styles.checkbox} aria-label="Select all orders" checked={selectedItems.length === paginatedData.length && paginatedData.length > 0} onChange={(e) => setSelectedItems(e.target.checked ? paginatedData.map(c => c.id) : [])} />
                   </th>
                   <th>REQUEST ID</th>
                   <th>CUSTOMER</th>
@@ -266,7 +295,27 @@ export function AdminCustomOrders() {
                 </tr>
               </thead>
               <tbody>
-                {customOrders.map(order => {
+                {filteredData.length === 0 ? (
+                  <tr>
+                    <td colSpan={9} style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+                      {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                        <>
+                          <p>No custom orders found matching your search or filters.</p>
+                          <button 
+                            className={styles.btnOutline} 
+                            style={{ margin: '16px auto 0' }}
+                            onClick={resetAll}
+                          >
+                            Clear Filters
+                          </button>
+                        </>
+                      ) : (
+                        <p>No custom orders available.</p>
+                      )}
+                    </td>
+                  </tr>
+                ) : (
+                  paginatedData.map(order => {
                   const OccasionIcon = OccasionIconMap[order.occasion] || Star;
                   const occColors = OccasionColorMap[order.occasion] || { bg: '#FFF0F5', color: 'var(--admin-pink)' };
 
@@ -339,7 +388,8 @@ export function AdminCustomOrders() {
                       </td>
                     </tr>
                   )
-                })}
+                })
+              )}
               </tbody>
             </table>
           </div>
@@ -347,7 +397,25 @@ export function AdminCustomOrders() {
 
         {view === 'grid' && (
           <div className={styles.itemsGrid}>
-            {customOrders.map(order => {
+            {filteredData.length === 0 ? (
+              <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+                {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                  <>
+                    <p>No custom orders found matching your search or filters.</p>
+                    <button 
+                      className={styles.btnOutline} 
+                      style={{ margin: '16px auto 0' }}
+                      onClick={resetAll}
+                    >
+                      Clear Filters
+                    </button>
+                  </>
+                ) : (
+                  <p>No custom orders available.</p>
+                )}
+              </div>
+            ) : (
+              paginatedData.map(order => {
               const OccasionIcon = OccasionIconMap[order.occasion] || Star;
               const occColors = OccasionColorMap[order.occasion] || { bg: '#FFF0F5', color: 'var(--admin-pink)' };
 
@@ -422,13 +490,32 @@ export function AdminCustomOrders() {
                   </div>
                 </div>
               )
-            })}
+            })
+          )}
           </div>
         )}
 
         {/* Mobile Cards View */}
         <div className={styles.mobileCards} style={{ display: view === 'list' ? 'none' : '' }}>
-          {customOrders.map(order => {
+          {filteredData.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+              {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                <>
+                  <p>No custom orders found matching your search or filters.</p>
+                  <button 
+                    className={styles.btnOutline} 
+                    style={{ margin: '16px auto 0' }}
+                    onClick={resetAll}
+                  >
+                    Clear Filters
+                  </button>
+                </>
+              ) : (
+                <p>No custom orders available.</p>
+              )}
+            </div>
+          ) : (
+            paginatedData.map(order => {
             const OccasionIcon = OccasionIconMap[order.occasion] || Star;
             const occColors = OccasionColorMap[order.occasion] || { bg: '#FFF0F5', color: 'var(--admin-pink)' };
 
@@ -506,21 +593,44 @@ export function AdminCustomOrders() {
                 </div>
               </div>
             )
-          })}
+          })
+        )}
         </div>
 
-        <div className={styles.pagination}>
-          <span className={styles.pageInfo}>Showing 1 to 6 of 1,452 requests</span>
-          <div className={styles.pageControls}>
-            <button className={styles.pageBtn}><ChevronLeft size={16} /></button>
-            <button className={`${styles.pageBtn} ${styles.active}`}>1</button>
-            <button className={styles.pageBtn}>2</button>
-            <button className={styles.pageBtn}>3</button>
-            <span className={styles.pageEllipsis}>...</span>
-            <button className={styles.pageBtn}>242</button>
-            <button className={styles.pageBtn}><ChevronRight size={16} /></button>
+        {totalPages > 0 && (
+          <div className={styles.pagination}>
+            <div className={styles.paginationText}>{pageInfo}</div>
+            <div className={styles.pageControls}>
+              <button 
+                className={styles.pageBtn} 
+                aria-label="Previous page"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              >
+                <ChevronLeft size={16} />
+              </button>
+              
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button 
+                  key={i}
+                  className={`${styles.pageBtn} ${currentPage === i + 1 ? styles.active : ''}`}
+                  onClick={() => setCurrentPage(i + 1)}
+                >
+                  {i + 1}
+                </button>
+              ))}
+
+              <button 
+                className={styles.pageBtn} 
+                aria-label="Next page"
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     
       {isConfirmModalOpen && createPortal(

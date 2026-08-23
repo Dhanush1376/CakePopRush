@@ -15,13 +15,12 @@ import {
   PDPSkeleton,
   ProductGallery,
   ProductInfo,
-  QuantitySelector,
-  AddOnSelector,
   CouponsSection,
   PurchaseActions,
   StickyMobileCTA,
   IngredientsAndNutrition,
-  RelatedProducts
+  RelatedProducts,
+  ConfigurationRenderer
 } from '@/features/products'
 
 import { ReviewsSection } from '@/features/reviews'
@@ -127,36 +126,11 @@ export function ProductDetailPage() {
               <CouponsSection currentTotal={state.calculatedTotal} />
 
               <div className={styles.customizationArea}>
-
-                {product.quantities && (
-                  <Accordion
-                    title="1. Choose Quantity / Box Size"
-                    icon={<ShoppingBag size={14} />}
-                    isRequired
-                    isDefaultOpen={true}
-                  >
-                    <QuantitySelector
-                      quantities={product.quantities}
-                      selectedId={state.selectedQuantityId}
-                      onChange={actions.setSelectedQuantityId}
-                      basePrice={product.basePrice + (product.flavours?.find(f => f.id === state.selectedFlavourId)?.priceModifier || 0)}
-                    />
-                  </Accordion>
-                )}
-
-                {product.addOns && (
-                  <Accordion
-                    title="2. Add-ons"
-                    icon={<Tag size={14} />}
-                  >
-                    <AddOnSelector
-                      addOns={product.addOns}
-                      selectedAddOns={state.selectedAddOns}
-                      onToggle={actions.toggleAddOn}
-                    />
-                  </Accordion>
-                )}
-
+                <ConfigurationRenderer 
+                  product={product} 
+                  state={state} 
+                  actions={actions} 
+                />
 
                 <Accordion
                   title="Ingredients & Nutrition"

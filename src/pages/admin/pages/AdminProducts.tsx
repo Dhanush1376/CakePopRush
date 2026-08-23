@@ -11,6 +11,8 @@ import filterModalStyles from '@/features/admin/components/AdminFilterModal.modu
 import { ViewToggle } from '@/features/admin/components/ViewToggle'
 import { AdminProductsSkeleton } from '@/features/admin/components/AdminProductsSkeleton'
 import { ProductDetailsModal } from '@/features/admin/components/ProductDetailsModal'
+import { useAdminTableState } from '@/features/admin/hooks/useAdminTableState'
+import { exportToCSV } from '@/features/admin/utils/exportUtils'
 
 import { adminProductData } from '@/features/admin/api/adminDataProvider'
 
@@ -83,9 +85,35 @@ export function AdminProducts() {
 
 
 
-  const [categoryFilter, setCategoryFilter] = React.useState('all');
-  const [stockFilter, setStockFilter] = React.useState('all');
-  const [statusFilter, setStatusFilter] = React.useState('all');
+  const {
+    searchTerm,
+    setSearchTerm,
+    activeFilters,
+    setFilter,
+    filteredData,
+    paginatedData,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    pageInfo,
+    resetAll,
+    totalItems
+  } = useAdminTableState({
+    data: products,
+    searchFields: ['name', 'sku', 'category'],
+    filterFns: {
+      category: (item, val) => item.category.toLowerCase().includes(val.toLowerCase()),
+      stockState: (item, val) => {
+        if (val === 'in_stock') return item.stockState === 'In Stock';
+        if (val === 'low_stock') return item.stockState === 'Low Stock';
+        if (val === 'out_of_stock') return item.stockState === 'Out of Stock';
+        return true;
+      },
+      status: (item, val) => item.status.toLowerCase() === val.toLowerCase(),
+    },
+    defaultPageSize: 10
+  });
+
   const [view, setView] = React.useState<'list' | 'grid'>('list');
 
   const defaultAdvFilters = { price: 'all', sales: 'all', views: 'all' };
@@ -170,7 +198,12 @@ export function AdminProducts() {
                 { value: 'inactive', label: 'Mark as Inactive' }
               ]}
             />
-            <button className={styles.btnOutline} title="Export Selected" style={{ padding: '8px' }}>
+            <button 
+              className={styles.btnOutline} 
+              title="Export Selected" 
+              style={{ padding: '8px' }}
+              onClick={() => exportToCSV(products.filter(p => selectedItems.includes(p.sku)), 'products-selected')}
+            >
               <Download size={16} style={{ flexShrink: 0, minWidth: '16px' }} /> <span className={styles.hideMobile}>Export Selected</span>
             </button>
             <button className={styles.btnOutline} onClick={() => setSelectedItems([])} style={{ border: 'none', background: 'white', padding: '8px' }} title="Clear Selection">
@@ -194,28 +227,34 @@ export function AdminProducts() {
         <div className={styles.toolbar}>
           <div className={styles.searchWrapper}>
             <Search size={16} className={styles.searchIcon} />
-            <input type="text" placeholder="Search products by name or SKU..." className={styles.searchInput} />
+            <input 
+              type="text" 
+              placeholder="Search products by name or SKU..." 
+              className={styles.searchInput} 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
           
           <div className={styles.filtersScrollContainer}>
             <CustomSelect
               options={categoryOptions}
-              value={categoryFilter}
-              onChange={setCategoryFilter}
+              value={activeFilters.category || 'all'}
+              onChange={(val) => setFilter('category', val)}
               className={styles.filterSelect}
               variant="pink"
             />
             <CustomSelect
               options={stockOptions}
-              value={stockFilter}
-              onChange={setStockFilter}
+              value={activeFilters.stockState || 'all'}
+              onChange={(val) => setFilter('stockState', val)}
               className={styles.filterSelect}
               variant="turquoise"
             />
             <CustomSelect
               options={statusOptions}
-              value={statusFilter}
-              onChange={setStatusFilter}
+              value={activeFilters.status || 'all'}
+              onChange={(val) => setFilter('status', val)}
               className={styles.filterSelect}
               variant="yellow"
             />
@@ -227,7 +266,11 @@ export function AdminProducts() {
               {activeFilterCount > 0 && <span className={styles.filterBadge}>{activeFilterCount}</span>}
             </button>
   
-            <button className={styles.btnOutline} title="Export">
+            <button 
+              className={styles.btnOutline} 
+              title="Export"
+              onClick={() => exportToCSV(filteredData, 'products-export')}
+            >
               <Download className={styles.btnIcon} /> <span className={styles.hideMobile}>Export</span>
             </button>
   
@@ -269,7 +312,7 @@ export function AdminProducts() {
               <thead>
                 <tr>
                   <th style={{ width: '40px' }}>
-                    <input type="checkbox" className={styles.checkbox} aria-label="Select all" checked={selectedItems.length === products.length && products.length > 0} onChange={(e) => setSelectedItems(e.target.checked ? products.map(p => p.sku) : [])} />
+                    <input type="checkbox" className={styles.checkbox} aria-label="Select all" checked={selectedItems.length === paginatedData.length && paginatedData.length > 0} onChange={(e) => setSelectedItems(e.target.checked ? paginatedData.map(p => p.sku) : [])} />
                   </th>
                   <th>PRODUCT</th>
                   <th>CATEGORY</th>
@@ -282,8 +325,28 @@ export function AdminProducts() {
                 </tr>
               </thead>
               <tbody>
-                {products.map((product, idx) => {
-                  const badgeClass = styles[product.category.toLowerCase()] || '';
+                {filteredData.length === 0 ? (
+                  <tr>
+                    <td colSpan={9} style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+                      {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                        <>
+                          <p>No products found matching your search or filters.</p>
+                          <button 
+                            className={styles.btnOutline} 
+                            style={{ margin: '16px auto 0' }}
+                            onClick={resetAll}
+                          >
+                            Clear Filters
+                          </button>
+                        </>
+                      ) : (
+                        <p>No products available.</p>
+                      )}
+                    </td>
+                  </tr>
+                ) : (
+                  paginatedData.map((product, idx) => {
+                    const badgeClass = styles[product.category.toLowerCase()] || '';
                   const stockStateClass = product.stockState === 'In Stock' ? styles.inStock : 
                                          product.stockState === 'Low Stock' ? styles.lowStock : styles.outOfStock;
                   const statusClass = product.status === 'Active' ? styles.active : styles.inactive;
@@ -370,7 +433,8 @@ export function AdminProducts() {
                       </td>
                     </tr>
                   )
-                })}
+                })
+              )}
               </tbody>
             </table>
           </div>
@@ -378,7 +442,25 @@ export function AdminProducts() {
 
         {view === 'grid' && (
           <div className={styles.itemsGrid}>
-            {products.map((product, idx) => {
+            {filteredData.length === 0 ? (
+              <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+                {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                  <>
+                    <p>No products found matching your search or filters.</p>
+                    <button 
+                      className={styles.btnOutline} 
+                      style={{ margin: '16px auto 0' }}
+                      onClick={resetAll}
+                    >
+                      Clear Filters
+                    </button>
+                  </>
+                ) : (
+                  <p>No products available.</p>
+                )}
+              </div>
+            ) : (
+              paginatedData.map((product, idx) => {
               const badgeClass = styles[product.category.toLowerCase()] || '';
               const stockStateClass = product.stockState === 'In Stock' ? styles.inStock : 
                                      product.stockState === 'Low Stock' ? styles.lowStock : styles.outOfStock;
@@ -444,13 +526,32 @@ export function AdminProducts() {
                   </div>
                 </div>
               )
-            })}
+            })
+          )}
           </div>
         )}
 
         {/* Mobile View */}
         <div className={styles.mobileCards} style={{ display: view === 'list' ? 'none' : '' }}>
-          {products.map((product, idx) => {
+          {filteredData.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+              {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                <>
+                  <p>No products found matching your search or filters.</p>
+                  <button 
+                    className={styles.btnOutline} 
+                    style={{ margin: '16px auto 0' }}
+                    onClick={resetAll}
+                  >
+                    Clear Filters
+                  </button>
+                </>
+              ) : (
+                <p>No products available.</p>
+              )}
+            </div>
+          ) : (
+            paginatedData.map((product, idx) => {
             const badgeClass = styles[product.category.toLowerCase()] || '';
             const stockStateClass = product.stockState === 'In Stock' ? styles.inStock : 
                                    product.stockState === 'Low Stock' ? styles.lowStock : styles.outOfStock;
@@ -516,21 +617,44 @@ export function AdminProducts() {
                 </div>
               </div>
             )
-          })}
+          })
+        )}
         </div>
 
-        <div className={styles.pagination}>
-          <div className={styles.paginationText}>Showing 1 to 7 of 128 products</div>
-          <div className={styles.pageControls}>
-            <button className={styles.pageBtn} aria-label="Previous page"><ChevronLeft size={16} /></button>
-            <button className={`${styles.pageBtn} ${styles.active}`}>1</button>
-            <button className={styles.pageBtn}>2</button>
-            <button className={styles.pageBtn}>3</button>
-            <span className={styles.pageEllipsis}>...</span>
-            <button className={styles.pageBtn}>19</button>
-            <button className={styles.pageBtn} aria-label="Next page"><ChevronRight size={16} /></button>
+        {totalPages > 0 && (
+          <div className={styles.pagination}>
+            <div className={styles.paginationText}>{pageInfo}</div>
+            <div className={styles.pageControls}>
+              <button 
+                className={styles.pageBtn} 
+                aria-label="Previous page"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              >
+                <ChevronLeft size={16} />
+              </button>
+              
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button 
+                  key={i}
+                  className={`${styles.pageBtn} ${currentPage === i + 1 ? styles.active : ''}`}
+                  onClick={() => setCurrentPage(i + 1)}
+                >
+                  {i + 1}
+                </button>
+              ))}
+
+              <button 
+                className={styles.pageBtn} 
+                aria-label="Next page"
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     
       {isConfirmModalOpen && createPortal(

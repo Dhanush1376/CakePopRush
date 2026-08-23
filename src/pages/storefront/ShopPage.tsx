@@ -17,6 +17,9 @@ import { useMotionValue, useSpring } from 'framer-motion'
 import { CakePopMascot } from '@/components/mascot/CakePopMascot'
 import { MascotReaction, MascotRef } from '@/components/mascot/reactions/reactionTypes'
 import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator'
+import { ShopFilters } from '@/components/commerce/MobileFilters'
+
+const PAGE_SIZE = 8;
 
 export function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -32,18 +35,84 @@ export function ShopPage() {
   const [totalProductsCount, setTotalProductsCount] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
 
+  const [shopFilters, setShopFilters] = useState<ShopFilters | undefined>(undefined);
+  const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
     setIsLoading(true);
-    Promise.all([
-      productData.getProductsByCategory(activeCategory),
-      productData.getProducts()
-    ]).then(([filtered, all]) => {
-      setProducts(filtered);
-      setTotalProductsCount(all.length);
-    }).finally(() => {
-      setIsLoading(false);
-    });
+    productData.getProductsByCategory(activeCategory)
+      .then((filtered) => {
+        setProducts(filtered);
+        // We do not set totalProductsCount here directly anymore, we will derive it from displayedProducts.
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, [activeCategory]);
+
+  const displayedProducts = React.useMemo(() => {
+    let result = [...products];
+
+    if (shopFilters) {
+      // Category filter (from MobileFilters)
+      if (shopFilters.categories.length > 0 && !shopFilters.categories.includes('all')) {
+        result = result.filter(p => shopFilters.categories.includes(p.categoryId || p.categoryName.toLowerCase().replace(' ', '-')));
+      }
+
+      // Max price filter
+      if (shopFilters.maxPrice) {
+        result = result.filter(p => {
+          const priceStr = p.price.replace(/[^0-9.]/g, '');
+          const priceNum = parseFloat(priceStr);
+          return !isNaN(priceNum) && priceNum <= shopFilters.maxPrice;
+        });
+      }
+
+      // Occasion filter (mock - assuming we map it if available, else ignored)
+      // For a mock, we might just filter arbitrarily or if the seed has occasion
+      // In this demo, we'll skip strict occasion filtering unless the product has an occasion tag.
+
+      // Sorting
+      if (shopFilters.sort === 'price_asc') {
+        result.sort((a, b) => {
+          const pa = parseFloat(a.price.replace(/[^0-9.]/g, ''));
+          const pb = parseFloat(b.price.replace(/[^0-9.]/g, ''));
+          return pa - pb;
+        });
+      } else if (shopFilters.sort === 'price_desc') {
+        result.sort((a, b) => {
+          const pa = parseFloat(a.price.replace(/[^0-9.]/g, ''));
+          const pb = parseFloat(b.price.replace(/[^0-9.]/g, ''));
+          return pb - pa;
+        });
+      } else if (shopFilters.sort === 'recommended') {
+        // Assume bestsellers/new are recommended
+        result.sort((a, b) => {
+          if (a.isBestSeller && !b.isBestSeller) return -1;
+          if (!a.isBestSeller && b.isBestSeller) return 1;
+          return 0;
+        });
+      }
+    }
+
+    return result;
+  }, [products, shopFilters]);
+
+  const totalPages = Math.ceil(displayedProducts.length / PAGE_SIZE);
+  const paginatedProducts = displayedProducts.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
+  // Reset to page 1 on filter or category change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [shopFilters, activeCategory]);
+
+  const handleApplyFilters = (filters: ShopFilters) => {
+    setShopFilters(filters);
+  };
+
+  const handleResetFilters = () => {
+    setShopFilters(undefined);
+  };
 
   const mascotRef = React.useRef<HTMLDivElement>(null);
   const mascotControlRef = React.useRef<MascotRef>(null);
@@ -204,9 +273,13 @@ export function ShopPage() {
         />
         
         <ShopToolbar 
-          totalProducts={totalProductsCount}
-          showingStart={products.length > 0 ? 1 : 0}
-          showingEnd={products.length}
+          totalProducts={products.length} // Show base count here if needed, but updated to displayedProducts below
+          showingStart={displayedProducts.length > 0 ? (currentPage - 1) * PAGE_SIZE + 1 : 0}
+          showingEnd={Math.min(currentPage * PAGE_SIZE, displayedProducts.length)}
+          initialFilters={shopFilters}
+          onApplyFilters={handleApplyFilters}
+          onResetFilters={handleResetFilters}
+          resultCount={displayedProducts.length}
         />
       </div>
 
@@ -218,8 +291,8 @@ export function ShopPage() {
               Array.from({ length: 8 }).map((_, i) => (
                 <ProductCardSkeleton key={i} />
               ))
-            ) : products.length > 0 ? (
-              products.map(product => (
+            ) : paginatedProducts.length > 0 ? (
+              paginatedProducts.map(product => (
                 <ProductCard 
                   key={product.id} 
                   product={product} 
@@ -235,7 +308,7 @@ export function ShopPage() {
               ))
             ) : null}
           </div>
-          {!isLoading && products.length === 0 && (
+          {!isLoading && displayedProducts.length === 0 && (
             <motion.div 
               className={styles.emptyState}
               initial={{ opacity: 0, y: 15 }}
@@ -243,12 +316,25 @@ export function ShopPage() {
               transition={{ duration: 0.6, ease: 'easeOut' }}
             >
               <EmptyWishlistIllustration className={styles.emptyIllustration} />
-              <p className={styles.emptyText}>No products found in this category.</p>
+              <p className={styles.emptyText}>No products found matching your filters.</p>
+              {shopFilters && (
+                <button 
+                  className={styles.resetBtn} 
+                  onClick={handleResetFilters}
+                  style={{ marginTop: '16px', padding: '8px 16px', borderRadius: '8px', border: '1px solid var(--admin-border)', background: 'white' }}
+                >
+                  Clear Filters
+                </button>
+              )}
             </motion.div>
           )}
           
-          {!isLoading && products.length > 0 && (
-            <Pagination />
+          {!isLoading && displayedProducts.length > 0 && (
+            <Pagination 
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
           )}
         </Container>
       </section>

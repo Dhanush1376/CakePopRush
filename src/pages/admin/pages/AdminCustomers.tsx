@@ -14,6 +14,9 @@ import { AdminFilterModal } from '@/features/admin/components/AdminFilterModal'
 import filterModalStyles from '@/features/admin/components/AdminFilterModal.module.css'
 import styles from './AdminCustomers.module.css'
 import deleteBtnStyles from '@/features/admin/components/AdminDeleteButton.module.css'
+import { useAdminTableState } from '@/features/admin/hooks/useAdminTableState'
+import { exportToCSV } from '@/features/admin/utils/exportUtils'
+
 
 import { adminCustomerData } from '@/features/admin/api/adminDataProvider'
 
@@ -41,9 +44,29 @@ export function AdminCustomers() {
     window.addEventListener('resize', checkView);
     return () => window.removeEventListener('resize', checkView);
   }, []);
-  const [statusFilter, setStatusFilter] = React.useState('all');
-  const [locationFilter, setLocationFilter] = React.useState('all');
-  const [dateFilter, setDateFilter] = React.useState('all');
+  const {
+    searchTerm,
+    setSearchTerm,
+    activeFilters,
+    setFilter,
+    filteredData,
+    paginatedData,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    pageInfo,
+    resetAll
+  } = useAdminTableState({
+    data: customers,
+    searchFields: ['name', 'email', 'phone', 'id'],
+    filterFns: {
+      status: (item, val) => item.status.toLowerCase() === val.toLowerCase(),
+      location: (item, val) => item.location.toLowerCase().includes(val.toLowerCase()),
+      date: () => true, // Mock date filtering
+    },
+    defaultPageSize: 10
+  });
+
   const [selectedCustomer, setSelectedCustomer] = React.useState<any | null>(null);
 
   const defaultAdvFilters = { orders: 'all', spent: 'all', lastOrderDate: 'all' };
@@ -136,7 +159,12 @@ export function AdminCustomers() {
                 { value: 'inactive', label: 'Mark as Inactive' }
               ]}
             />
-            <button className={styles.btnOutline} title="Export Selected" style={{ padding: '8px' }}>
+            <button 
+              className={styles.btnOutline} 
+              title="Export Selected" 
+              style={{ padding: '8px' }}
+              onClick={() => exportToCSV(customers.filter(c => selectedItems.includes(c.id)), 'customers-selected')}
+            >
               <Download size={16} style={{ flexShrink: 0, minWidth: '16px' }} /> <span className={styles.hideMobile}>Export Selected</span>
             </button>
             <button className={styles.btnOutline} onClick={() => setSelectedItems([])} style={{ border: 'none', background: 'white', padding: '8px' }} title="Clear Selection">
@@ -160,28 +188,34 @@ export function AdminCustomers() {
         <div className={styles.toolbar}>
           <div className={styles.searchWrapper}>
             <Search size={16} className={styles.searchIcon} />
-            <input type="text" placeholder="Search customers by name, email or phone..." className={styles.searchInput} />
+            <input 
+              type="text" 
+              placeholder="Search customers by name, email or phone..." 
+              className={styles.searchInput} 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
           
           <div className={styles.filtersScrollContainer}>
             <CustomSelect
               options={statusOptions}
-              value={statusFilter}
-              onChange={setStatusFilter}
+              value={activeFilters.status || 'all'}
+              onChange={(val) => setFilter('status', val)}
               className={styles.filterSelect}
               variant="yellow"
             />
             <CustomSelect
               options={locationOptions}
-              value={locationFilter}
-              onChange={setLocationFilter}
+              value={activeFilters.location || 'all'}
+              onChange={(val) => setFilter('location', val)}
               className={styles.filterSelect}
               variant="pink"
             />
             <CustomSelect
               options={dateOptions}
-              value={dateFilter}
-              onChange={setDateFilter}
+              value={activeFilters.date || 'all'}
+              onChange={(val) => setFilter('date', val)}
               className={styles.filterSelect}
               variant="turquoise"
             />
@@ -192,7 +226,11 @@ export function AdminCustomers() {
               <Filter className={styles.btnIcon} /> <span className={styles.hideMobile}>Filter</span>
               {activeFilterCount > 0 && <span className={styles.filterBadge}>{activeFilterCount}</span>}
             </button>
-            <button className={styles.btnOutline} title="Export">
+            <button 
+              className={styles.btnOutline} 
+              title="Export"
+              onClick={() => exportToCSV(filteredData, 'customers-export')}
+            >
               <Download className={styles.btnIcon} /> <span className={styles.hideMobile}>Export</span>
             </button>
             <div style={{ flexShrink: 0 }}>
@@ -238,7 +276,7 @@ export function AdminCustomers() {
               <thead>
                 <tr>
                   <th className={styles.checkboxCell}>
-                    <input type="checkbox" className={styles.checkbox} aria-label="Select all customers" checked={selectedItems.length === customers.length && customers.length > 0} onChange={(e) => setSelectedItems(e.target.checked ? customers.map(c => c.id) : [])} />
+                    <input type="checkbox" className={styles.checkbox} aria-label="Select all customers" checked={selectedItems.length === paginatedData.length && paginatedData.length > 0} onChange={(e) => setSelectedItems(e.target.checked ? paginatedData.map(c => c.id) : [])} />
                   </th>
                   <th>CUSTOMER NAME</th>
                   <th>LOCATION</th>
@@ -250,7 +288,27 @@ export function AdminCustomers() {
                 </tr>
               </thead>
               <tbody>
-                {customers.map((cust) => (
+                {filteredData.length === 0 ? (
+                  <tr>
+                    <td colSpan={8} style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+                      {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                        <>
+                          <p>No customers found matching your search or filters.</p>
+                          <button 
+                            className={styles.btnOutline} 
+                            style={{ margin: '16px auto 0' }}
+                            onClick={resetAll}
+                          >
+                            Clear Filters
+                          </button>
+                        </>
+                      ) : (
+                        <p>No customers available.</p>
+                      )}
+                    </td>
+                  </tr>
+                ) : (
+                  paginatedData.map((cust) => (
                   <tr key={cust.id}>
                     <td className={styles.checkboxCell}>
                       <input type="checkbox" className={styles.checkbox} aria-label={`Select ${cust.name || cust.id}`} checked={selectedItems.includes(cust.id)} onChange={(e) => { if (e.target.checked) setSelectedItems(prev => [...prev, cust.id]); else setSelectedItems(prev => prev.filter(id => id !== cust.id)); }} />
@@ -319,7 +377,8 @@ export function AdminCustomers() {
                       </div>
                     </td>
                   </tr>
-                ))}
+                ))
+              )}
               </tbody>
             </table>
           </div>
@@ -327,7 +386,25 @@ export function AdminCustomers() {
 
         {view === 'grid' && (
           <div className={styles.customersGrid}>
-            {customers.map(cust => (
+            {filteredData.length === 0 ? (
+              <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '48px 24px', color: 'var(--color-text-muted)' }}>
+                {searchTerm || Object.keys(activeFilters).length > 0 ? (
+                  <>
+                    <p>No customers found matching your search or filters.</p>
+                    <button 
+                      className={styles.btnOutline} 
+                      style={{ margin: '16px auto 0' }}
+                      onClick={resetAll}
+                    >
+                      Clear Filters
+                    </button>
+                  </>
+                ) : (
+                  <p>No customers available.</p>
+                )}
+              </div>
+            ) : (
+              paginatedData.map(cust => (
             <div key={`grid-${cust.id}`} className={styles.customerCard}>
               <div className={styles.mcHeader}>
                 <div className={styles.customerCell}>
@@ -391,22 +468,43 @@ export function AdminCustomers() {
                 ]} />
               </div>
             </div>
-          ))}
+          ))
+        )}
         </div>
         )}
 
-        <div className={styles.pagination}>
-          <span className={styles.pageInfo}>Showing 1 to 7 of 856 customers</span>
-          <div className={styles.pageControls}>
-            <button className={styles.pageBtn}><ChevronLeft size={16} /></button>
-            <button className={`${styles.pageBtn} ${styles.active}`}>1</button>
-            <button className={styles.pageBtn}>2</button>
-            <button className={styles.pageBtn}>3</button>
-            <span className={styles.pageDots}>...</span>
-            <button className={styles.pageBtn}>12</button>
-            <button className={styles.pageBtn}><ChevronRight size={16} /></button>
+        {totalPages > 0 && (
+          <div className={styles.pagination}>
+            <span className={styles.pageInfo}>{pageInfo}</span>
+            <div className={styles.pageControls}>
+              <button 
+                className={styles.pageBtn} 
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              >
+                <ChevronLeft size={16} />
+              </button>
+              
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <button 
+                  key={i}
+                  className={`${styles.pageBtn} ${currentPage === i + 1 ? styles.active : ''}`}
+                  onClick={() => setCurrentPage(i + 1)}
+                >
+                  {i + 1}
+                </button>
+              ))}
+
+              <button 
+                className={styles.pageBtn} 
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <CustomerDetailsModal customer={selectedCustomer} onClose={() => setSelectedCustomer(null)} />
     
