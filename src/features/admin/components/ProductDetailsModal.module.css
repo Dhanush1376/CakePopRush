@@ -43,6 +43,19 @@
     margin-bottom: 0;
     max-height: 85vh;
     animation: slideUpMobile 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: visible;
+  }
+
+  .modal::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 600px;
+    background-color: var(--color-white);
+    pointer-events: none;
+    z-index: -1;
   }
 
   .dragHandle {

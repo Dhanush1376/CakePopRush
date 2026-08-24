@@ -341,6 +341,18 @@
   align-items: center;
 }
 
+.paymentDrawer::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 600px;
+  background-color: var(--color-white);
+  pointer-events: none;
+  z-index: -1;
+}
+
 @media (min-width: 768px) {
   .paymentDrawer {
     border-radius: var(--radius-xl);

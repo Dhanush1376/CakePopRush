@@ -55,7 +55,7 @@ export const ProfilePage = () => {
 
   return (
     <>
-      <ProfileLayout isMobileStandalone={false}>
+      <ProfileLayout isMobileStandalone={false} onEditProfile={() => setActiveModal('details')}>
         <MenuSection title="Account" items={accountItems} />
         <MenuSection title="More" items={moreItems} />
 

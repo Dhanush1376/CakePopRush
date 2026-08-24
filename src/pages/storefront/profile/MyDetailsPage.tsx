@@ -3,6 +3,9 @@ import { User, Mail, Phone, Calendar, Save, ChevronDown } from 'lucide-react'
 import styles from './MyDetailsPage.module.css'
 
 export const MyDetailsPage = () => {
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
+  const fileInputRef = React.useRef<HTMLInputElement>(null)
+
   const [form, setForm] = useState({
     firstName: 'Guest',
     lastName: '',
@@ -18,6 +21,14 @@ export const MyDetailsPage = () => {
     setSaved(false)
   }
 
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0]
+      const url = URL.createObjectURL(file)
+      setAvatarUrl(url)
+    }
+  }
+
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault()
     setSaved(true)
@@ -27,11 +38,22 @@ export const MyDetailsPage = () => {
   return (
     <div className={styles.modalContent}>
       {/* Avatar */}
-      <div className={styles.avatarSection}>
-        <div className={styles.avatar}>
-          <User size={28} strokeWidth={1.5} />
+      <div className={styles.avatarSection} onClick={() => fileInputRef.current?.click()} style={{ cursor: 'pointer' }}>
+        <div className={styles.avatar} style={{ overflow: 'hidden' }}>
+          {avatarUrl ? (
+            <img src={avatarUrl} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          ) : (
+            <User size={28} strokeWidth={1.5} />
+          )}
         </div>
         <p className={styles.avatarHint}>Tap to change photo</p>
+        <input 
+          type="file" 
+          ref={fileInputRef} 
+          accept="image/*" 
+          style={{ display: 'none' }} 
+          onChange={handleAvatarChange} 
+        />
       </div>
 
       <hr className={styles.divider} />
@@ -70,7 +92,7 @@ export const MyDetailsPage = () => {
           </div>
         </div>
 
-        <div className={`${styles.row} ${styles.stackOnMobile}`}>
+        <div className={styles.row}>
           <div className={styles.field}>
             <label className={styles.label}>Date of Birth</label>
             <div className={styles.inputGroup}>

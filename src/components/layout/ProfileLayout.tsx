@@ -34,7 +34,7 @@ const TypingText = ({ text }: { text: string }) => {
   return <>{displayed}</>;
 };
 
-const AnimatedSpeechBubble = () => {
+const AnimatedSpeechBubble = ({ delay }: { delay: number }) => {
   const [index, setIndex] = React.useState(0)
 
   React.useEffect(() => {
@@ -45,7 +45,12 @@ const AnimatedSpeechBubble = () => {
   }, [])
 
   return (
-    <div className={styles.speechBubble}>
+    <motion.div 
+      className={styles.speechBubble}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay, type: 'spring', stiffness: 200, damping: 20 }}
+    >
       <AnimatePresence mode="wait">
         <motion.span
           key={index}
@@ -58,7 +63,7 @@ const AnimatedSpeechBubble = () => {
           <TypingText text={phrases[index]} />
         </motion.span>
       </AnimatePresence>
-    </div>
+    </motion.div>
   )
 }
 
@@ -68,7 +73,7 @@ const ProfileHeader = () => (
   </header>
 );
 
-const ProfileCard = () => (
+const ProfileCard = ({ onEditProfile }: { onEditProfile?: () => void }) => (
   <div className={styles.card}>
     <motion.div
       className={styles.mascotHandRight}
@@ -87,7 +92,7 @@ const ProfileCard = () => (
         <div className={styles.avatarPlaceholder}>
           <User size={36} strokeWidth={1.5} />
         </div>
-        <button className={styles.editButton} aria-label="Edit Profile">
+        <button className={styles.editButton} aria-label="Edit Profile" onClick={onEditProfile}>
           <Pencil size={14} />
         </button>
       </div>
@@ -152,7 +157,7 @@ const OrdersSection = () => {
   )
 }
 
-export const ProfileLayout = ({ children, isMobileStandalone = false }: { children: React.ReactNode, isMobileStandalone?: boolean }) => {
+export const ProfileLayout = ({ children, isMobileStandalone = false, onEditProfile }: { children: React.ReactNode, isMobileStandalone?: boolean, onEditProfile?: () => void }) => {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
 
   useEffect(() => {
@@ -199,7 +204,7 @@ export const ProfileLayout = ({ children, isMobileStandalone = false }: { childr
         <div className={styles.desktopGrid}>
           <div className={styles.leftCol}>
             <div className={styles.mascotContainer}>
-              <AnimatedSpeechBubble />
+              <AnimatedSpeechBubble delay={hasMascotAppeared ? 0 : 0.6} />
               <motion.div
                 ref={mascotRef}
                 className={styles.mascotLayer}
@@ -219,7 +224,7 @@ export const ProfileLayout = ({ children, isMobileStandalone = false }: { childr
                 />
               </motion.div>
             </div>
-            <ProfileCard />
+            <ProfileCard onEditProfile={onEditProfile} />
             <OrdersSection />
           </div>
           <div className={styles.rightCol}>
