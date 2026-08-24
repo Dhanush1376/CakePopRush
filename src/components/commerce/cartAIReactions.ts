@@ -341,7 +341,7 @@ function scoreContextPools(ctx: CartAIContext): ScoredPool[] {
 
   // ─── Action-specific pools (always prioritize these) ───
   if (ctx.action ==='delete-confirm') {
-    pools.push({ score: 50, messages: MESSAGES.deleteConfirm, emotion: 'pleadingCute', intensity: 4 });
+    pools.push({ score: 50, messages: MESSAGES.deleteConfirm, emotion: 'sad', intensity: 4 });
     return pools;
   }
 
@@ -351,12 +351,17 @@ function scoreContextPools(ctx: CartAIContext): ScoredPool[] {
   }
 
   if (ctx.action ==='remove') {
-    pools.push({ score: 50, messages: MESSAGES.itemRemoved, emotion: 'sad', intensity: 2 });
+    pools.push({ score: 50, messages: MESSAGES.itemRemoved, emotion: 'sad', intensity: 4 });
     return pools;
   }
 
   if (ctx.action ==='empty') {
-    pools.push({ score: 50, messages: MESSAGES.cartEmptied, emotion: 'pleadingCute', intensity: 4 });
+    pools.push({ score: 50, messages: MESSAGES.cartEmptied, emotion: 'sad', intensity: 4 });
+    return pools;
+  }
+
+  if (ctx.action ==='decrease') {
+    pools.push({ score: 50, messages: MESSAGES.quantityDecrease, emotion: 'sad', intensity: 3 });
     return pools;
   }
 
@@ -400,11 +405,6 @@ function scoreContextPools(ctx: CartAIContext): ScoredPool[] {
       });
     }
     pools.push({ score: 3, messages: MESSAGES.quantityIncrease.generic, emotion: 'happy', intensity: 2 });
-  }
-
-  // ─── Quantity decrease ───
-  if (ctx.action ==='decrease') {
-    pools.push({ score: 5, messages: MESSAGES.quantityDecrease, emotion: 'emotionalCute', intensity: 2 });
   }
 
   // ─── Complementary products ───

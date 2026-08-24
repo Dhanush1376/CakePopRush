@@ -47,9 +47,20 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {isLoading && (
           <span className={styles.spinner} aria-hidden="true" />
         )}
-        {!isLoading && leftIcon && <span className={styles.icon}>{leftIcon}</span>}
-        <span className={styles.content}>{children}</span>
-        {!isLoading && rightIcon && <span className={styles.icon}>{rightIcon}</span>}
+        <span 
+          className={styles.contentWrapper} 
+          style={{ 
+            opacity: isLoading ? 0 : 1, 
+            display: 'inline-flex', 
+            alignItems: 'center', 
+            gap: 'var(--space-2)',
+            visibility: isLoading ? 'hidden' : 'visible'
+          }}
+        >
+          {leftIcon && <span className={styles.icon}>{leftIcon}</span>}
+          <span className={styles.content}>{children}</span>
+          {rightIcon && <span className={styles.icon}>{rightIcon}</span>}
+        </span>
       </button>
     )
   }

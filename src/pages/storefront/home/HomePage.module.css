@@ -589,7 +589,7 @@
   background: white;
   border: 1px solid rgba(0,0,0,0.1);
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  display: flex;
+  display: none; /* Hidden on mobile by default */
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -597,6 +597,12 @@
   color: var(--color-chocolate);
   transition: all 0.2s ease;
   opacity: 1;
+}
+
+@media (min-width: 768px) {
+  .scrollButton {
+    display: flex;
+  }
 }
 
 .scrollButton:hover {

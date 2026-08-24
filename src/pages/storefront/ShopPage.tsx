@@ -256,7 +256,7 @@ export function ShopPage() {
             hideArms={true}
             eyeX={eyeSpringX}
             eyeY={eyeSpringY}
-            reaction={currentReaction}
+            reaction={currentReaction || 'happy'}
             speedMultiplier={prefersReducedMotion ? 1 : 2}
           />
         </div>

@@ -26,8 +26,7 @@
 
 @media (min-width: 768px) {
   .celebrationOverlay {
-    align-items: flex-start;
-    padding-top: 40px;
+    align-items: center;
     background-color: transparent; /* No dark overlay covering page on laptop/desktop */
     pointer-events: none; /* Allow interaction with background page */
   }

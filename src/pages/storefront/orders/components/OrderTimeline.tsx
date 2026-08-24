@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle2, Package } from 'lucide-react';
+import { CheckCircle2, Package, Truck } from 'lucide-react';
 import styles from './OrderTimeline.module.css';
 
 export function OrderTimeline() {
@@ -51,6 +51,13 @@ export function OrderTimeline() {
               <Package size={16} />
             </div>
             <span className={styles.colorfulLabel}>Preparing</span>
+          </div>
+
+          <div className={`${styles.colorfulStep} ${styles.stepGrey}`}>
+            <div className={styles.colorfulNode}>
+              <Truck size={16} />
+            </div>
+            <span className={styles.colorfulLabel}>Delivery</span>
           </div>
         </div>
       </div>

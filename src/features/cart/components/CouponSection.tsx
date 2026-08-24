@@ -4,10 +4,12 @@ import styles from './CouponSection.module.css';
 import sharedStyles from './CartComponents.module.css';
 import { useCart } from '@/features/cart';
 import { formatCurrency } from '@/lib/formatters/currency';
+import { CouponModal } from './CouponModal';
 
 export const CouponSection = () => {
   const { couponState, couponCode, applyCoupon, removeCoupon, couponDiscountValue } = useCart();
   const [inputValue, setInputValue] = useState(couponCode || '');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleApply = () => {
     if (inputValue.trim()) {
@@ -24,10 +26,10 @@ export const CouponSection = () => {
     <div className={sharedStyles.sectionCard}>
       <div className={sharedStyles.sectionHeader}>
         <h2 className={sharedStyles.sectionTitle}>COUPONS & OFFERS</h2>
-        <button className={styles.viewAllBtn}>VIEW ALL</button>
+        <button className={styles.viewAllBtn} onClick={() => setIsModalOpen(true)}>VIEW ALL</button>
       </div>
 
-      <div className={styles.couponCard}>
+      <div className={styles.couponCard} onClick={() => setIsModalOpen(true)} style={{ cursor: 'pointer' }}>
         <div className={styles.couponCardLeft}>
           <Ticket size={24} strokeWidth={1.5} className={styles.icon} />
           <div className={styles.couponCardText}>
@@ -81,6 +83,15 @@ export const CouponSection = () => {
           <span>This coupon has expired</span>
         </div>
       )}
+
+      <CouponModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onApply={(code) => {
+          setInputValue(code);
+          applyCoupon(code);
+        }} 
+      />
     </div>
   );
 };

@@ -22,6 +22,7 @@ import styles from './SearchBar.module.css'
 import { createPortal } from 'react-dom'
 import { FrostingCorner } from '@/pages/storefront/custom-orders/components/FrostingCorner';
 import { MobileFilters } from './MobileFilters';
+import { MascotEmptyState } from '@/components/mascot/MascotEmptyState';
 
 const getCategoryIcon = (id: string) => {
   switch (id) {
@@ -180,11 +181,18 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
       if (isQueryEmpty) return null;
       return (
         <div className={styles.noResults}>
-          <h4 className={styles.noResultsTitle}>No treats found</h4>
-          <p className={styles.noResultsText}>Try searching for something sweeter.</p>
-          <Button variant="outline" onClick={() => handleSearchSubmit('')}>
-            Browse All Treats
-          </Button>
+          <MascotEmptyState 
+            message="No treats found here!" 
+            reaction="confused" 
+            size="medium"
+          />
+          <button 
+            className={styles.exploreLink} 
+            onClick={() => handleSearchSubmit('')}
+          >
+            <span>Browse All Treats</span>
+            <ArrowRight size={16} strokeWidth={2.5} />
+          </button>
         </div>
       )
     }
@@ -194,7 +202,7 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
         {isMobile && (
           <div className={styles.resultsHeaderRow}>
             <span className={styles.resultsCount}>{displayResults.length} {isQueryEmpty ? 'trending treats' : 'results found'}</span>
-            <button className={styles.relevanceDropdown}>RELEVANCE <ChevronDown size={14} /></button>
+            <button className={styles.relevanceDropdown} onClick={() => setIsFiltersOpen(true)}>RELEVANCE <ChevronDown size={14} /></button>
           </div>
         )}
         {!isMobile && <div className={styles.sectionTitle}>{isQueryEmpty ? 'Trending Treats' : 'Search Results'}</div>}

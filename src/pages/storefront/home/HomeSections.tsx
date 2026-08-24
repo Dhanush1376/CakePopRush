@@ -57,20 +57,20 @@ export const ShopByCategorySection = () => {
           </button>
         </div>
         <div className={styles.scrollContainerWrapper}>
-          <button 
+          <button
             className={`${styles.scrollButton} ${styles.scrollLeft}`}
             onClick={() => scroll('left')}
             aria-label="Scroll left"
           >
             <ChevronLeft size={20} />
           </button>
-          
+
           <div className={styles.categoryGrid} ref={scrollRef}>
             {categories.slice(1).map((category) => {
               const imageUrl = CATEGORY_IMAGES[category.id] || products.find(p => p.categoryName === category.name)?.images[0]?.url || '/images/Products/White choclate cakepops.jpeg';
               return (
-                <div 
-                  key={category.id} 
+                <div
+                  key={category.id}
                   className={styles.categoryCardImage}
                   onClick={() => navigate(`/shop?category=${category.id}`)}
                 >
@@ -84,7 +84,7 @@ export const ShopByCategorySection = () => {
             })}
           </div>
 
-          <button 
+          <button
             className={`${styles.scrollButton} ${styles.scrollRight}`}
             onClick={() => scroll('right')}
             aria-label="Scroll right"
@@ -100,7 +100,7 @@ export const ShopByCategorySection = () => {
 export const NewLaunchSection = () => {
   const navigate = useNavigate()
   const [newLaunches, setNewLaunches] = React.useState<Product[]>([])
-  
+
   React.useEffect(() => {
     productData.getProducts().then(products => {
       setNewLaunches(products.filter(p => p.isNew))
@@ -134,7 +134,7 @@ export const NewLaunchSection = () => {
 export const BestSellersSection = () => {
   const navigate = useNavigate()
   const [bestSellers, setBestSellers] = React.useState<Product[]>([])
-  
+
   React.useEffect(() => {
     productData.getBestSellingProducts(8).then(setBestSellers)
   }, [])
@@ -181,7 +181,7 @@ export const OccasionSection = () => {
 
 export const FestiveOccasionsSection = () => {
   const navigate = useNavigate()
-  
+
   const occasions = [
     { id: 'diwali', name: 'Diwali', image: '/images/Products/asorted flavours of cookies.jpeg' },
     { id: 'rakhi', name: 'Rakhi', image: '/images/Products/Milk choclate cakepops.jpeg' },
@@ -204,8 +204,8 @@ export const FestiveOccasionsSection = () => {
         </div>
         <div className={styles.asymmetricalScroll}>
           {occasions.map((occasion) => (
-            <div 
-              key={occasion.id} 
+            <div
+              key={occasion.id}
               className={styles.asymmetricalCard}
               onClick={() => navigate(`/shop?occasion=${occasion.id}`)}
             >
@@ -225,10 +225,10 @@ export const BrandStorySection = () => {
       <Container>
         <div className={styles.brandStoryGrid}>
           <div className={styles.brandStoryImageWrapper}>
-            <img 
-              src="/images/Products/Oreo pops.jpeg" 
-              alt="Handcrafting cake pops" 
-              className={styles.brandStoryImage} 
+            <img
+              src="/images/Products/Oreo pops.jpeg"
+              alt="Handcrafting cake pops"
+              className={styles.brandStoryImage}
               loading="lazy"
               decoding="async"
             />
@@ -236,8 +236,8 @@ export const BrandStorySection = () => {
           <div className={styles.brandStoryContent}>
             <h2 className={styles.sectionTitle}>Handcrafted with Love</h2>
             <p className={styles.brandStoryText}>
-              At CakePopRush, we believe that the best things come in small packages. 
-              Every single pop is baked fresh, hand-rolled, and carefully dipped by our artisan bakers 
+              At CakePopRush, we believe that the best things come in small packages.
+              Every single pop is baked fresh, hand-rolled, and carefully dipped by our artisan bakers
               using only the finest ingredients.
             </p>
             <p className={styles.brandStoryText}>
@@ -293,17 +293,17 @@ export const CustomOrderSection = () => {
           <div className={styles.flowStep}>
             <div className={styles.flowCard}>
               <div className={styles.stepIndicator}>Step 1 of 2</div>
-              <div 
-                className={`${styles.uploadArea} ${design ? styles.hasImage : ''}`} 
+              <div
+                className={`${styles.uploadArea} ${design ? styles.hasImage : ''}`}
                 onClick={() => document.getElementById('home-design-upload')?.click()}
                 style={design ? { padding: 0, borderStyle: 'solid', borderWidth: '1px', borderColor: 'var(--color-brand-pink)', backgroundColor: '#fff', overflow: 'hidden' } : {}}
               >
                 {design ? (
                   <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                    <img 
-                      src={URL.createObjectURL(design)} 
-                      alt="Design preview" 
-                      style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '15px' }} 
+                    <img
+                      src={URL.createObjectURL(design)}
+                      alt="Design preview"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '15px' }}
                     />
                     <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '60px', background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 100%)', pointerEvents: 'none', borderBottomLeftRadius: '15px', borderBottomRightRadius: '15px' }}></div>
                     <div style={{ position: 'absolute', bottom: '12px', left: 0, width: '100%', textAlign: 'center', fontSize: '0.8rem', color: 'white', fontWeight: 600, zIndex: 2, textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
@@ -317,11 +317,11 @@ export const CustomOrderSection = () => {
                     <span className={styles.uploadSubtext}>PNG, JPG or GIF (max. 5MB)</span>
                   </>
                 )}
-                <input 
-                  id="home-design-upload" 
-                  type="file" 
-                  accept="image/*" 
-                  style={{ display: 'none' }} 
+                <input
+                  id="home-design-upload"
+                  type="file"
+                  accept="image/*"
+                  style={{ display: 'none' }}
                   onChange={(e) => {
                     if (e.target.files && e.target.files[0]) {
                       setDesign(e.target.files[0]);
@@ -340,8 +340,8 @@ export const CustomOrderSection = () => {
           <div className={styles.flowStep}>
             <div className={styles.flowCard}>
               <div className={styles.stepIndicator}>Step 2 of 2</div>
-              <textarea 
-                className={styles.textArea} 
+              <textarea
+                className={styles.textArea}
                 placeholder="E.g., It's for a baby shower. I need 2 dozen cake pops in pastel pink and white with vanilla flavor..."
                 value={description}
                 onChange={(e) => {
@@ -361,8 +361,8 @@ export const CustomOrderSection = () => {
           </div>
         </div>
       </Container>
-      
-      <CustomOrderQuickModal 
+
+      <CustomOrderQuickModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSubmit={handleFinalSubmit}

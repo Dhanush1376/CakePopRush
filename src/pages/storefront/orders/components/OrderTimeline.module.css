@@ -42,8 +42,8 @@
 .colorfulStepperTrack {
   position: absolute;
   top: 25px;
-  left: 16.66%;
-  right: 16.66%;
+  left: 12.5%;
+  right: 12.5%;
   height: 3px;
   background: #E5E7EB;
   border-radius: 4px;
@@ -52,7 +52,7 @@
 
 .colorfulStepperFill {
   height: 100%;
-  width: 100%;
+  width: 66.66%;
   background: linear-gradient(90deg, #FFC700 0%, #F20D6F 50%, #07C2BB 100%);
   border-radius: 4px;
 }
@@ -114,4 +114,13 @@
 
 .stepTurquoise .colorfulLabel {
   color: #07C2BB;
+}
+
+.stepGrey .colorfulNode {
+  background-color: #9CA3AF;
+  box-shadow: 0 0 0 4px rgba(156, 163, 175, 0.2);
+}
+
+.stepGrey .colorfulLabel {
+  color: #9CA3AF;
 }

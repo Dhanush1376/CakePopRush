@@ -45,50 +45,50 @@ export const QuickAddDrawer: React.FC<QuickAddDrawerProps> = ({ isOpen, onClose,
   return createPortal(
     <AnimatePresence>
       {isOpen && (
-        <>
           <motion.div
             className={styles.overlay}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-          />
-          <motion.div
-            className={styles.drawer}
-            initial={{ y: '100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
           >
-            <div className={styles.header}>
-              <h2 className={styles.title}>Options for {product.name}</h2>
-              <button className={styles.closeBtn} onClick={onClose} aria-label="Close options">
-                <X size={18} strokeWidth={2.5} />
-              </button>
-            </div>
-            
-            <div className={styles.content}>
-              <div className={styles.customizationArea}>
-                <ConfigurationRenderer 
-                  product={product} 
-                  state={state} 
-                  actions={actions} 
-                />
+            <motion.div
+              className={styles.drawer}
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className={styles.header}>
+                <h2 className={styles.title}>Options for {product.name}</h2>
+                <button className={styles.closeBtn} onClick={onClose} aria-label="Close options">
+                  <X size={18} strokeWidth={2.5} />
+                </button>
               </div>
-            </div>
+              
+              <div className={styles.content}>
+                <div className={styles.customizationArea}>
+                  <ConfigurationRenderer 
+                    product={product} 
+                    state={state} 
+                    actions={actions} 
+                  />
+                </div>
+              </div>
 
-            <div className={styles.footer}>
-              <div className={styles.totalPrice}>
-                <span className={styles.totalLabel}>Total Price</span>
-                <span className={styles.totalAmount}>{formatCurrency(state.calculatedTotal)}</span>
+              <div className={styles.footer}>
+                <div className={styles.totalPrice}>
+                  <span className={styles.totalLabel}>Total Price</span>
+                  <span className={styles.totalAmount}>{formatCurrency(state.calculatedTotal)}</span>
+                </div>
+                <button className={styles.addBtn} onClick={handleAddToCart}>
+                  <ShoppingBag size={16} />
+                  Add to Bag
+                </button>
               </div>
-              <button className={styles.addBtn} onClick={handleAddToCart}>
-                <ShoppingBag size={16} />
-                Add to Bag
-              </button>
-            </div>
+            </motion.div>
           </motion.div>
-        </>
       )}
     </AnimatePresence>,
     document.body

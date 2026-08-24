@@ -527,6 +527,33 @@
   margin: 0 0 24px 0;
 }
 
+.exploreLink {
+  background: none;
+  border: none;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-chocolate);
+  cursor: pointer;
+  border-bottom: 2px solid var(--color-chocolate);
+  padding-bottom: 2px;
+  transition: all var(--duration-fast, 0.2s);
+}
+
+.exploreLink span {
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-sm, 14px);
+  font-weight: 700;
+  transition: all var(--duration-fast, 0.2s);
+}
+
+.exploreLink:hover {
+  transform: translateY(-2px);
+  color: var(--color-brand-pink);
+  border-bottom-color: var(--color-brand-pink);
+}
+
 /* ========================================= */
 /* MOBILE OVERLAY                            */
 /* ========================================= */

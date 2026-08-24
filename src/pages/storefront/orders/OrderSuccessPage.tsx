@@ -74,7 +74,7 @@ export function OrderSuccessPage() {
   const [showInvoice, setShowInvoice] = useState(false)
   const [isReady, setIsReady] = useState(false)
   const [order, setOrder] = useState<any | null>(null)
-  const { currentReaction, triggerReaction, tapMascot, prefersReducedMotion } = useMascotOrchestrator()
+  const { currentReaction, playDirectEmotion, triggerReaction, tapMascot, prefersReducedMotion } = useMascotOrchestrator()
 
   // Generate dual-side confetti blast (left & right cannons)
   const [confettiBlast, setConfettiBlast] = useState<any[]>([]);
@@ -142,10 +142,6 @@ export function OrderSuccessPage() {
     if (fromCheckout && !alreadyShown) {
       setShowCelebration(true)
       sessionStorage.setItem(sessionKey, 'true')
-      
-      // We don't trigger the reaction here immediately since the provider will see the route change,
-      // but it's safe to trigger it to ensure the checkout success specifically plays on the modal
-      triggerReaction('checkout:success')
     }
     if (id) {
       orderData.getOrderById(id).then(found => {
@@ -169,6 +165,20 @@ export function OrderSuccessPage() {
       if (closeTimer) clearTimeout(closeTimer)
     }
   }, [id, location.state])
+
+  // Loop the party reaction with a gap while the modal is open
+  useEffect(() => {
+    let reactionInterval: ReturnType<typeof setInterval>;
+    if (showCelebration) {
+      playDirectEmotion('party');
+      reactionInterval = setInterval(() => {
+        playDirectEmotion('party');
+      }, 5000); // 5 second gap between loops
+    }
+    return () => {
+      if (reactionInterval) clearInterval(reactionInterval);
+    };
+  }, [showCelebration, playDirectEmotion]);
 
   const handleDismiss = () => {
     setShowCelebration(false)
@@ -253,7 +263,7 @@ export function OrderSuccessPage() {
                     >
                       <CakePopMascot 
                         size="large" 
-                        reaction={currentReaction || 'party'} 
+                        reaction={currentReaction} 
                         speedMultiplier={prefersReducedMotion ? 1 : 2} 
                         hideArms={true}
                       />
@@ -376,7 +386,7 @@ export function OrderSuccessPage() {
           </Section>
 
           <div className={styles.globalActions}>
-             <Link to={`/orders/${id}`} className={styles.trackBtn}>
+             <Link to="/orders" className={styles.trackBtn}>
                Track Order <Truck size={16} />
              </Link>
              <button onClick={() => setShowInvoice(true)} className={styles.invoiceBtn}>

@@ -1,27 +1,30 @@
 .backdrop {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100dvh;
   background-color: rgba(35, 20, 15, 0.45);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   z-index: 100000;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 @media (min-width: 768px) {
   .backdrop {
     align-items: center;
+    justify-content: center;
     padding: 24px;
   }
 }
 
 .modal {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  position: relative;
   z-index: 100001;
   background: var(--color-white);
   width: 100%;
@@ -35,11 +38,7 @@
 
 @media (min-width: 768px) {
   .modal {
-    top: 50%;
-    left: 50%;
-    right: auto;
-    bottom: auto;
-    transform: translate(-50%, -50%) !important; /* Override framer-motion y: 0 for desktop centering */
+    transform: none !important; /* Override framer-motion y: 0 */
     max-width: 500px;
     border-radius: 24px;
     box-shadow: 0 24px 64px rgba(40, 20, 10, 0.2);
