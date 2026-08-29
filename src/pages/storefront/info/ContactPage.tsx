@@ -87,7 +87,7 @@ export const ContactPage = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <FrostingCorner color="#FFD000" />
+      <FrostingCorner position="topRight" />
       <FrostingSide 
         color="#07C2BB" 
         style={{ 

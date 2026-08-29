@@ -45,8 +45,8 @@ export const MascotEmptyState: React.FC<MascotEmptyStateProps> = ({
       {/* Speech / Thought Bubble (appears after body pops up) */}
       <motion.div 
         className={styles.speechBubble}
-        initial={{ scale: 0, opacity: 0, y: 0, rotate: -3, originX: 0.8, originY: 1 }}
-        animate={{ scale: 1, opacity: 1, y: 0, rotate: -3 }}
+        initial={{ scale: 0, opacity: 0, y: 10, x: 0, rotate: 8, originX: 0.1, originY: 1 }}
+        animate={{ scale: 1, opacity: 1, y: 0, x: 0, rotate: 4 }}
         transition={{ delay: 0.8, type: 'spring', stiffness: 220, damping: 18 }}
       >
         {typedText.split('\n').map((line, i) => (

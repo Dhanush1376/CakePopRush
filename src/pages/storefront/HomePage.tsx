@@ -3,15 +3,16 @@ import { ChevronRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { ShopByCategorySection, BestSellersSection, NewLaunchSection, FestiveOccasionsSection, CustomOrderSection } from './home/HomeSections'
 import styles from './home/HomePage.module.css'
+import { HomeFrosting } from './home/components/HomeFrosting'
 
 export function HomePage() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  
+
   const dragStartX = useRef(0);
   const dragScrollLeft = useRef(0);
-  
+
   // Momentum tracking
   const lastX = useRef(0);
   const lastTime = useRef(0);
@@ -22,7 +23,7 @@ export function HomePage() {
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
-    
+
     let animationId: number;
 
     const scroll = () => {
@@ -32,10 +33,10 @@ export function HomePage() {
         if (Math.abs(exactScroll.current - el.scrollLeft) > 2) {
           exactScroll.current = el.scrollLeft;
         }
-        
+
         exactScroll.current += 0.4; // Adjusted to closely match the coupon banner speed
         el.scrollLeft = exactScroll.current;
-        
+
         if (el.scrollLeft >= el.scrollWidth / 2) {
           exactScroll.current = 0;
           el.scrollLeft = 0;
@@ -52,7 +53,7 @@ export function HomePage() {
   const handleMouseDown = (e: React.MouseEvent) => {
     if (momentumId.current) cancelAnimationFrame(momentumId.current);
     velocity.current = 0;
-    
+
     setIsDragging(true);
     if (scrollRef.current) {
       dragStartX.current = e.pageX;
@@ -65,11 +66,11 @@ export function HomePage() {
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging || !scrollRef.current) return;
     e.preventDefault();
-    
+
     const x = e.pageX;
     const walk = (x - dragStartX.current) * 1.5;
     scrollRef.current.scrollLeft = dragScrollLeft.current - walk;
-    
+
     // Calculate velocity
     const now = Date.now();
     const dt = now - lastTime.current;
@@ -84,7 +85,7 @@ export function HomePage() {
 
   const handleMouseUpOrLeave = () => {
     setIsDragging(false);
-    
+
     // Apply momentum
     if (Math.abs(velocity.current) > 0.1 && scrollRef.current) {
       const applyMomentum = () => {
@@ -92,17 +93,17 @@ export function HomePage() {
           velocity.current = 0;
           return;
         }
-        
+
         scrollRef.current.scrollLeft -= velocity.current * 15;
         velocity.current *= 0.92; // Friction multiplier
-        
+
         // Loop back logic for momentum
         if (scrollRef.current.scrollLeft >= scrollRef.current.scrollWidth / 2) {
           scrollRef.current.scrollLeft = 0;
         } else if (scrollRef.current.scrollLeft <= 0) {
           scrollRef.current.scrollLeft = scrollRef.current.scrollWidth / 2;
         }
-        
+
         momentumId.current = requestAnimationFrame(applyMomentum);
       };
       momentumId.current = requestAnimationFrame(applyMomentum);
@@ -127,9 +128,14 @@ export function HomePage() {
 
   return (
     <div className={styles.homePage}>
+      <HomeFrosting position="leftSide" style={{ top: '30%', zIndex: 0 }} />
+      <HomeFrosting position="rightSidePink" style={{ top: '105vh', zIndex: 0 }} />
+      <HomeFrosting position="rightSide" style={{ top: '40%', zIndex: 0 }} />
+      <HomeFrosting position="leftSideBlue" style={{ top: '84%', zIndex: 0 }} />
+
       <div className={styles.rwdyHero}>
-        <div 
-          className={styles.heroScrollingBackground} 
+        <div
+          className={styles.heroScrollingBackground}
           ref={scrollRef}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => { setIsHovered(false); handleMouseUpOrLeave(); }}
@@ -142,10 +148,10 @@ export function HomePage() {
           <div className={styles.scrollingTrack}>
             {/* Repeat the images multiple times for seamless looping on ultra-wide screens */}
             {[...heroProducts, ...heroProducts, ...heroProducts, ...heroProducts].map((product, i) => (
-              <Link 
-                to={`/product/${product.id}`} 
-                key={i} 
-                className={styles.imageLink} 
+              <Link
+                to={`/product/${product.id}`}
+                key={i}
+                className={styles.imageLink}
                 draggable={false}
                 onClick={handleLinkClick}
               >

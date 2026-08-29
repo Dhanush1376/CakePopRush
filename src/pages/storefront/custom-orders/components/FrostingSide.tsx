@@ -15,36 +15,28 @@ export const FrostingSide = ({ color = "#07C2BB", style, className }: { color?: 
       ...style
     }}
   >
-    {/* Base Frosting */}
+    {/* Base Light Blob */}
     <path 
-      d="M 0 0 C 60 20, 80 50, 50 100 C 20 150, 100 180, 80 230 C 60 280, 40 300, 0 314 Z" 
-      fill={color} 
+      d="M0 0 C 100 40, 140 120, 80 180 C 20 240, 140 280, 60 320 L 0 320 Z" 
+      fill="#D6F8F1" 
+      opacity="0.9"
     />
     
-    {/* White stroke outline - tapers to sharp point at wall */}
+    {/* Inner darker blob */}
     <path 
-      d="M 0 0 C 60 20, 80 50, 50 100 C 20 150, 100 180, 80 230 C 60 280, 40 300, 0 314" 
-      stroke="white" 
-      strokeWidth="10" 
+      d="M0 20 C 60 60, 80 130, 40 190 C 0 250, 80 290, 40 320 L 0 320 Z" 
+      fill="#B3EBE0" 
+      opacity="0.8"
     />
     
-    {/* Second thin outline - asymmetrical, slight peel away gap */}
-    <path 
-      d="M 0 6 C 64 26, 84 56, 54 106 C 24 156, 104 186, 84 236 C 64 286, 44 306, 0 320" 
-      stroke={color} 
-      strokeWidth="2" 
-    />
+    {/* Wavy lines */}
+    <path d="M0 50 C 40 90, 20 150, 40 210" stroke="#B3EBE0" strokeWidth="2" fill="none"/>
 
-    {/* Sprinkles inside the frosting */}
-    <rect x="20" y="40" width="4" height="12" rx="2" transform="rotate(45 20 40)" fill="#FFF" />
-    <rect x="15" y="120" width="4" height="12" rx="2" transform="rotate(-30 15 120)" fill="#FFD000" />
-    <rect x="30" y="200" width="4" height="12" rx="2" transform="rotate(60 30 200)" fill="#5C3317" />
-    <rect x="10" y="280" width="4" height="12" rx="2" transform="rotate(-15 10 280)" fill="#f879b4ff" />
-
-    {/* Sprinkles outside tracing the curve */}
-    <rect x="90" y="60" width="4" height="12" rx="2" transform="rotate(20 90 60)" fill="#5C3317" />
-    <rect x="55" y="140" width="4" height="12" rx="2" transform="rotate(-45 55 140)" fill="#FFF" />
-    <rect x="100" y="240" width="4" height="12" rx="2" transform="rotate(35 100 240)" fill="#FFD000" />
-    <rect x="45" y="300" width="4" height="12" rx="2" transform="rotate(-60 45 300)" fill="#f879b4ff" />
+    {/* Sprinkles */}
+    <rect x="30" y="50" width="8" height="4" rx="2" transform="rotate(45 30 50)" fill="#FFD000" />
+    <rect x="75" y="130" width="8" height="4" rx="2" transform="rotate(-30 75 130)" fill="#F495B4" />
+    <circle cx="40" cy="210" r="3" fill="#07C2BB" />
+    <circle cx="90" cy="250" r="2.5" fill="#FFD000" />
+    <rect x="30" y="290" width="8" height="4" rx="2" transform="rotate(-15 30 290)" fill="#F495B4" />
   </svg>
 );

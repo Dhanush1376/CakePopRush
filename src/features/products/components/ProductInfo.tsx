@@ -111,13 +111,6 @@ export const ProductInfo = ({ product, calculatedTotal, mascotMessage }: Product
 
   return (
     <div className={styles.container}>
-      {/* Small Product Image */}
-      {product.images && product.images.length > 0 && (
-        <div className={styles.productIconWrapper}>
-          <img src={product.images[0].url} alt={product.name} className={styles.productIcon} />
-        </div>
-      )}
-      
       {/* Title & Price Row */}
       <div className={styles.headerRow}>
         <h1 className={styles.title}>{product.name}</h1>

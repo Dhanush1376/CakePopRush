@@ -80,6 +80,16 @@
         "id": "img_1",
         "url": "/images/Products/Choclate chip cookies.jpeg",
         "alt": "Chocolate Chip Cookies"
+      },
+      {
+        "id": "img_1_2",
+        "url": "/images/Products/Triple chocolate cookies.jpeg",
+        "alt": "Chocolate Chip Cookies - View 2"
+      },
+      {
+        "id": "img_1_3",
+        "url": "/images/Products/Nutella sea salt cookies.jpeg",
+        "alt": "Chocolate Chip Cookies - View 3"
       }
     ],
     "basePrice": 45000,

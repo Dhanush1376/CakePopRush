@@ -7,6 +7,7 @@
   min-height: 100vh;
   padding-bottom: calc(100px + env(safe-area-inset-bottom));
   padding-top: var(--space-4);
+  position: relative;
 }
 
 .errorContainer {
@@ -78,8 +79,14 @@
 
 .stickyPanel {
   padding: var(--space-6) var(--space-3);
-  background-color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(24px) saturate(120%);
+  -webkit-backdrop-filter: blur(24px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: var(--radius-2xl);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 @media (min-width: 768px) {
@@ -90,27 +97,7 @@
 
 @media (min-width: 1024px) {
   .stickyPanel {
-    position: sticky;
-    top: var(--header-height-desktop, 80px);
-    max-height: calc(100vh - var(--header-height-desktop, 80px));
-    overflow-y: auto;
     padding: var(--space-8) var(--space-4);
-    scrollbar-width: thin;
-    scrollbar-color: var(--color-neutral-300) transparent;
-  }
-
-  .stickyPanel::-webkit-scrollbar {
-    width: 6px;
-  }
-  .stickyPanel::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .stickyPanel::-webkit-scrollbar-thumb {
-    background: var(--color-neutral-300);
-    border-radius: 10px;
-  }
-  .stickyPanel::-webkit-scrollbar-thumb:hover {
-    background: var(--color-neutral-400);
   }
 }
 

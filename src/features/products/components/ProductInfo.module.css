@@ -13,20 +13,29 @@
 }
 
 .productIconWrapper {
-  width: 64px;
-  height: 64px;
-  border-radius: var(--radius-lg);
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-xl);
   overflow: hidden;
   margin-bottom: var(--space-4);
-  margin-left: calc(-1 * var(--space-3)); /* Align with main image by negating parent padding */
-  box-shadow: var(--shadow-sm);
-  border: 2px solid var(--color-hero-cream);
+  margin-top: calc(-1 * var(--space-6) - 36px);
+  margin-left: 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border: 3px solid var(--color-white);
   background: var(--color-white);
+  position: relative;
+  z-index: 10;
 }
 
 @media (min-width: 768px) {
   .productIconWrapper {
-    margin-left: 0; /* Reset on larger screens where layout differs */
+    margin-left: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .productIconWrapper {
+    margin-top: calc(-1 * var(--space-8) - 36px);
   }
 }
 

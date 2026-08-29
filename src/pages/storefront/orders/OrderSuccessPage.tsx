@@ -166,19 +166,12 @@ export function OrderSuccessPage() {
     }
   }, [id, location.state])
 
-  // Loop the party reaction with a gap while the modal is open
+  // Trigger the celebration sequence when the modal opens
   useEffect(() => {
-    let reactionInterval: ReturnType<typeof setInterval>;
     if (showCelebration) {
-      playDirectEmotion('party');
-      reactionInterval = setInterval(() => {
-        playDirectEmotion('party');
-      }, 5000); // 5 second gap between loops
+      triggerReaction('checkout:success');
     }
-    return () => {
-      if (reactionInterval) clearInterval(reactionInterval);
-    };
-  }, [showCelebration, playDirectEmotion]);
+  }, [showCelebration, triggerReaction]);
 
   const handleDismiss = () => {
     setShowCelebration(false)

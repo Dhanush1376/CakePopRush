@@ -286,8 +286,6 @@
 
   .thumbnails {
     flex-direction: column;
-    overflow-y: auto;
-    max-height: calc(100vh - 200px);
     width: auto;
     padding: 0;
   }

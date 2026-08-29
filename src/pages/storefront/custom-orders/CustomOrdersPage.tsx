@@ -44,7 +44,7 @@ export const CustomOrdersPage: React.FC = () => {
 
   return (
     <div className={styles.pageContainer}>
-      <FrostingCorner />
+      <FrostingCorner variant="turquoise" />
       <Container className={styles.container}>
 
         {/* Top Header Row */}

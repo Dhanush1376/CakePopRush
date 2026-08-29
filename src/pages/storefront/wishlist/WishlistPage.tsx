@@ -11,6 +11,8 @@ import {
   WishlistErrorState,
   WishlistMascot 
 } from '@/features/wishlist';
+import { FrostingCorner } from '@/pages/storefront/custom-orders/components/FrostingCorner';
+
 export const WishlistPage = () => {
   const { items, isLoading, error, refresh } = useWishlist();
 
@@ -22,6 +24,7 @@ export const WishlistPage = () => {
   if (isLoading) {
     return (
       <div className={styles.page}>
+        <FrostingCorner position="topRight" />
         <Container>
           <WishlistHeader itemCount={0} />
         </Container>
@@ -43,6 +46,7 @@ export const WishlistPage = () => {
   if (error) {
     return (
       <div className={styles.page}>
+        <FrostingCorner position="topRight" />
         <Container>
           <WishlistHeader itemCount={0} />
           <div className={styles.errorWrapper}>
@@ -57,6 +61,7 @@ export const WishlistPage = () => {
   if (items.length === 0) {
     return (
       <div className={styles.page}>
+        <FrostingCorner position="topRight" />
         <Container>
           <div className={styles.emptyWrapper}>
             <WishlistEmptyState />
@@ -69,6 +74,7 @@ export const WishlistPage = () => {
   // Content state
   return (
     <div className={styles.page}>
+      <FrostingCorner position="topRight" />
       <Container>
         <WishlistHeader itemCount={items.length} />
       </Container>

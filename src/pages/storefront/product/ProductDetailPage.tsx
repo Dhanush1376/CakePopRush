@@ -10,6 +10,7 @@ import styles from './ProductDetailPage.module.css'
 import { Container } from '@/components/layout/Container'
 import { Accordion } from '@/components/ui/Accordion'
 import { usePDPState } from '@/features/products/hooks/usePDPState'
+import { HomeFrosting } from '../home/components/HomeFrosting'
 
 import {
   PDPSkeleton,
@@ -90,7 +91,12 @@ export function ProductDetailPage() {
 
   return (
     <div className={styles.productPage}>
-      <Container>
+      <HomeFrosting position="leftSideTurquoise" style={{ top: '15%', zIndex: 0 }} />
+      <HomeFrosting position="rightSidePink" style={{ top: '55%', zIndex: 0 }} />
+      <HomeFrosting position="leftSide" style={{ top: '95%', zIndex: 0 }} />
+
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <Container>
         {/* Breadcrumbs */}
         <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
           <Link to="/">Home</Link>
@@ -184,6 +190,7 @@ export function ProductDetailPage() {
           onBuyNow={() => { }}
         />
       )}
+      </div>
     </div>
   )
 }

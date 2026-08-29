@@ -110,12 +110,11 @@
   transform: rotate(10deg);
 }
 
-/* Speech Bubble positioned to the left of the mascot, slightly overlapping */
+/* Speech Bubble positioned to the right of the mascot, slightly overlapping */
 .speechBubble {
   position: absolute;
-  bottom: 85px;
-  right: 50%;
-  margin-right: -10px;
+  bottom: 95px;
+  left: calc(50% + 20px);
   background: #ffffff;
   border: 1.5px solid var(--color-brand-pink, #F20D6F);
   border-radius: 18px;
@@ -135,16 +134,16 @@
   pointer-events: none;
 }
 
-/* Speech bubble pointer tail directed from the bottom right, pointing straight down */
 .speechBubble::after {
   content: '';
   position: absolute;
   bottom: -6px;
-  right: 30px;
+  left: 20px;
   width: 10px;
   height: 10px;
   background: #ffffff;
   border-bottom: 1.5px solid var(--color-brand-pink, #F20D6F);
   border-right: 1.5px solid var(--color-brand-pink, #F20D6F);
+  border-bottom-right-radius: 2px;
   transform: rotate(45deg);
 }

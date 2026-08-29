@@ -8,6 +8,8 @@
     linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
   background-size: 20px 20px;
   background-attachment: fixed;
+  position: relative;
+  overflow-x: hidden;
 }
 
 .rwdyHero {
@@ -544,6 +546,8 @@
 
 .section {
   padding: var(--space-12) 0;
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 768px) {
@@ -587,9 +591,10 @@
   height: 40px;
   border-radius: 50%;
   background: white;
-  border: 1px solid rgba(0,0,0,0.1);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  display: none; /* Hidden on mobile by default */
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: none;
+  /* Hidden on mobile by default */
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -636,7 +641,7 @@
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
-  
+
   .categoryGrid::-webkit-scrollbar {
     display: none;
   }
@@ -970,7 +975,8 @@
 /* Custom Order Section */
 .customOrderSection {
   padding: 80px 0;
-  background-color: var(--color-surface);
+  position: relative;
+  z-index: 1;
 }
 
 .customOrderHeader {
@@ -982,8 +988,10 @@
 
 .customOrderTitle {
   font-family: var(--font-family-body);
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   color: var(--color-chocolate);
   margin-bottom: 8px;
 }
@@ -1066,12 +1074,14 @@
 }
 
 .flowCard {
-  background: var(--color-white);
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border-radius: 24px;
   padding: 32px 24px;
-  box-shadow: 0 10px 40px rgba(91, 58, 41, 0.06);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15), inset 0 2px 10px rgba(255, 255, 255, 0.6);
   width: 100%;
-  border: 1px solid rgba(91, 58, 41, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   display: flex;
   flex-direction: column;
 }
@@ -1094,7 +1104,7 @@
 }
 
 .uploadArea {
-  border: 2px dashed rgba(91, 58, 41, 0.15);
+  border: 2px dashed rgba(255, 255, 255, 0.6);
   border-radius: 16px;
   padding: 32px 20px;
   display: flex;
@@ -1103,7 +1113,7 @@
   justify-content: center;
   gap: 12px;
   cursor: pointer;
-  background: #faf8f5;
+  background: rgba(255, 255, 255, 0.15);
   transition: all 0.3s ease;
   min-height: 160px;
 }
@@ -1135,7 +1145,7 @@
 
 .textArea {
   width: 100%;
-  border: 1px solid rgba(91, 58, 41, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 16px;
   padding: 16px;
   font-family: var(--font-family-body);
@@ -1143,7 +1153,7 @@
   color: var(--color-text);
   min-height: 140px;
   resize: vertical;
-  background: #faf8f5;
+  background: rgba(255, 255, 255, 0.15);
   transition: all 0.3s ease;
   line-height: 1.6;
 }

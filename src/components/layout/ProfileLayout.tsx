@@ -197,8 +197,8 @@ export const ProfileLayout = ({ children, isMobileStandalone = false, onEditProf
 
   return (
     <div className={styles.pageContainer} ref={heroRef as React.RefObject<HTMLDivElement>}>
-      <FrostingCorner color="#fc7db4ff" style={{ left: 0, right: 'auto', transform: 'scaleX(1)' }} />
-      <FrostingCorner color="#FFD000" style={{ top: 'auto', bottom: 0, right: 0, transform: 'scaleX(-1) scaleY(-1)' }} />
+      <FrostingCorner position="topLeft" />
+      <FrostingCorner position="bottomRight" />
       <div className={styles.contentWrapper}>
         <ProfileHeader />
         <div className={styles.desktopGrid}>
