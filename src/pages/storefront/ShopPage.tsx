@@ -23,6 +23,21 @@ import { ShopFilters } from '@/components/commerce/MobileFilters'
 
 const PAGE_SIZE = 8;
 
+const TypingText = ({ text }: { text: string }) => {
+  const [displayed, setDisplayed] = React.useState('');
+  React.useEffect(() => {
+    setDisplayed('');
+    let i = 0;
+    const interval = setInterval(() => {
+      setDisplayed(text.slice(0, i + 1));
+      i++;
+      if (i >= text.length) clearInterval(interval);
+    }, 25);
+    return () => clearInterval(interval);
+  }, [text]);
+  return <>{displayed}</>;
+};
+
 export function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const initialCategory = searchParams.get('category') || 'all'
@@ -120,10 +135,11 @@ export function ShopPage() {
   const eyeTargetY = useMotionValue(0);
   const eyeSpringX = useSpring(eyeTargetX, { stiffness: 200, damping: 25 });
   const eyeSpringY = useSpring(eyeTargetY, { stiffness: 200, damping: 25 });
+  const isEyeLockedRef = React.useRef(false);
 
   React.useEffect(() => {
     const handlePointerEvent = (e: PointerEvent) => {
-      if (!mascotRef.current) return;
+      if (!mascotRef.current || isEyeLockedRef.current) return;
       const rect = mascotRef.current.getBoundingClientRect();
       const mascotCenterX = rect.left + rect.width / 2;
       const mascotCenterY = rect.top + rect.height / 2;
@@ -212,6 +228,17 @@ export function ShopPage() {
       mascotControlRef.current.play(thought.reaction);
     }
 
+    // Force eyes to look up-left at the thought bubble for 1 second
+    isEyeLockedRef.current = true;
+    eyeTargetX.set(-8);
+    eyeTargetY.set(-12);
+    
+    setTimeout(() => {
+      isEyeLockedRef.current = false;
+      eyeTargetX.set(0);
+      eyeTargetY.set(0);
+    }, 1000);
+
     if (thoughtTimeoutRef.current) {
       clearTimeout(thoughtTimeoutRef.current);
     }
@@ -287,12 +314,12 @@ export function ShopPage() {
             {thoughtMessage && (
               <motion.div 
                 className={styles.thoughtBubble}
-                initial={{ opacity: 0, scale: 0.8, y: 10, rotate: -5 }}
-                animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
-                exit={{ opacity: 0, scale: 0.8, y: 10 }}
-                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ type: 'spring', damping: 15, stiffness: 300 }}
               >
-                {thoughtMessage}
+                <TypingText text={thoughtMessage} />
               </motion.div>
             )}
           </AnimatePresence>

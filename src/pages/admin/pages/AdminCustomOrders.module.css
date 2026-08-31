@@ -556,7 +556,7 @@
 
 @media (max-width: 768px) {
   .header { flex-direction: column; gap: 1rem; align-items: stretch; }
-  
+  .addBtn { justify-content: center; }
   
   .kpiGrid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .statsGrid { grid-template-columns: repeat(2, 1fr); }

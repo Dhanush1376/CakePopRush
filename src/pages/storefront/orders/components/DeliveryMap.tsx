@@ -30,7 +30,7 @@ const createRiderIcon = (heading: number = 0) => {
     className: styles.riderMarkerWrapper,
     html: `
       <div style="position: absolute; bottom: 0; left: -500px; width: 1000px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; pointer-events: none;">
-        <div id="rider-scooty-g" style="pointer-events: auto; margin-bottom: -30px; z-index: 10; display: flex; justify-content: center; align-items: center; transform-origin: center; transition: transform 0.2s linear;">
+        <div id="rider-scooty-g" style="pointer-events: auto; margin-bottom: -30px; z-index: 10; display: flex; justify-content: center; align-items: center; transform-origin: center;">
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="60" viewBox="0 0 40 60" style="filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.3));">
             <!-- Front wheel -->
             <rect x="17" y="4" width="6" height="12" fill="#222" rx="3" />
@@ -108,8 +108,13 @@ const MapController = forwardRef<{ recenter: () => void }, MapControllerProps>((
 
   const recenter = () => {
     if (state.rider && (state.status === 'on_the_way' || state.status === 'arriving')) {
-      // Zoom in close to the rider. The animation loop will immediately pan to them.
-      map.setZoom(17, { animate: true, duration: 1 });
+      const zoom = 17;
+      const targetOffsetRatio = isSheetExpanded ? 0.28 : 0.15;
+      const targetPoint = map.project([state.rider.latitude, state.rider.longitude], zoom);
+      targetPoint.y += window.innerHeight * targetOffsetRatio;
+      const targetLatLng = map.unproject(targetPoint, zoom);
+      
+      map.flyTo(targetLatLng, zoom, { animate: true, duration: 1.5 });
     } else {
       const bounds = L.latLngBounds([]);
       bounds.extend([state.customer.latitude, state.customer.longitude]);
@@ -163,9 +168,12 @@ export const DeliveryMap = forwardRef<DeliveryMapRef, DeliveryMapProps>(({ state
   const mapRef = React.useRef<L.Map | null>(null);
   const isTrackingRef = React.useRef<boolean>(true);
 
+  const nextPanTimeRef = React.useRef<number>(0);
+
   useImperativeHandle(ref, () => ({
     recenter: () => {
       isTrackingRef.current = true;
+      nextPanTimeRef.current = Date.now() + 1600; // Suspend auto-tracking while flying
       mapControllerRef.current?.recenter();
     }
   }));
@@ -208,19 +216,19 @@ export const DeliveryMap = forwardRef<DeliveryMapRef, DeliveryMapProps>(({ state
       riderMarkerRef.current.setLatLng([lat, lng]);
 
       // 1.5. Live Camera Tracking
-      if (isTrackingRef.current && mapRef.current) {
-        // Smoothly interpolate the offset ratio towards the target based on sheet state
+      if (isTrackingRef.current && mapRef.current && now >= nextPanTimeRef.current) {
+        nextPanTimeRef.current = now + 2000;
+        
+        // Use smooth panTo instead of aggressive per-frame setView to prevent map shaking
         const targetOffsetRatio = isSheetExpanded ? 0.28 : 0.15;
-        currentOffsetRatio += (targetOffsetRatio - currentOffsetRatio) * 0.1; // Smooth lerp
-
         const zoom = mapRef.current.getZoom();
         const targetPoint = mapRef.current.project([lat, lng], zoom);
         
         // Offset center DOWN so the marker sits securely HIGHER in the visible upper half of the screen
-        targetPoint.y += window.innerHeight * currentOffsetRatio;
+        targetPoint.y += window.innerHeight * targetOffsetRatio;
         
         const targetLatLng = mapRef.current.unproject(targetPoint, zoom);
-        mapRef.current.setView(targetLatLng, zoom, { animate: false });
+        mapRef.current.panTo(targetLatLng, { animate: true, duration: 2, easeLinearity: 1 });
       }
 
       // 2. Rotate Marker

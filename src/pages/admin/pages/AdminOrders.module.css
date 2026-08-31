@@ -410,7 +410,7 @@
 }
 @media (max-width: 768px) {
   .statsGrid { grid-template-columns: repeat(2, 1fr); }
-  .header { flex-direction: column; gap: 1rem; align-items: stretch; }
+  .header { flex-direction: column; gap: 1rem; align-items: flex-start; }
   .newOrderBtn { width: 100%; justify-content: center; padding: 12px 16px; }
   
   

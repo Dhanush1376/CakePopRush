@@ -711,7 +711,7 @@
     flex-direction: row;
     flex-wrap: nowrap;
     gap: 8px;
-    align-items: stretch;
+    align-items: flex-start;
   }
   
   .headerRight > * {

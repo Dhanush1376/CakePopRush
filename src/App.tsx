@@ -40,7 +40,7 @@ function App() {
         {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
       </AnimatePresence>
 
-      <div className="app-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <div className="app-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', overflowX: 'clip' }}>
         <MascotOrchestrationProvider>
           <a href="#main-content" className="skip-link">Skip to main content</a>
           <GlobalHeartAnimation />

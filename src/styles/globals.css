@@ -21,7 +21,6 @@ html, body {
   color: var(--color-text);
   -webkit-overflow-scrolling: touch;
   -webkit-tap-highlight-color: transparent;
-  overflow-x: clip;
   width: 100%;
 }
 

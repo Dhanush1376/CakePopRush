@@ -341,7 +341,7 @@ function scoreContextPools(ctx: CartAIContext): ScoredPool[] {
 
   // ─── Action-specific pools (always prioritize these) ───
   if (ctx.action ==='delete-confirm') {
-    pools.push({ score: 50, messages: MESSAGES.deleteConfirm, emotion: 'sad', intensity: 4 });
+    pools.push({ score: 50, messages: MESSAGES.deleteConfirm, emotion: 'cryingFountain', intensity: 4 });
     return pools;
   }
 
@@ -351,17 +351,17 @@ function scoreContextPools(ctx: CartAIContext): ScoredPool[] {
   }
 
   if (ctx.action ==='remove') {
-    pools.push({ score: 50, messages: MESSAGES.itemRemoved, emotion: 'sad', intensity: 4 });
+    pools.push({ score: 50, messages: MESSAGES.itemRemoved, emotion: 'cryingFountain', intensity: 4 });
     return pools;
   }
 
   if (ctx.action ==='empty') {
-    pools.push({ score: 50, messages: MESSAGES.cartEmptied, emotion: 'sad', intensity: 4 });
+    pools.push({ score: 50, messages: MESSAGES.cartEmptied, emotion: 'cryingFountain', intensity: 4 });
     return pools;
   }
 
   if (ctx.action ==='decrease') {
-    pools.push({ score: 50, messages: MESSAGES.quantityDecrease, emotion: 'sad', intensity: 3 });
+    pools.push({ score: 50, messages: MESSAGES.quantityDecrease, emotion: 'cryingFountain', intensity: 4 });
     return pools;
   }
 

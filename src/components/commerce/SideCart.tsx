@@ -73,6 +73,12 @@ export const SideCart = () => {
   const lastMessageTimeRef = useRef<number>(0);
   const MESSAGE_COOLDOWN = 800; // ms between text updates
 
+  const eyeTargetX = useMotionValue(0);
+  const eyeTargetY = useMotionValue(0);
+  const eyeSpringX = useSpring(eyeTargetX, { stiffness: 800, damping: 40 });
+  const eyeSpringY = useSpring(eyeTargetY, { stiffness: 800, damping: 40 });
+  const isEyeLockedRef = useRef(false);
+
   // Build context and generate AI message
   const reactWithAI = useCallback((action: CartAction, productName?: string, categoryName?: string, quantity?: number, previousQuantity?: number) => {
     const now = Date.now();
@@ -114,18 +120,24 @@ export const SideCart = () => {
     if (messageHistoryRef.current.length > 8) messageHistoryRef.current.shift();
     lastMessageTimeRef.current = now;
     setMessage(reactionData.message);
-  }, [items, totalItems, totalDiscount, playDirectEmotion, setMessage]);
 
-  const eyeTargetX = useMotionValue(0);
-  const eyeTargetY = useMotionValue(0);
-  const eyeSpringX = useSpring(eyeTargetX, { stiffness: 800, damping: 40 });
-  const eyeSpringY = useSpring(eyeTargetY, { stiffness: 800, damping: 40 });
+    // Look at the think box for 1 second
+    isEyeLockedRef.current = true;
+    eyeTargetX.set(-6);
+    eyeTargetY.set(-14);
+    setTimeout(() => {
+      isEyeLockedRef.current = false;
+      eyeTargetX.set(0);
+      eyeTargetY.set(0);
+    }, 1000);
+
+  }, [items, totalItems, totalDiscount, playDirectEmotion, setMessage, eyeTargetX, eyeTargetY]);
 
   // Reaction ref not needed for eye tracking since MascotEyes handles overrides natively
 
   useEffect(() => {
     const handlePointerEvent = (e: PointerEvent) => {
-      if (!mascotRef.current) return;
+      if (!mascotRef.current || isEyeLockedRef.current) return;
       const rect = mascotRef.current.getBoundingClientRect();
       const mascotCenterX = rect.left + rect.width / 2;
       const mascotCenterY = rect.top + rect.height / 2;
@@ -232,8 +244,11 @@ export const SideCart = () => {
           >
             <div className={styles.header}>
               <h2 className={styles.title}>
-                <ShoppingBag size={22} strokeWidth={2.5} />
-                Your Bag <span className={styles.itemCount}>({totalItems})</span>
+                <div className={styles.iconWithBadge}>
+                  <ShoppingBag size={22} strokeWidth={2.5} />
+                  <span className={styles.bagBadge}>{totalItems}</span>
+                </div>
+                Your Bag
               </h2>
               <IconButton
                 icon={<X size={20} strokeWidth={1.5} />}
@@ -247,7 +262,7 @@ export const SideCart = () => {
               {items.length === 0 ? (
                 <div className={styles.emptyState}>
                   <div className={styles.emptyIconWrapper}>
-                    <ShoppingBag size={48} strokeWidth={1.5} />
+                    <ShoppingBag size={42} strokeWidth={1.5} />
                   </div>
                   <h3 className={styles.emptyTitle}>Your bag is empty</h3>
                   <p className={styles.emptyText}>Looks like you haven't added any sweet treats yet.</p>
@@ -346,88 +361,87 @@ export const SideCart = () => {
               )}
             </div>
 
-            {items.length > 0 && (
-              <div className={styles.footerWrapper}>
-                <AnimatePresence>
-                  {currentMessage && (
-                    <motion.div
-                      className={styles.speechBubble}
-                      initial={{ opacity: 0, scale: 0.5 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      transition={{ type: 'spring', damping: 15, stiffness: 300 }}
-                    >
-                      <TypingText text={currentMessage} />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-                <motion.div
-                  className={styles.mascotContainer}
-                  ref={mascotRef}
-                  initial={{ y: mascotInitialY }}
-                  animate={{ y: 0 }}
-                  transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                  onClick={handleMascotClick}
-                >
-                  <CakePopMascot 
-                    ref={mascotControlRef}
-                    size="large" 
-                    reaction={currentReaction} 
-                    eyeX={eyeSpringX} 
-                    eyeY={eyeSpringY} 
-                    speedMultiplier={prefersReducedMotion ? 1 : 2} 
-                    hideArms={true}
-                  />
-                </motion.div>
-                <motion.div
-                  className={styles.mascotHandLeft}
-                  initial={{ y: handInitialY, opacity: handInitialOpacity, scale: handInitialScale }}
-                  animate={{ y: 0, opacity: 1, scale: 1 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 20, delay: hasAppeared ? 0 : 0.2 }}
-                />
-                <motion.div
-                  className={styles.mascotHandRight}
-                  initial={{ y: handInitialY, opacity: handInitialOpacity, scale: handInitialScale }}
-                  animate={{ y: 0, opacity: 1, scale: 1 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 20, delay: hasAppeared ? 0 : 0.1 }}
-                />
-                
-                <div className={styles.footerContent}>
-                  <div className={styles.summaryRow}>
-                    <span>Subtotal</span>
-                    <span className={styles.totalPriceValue}>{formatCurrency(subtotal)}</span>
-                  </div>
-                  {totalDiscount > 0 && (
-                    <div className={`${styles.summaryRow} ${styles.discountRow}`}>
-                      <span>Discount</span>
-                      <span className={styles.totalPriceValue}>- {formatCurrency(totalDiscount)}</span>
-                    </div>
-                  )}
-                <div className={`${styles.summaryRow} ${styles.totalRow}`}>
-                  <span>Total</span>
-                  <div style={{ textAlign: 'right' }}>
-                    <div className={styles.totalPriceValue}>{formatCurrency(total)}</div>
-                    <div className={styles.calculatedText}>Calculated at checkout</div>
-                  </div>
-                </div>
-
-                <div className={styles.actions}>
-                  <Button size="sm" variant="outline" className={`${styles.actionBtn} ${styles.viewCartBtn}`} onClick={handleViewCart}>
-                    Cart
-                  </Button>
-                  <Button
-                    size="sm"
-                    className={styles.actionBtn}
-                    variant="primary"
-                    onClick={handleCheckout}
-                    rightIcon={<ArrowRight size={16} />}
+            <div className={styles.footerWrapper}>
+              <AnimatePresence>
+                {currentMessage && (
+                  <motion.div
+                    className={styles.speechBubble}
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ type: 'spring', damping: 15, stiffness: 300 }}
                   >
-                    Checkout
-                  </Button>
+                    <TypingText text={currentMessage} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <motion.div
+                className={styles.mascotContainer}
+                ref={mascotRef}
+                initial={{ y: mascotInitialY }}
+                animate={{ y: 0 }}
+                transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                onClick={handleMascotClick}
+              >
+                <CakePopMascot 
+                  ref={mascotControlRef}
+                  size="large" 
+                  reaction={currentReaction} 
+                  eyeX={eyeSpringX} 
+                  eyeY={eyeSpringY} 
+                  speedMultiplier={prefersReducedMotion ? 1 : 2} 
+                  hideArms={true}
+                />
+              </motion.div>
+              <motion.div
+                className={styles.mascotHandLeft}
+                initial={{ y: handInitialY, opacity: handInitialOpacity, scale: handInitialScale }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                transition={{ type: "spring", stiffness: 260, damping: 20, delay: hasAppeared ? 0 : 0.2 }}
+              />
+              <motion.div
+                className={styles.mascotHandRight}
+                initial={{ y: handInitialY, opacity: handInitialOpacity, scale: handInitialScale }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                transition={{ type: "spring", stiffness: 260, damping: 20, delay: hasAppeared ? 0 : 0.1 }}
+              />
+              
+              <div className={styles.footerContent}>
+                <div className={styles.summaryRow}>
+                  <span>Subtotal</span>
+                  <span className={styles.totalPriceValue}>{formatCurrency(subtotal)}</span>
+                </div>
+                {totalDiscount > 0 && (
+                  <div className={`${styles.summaryRow} ${styles.discountRow}`}>
+                    <span>Discount</span>
+                    <span className={styles.totalPriceValue}>- {formatCurrency(totalDiscount)}</span>
+                  </div>
+                )}
+              <div className={`${styles.summaryRow} ${styles.totalRow}`}>
+                <span>Total</span>
+                <div style={{ textAlign: 'right' }}>
+                  <div className={styles.totalPriceValue}>{formatCurrency(total)}</div>
+                  <div className={styles.calculatedText}>Calculated at checkout</div>
                 </div>
               </div>
+
+              <div className={styles.actions}>
+                <Button size="sm" variant="outline" className={`${styles.actionBtn} ${styles.viewCartBtn}`} onClick={handleViewCart}>
+                  Cart
+                </Button>
+                <Button
+                  size="sm"
+                  className={styles.actionBtn}
+                  variant="primary"
+                  onClick={handleCheckout}
+                  
+                  rightIcon={<ArrowRight size={16} />}
+                >
+                  Checkout
+                </Button>
               </div>
-            )}
+            </div>
+            </div>
           </motion.div>
         </>
       )}

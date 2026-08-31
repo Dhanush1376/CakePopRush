@@ -22,7 +22,7 @@ const templates: ThoughtTemplate[] = [
   { text: "You can't go wrong with {category}!", reaction: "happy" },
   { text: "{category}? Don't mind if I do!", reaction: "silly" },
   { text: "I've been dreaming about {category}.", reaction: "sleeping" },
-  { text: "Are those {category} for me?", reaction: "pleadingCute" },
+  { text: "Are those {category} for me?", reaction: "cryingFountain" },
   { text: "Time for {category}!", reaction: "party" },
   { text: "I'm obsessed with {category}!", reaction: "emotionalCute" },
   { text: "Can't stop thinking about {category}.", reaction: "love" },

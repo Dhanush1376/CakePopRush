@@ -11,6 +11,11 @@
   align-items: flex-start;
 }
 
+.headerActions {
+  display: flex;
+  gap: 12px;
+}
+
 .title {
   font-family: var(--font-family-display);
   font-size: 26px;
@@ -375,8 +380,8 @@
   .statsGrid { grid-template-columns: repeat(2, 1fr); }
   .header { flex-direction: column; gap: 1rem; align-items: stretch; }
   
-  
-  
+  .headerActions { width: 100%; display: flex; gap: 12px; }
+  .addBtn { flex: 1; justify-content: center; }
   .mobileCards {
     display: flex;
     flex-direction: column;
