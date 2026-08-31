@@ -248,22 +248,17 @@ export function AdminAnalytics() {
           const Icon = kpi.icon;
           return (
             <div key={kpi.id} className={styles.kpiCard}>
-              <div className={styles.kpiTop}>
-                <div className={styles.kpiIconWrapper} style={{ backgroundColor: kpi.bg, color: kpi.color }}>
-                  <Icon size={20} strokeWidth={2.5} />
-                </div>
-                <div className={styles.kpiContent}>
-                  <span className={styles.kpiLabel}>{kpi.label}</span>
-                  <span className={styles.kpiValue}>{kpi.value}</span>
-                  <div className={styles.kpiTrend}>
-                    <span className={kpi.isPositive ? styles.trendPositive : styles.trendNegative}>
-                      {kpi.isPositive ? '↑' : '↓'} {kpi.trend}
-                    </span>
-                    <span className={styles.trendText}>vs last 7 days</span>
-                  </div>
-                </div>
+              <div className={styles.kpiIconWrapper} style={{ backgroundColor: kpi.bg, color: kpi.color }}>
+                <Icon size={20} strokeWidth={2.5} />
               </div>
-              <Sparkline data={kpi.chart} color={kpi.color} />
+              <div className={styles.kpiLabel}>{kpi.label}</div>
+              <div className={styles.kpiValue}>{kpi.value}</div>
+              <div className={styles.kpiTrend}>
+                <span className={kpi.isPositive ? styles.trendPositive : styles.trendNegative}>
+                  {kpi.isPositive ? '↑' : '↓'} {kpi.trend}
+                </span>
+                <span className={styles.trendText}>vs last 7 days</span>
+              </div>
             </div>
           )
         })}

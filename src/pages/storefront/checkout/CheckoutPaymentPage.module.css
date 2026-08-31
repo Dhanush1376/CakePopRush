@@ -1,5 +1,7 @@
 .page {
   min-height: 100vh;
+
+  min-height: 100dvh;
   padding: 0 0 150px;
 }
 
@@ -10,11 +12,17 @@
   position: relative;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .layout {
     flex-direction: row;
     align-items: flex-start;
     gap: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    gap: var(--space-8);
   }
 }
 
@@ -33,11 +41,17 @@
   display: none;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .sidebar {
     display: block;
-    width: 380px;
+    width: 300px;
     flex-shrink: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidebar {
+    width: 380px;
   }
 }
 
@@ -57,7 +71,7 @@
   display: none;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .mobileTrustWrap, .mobileSummaryWrap {
     display: none;
   }
@@ -456,14 +470,14 @@
 }
 
 .summaryTotalLabel {
-  font-family: var(--font-family-display);
+  font-family: var(--font-family-body);
   font-size: 18px;
   font-weight: 800;
   color: var(--color-chocolate);
 }
 
 .summaryTotalValue {
-  font-family: var(--font-family-display);
+  font-family: var(--font-family-body);
   font-size: 24px;
   font-weight: 800;
   color: var(--color-chocolate);
@@ -528,3 +542,52 @@
   color: var(--color-chocolate);
   text-align: center;
 }
+
+@media (min-width: 768px) {
+  .paymentDrawerOverlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .paymentDrawer {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    margin: auto;
+    width: 440px;
+    max-width: 90vw;
+    height: auto;
+    border-radius: 24px !important;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .drawerDragHandle { display: none; }
+}
+
+
+@media (min-width: 768px) {
+  .paymentDrawerOverlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .paymentDrawer {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    margin: auto;
+    width: 440px;
+    max-width: 90vw;
+    height: auto;
+    border-radius: 24px !important;
+    overflow: hidden !important;
+  }
+  .drawerDragHandle { display: none; }
+}
+

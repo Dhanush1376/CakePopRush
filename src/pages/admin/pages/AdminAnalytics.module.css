@@ -52,9 +52,12 @@
   border-radius: var(--radius-lg);
   padding: 1.25rem;
   border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  box-shadow: var(--shadow-sm);
+  align-items: center;
+  text-align: center;
+  gap: 4px;
   position: relative;
   overflow: hidden;
 }
@@ -72,6 +75,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  margin-bottom: 4px;
 }
 
 .kpiContent {
@@ -397,8 +401,8 @@
   }
 }
 
-@media (max-width: 1024px) {
-  .kpiGrid { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 1199px) {
+  
   .donutWrapper { flex-direction: column; gap: 1rem; }
   .donutLegend { width: 100%; }
   .chartsRow1, .chartsRow2 { grid-template-columns: 1fr; }
@@ -407,7 +411,7 @@
 
 
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .header { flex-direction: column; gap: 1rem; }
   .datePicker { width: 100%; justify-content: space-between; }
   
@@ -433,7 +437,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   
   .mobileCards {
     padding: 0 !important;
@@ -445,7 +449,7 @@
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .table th, .table td { padding: 12px 16px; font-size: 11px; }
   .tableCard {
     background-color: var(--color-white) !important;
@@ -458,7 +462,7 @@
 .table th, .table td { white-space: nowrap; /* added for free fit */ }
 
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .kpiCard {
     display: flex !important;
     flex-direction: row !important;
@@ -514,9 +518,38 @@
   position: relative !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
 /* Hide desktop components on mobile */
 .itemsGrid {
   display: none !important;
 }
+}
+
+.btnOutline svg, .addBtn svg, .btnPrimary svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+@media (max-width: 1200px) and (min-width: 768px) {
+  .kpiCard {
+    padding: 10px 4px;
+    gap: 4px;
+  }
+  .kpiIconWrapper {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 2px;
+  }
+  .kpiIconWrapper > svg {
+    width: 14px;
+    height: 14px;
+  }
+  .kpiLabel {
+    font-size: 9px;
+    letter-spacing: -0.2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
 }

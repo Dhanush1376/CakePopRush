@@ -11,6 +11,7 @@
   grid-template-columns: var(--admin-sidebar-width) 1fr;
   height: 100vh;
   height: 100dvh;
+  height: 100dvh;
   background-color: var(--color-white);
   background-image: 
     linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
@@ -33,6 +34,7 @@
   min-width: 0;
   width: 100%;
   height: 100vh;
+  height: 100dvh;
   height: 100dvh;  
   position: relative;
 }
@@ -45,7 +47,7 @@
 }
 
 /* Tablet / Mobile */
-@media (max-width: 991px) {
+@media (max-width: 767px) {
   .adminLayout,
   .adminLayout.sidebarClosed {
     grid-template-columns: 1fr;

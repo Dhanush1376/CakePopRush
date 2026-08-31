@@ -13,7 +13,7 @@ export const Footer = () => {
         <div className={styles.mainGrid}>
           <div className={styles.brandSection}>
             <div className={styles.logoLink}>
-              <Logo height={56} className={styles.footerLogo} />
+              <Logo height={40} className={styles.footerLogo} />
             </div>
             <p className={styles.description}>
               Small bites for your biggest celebrations. We handcraft premium cake pops and desserts that bring a rush of joy to every moment.

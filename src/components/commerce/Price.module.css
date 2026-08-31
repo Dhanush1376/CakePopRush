@@ -18,15 +18,14 @@
   font-size: 0.8em;
 }
 
-/* Sizes */
 .sm {
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
 }
 
 .md {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base);
 }
 
 .lg {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl);
 }

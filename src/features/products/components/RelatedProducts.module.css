@@ -8,11 +8,16 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--space-8);
+  padding-top: var(--space-8);
+  border-top: 1px solid rgba(91, 41, 26, 0.15); /* Subtle chocolate line */
 }
 
 .title {
-  font-family: var(--font-family-display);
-  font-size: var(--font-size-xl);
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   color: var(--color-chocolate);
   margin-bottom: 0;
 }
@@ -52,6 +57,12 @@
 }
 
 @media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
   .grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }

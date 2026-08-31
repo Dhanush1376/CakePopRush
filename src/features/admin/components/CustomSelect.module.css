@@ -3,19 +3,18 @@
 }
 
 .trigger {
+  height: 36px;
   width: 100%;
-  padding: 8px 12px;
+  padding: 8px 10px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  font-size: 13px;
-  font-size: 13px;
+  font-size: 12px;
   outline: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  min-width: 140px;
+  gap: 6px;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -81,6 +80,7 @@
 
 /* Color Variants */
 .variant-pink .trigger {
+  height: 36px;
   background-color: #FFF0F5;
   border-color: #D81B60;
   color: #D81B60;
@@ -99,6 +99,7 @@
 }
 
 .variant-yellow .trigger {
+  height: 36px;
   background-color: #FFF8E1;
   border-color: #D97706;
   color: #D97706;
@@ -117,6 +118,7 @@
 }
 
 .variant-turquoise .trigger {
+  height: 36px;
   background-color: #E0FAFC;
   border-color: #0E7490;
   color: #0E7490;
@@ -136,6 +138,7 @@
 
 @media (max-width: 576px) {
   .trigger {
+  height: 36px;
     padding: 8px 10px;
     font-size: 13px;
     min-width: 0;

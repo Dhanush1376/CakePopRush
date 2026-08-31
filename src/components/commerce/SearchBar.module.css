@@ -569,6 +569,7 @@
   width: 100vw;
   height: 100vh;
   height: 100dvh;
+  height: 100dvh;
   background-color: var(--color-background);
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),

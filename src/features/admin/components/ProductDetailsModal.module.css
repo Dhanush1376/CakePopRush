@@ -331,3 +331,9 @@
   from { transform: translateY(100%); }
   to { transform: translateY(0); }
 }
+
+@supports not (backdrop-filter: blur(1px)) {
+  .overlay {
+    background: rgba(43, 23, 11, 0.8);
+  }
+}

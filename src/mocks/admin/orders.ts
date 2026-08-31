@@ -10,4 +10,6 @@ export const orderStatsData = [
 
 import ordersJson from '../seed/admin/orders.json';
 
+import productsJson from '../seed/admin/products.json';
+
 export const ordersData = ordersJson;

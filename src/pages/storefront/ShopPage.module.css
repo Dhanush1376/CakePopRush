@@ -1,11 +1,13 @@
 .shopPage {
   background-color: var(--color-background);
   min-height: 100vh;
+  
+
   padding-bottom: 110px;
   /* Space for BottomNavigation on mobile */
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .shopPage {
     padding-bottom: var(--space-16);
   }
@@ -56,17 +58,21 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .mascotStickyContainer {
     transform: scale(1.5);
     transform-origin: bottom center;
   }
 }
 
+.mascotStickyContainer {
+  overflow: hidden;
+}
+
 .mascotHandLeft,
 .mascotHandRight {
   position: absolute;
-  top: 76px;
+  bottom: -4px;
   width: 6px;
   height: 12px;
   background-color: #1c1c1c;
@@ -90,22 +96,22 @@
 
 .mascotHandLeft::before,
 .mascotHandRight::before {
-  left: -5px;
-  transform: rotate(15deg);
+  left: -4px;
 }
 
 .mascotHandLeft::after,
 .mascotHandRight::after {
-  right: -5px;
-  transform: rotate(-15deg);
+  left: 4px;
 }
 
 .mascotHandLeft {
   left: 33px;
+  transform: rotate(-10deg);
 }
 
 .mascotHandRight {
   right: 33px;
+  transform: rotate(10deg);
 }
 
 @media (max-width: 1024px) {

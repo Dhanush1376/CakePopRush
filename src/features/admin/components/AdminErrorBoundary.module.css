@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
   padding: 40px;
   text-align: center;
@@ -157,6 +158,7 @@
   .container {
     padding: 16px;
     height: 100vh;
+  height: 100dvh;
     justify-content: center;
   }
 

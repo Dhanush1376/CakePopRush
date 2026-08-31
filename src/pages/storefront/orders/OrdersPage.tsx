@@ -64,7 +64,10 @@ const OrderCard = ({ order }: { order: Order }) => {
           <span className={styles.minimalBrand}>{firstItem.category?.toUpperCase() || 'CAKEPOPRUSH COLLECTION'}</span>
           <h4 className={styles.minimalItemName}>{firstItem.name}</h4>
           <p className={styles.minimalVariant}>Variant: Default <span className={styles.minimalDivider}>|</span> Qty: {firstItem.qty || 1}</p>
-          <span className={styles.minimalPrice}>₹ {(firstItem.price || 0) * (firstItem.qty || 1)}</span>
+          <div className={styles.minimalPriceContainer}>
+            <span className={styles.minimalPrice}>Rs.{(firstItem.price || 0) * (firstItem.qty || 1)}</span>
+            <span className={styles.minimalOriginalPrice}>Rs.{Math.round((firstItem.price || 0) / 0.8) * (firstItem.qty || 1)}</span>
+          </div>
         </div>
         
         <div className={styles.minimalChevron}>
@@ -87,6 +90,28 @@ const EmptyState = () => (
   </div>
 )
 
+const OrderSkeleton = () => (
+  <div className={styles.skeletonCard}>
+    <div className={styles.skeletonHeader}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div className={`${styles.skeletonIcon} ${styles.skeletonShimmer}`} />
+        <div className={`${styles.skeletonText} ${styles.skeletonShimmer}`} style={{ width: '60px' }} />
+        <div className={`${styles.skeletonText} ${styles.skeletonShimmer}`} style={{ width: '80px', marginLeft: '8px' }} />
+      </div>
+      <div className={`${styles.skeletonBtn} ${styles.skeletonShimmer}`} />
+    </div>
+    <div className={styles.skeletonBody}>
+      <div className={`${styles.skeletonImage} ${styles.skeletonShimmer}`} />
+      <div className={styles.skeletonContent}>
+        <div className={`${styles.skeletonText} ${styles.skeletonShimmer}`} style={{ width: '40%' }} />
+        <div className={`${styles.skeletonTextLg} ${styles.skeletonShimmer}`} style={{ width: '70%' }} />
+        <div className={`${styles.skeletonText} ${styles.skeletonShimmer}`} style={{ width: '60%' }} />
+        <div className={`${styles.skeletonTextLg} ${styles.skeletonShimmer}`} style={{ width: '30%' }} />
+      </div>
+    </div>
+  </div>
+)
+
 // ─── Main Page ───────────────────────────────────────────────────────────────
 export const OrdersPage = () => {
   const [orders, setOrders] = useState<Order[]>([])
@@ -94,8 +119,11 @@ export const OrdersPage = () => {
 
   useEffect(() => {
     orderData.getOrders().then(data => {
-      setOrders(data)
-      setIsLoading(false)
+      // Small timeout to actually see the skeleton
+      setTimeout(() => {
+        setOrders(data)
+        setIsLoading(false)
+      }, 500)
     })
   }, [])
 
@@ -115,7 +143,11 @@ export const OrdersPage = () => {
 
         <div className={styles.list}>
           {isLoading ? (
-            <p style={{ textAlign: 'center', padding: '2rem', color: 'var(--color-text-secondary)' }}>Loading orders...</p>
+            <>
+              <OrderSkeleton />
+              <OrderSkeleton />
+              <OrderSkeleton />
+            </>
           ) : orders.length > 0 ? (
             orders.map(order => <OrderCard key={order.id} order={order} />)
           ) : (

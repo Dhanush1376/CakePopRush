@@ -158,6 +158,39 @@
   flex-direction: column;
   gap: 2px;
   z-index: 6; /* Sit above the click-to-close scrim overlay (z-index 5) */
+  min-width: 140px;
+}
+
+@keyframes shimmerMap {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
+
+.skeletonShimmer {
+  background: #f6f7f8;
+  background-image: linear-gradient(
+    to right,
+    rgba(0,0,0,0.05) 0%,
+    rgba(0,0,0,0.1) 20%,
+    rgba(0,0,0,0.05) 40%,
+    rgba(0,0,0,0.05) 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 400px 100%;
+  animation: shimmerMap 1.5s infinite linear;
+  border-radius: 4px;
+}
+
+.etaSkeletonTime {
+  height: 24px;
+  width: 80px;
+  margin-top: 4px;
+  margin-bottom: 2px;
+}
+
+.etaSkeletonStatus {
+  height: 12px;
+  width: 100px;
 }
 
 .etaLabel {

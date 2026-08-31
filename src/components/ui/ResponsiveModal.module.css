@@ -109,3 +109,9 @@
   background-color: rgba(92, 51, 23, 0.1);
   border-radius: 10px;
 }
+
+@supports not (backdrop-filter: blur(1px)) {
+  .overlay {
+    background: rgba(43, 23, 11, 0.8);
+  }
+}

@@ -12,9 +12,9 @@ export const MascotWallHands = () => {
       <g transform="translate(80, 215)">
         <g>
           <g transform="rotate(-10)">
-            <rect x="-7" y="-10" width="6" height="9" rx="3" fill="#1c1c1c" />
-            <rect x="-3" y="-12" width="6" height="12" rx="3" fill="#1c1c1c" />
-            <rect x="1" y="-10" width="6" height="9" rx="3" fill="#1c1c1c" />
+            <rect x="-8" y="-12" width="7" height="16" rx="3.5" fill="#1c1c1c" />
+            <rect x="-3" y="-15" width="7" height="19" rx="3.5" fill="#1c1c1c" />
+            <rect x="2" y="-12" width="7" height="16" rx="3.5" fill="#1c1c1c" />
           </g>
         </g>
       </g>
@@ -23,9 +23,9 @@ export const MascotWallHands = () => {
       <g transform="translate(220, 215)">
         <g>
           <g transform="rotate(10)">
-            <rect x="-7" y="-10" width="6" height="9" rx="3" fill="#1c1c1c" />
-            <rect x="-3" y="-12" width="6" height="12" rx="3" fill="#1c1c1c" />
-            <rect x="1" y="-10" width="6" height="9" rx="3" fill="#1c1c1c" />
+            <rect x="-9" y="-12" width="7" height="16" rx="3.5" fill="#1c1c1c" />
+            <rect x="-4" y="-15" width="7" height="19" rx="3.5" fill="#1c1c1c" />
+            <rect x="1" y="-12" width="7" height="16" rx="3.5" fill="#1c1c1c" />
           </g>
         </g>
       </g>

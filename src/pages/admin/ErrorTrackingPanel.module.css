@@ -3,6 +3,8 @@
   margin: 0 auto;
   padding: var(--space-6);
   min-height: 100vh;
+  height: 100dvh;
+  min-height: 100dvh;
   background-color: var(--color-background);
 }
 

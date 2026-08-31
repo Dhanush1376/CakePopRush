@@ -100,20 +100,30 @@ export const LiveTrackingPage = () => {
 
         {/* ETA Card */}
         <div className={styles.etaCard}>
-          <div className={styles.etaLabel}>
-            <ClockIcon size={14} /> {trackingState.status === 'delivered' ? 'Delivered' : 'Arriving in'}
-          </div>
-          <div className={styles.etaTime}>
-            {trackingState.status === 'delivered' 
-              ? 'Now' 
-              : trackingState.eta 
-                ? `${trackingState.eta.minMinutes}-${trackingState.eta.maxMinutes} min` 
-                : '...'}
-          </div>
-          <div className={styles.liveTrackingStatus} style={{ color: trackingState.isLive ? 'var(--color-success)' : 'var(--color-text-muted)' }}>
-            {trackingState.isLive && <div className={styles.pulseDot} />} 
-            {trackingState.isLive ? 'Live tracking active' : (trackingState.status === 'delivered' ? 'Order delivered' : 'Location updating...')}
-          </div>
+          {(!trackingState.eta && trackingState.status !== 'delivered') ? (
+            <>
+              <div className={styles.etaLabel}>
+                <ClockIcon size={14} style={{ opacity: 0.5 }} /> <span style={{ opacity: 0.5 }}>Calculating...</span>
+              </div>
+              <div className={`${styles.etaSkeletonTime} ${styles.skeletonShimmer}`} />
+              <div className={`${styles.etaSkeletonStatus} ${styles.skeletonShimmer}`} />
+            </>
+          ) : (
+            <>
+              <div className={styles.etaLabel}>
+                <ClockIcon size={14} /> {trackingState.status === 'delivered' ? 'Delivered' : 'Arriving in'}
+              </div>
+              <div className={styles.etaTime}>
+                {trackingState.status === 'delivered' 
+                  ? 'Now' 
+                  : `${trackingState.eta?.minMinutes}-${trackingState.eta?.maxMinutes} min`}
+              </div>
+              <div className={styles.liveTrackingStatus} style={{ color: trackingState.isLive ? 'var(--color-success)' : 'var(--color-text-muted)' }}>
+                {trackingState.isLive && <div className={styles.pulseDot} />} 
+                {trackingState.isLive ? 'Live tracking active' : (trackingState.status === 'delivered' ? 'Order delivered' : 'Location updating...')}
+              </div>
+            </>
+          )}
         </div>
 
         {/* Floating Action Buttons */}

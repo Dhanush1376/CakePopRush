@@ -9,7 +9,9 @@
     "items": "3 items",
     "method": "Online",
     "paymentStatus": "Paid",
-    "status": "Pending"
+    "status": "Pending",
+    "productName": "Lavender Love Pops",
+    "productImage": "/images/Products/White choclate cakepops.jpeg"
   },
   {
     "id": "#CPR-1253",
@@ -21,7 +23,9 @@
     "items": "2 items",
     "method": "UPI",
     "paymentStatus": "Paid",
-    "status": "Processing"
+    "status": "Processing",
+    "productName": "Chocolate Crunch Pops",
+    "productImage": "/images/Products/Dark choclate cakepops.jpeg"
   },
   {
     "id": "#CPR-1252",
@@ -33,7 +37,9 @@
     "items": "4 items",
     "method": "Card",
     "paymentStatus": "Paid",
-    "status": "Shipped"
+    "status": "Shipped",
+    "productName": "Oreo Crunch Pops",
+    "productImage": "/images/Products/Oreo pops.jpeg"
   },
   {
     "id": "#CPR-1251",
@@ -45,7 +51,9 @@
     "items": "5 items",
     "method": "Net Banking",
     "paymentStatus": "Paid",
-    "status": "Delivered"
+    "status": "Delivered",
+    "productName": "Red Velvet Pops",
+    "productImage": "/images/Products/Red velvet cookies.jpeg"
   },
   {
     "id": "#CPR-1250",
@@ -57,7 +65,9 @@
     "items": "2 items",
     "method": "COD",
     "paymentStatus": "Pending",
-    "status": "Pending"
+    "status": "Pending",
+    "productName": "Red Velvet Pops",
+    "productImage": "/images/Products/Red velvet cookies.jpeg"
   },
   {
     "id": "#CPR-1249",
@@ -69,7 +79,9 @@
     "items": "3 items",
     "method": "UPI",
     "paymentStatus": "Paid",
-    "status": "Shipped"
+    "status": "Shipped",
+    "productName": "Cute Chick Pops",
+    "productImage": "/images/Products/vanilla mango cupcakes.jpeg"
   },
   {
     "id": "#CPR-1248",
@@ -81,6 +93,8 @@
     "items": "1 item",
     "method": "Card",
     "paymentStatus": "Paid",
-    "status": "Delivered"
+    "status": "Delivered",
+    "productName": "Strawberry Bliss Pops",
+    "productImage": "/images/Products/mini valentine cake.jpeg"
   }
 ]

@@ -1,4 +1,4 @@
-.itemCount {
+﻿.itemCount {
   font-family: var(--font-family-body);
   font-size: 13px;
   color: #6B5B50;
@@ -58,7 +58,7 @@
 }
 
 .totalValue {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: var(--font-family-body);
   font-size: 24px;
   font-weight: 800;
   color: #3A2E24;
@@ -119,3 +119,4 @@
   color: #3A2E24;
   margin-bottom: 2px;
 }
+

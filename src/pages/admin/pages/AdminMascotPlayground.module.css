@@ -105,6 +105,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 70px;
 }
 
 .wallContainer {
@@ -233,12 +234,13 @@
 /* Controls Grid */
 .controlsGroup {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* wrap removed */
   gap: 0.5rem;
   margin-top: auto;
 }
 
 .btnPrimary {
+    height: 36px;
   background-color: var(--admin-pink);
   color: var(--color-white);
   border: none;
@@ -468,7 +470,7 @@
 
   .controlsGroup {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    /* wrap removed */
     gap: 8px;
     margin-top: 0;
   }
@@ -490,3 +492,14 @@
     flex-direction: column;
   }
 }
+@supports not (backdrop-filter: blur(1px)) {
+  .card {
+    background: rgba(255,255,255,0.95);
+  }
+}
+
+.btnOutline svg, .addBtn svg, .btnPrimary svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+

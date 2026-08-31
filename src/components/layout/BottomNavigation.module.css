@@ -10,7 +10,7 @@
   padding-bottom: env(safe-area-inset-bottom, 12px);
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .container {
     display: none;
   }

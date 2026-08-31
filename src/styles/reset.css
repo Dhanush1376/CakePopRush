@@ -10,6 +10,10 @@
 body {
   line-height: var(--line-height-normal);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 img, picture, video, canvas, svg {
@@ -19,6 +23,8 @@ img, picture, video, canvas, svg {
 
 input, button, textarea, select {
   font: inherit;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 p, h1, h2, h3, h4, h5, h6 {

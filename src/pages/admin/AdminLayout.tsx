@@ -6,7 +6,7 @@ import { AdminHeader } from '@/features/admin/components/AdminHeader'
 import { AdminBottomNav } from '@/features/admin/components/AdminBottomNav'
 
 export function AdminLayout() {
-  const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 992)
+  const [sidebarOpen, setSidebarOpen] = useState(() => window.innerWidth >= 1200)
   const location = useLocation()
   const pageContentRef = useRef<HTMLElement>(null)
 
@@ -29,16 +29,16 @@ export function AdminLayout() {
     }
   }, [])
 
-  // Close sidebar on navigation on mobile only
+  // Close sidebar on navigation on tablet/mobile only
   useEffect(() => {
-    if (window.innerWidth < 992) {
+    if (window.innerWidth < 1200) {
       setSidebarOpen(false)
     }
   }, [location.pathname])
 
   // Prevent background scroll when mobile sidebar is open
   useEffect(() => {
-    if (sidebarOpen && window.innerWidth < 992) {
+    if (sidebarOpen && window.innerWidth < 768) {
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = 'auto'

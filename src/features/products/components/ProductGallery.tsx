@@ -147,9 +147,8 @@ export const ProductGallery = ({
       </div>
 
       {/* Styled Thumbnails */}
-      {images.length > 1 && (
-        <div className={styles.thumbnailSection}>
-          <div className={styles.thumbnails}>
+      <div className={styles.thumbnailSection}>
+        <div className={styles.thumbnails}>
             {images.map((img, idx) => {
               const isVideo = img.url.endsWith('.mp4') || img.url.includes('video');
               return (
@@ -179,8 +178,6 @@ export const ProductGallery = ({
             })}
           </div>
         </div>
-      )}
-
       <ImageModal
         isOpen={modalOpen}
         images={images.map(img => img.url)}

@@ -35,7 +35,7 @@ export const adminProductData = {
 
 export const adminOrderData = {
   getStats: () => simulateAsync(orderStatsData),
-  getOrders: () => simulateAsync(ordersData),
+  getOrders: () => simulateAsync(ordersData.map((o: any, i: number) => ({ ...o, productName: o.productName || "Mapped Name " + i, productImage: o.productImage || "/images/placeholder.jpg" }))),
   getOrderById: (id: string) => simulateAsync(runtimeStore.getOrderDetail(id)),
   updateOrder: (id: string, updates: Partial<AdminOrderDetail>) => simulateAsync(runtimeStore.updateOrderDetail(id, updates)),
   getOrderStatuses: () => simulateAsync(['Confirmed', 'Preparing', 'Packed', 'Out for Delivery', 'Delivered']),
@@ -105,3 +105,5 @@ export const adminDashboardData = {
   getAdminUser: () => simulateAsync(adminUser),
   getNotifications: () => simulateAsync(notifications),
 };
+
+// cache buster 2

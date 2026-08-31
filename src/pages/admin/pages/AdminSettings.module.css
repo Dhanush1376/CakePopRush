@@ -292,6 +292,7 @@
 }
 
 .btnPrimary {
+    height: 36px;
   background-color: var(--admin-pink);
   color: var(--color-white);
   border: none;
@@ -326,12 +327,13 @@
 }
 
 .btnOutline {
+    height: 36px;
   background-color: transparent;
   color: var(--admin-pink);
   border: 1px solid var(--admin-pink);
   border-radius: var(--radius-full);
   padding: 10px 20px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   display: flex;
@@ -496,12 +498,12 @@ input:checked + .slider:before {
 
 /* Responsiveness */
 @media (max-width: 1440px) {
-  .workspace { grid-template-columns: 220px 1fr 280px; }
+  .workspace { grid-template-columns: 240px 1fr; }
   .toggleGrid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
 }
 
 @media (max-width: 1280px) {
-  .workspace { grid-template-columns: 200px 1fr 260px; }
+  .workspace { grid-template-columns: 240px 1fr; }
 }
 
 @media (max-width: 1024px) {
@@ -572,3 +574,9 @@ input:checked + .slider:before {
   display: none !important;
 }
 }
+
+.btnOutline svg, .addBtn svg, .btnPrimary svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+

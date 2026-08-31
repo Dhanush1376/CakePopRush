@@ -5,6 +5,8 @@
   --font-family-price: 'Playfair Display', serif;
   padding-bottom: 120px;
   min-height: 100vh;
+
+  min-height: 100dvh;
   background-color: #fff;
   background-size: 32px 32px;
   font-family: var(--font-family-body);
@@ -15,20 +17,20 @@
 .celebrationOverlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(56, 30, 16, 0.35);
+  background-color: rgba(56, 30, 16, 0.65);
   /* Dark chocolate overlay */
   z-index: var(--z-modal);
   display: flex;
   align-items: flex-end;
   justify-content: center;
   padding: 0;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 @media (min-width: 768px) {
   .celebrationOverlay {
     align-items: center;
-    background-color: transparent; /* No dark overlay covering page on laptop/desktop */
-    pointer-events: none; /* Allow interaction with background page */
   }
 }
 

@@ -92,8 +92,9 @@ export function ShopPage() {
     return result;
   }, [products, shopFilters]);
 
-  const totalPages = Math.ceil(displayedProducts.length / PAGE_SIZE);
-  const paginatedProducts = displayedProducts.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  // Pagination disabled: show all products at once
+  // const totalPages = Math.ceil(displayedProducts.length / PAGE_SIZE);
+  // const paginatedProducts = displayedProducts.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
   // Reset to page 1 on filter or category change
   useEffect(() => {
@@ -271,9 +272,9 @@ export function ShopPage() {
         />
         
         <ShopToolbar 
-          totalProducts={products.length} // Show base count here if needed, but updated to displayedProducts below
-          showingStart={displayedProducts.length > 0 ? (currentPage - 1) * PAGE_SIZE + 1 : 0}
-          showingEnd={Math.min(currentPage * PAGE_SIZE, displayedProducts.length)}
+          totalProducts={products.length} 
+          showingStart={displayedProducts.length > 0 ? 1 : 0}
+          showingEnd={displayedProducts.length}
           initialFilters={shopFilters}
           onApplyFilters={handleApplyFilters}
           onResetFilters={handleResetFilters}
@@ -289,8 +290,8 @@ export function ShopPage() {
               Array.from({ length: 8 }).map((_, i) => (
                 <ProductCardSkeleton key={i} />
               ))
-            ) : paginatedProducts.length > 0 ? (
-              paginatedProducts.map(product => (
+            ) : displayedProducts.length > 0 ? (
+              displayedProducts.map(product => (
                 <ProductCard 
                   key={product.id} 
                   product={product} 
@@ -327,13 +328,14 @@ export function ShopPage() {
             </motion.div>
           )}
           
-          {!isLoading && displayedProducts.length > 0 && (
+          {/* Pagination disabled as per request */}
+          {/* {!isLoading && displayedProducts.length > 0 && (
             <Pagination 
               currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={setCurrentPage}
             />
-          )}
+          )} */}
         </Container>
       </section>
     </div>

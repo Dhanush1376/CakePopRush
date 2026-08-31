@@ -362,7 +362,7 @@
   text-align: right;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 767px) {
   .mainGrid {
     grid-template-columns: 1fr;
   }
@@ -443,7 +443,7 @@
   display: none;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 767px) {
   .mobileOnly {
     display: block;
   }
@@ -460,3 +460,9 @@
 }
 
 .table th, .table td { white-space: nowrap; /* added for free fit */ }
+
+.btnOutline svg, .addBtn svg, .btnPrimary svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+

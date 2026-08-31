@@ -217,7 +217,6 @@
   display: flex;
   align-items: center;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  -webkit-text-size-adjust: 100%;
 }
 
 @media (min-width: 768px) {
@@ -545,14 +544,15 @@
 /* ================= OTHER SECTIONS ================= */
 
 .section {
-  padding: var(--space-12) 0;
+  padding: 60px 0 40px;
   position: relative;
   z-index: 1;
 }
 
 @media (min-width: 768px) {
   .section {
-    padding: var(--space-16) 0;
+    padding: 100px 0 60px;
+    /* Reduced gap */
   }
 }
 
@@ -640,6 +640,7 @@
     /* Hide scrollbar for cleaner look */
     scrollbar-width: none;
     -ms-overflow-style: none;
+    padding-bottom: 8px;
   }
 
   .categoryGrid::-webkit-scrollbar {
@@ -657,12 +658,14 @@
 .productGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-gap: var(--space-4);
   gap: var(--space-4);
 }
 
 @media (min-width: 768px) {
   .productGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-gap: var(--space-6);
     gap: var(--space-6);
   }
 }
@@ -670,6 +673,7 @@
 @media (min-width: 1024px) {
   .productGrid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-gap: var(--space-8);
     gap: var(--space-8);
   }
 }
@@ -1189,4 +1193,75 @@
   justify-content: center;
   gap: 8px;
   width: 100%;
+}
+
+
+
+
+
+
+
+
+@media (min-width: 768px) {}
+
+@media (min-width: 1024px) {}
+
+.productHorizontalScroll::after,
+
+
+
+.productHorizontalScroll,
+.asymmetricalScroll {
+  margin-left: calc(-1 * var(--space-4));
+  margin-right: calc(-1 * var(--space-4));
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.horizontalScrollItem:first-child,
+.asymmetricalCard:first-child {
+  margin-left: var(--space-4);
+}
+
+.horizontalScrollItem:last-child,
+.asymmetricalCard:last-child {
+  margin-right: var(--space-4);
+}
+
+@media (min-width: 768px) {
+
+  .productHorizontalScroll,
+  .asymmetricalScroll {
+    margin-left: calc(-1 * var(--space-6));
+    margin-right: calc(-1 * var(--space-6));
+  }
+
+  .horizontalScrollItem:first-child,
+  .asymmetricalCard:first-child {
+    margin-left: var(--space-6);
+  }
+
+  .horizontalScrollItem:last-child,
+  .asymmetricalCard:last-child {
+    margin-right: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+
+  .productHorizontalScroll,
+  .asymmetricalScroll {
+    margin-left: calc(-1 * var(--space-8));
+    margin-right: calc(-1 * var(--space-8));
+  }
+
+  .horizontalScrollItem:first-child,
+  .asymmetricalCard:first-child {
+    margin-left: var(--space-8);
+  }
+
+  .horizontalScrollItem:last-child,
+  .asymmetricalCard:last-child {
+    margin-right: var(--space-8);
+  }
 }

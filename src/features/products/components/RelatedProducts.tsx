@@ -17,7 +17,7 @@ export const RelatedProducts = ({ products }: RelatedProductsProps) => {
     <div className={styles.section}>
       <Container>
         <div className={styles.header}>
-          <h2 className={styles.title}>You Might Also Love</h2>
+          <h2 className={styles.title}>You May Also Like</h2>
           <Link to="/shop" className={styles.viewAllBtn}>
             See all <ArrowRight size={16} />
           </Link>

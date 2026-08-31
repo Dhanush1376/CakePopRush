@@ -18,9 +18,8 @@ export const ReviewsSection = ({ rating, reviewCount, reviews, productSlug }: Re
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
   const [isWriteReviewOpen, setIsWriteReviewOpen] = useState(false)
 
-  if (!rating || !reviewCount || reviews.length === 0) return null
-
-  const reviewPhotos = reviews.filter(r => !!r.photoUrl).map(r => r.photoUrl!)
+  const hasReviews = reviews && reviews.length > 0;
+  const reviewPhotos = hasReviews ? reviews.filter(r => !!r.photoUrl).map(r => r.photoUrl!) : []
 
   const handleReviewSubmit = (submittedRating: number, reviewText: string) => {
     // Mock submission handling
@@ -36,10 +35,12 @@ export const ReviewsSection = ({ rating, reviewCount, reviews, productSlug }: Re
             <div className={styles.titleRow}>
               <h2 className={styles.title}>Customer Reviews</h2>
             </div>
-            <div className={styles.summaryInfo}>
-              <span className={styles.ratingNumber}>{rating} <Star size={14} fill="currentColor" strokeWidth={0} /></span>
-              <span className={styles.count}>{reviewCount} reviews</span>
-            </div>
+            {hasReviews && (
+              <div className={styles.summaryInfo}>
+                <span className={styles.ratingNumber}>{rating} <Star size={14} fill="currentColor" strokeWidth={0} /></span>
+                <span className={styles.count}>{reviewCount} reviews</span>
+              </div>
+            )}
           </div>
           <div className={styles.headerRight}>
             <button 
@@ -49,43 +50,64 @@ export const ReviewsSection = ({ rating, reviewCount, reviews, productSlug }: Re
             >
               <PencilLine size={20} strokeWidth={2} />
             </button>
-            <Link to={`/product/${productSlug}/reviews`} className={styles.seeAllBtn}>
-              See all <ArrowRight size={14} />
-            </Link>
+            {hasReviews && (
+              <Link to={`/product/${productSlug}/reviews`} className={styles.seeAllBtn}>
+                See all <ArrowRight size={14} />
+              </Link>
+            )}
           </div>
         </div>
 
-        <div className={styles.horizontalScroll}>
-          {reviews.map(review => (
-            <div key={review.id} className={styles.reviewCard}>
-              <div className={styles.reviewStars}>
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className={i < Math.floor(review.rating) ? styles.starFilled : styles.starEmpty}>
-                    <Star size={14} fill="currentColor" strokeWidth={0} />
-                  </span>
-                ))}
-              </div>
-              <p className={styles.reviewText}>"{review.text}"</p>
-              {review.photoUrl && (
-                <div 
-                  className={styles.reviewImageContainer} 
-                  onClick={() => {
-                    const index = reviewPhotos.indexOf(review.photoUrl!)
-                    setSelectedImageIndex(index)
-                  }}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <img src={review.photoUrl} alt="Customer photo" className={styles.reviewImage} loading="lazy" />
+        {hasReviews ? (
+          <div className={styles.horizontalScroll}>
+            {reviews.map(review => (
+              <div key={review.id} className={styles.reviewCard}>
+                <div className={styles.reviewStars}>
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} className={i < Math.floor(review.rating) ? styles.starFilled : styles.starEmpty}>
+                      <Star size={14} fill="currentColor" strokeWidth={0} />
+                    </span>
+                  ))}
                 </div>
-              )}
-              <div className={styles.reviewFooter}>
-                <span className={styles.name}>{review.customerName}</span>
-                {review.isVerified && <BadgeCheck size={12} className={styles.verifiedIcon} />}
+                <p className={styles.reviewText}>"{review.text}"</p>
+                {review.photoUrl && (
+                  <div 
+                    className={styles.reviewImageContainer} 
+                    onClick={() => {
+                      const index = reviewPhotos.indexOf(review.photoUrl!)
+                      setSelectedImageIndex(index)
+                    }}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <img src={review.photoUrl} alt="Customer photo" className={styles.reviewImage} loading="lazy" />
+                  </div>
+                )}
+                <div className={styles.reviewFooter}>
+                  <span className={styles.name}>{review.customerName}</span>
+                  {review.isVerified && <BadgeCheck size={12} className={styles.verifiedIcon} />}
+                </div>
               </div>
+            ))}
+          </div>
+        ) : (
+          <div className={styles.emptyState}>
+            <div className={styles.emptyStateIcon}>
+              <Star size={32} fill="currentColor" strokeWidth={0} />
             </div>
-          ))}
-        </div>
+            <h3 className={styles.emptyStateTitle}>No reviews yet</h3>
+            <p className={styles.emptyStateText}>
+              Be the first to share your experience with this product! Your feedback helps others make great choices.
+            </p>
+            <button 
+              className={styles.emptyStateBtn}
+              onClick={() => setIsWriteReviewOpen(true)}
+            >
+              <PencilLine size={16} />
+              Write the First Review
+            </button>
+          </div>
+        )}
       </Container>
 
       <ImageModal 

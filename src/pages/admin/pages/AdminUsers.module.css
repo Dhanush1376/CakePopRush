@@ -394,9 +394,10 @@
   padding: 1.25rem 1.5rem;
 }
 
-.pageInfo {
+.paginationText {
   font-size: 13px;
-  color: var(--admin-brown);
+  color: var(--color-text-muted);
+  font-family: var(--font-family-body);
 }
 
 .pageControls {
@@ -504,7 +505,24 @@
 @media (max-width: 1024px) {
   .table th, .table td { padding: 12px 16px; }
 }
-@media (max-width: 1200px) {
+@media (max-width: 1200px) and (min-width: 768px) {
+  .searchWrapper {
+    order: 1;
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
+  .filtersScrollContainer {
+    order: 2;
+    flex: 1;
+    min-width: 0;
+  }
+  .actionButtons {
+    order: 3;
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 767px) {
   .searchWrapper { order: 1; }
   .actionButtons { order: 2; }
   .filtersScrollContainer { 
@@ -660,7 +678,7 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-@media (max-width: 991px) {
+@media (max-width: 767px) {
   .stickyWrapper {
     top: -0.5rem;
     padding: 12px 6px;

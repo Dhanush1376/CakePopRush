@@ -23,8 +23,10 @@ export const Header = () => {
 
       if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
         setIsVisible(false) // Scrolling down past header height -> hide
+        document.documentElement.style.setProperty('--header-offset', '0px')
       } else {
         setIsVisible(true) // Scrolling up or at top -> show
+        document.documentElement.style.setProperty('--header-offset', 'var(--header-height-desktop, 80px)')
       }
 
       lastScrollY.current = currentScrollY

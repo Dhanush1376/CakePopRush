@@ -595,7 +595,7 @@ export function AdminCoupons() {
 
         {totalPages > 0 && (
           <div className={styles.pagination}>
-            <span className={styles.pageInfo}>{pageInfo}</span>
+            <span className={styles.paginationText}>{pageInfo}</span>
             <div className={styles.pageControls}>
               <button 
                 className={styles.pageBtn} 

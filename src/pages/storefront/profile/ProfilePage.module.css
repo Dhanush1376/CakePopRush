@@ -1,5 +1,7 @@
 .pageContainer {
   min-height: 100vh;
+
+  min-height: 100dvh;
   background-color: var(--color-background);
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
@@ -575,4 +577,9 @@
 .logoutChevron {
   color: var(--color-brand-pink);
   opacity: 0.5;
+}
+@supports not (backdrop-filter: blur(1px)) {
+  .card {
+    background: rgba(255,255,255,0.95);
+  }
 }

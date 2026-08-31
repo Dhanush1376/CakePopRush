@@ -269,29 +269,6 @@ export function AdminUsers() {
       )}
       </div>
 
-      {/* KPI Grid */}
-      <div className={styles.kpiGrid}>
-        {kpiData.map((kpi) => {
-          const Icon = kpi.icon;
-          return (
-            <div key={kpi.id} className={styles.kpiCard}>
-              <div className={styles.kpiIconWrapper} style={{ backgroundColor: kpi.bg, color: kpi.color }}>
-                <Icon size={24} strokeWidth={2} />
-              </div>
-              <div className={styles.kpiContent}>
-                <span className={styles.kpiLabel}>{kpi.label}</span>
-                <span className={styles.kpiValue}>{kpi.value}</span>
-                <div className={styles.kpiTrend}>
-                  <span className={kpi.isNeutral ? styles.trendNeutral : (kpi.isPositive ? styles.trendPositive : styles.trendNegative)}>
-                    {kpi.isPositive ? '↑' : '↓'} {kpi.trend}
-                  </span>
-                  <span className={styles.trendText}>vs last 7 days</span>
-                </div>
-              </div>
-            </div>
-          )
-        })}
-      </div>
 
       {/* Table Card */}
       <div className={styles.tableCard}>

@@ -304,7 +304,7 @@ export function AdminOrders() {
                     onChange={(e) => setSelectedOrders(e.target.checked ? paginatedData.map(o => o.id) : [])}
                   />
                 </th>
-                <th>ORDER ID</th>
+                <th>ORDER</th>
                 <th>CUSTOMER</th>
                 <th>DATE</th>
                 <th>AMOUNT</th>
@@ -350,9 +350,15 @@ export function AdminOrders() {
                       }}
                     />
                   </td>
-                  <td onClick={() => navigate(`/admin/orders/${encodeURIComponent(order.id)}`)} style={{ cursor: 'pointer' }}>
-                    <span className={styles.cellText}>{order.id}</span>
-                  </td>
+                    <td onClick={() => navigate(`/admin/orders/${encodeURIComponent(order.id)}`)} style={{ cursor: 'pointer' }}>
+                      <div className={styles.productCell}>
+                        <img src={(order as any).productImage || '/images/placeholder.jpg'} alt={(order as any).productName || 'Order'} className={styles.productImage} />
+                        <div>
+                          <div className={styles.productName}>{(order as any).productName || 'Unknown Product'}</div>
+                          <div className={styles.productSku}>{order.id}</div>
+                        </div>
+                      </div>
+                    </td>
                   <td onClick={() => navigate(`/admin/orders/${encodeURIComponent(order.id)}`)} style={{ cursor: 'pointer' }}>
                     <div className={styles.customerCell}>
                       <div className={styles.customerAvatar}>
@@ -453,21 +459,19 @@ export function AdminOrders() {
             paginatedData.map((order, idx) => (
             <div key={`grid-${order.id}-${idx}`} className={styles.orderCard}>
               <div className={styles.mcHeader}>
-                <div className={styles.customerCell}>
-                  <div className={styles.customerAvatar}>
-                    <User size={16} strokeWidth={2.5} />
+                  <div className={styles.productCell}>
+                    <img src={(order as any).productImage || '/images/placeholder.jpg'} alt={(order as any).productName || 'Order'} className={styles.productImage} />
+                    <div className={styles.customerInfo} style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                      <span className={styles.productName}>{(order as any).productName || 'Unknown Product'}</span>
+                      <span className={styles.cellText} style={{ fontSize: '12px' }}>{order.id}</span>
+                    </div>
                   </div>
-                  <div className={styles.customerInfo} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span className={styles.customerName}>{order.customer}</span>
-                    <span className={styles.cellText} style={{ fontSize: '12px' }}>{order.id}</span>
-                  </div>
-                </div>
                 <span className={`${styles.statusBadge} ${styles[order.status.toLowerCase()]}`}>
                   {order.status}
                 </span>
               </div>
 
-              <div className={styles.mcContact}>
+              <div className={styles.mcContact}><span className={styles.customerName}>{order.customer}</span>
                 <span className={styles.customerEmail} style={{ fontSize: '13px' }}>{order.email}</span>
               </div>
 
@@ -481,7 +485,7 @@ export function AdminOrders() {
                   <span className={styles.cellText} style={{ fontSize: '13px' }}>{order.items}</span>
                 </div>
                 <div className={styles.mcStatItem} style={{ textAlign: 'right' }}>
-                  <span className={styles.cellSubtext}>Amount</span>
+                  <span className={styles.cellSubtext} >Amount</span>
                   <span className={styles.cellText} style={{ fontSize: '14px', fontWeight: 600 }}>{order.amount}</span>
                 </div>
               </div>
@@ -534,7 +538,7 @@ export function AdminOrders() {
         
         {totalPages > 0 && (
           <div className={styles.pagination}>
-            <span className={styles.pageText}>{pageInfo}</span>
+            <span className={styles.paginationText}>{pageInfo}</span>
             <div className={styles.pageControls}>
               <button 
                 className={styles.pageBtn} 
@@ -678,3 +682,4 @@ export function AdminOrders() {
     </div>
   )
 }
+ // trigger hmr

@@ -128,10 +128,10 @@ export function HomePage() {
 
   return (
     <div className={styles.homePage}>
-      <HomeFrosting position="leftSide" style={{ top: '30%', zIndex: 0 }} />
-      <HomeFrosting position="rightSidePink" style={{ top: '105vh', zIndex: 0 }} />
-      <HomeFrosting position="rightSide" style={{ top: '40%', zIndex: 0 }} />
-      <HomeFrosting position="leftSideBlue" style={{ top: '84%', zIndex: 0 }} />
+      <HomeFrosting position="leftSide" style={{ top: '30%', zIndex: 0, opacity: 0.7 }} />
+      <HomeFrosting position="rightSidePink" style={{ top: '105vh', zIndex: 0, opacity: 0.7 }} />
+      <HomeFrosting position="rightSide" style={{ top: '40%', zIndex: 0, opacity: 0.7 }} />
+      <HomeFrosting position="leftSideBlue" style={{ top: '84%', zIndex: 0, opacity: 0.7 }} />
 
       <div className={styles.rwdyHero}>
         <div
@@ -175,10 +175,11 @@ export function HomePage() {
       {/* Scrolling Offer Banner */}
       <div className={styles.offerBannerContainer}>
         <div className={styles.offerBannerTrack}>
-          <span>GET 20% OFF YOUR FIRST ORDER WITH CODE: <strong>RUSH20</strong> • FREE SHIPPING ON ORDERS OVER 250/- • </span>
-          <span>GET 20% OFF YOUR FIRST ORDER WITH CODE: <strong>RUSH20</strong> • FREE SHIPPING ON ORDERS OVER 250/- • </span>
-          <span>GET 20% OFF YOUR FIRST ORDER WITH CODE: <strong>RUSH20</strong> • FREE SHIPPING ON ORDERS OVER 250/- • </span>
-          <span>GET 20% OFF YOUR FIRST ORDER WITH CODE: <strong>RUSH20</strong> • FREE SHIPPING ON ORDERS OVER 250/- • </span>
+          {Array.from({ length: 12 }).map((_, i) => (
+            <span key={i}>
+              GET 20% OFF YOUR FIRST ORDER WITH CODE: <strong>RUSH20</strong> • FREE SHIPPING ON ORDERS OVER 250/- •
+            </span>
+          ))}
         </div>
       </div>
 

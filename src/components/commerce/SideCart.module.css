@@ -1,4 +1,4 @@
-.overlay {
+﻿.overlay {
   position: fixed;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.45);
@@ -301,7 +301,7 @@
 }
 
 .totalPriceValue {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: var(--font-family-body);
 }
 
 .actions {
@@ -442,3 +442,9 @@
   right: 35px;
   transform: rotate(10deg);
 }
+@supports not (backdrop-filter: blur(1px)) {
+  .overlay {
+    background: rgba(43, 23, 11, 0.8);
+  }
+}
+

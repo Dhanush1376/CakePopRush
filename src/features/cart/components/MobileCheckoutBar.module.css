@@ -1,4 +1,4 @@
-.container {
+﻿.container {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -37,7 +37,7 @@
 }
 
 .total {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: var(--font-family-body);
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
   color: var(--color-text);
@@ -112,5 +112,12 @@
   flex-shrink: 0;
   display: flex;
   align-items: center;
+}
+
+
+@supports not (backdrop-filter: blur(1px)) {
+  .container {
+    background: rgba(255, 255, 255, 1);
+  }
 }
 

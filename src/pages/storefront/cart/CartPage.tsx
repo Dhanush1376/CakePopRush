@@ -80,7 +80,6 @@ export const CartPage = () => {
             </div>
 
             <CartRecommendations />
-            <CouponSection />
             
             <div className={styles.mobileTrustWrap}>
                <TrustBadges />
@@ -91,6 +90,7 @@ export const CartPage = () => {
           {/* RIGHT SIDE: Sticky Summary (Desktop) */}
           <div className={styles.sidebar}>
             <div className={styles.stickyWrapper}>
+              <CouponSection />
               <OrderSummary />
               <div className={styles.desktopTrustWrap}>
                 <TrustBadges />

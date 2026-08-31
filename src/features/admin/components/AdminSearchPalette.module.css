@@ -4,6 +4,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   background-color: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(4px);
   z-index: 9999;
@@ -219,4 +220,10 @@
   font-size: 11px;
   font-weight: 700;
   color: var(--admin-brown);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .overlay {
+    background: rgba(43, 23, 11, 0.8);
+  }
 }

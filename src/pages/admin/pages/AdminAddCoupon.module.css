@@ -458,7 +458,7 @@
 
 .threeColumnGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* wrap removed */
   gap: 16px;
 }
 
@@ -852,3 +852,9 @@ input:checked + .toggleSlider:before {
 }
 
 .table th, .table td { white-space: nowrap; /* added for free fit */ }
+
+.btnOutline svg, .addBtn svg, .btnPrimary svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+

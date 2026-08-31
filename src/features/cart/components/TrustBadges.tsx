@@ -15,7 +15,7 @@ export const TrustBadges = ({ variant = 'default' }: TrustBadgesProps = {}) => {
       </div>
       <div className={styles.badge}>
         <ShieldCheck size={18} strokeWidth={1.5} className={styles.icon} />
-        <span className={styles.text}>Safe & Secure Checkout</span>
+        <span className={styles.text}>Secure Checkout</span>
       </div>
       <div className={styles.badge}>
         <CreditCard size={18} strokeWidth={1.5} className={styles.icon} />
