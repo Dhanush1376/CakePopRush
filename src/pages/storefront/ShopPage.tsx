@@ -264,6 +264,10 @@ export function ShopPage() {
         <ShopCategories 
           activeCategory={activeCategory} 
           onSelectCategory={handleSelectCategory} 
+          onScrollChange={(percentage) => {
+            eyeTargetX.set((percentage - 0.5) * 16);
+            eyeTargetY.set(6);
+          }}
         />
         
         <ShopToolbar 

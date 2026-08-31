@@ -25,7 +25,8 @@ const CheckoutDeliveryPage = lazy(() => import('@/pages/storefront/checkout/Chec
 const CheckoutPaymentPage = lazy(() => import('@/pages/storefront/checkout/CheckoutPaymentPage').then(m => ({ default: m.CheckoutPaymentPage })))
 const DesignSystemPage = lazy(() => import('@/pages/storefront/DesignSystemPage').then(m => ({ default: m.DesignSystemPage })))
 const OrdersPage = lazy(() => import('@/pages/storefront/orders/OrdersPage').then(m => ({ default: m.OrdersPage })))
-const OrderTrackingPage = lazy(() => import('@/pages/storefront/orders/OrderTrackingPage').then(m => ({ default: m.OrderTrackingPage })))
+const OrderTrackingPage = lazy(() => import('@/pages/storefront/orders/LiveTrackingPage').then(m => ({ default: m.LiveTrackingPage })))
+const LiveTrackingPage = lazy(() => import('@/pages/storefront/orders/LiveTrackingPage').then(m => ({ default: m.LiveTrackingPage })))
 const OrderSuccessPage = lazy(() => import('@/pages/storefront/orders/OrderSuccessPage').then(m => ({ default: m.OrderSuccessPage })))
 const CustomOrdersPage = lazy(() => import('@/pages/storefront/custom-orders/CustomOrdersPage').then(m => ({ default: m.CustomOrdersPage })))
 
@@ -108,6 +109,10 @@ export const router = createBrowserRouter([
           {
             path: 'orders/:id',
             element: <LazyWrap><OrderTrackingPage /></LazyWrap>,
+          },
+          {
+            path: 'tracking/live',
+            element: <LazyWrap><LiveTrackingPage /></LazyWrap>,
           },
           {
             path: 'order-success/:id',

@@ -232,9 +232,10 @@ export const ContactPage = () => {
 
             <div className={styles.mapSection}>
               <h2 className={styles.mapHeading}>Find Us Here</h2>
+              {/* TODO: When connected backend we need to be able to update in CMS future course */}
               <div className={styles.cleanMapCard}>
                 <MapContainer 
-                  center={[18.9220, 72.8347]} 
+                  center={[18.9674394, 72.8116404]} 
                   zoom={14} 
                   scrollWheelZoom={false}
                   dragging={true}
@@ -243,14 +244,14 @@ export const ContactPage = () => {
                 >
                   <MapResizer />
                   <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; Google Maps'
+                    url="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
                   />
-                  <Marker position={[18.9220, 72.8347]} />
+                  <Marker position={[18.9674394, 72.8116404]} />
                 </MapContainer>
                 
                 <a 
-                  href="https://www.google.com/maps/search/?api=1&query=18.9220,72.8347" 
+                  href="https://www.google.com/maps/search/?api=1&query=18.9674394,72.8116404" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className={styles.openMapsBtn}
@@ -290,8 +291,9 @@ export const ContactPage = () => {
                 </div>
                 <div className={styles.cardContent}>
                   <h3 className={styles.cardTitle}>Visit Us</h3>
-                  <p className={styles.cardText}>123, Cake Pop Street,</p>
-                  <p className={styles.cardSubtext}>Sweet City, Mumbai<br/>400001, India</p>
+                  {/* TODO: When connected backend we need to be able to update in CMS future course */}
+                  <p className={styles.cardText}>Cake Pop Rush,</p>
+                  <p className={styles.cardSubtext}>Mumbai<br/>India</p>
                 </div>
               </div>
 

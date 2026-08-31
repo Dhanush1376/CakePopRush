@@ -180,35 +180,6 @@ export const MobileFilters = ({ isOpen, onClose, categories, initialFilters, onA
               )}
             </div>
 
-            {/* Category Radio List */}
-            <div className={styles.section}>
-              <button className={styles.sectionTitleRow} onClick={() => toggleSection('category')}>
-                <span className={styles.sectionTitle}>Category</span>
-                <div className={styles.caretBox}>
-                  {expanded.category ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                </div>
-              </button>
-              {expanded.category && (
-                <div className={`${styles.listContainer} ${styles.scrollableList}`}>
-                  {categories.map((cat) => {
-                    const Icon = getCategoryIcon(cat.id, cat.name)
-                    const isActive = activeCategories.includes(cat.id)
-                    return (
-                      <div
-                        key={cat.id}
-                        className={`${styles.listItem} ${isActive ? styles.listItemActive : ''}`}
-                        onClick={() => toggleCategory(cat.id)}
-                      >
-                        <div className={`${styles.checkboxOuter} ${isActive ? styles.checkboxOuterActive : ''}`}>
-                          {isActive && <Check size={14} strokeWidth={3} />}
-                        </div>
-                        <span className={styles.listTitle}>{cat.name}</span>
-                      </div>
-                    )
-                  })}
-                </div>
-              )}
-            </div>
 
             {/* Occasion */}
             <div className={styles.section}>

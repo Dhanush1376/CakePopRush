@@ -28,8 +28,11 @@ function App() {
   }
 
 
-  const hideFooterRoutes = ['/profile', '/orders', '/cart', '/checkout', '/payment', '/wishlist']
+  const hideFooterRoutes = ['/profile', '/orders', '/cart', '/checkout', '/payment', '/wishlist', '/tracking']
   const shouldHideFooter = hideFooterRoutes.some(route => pathname === route || pathname.startsWith(`${route}/`))
+
+  const hideHeaderRoutes = ['/tracking']
+  const shouldHideHeader = hideHeaderRoutes.some(route => pathname === route || pathname.startsWith(`${route}/`)) || /^\/orders\/[^/]+$/.test(pathname)
 
   return (
     <>
@@ -41,7 +44,7 @@ function App() {
         <MascotOrchestrationProvider>
           <a href="#main-content" className="skip-link">Skip to main content</a>
           <GlobalHeartAnimation />
-          <Header />
+          {!shouldHideHeader && <Header />}
           <main id="main-content" style={{ flex: '1 0 auto', outline: 'none' }} tabIndex={-1}>
             <Outlet />
           </main>

@@ -8,10 +8,9 @@ import { motion } from 'framer-motion';
 import { MascotReaction } from '@/components/mascot/reactions/reactionTypes';
 
 const EMPTY_STATES: { message: string, reaction: MascotReaction }[] = [
-  { message: "Your wishlist is empty!\nSave your favorites here.", reaction: "pleadingCute" },
-  { message: "Nothing here yet.\nLet's find something sweet!", reaction: "confused" },
-  { message: "I'll keep your favorites safe.\nWhenever you find them!", reaction: "happy" },
-  { message: "Still looking for the perfect treat?", reaction: "tired" },
+  { message: "Save your \nfavorites here.", reaction: "pleadingCute" },
+  { message: "Let's find \nsomething sweet!", reaction: "excited" },
+  { message: "I'll keep your \nfavorites safe", reaction: "happy" },
 ];
 
 export const WishlistEmptyState: React.FC = () => {
@@ -47,7 +46,7 @@ export const WishlistEmptyState: React.FC = () => {
         >
           <h2 className={styles.title}>Your wishlist is empty.</h2>
           <p className={styles.subtitle}>
-            Looks like your wishlist is waiting for some sweet treats! &hearts;
+            Your wishlist is waiting for something sweet! &hearts;
           </p>
         </motion.div>
         

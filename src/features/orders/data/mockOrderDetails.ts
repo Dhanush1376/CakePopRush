@@ -29,12 +29,12 @@ export const MOCK_SUCCESS_ORDER: OrderDetail = {
   address: {
     recipientName: 'Dhanush',
     phone: '+91 98765 43210',
-    houseNo: '12A',
-    street: 'MG Road',
-    area: 'Koramangala',
-    city: 'Bangalore',
-    state: 'Karnataka',
-    pincode: '560034',
+    houseNo: '402',
+    street: 'Walkeshwar Road',
+    area: 'Malabar Hill',
+    city: 'Mumbai',
+    state: 'Maharashtra',
+    pincode: '400006',
     type: 'Home'
   },
   price: {

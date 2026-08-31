@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useId } from 'react';
 
 export type CornerPosition = 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';
 export type FrostingVariant = 'pink' | 'yellow' | 'turquoise' | 'default';
@@ -17,6 +17,7 @@ const VARIANTS = {
 };
 
 export const FrostingCorner = ({ position = 'topRight', variant = 'default', style, className }: FrostingCornerProps) => {
+  const clipId = 'clip-' + useId().replace(/:/g, '');
   const getColors = (defaultVariant: 'pink' | 'yellow' | 'turquoise') => {
     return variant === 'default' ? VARIANTS[defaultVariant] : VARIANTS[variant];
   };
@@ -41,11 +42,13 @@ export const FrostingCorner = ({ position = 'topRight', variant = 'default', sty
     const { outer, inner } = getColors('yellow');
     return (
       <svg width="240" height="240" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id={clipId}>
+            <path d="M400,0 L0,0 C20,120 120,250 250,320 C320,350 370,380 400,400 Z" />
+          </clipPath>
+        </defs>
         <path d="M400,0 L0,0 C20,120 120,250 250,320 C320,350 370,380 400,400 Z" fill={outer} opacity="0.8" />
         <path d="M400,0 L120,0 C140,80 220,160 320,220 C360,240 390,260 400,280 Z" fill={inner} opacity="0.6" />
-        {/* Wavy lines */}
-        <path d="M400,50 C320,80 260,130 240,220 C220,280 280,320 260,400" stroke={inner} strokeWidth="2" fill="none" />
-        <path d="M400,90 C360,110 300,160 280,240 C260,300 320,340 300,400" stroke={inner} strokeWidth="2" fill="none" />
         {/* Sprinkles */}
         <rect x="150" y="80" width="8" height="4" rx="2" transform="rotate(-30 150 80)" fill="#F495B4" />
         <rect x="120" y="150" width="8" height="4" rx="2" transform="rotate(45 120 150)" fill="#07C2BB" />
@@ -62,9 +65,7 @@ export const FrostingCorner = ({ position = 'topRight', variant = 'default', sty
       <svg width="240" height="240" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0,400 L400,400 C380,280 280,150 150,80 C80,50 30,20 0,0 Z" fill={outer} opacity="0.8" />
         <path d="M0,400 L280,400 C260,320 180,240 80,180 C40,160 10,140 0,120 Z" fill={inner} opacity="0.7" />
-        {/* Wavy lines */}
-        <path d="M0,350 C80,320 140,270 160,180 C180,120 120,80 140,0" stroke="#FFDFE8" strokeWidth="2" fill="none" />
-        <path d="M0,310 C40,290 100,240 120,160 C140,100 80,60 100,0" stroke="#FFDFE8" strokeWidth="2" fill="none" />
+
         {/* Sprinkles */}
         <rect x="250" y="320" width="8" height="4" rx="2" transform="rotate(60 250 320)" fill="#07C2BB" />
         <rect x="280" y="250" width="8" height="4" rx="2" transform="rotate(-15 280 250)" fill="#F495B4" />

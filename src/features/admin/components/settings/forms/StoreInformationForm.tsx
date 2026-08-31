@@ -29,7 +29,8 @@ export const StoreInformationForm = () => (
     </div>
     <div className={styles.formGroup}>
       <label className={styles.label}>Store Address</label>
-      <textarea className={`${styles.input} ${styles.textarea}`} defaultValue="123, Cake Pop Street, Sweet City,&#10;Mumbai, Maharashtra - 400001, India"></textarea>
+      {/* TODO: When connected backend we need to be able to update in CMS future course */}
+      <textarea className={`${styles.input} ${styles.textarea}`} defaultValue="Cake Pop Rush,&#10;Mumbai, India"></textarea>
     </div>
     <div className={styles.formRow}>
       <div className={styles.formGroup}>

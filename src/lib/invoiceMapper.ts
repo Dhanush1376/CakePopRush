@@ -26,10 +26,11 @@ export function mapOrderToInvoiceData(order: Order): InvoiceData {
     invoiceDate: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
     orderDate: order.date || new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
     
+    // TODO: When connected backend we need to be able to update in CMS future course
     business: {
-      name: 'CakePopRush',
-      address: '123, Bakery Lane, Indiranagar',
-      cityStateZip: 'Bangalore, Karnataka 560038',
+      name: 'Cake Pop Rush',
+      address: 'Cake Pop Rush',
+      cityStateZip: 'Mumbai',
       country: 'India',
       phone: '+91 98765 43210',
       email: 'support@cakepoprush.com',
@@ -48,9 +49,9 @@ export function mapOrderToInvoiceData(order: Order): InvoiceData {
       phone: order.address?.phone || '+91 99999 99999',
       email: order.email || 'customer@example.com',
       street: order.address?.street || '123 Customer St',
-      city: order.address?.city || 'Bangalore',
-      state: order.address?.state || 'Karnataka',
-      pincode: order.address?.pincode || '560001',
+      city: order.address?.city || 'Mumbai',
+      state: order.address?.state || 'Maharashtra',
+      pincode: order.address?.pincode || '400006',
       country: 'India'
     },
     
@@ -58,9 +59,9 @@ export function mapOrderToInvoiceData(order: Order): InvoiceData {
       name: order.address?.recipientName || (typeof order.customer === 'string' ? order.customer : order.customer?.name) || 'Valued Customer',
       phone: order.address?.phone || '+91 99999 99999',
       street: order.address?.street || '123 Customer St',
-      city: order.address?.city || 'Bangalore',
-      state: order.address?.state || 'Karnataka',
-      pincode: order.address?.pincode || '560001',
+      city: order.address?.city || 'Mumbai',
+      state: order.address?.state || 'Maharashtra',
+      pincode: order.address?.pincode || '400006',
       country: 'India'
     } : undefined,
 

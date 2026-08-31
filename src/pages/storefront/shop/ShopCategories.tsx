@@ -7,6 +7,7 @@ import { productData } from '@/features/products'
 interface ShopCategoriesProps {
   activeCategory: string
   onSelectCategory: (id: string) => void
+  onScrollChange?: (percentage: number) => void
 }
 
 import {
@@ -56,7 +57,7 @@ const getCategoryIcon = (id: string) => {
   }
 }
 
-export const ShopCategories = ({ activeCategory, onSelectCategory }: ShopCategoriesProps) => {
+export const ShopCategories = ({ activeCategory, onSelectCategory, onScrollChange }: ShopCategoriesProps) => {
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = React.useState(false);
   const [startX, setStartX] = React.useState(0);
@@ -102,6 +103,14 @@ export const ShopCategories = ({ activeCategory, onSelectCategory }: ShopCategor
         <div
           className={`${styles.categoryScroll} ${isDragging ? styles.dragging : ''}`}
           ref={scrollRef}
+          onScroll={(e) => {
+            const el = e.currentTarget;
+            const maxScroll = el.scrollWidth - el.clientWidth;
+            if (maxScroll > 0 && onScrollChange) {
+              const percentage = el.scrollLeft / maxScroll;
+              onScrollChange(percentage);
+            }
+          }}
           onMouseDown={handleMouseDown}
           onMouseLeave={handleMouseLeave}
           onMouseUp={handleMouseUp}

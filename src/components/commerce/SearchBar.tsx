@@ -207,7 +207,12 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
         )}
         {!isMobile && <div className={styles.sectionTitle}>{isQueryEmpty ? 'Trending Treats' : 'Search Results'}</div>}
         <ul className={styles.newResultList} role="listbox">
-          {displayResults.map((product, index) => (
+          {displayResults.map((product, index) => {
+            const scaleX = [1, 1.25, 0.85, 1.15][index % 4];
+            const scaleY = [1, 0.85, 1.25, 0.9][index % 4];
+            const variant = ['yellow', 'pink', 'turquoise'][index % 3] as any;
+            
+            return (
             <li key={product.id}>
               <button
                 className={styles.newResultCard}
@@ -217,6 +222,18 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
                 role="option"
                 aria-selected={index === activeIndex}
               >
+                <div className={styles.cardFrosting}>
+                  <FrostingCorner 
+                    position="topRight" 
+                    variant={variant} 
+                    style={{ 
+                      position: 'relative', 
+                      top: 'auto', left: 'auto', right: 'auto', bottom: 'auto', 
+                      transform: `scaleX(${scaleX}) scaleY(${scaleY})`, 
+                      transformOrigin: 'top right' 
+                    }} 
+                  />
+                </div>
                 <div className={styles.cardImageWrapper}>
                   {index === 0 && <div className={styles.bestsellerCheck}><CheckCircle2 size={12} /></div>}
                   <img src={product.images[0]?.url} alt={product.name} />
@@ -242,7 +259,8 @@ export const SearchBar = ({ isMobile: forcedMobile, isOpen = false, onClose }: S
                 </div>
               </button>
             </li>
-          ))}
+            );
+          })}
         </ul>
       </div>
     )

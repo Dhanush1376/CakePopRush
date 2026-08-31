@@ -8,7 +8,7 @@ export const ServerErrorPage = ({ error }: { error?: Error }) => {
   const navigate = useNavigate()
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh', padding: 'var(--space-4)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100dvh', padding: 'var(--space-4)' }}>
       <ErrorCard 
         icon={
           <motion.div

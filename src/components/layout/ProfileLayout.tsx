@@ -142,7 +142,7 @@ const OrdersSection = () => {
             <div
               key={index}
               className={styles.orderItem}
-              onClick={() => navigate('/orders', { state: { tab: item.tab } })}
+              onClick={() => navigate('/orders')}
               style={{ cursor: 'pointer' }}
             >
               <div className={`${styles.orderIconWrapper} ${item.iconClass}`}>
