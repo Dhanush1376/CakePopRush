@@ -123,6 +123,63 @@
   }
 }
 
+.thoughtBubbleWrapper {
+  position: absolute;
+  bottom: 100%;
+  right: 10%;
+  width: 120px;
+  height: 84px;
+  pointer-events: none;
+  z-index: 100;
+}
+
+@media (max-width: 1024px) {
+  .thoughtBubbleWrapper {
+    right: 5%;
+  }
+}
+
+@media (min-width: 768px) {
+  .thoughtBubbleWrapper {
+    /* To match the mascot scaling */
+    transform: scale(1.5);
+    transform-origin: bottom center;
+  }
+}
+
+.thoughtBubble {
+  position: absolute;
+  bottom: 55px;
+  right: 70px;
+  background: white;
+  border: 1.5px solid #FDB6CC;
+  border-radius: 20px;
+  padding: 10px 16px;
+  font-family: var(--font-family-body);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #4A312B;
+  width: max-content;
+  max-width: 170px;
+  text-align: center;
+  line-height: 1.3;
+  box-shadow: 0 8px 24px rgba(242, 27, 91, 0.08);
+  pointer-events: none;
+}
+
+.thoughtBubble::after {
+  content: '';
+  position: absolute;
+  bottom: -6.5px;
+  right: 24px;
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-bottom: 1.5px solid #FDB6CC;
+  border-right: 1.5px solid #FDB6CC;
+  transform: rotate(45deg);
+}
+
 /* Pull-over notch */
 .stickyHeader::before {
   content: '';

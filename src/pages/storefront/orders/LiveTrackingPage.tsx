@@ -17,8 +17,10 @@ export const LiveTrackingPage = () => {
   const [order, setOrder] = useState<any>(null);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
+  const [touchStartY, setTouchStartY] = useState(0);
   
   const accordionRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     orderData.getOrderById(id).then(found => {
@@ -142,42 +144,69 @@ export const LiveTrackingPage = () => {
       {/* Bottom Sheet */}
       <motion.div 
         className={styles.bottomSheet}
-        drag={!isSheetExpanded ? "y" : false} // Only allow drag when collapsed to prevent scroll conflicts!
-        dragConstraints={{ top: 0 }}
-        dragElastic={0} // Disable elasticity so it NEVER detaches from the bottom
-        dragMomentum={false}
+        drag="y"
+        dragConstraints={{ top: 0, bottom: 0 }}
+        dragElastic={0.15}
         onDragEnd={(event, info) => {
-          if (info.offset.y < -20 || info.velocity.y < -200) {
-            setIsSheetExpanded(true); // Snap up easily
+          if (info.offset.y < -30 || info.velocity.y < -300) {
+            setIsSheetExpanded(true);
+          } else if (info.offset.y > 30 || info.velocity.y > 300) {
+            setIsSheetExpanded(false);
           }
         }}
         onWheel={(e) => {
-          // If the user scrolls down (deltaY > 0) to see more content, expand the sheet!
           if (!isSheetExpanded && e.deltaY > 0) {
             setIsSheetExpanded(true);
-          }
-          // If the user scrolls up (deltaY < 0) and is at the top of the sheet, collapse it!
-          else if (isSheetExpanded && e.deltaY < 0 && e.currentTarget.scrollTop <= 0) {
-            setIsSheetExpanded(false);
           }
         }}
         initial={false}
         style={{ 
-          height: '70vh', 
-          overflowY: isSheetExpanded ? 'auto' : 'hidden',
-          touchAction: isSheetExpanded ? 'pan-y' : 'none'
+          height: '75vh',
         }}
-        animate={{ y: isSheetExpanded ? 0 : '35vh' }}
-        transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
+        animate={{ y: isSheetExpanded ? 0 : '40vh' }}
+        transition={{ type: 'spring', damping: 25, stiffness: 200 }}
       >
         <div 
           className={styles.dragHandleArea} 
           onClick={() => setIsSheetExpanded(!isSheetExpanded)}
+          style={{ touchAction: 'none' }}
         >
           <div className={styles.dragHandle} />
         </div>
 
-        <div className={styles.trackingLayout}>
+        <div 
+          ref={scrollContainerRef}
+          className={styles.trackingLayout}
+          onTouchStart={(e) => {
+            setTouchStartY(e.touches[0].clientY);
+          }}
+          onTouchMove={(e) => {
+            if (isSheetExpanded && scrollContainerRef.current) {
+              const currentY = e.touches[0].clientY;
+              // If pulling down and we are at the top of the scroll container
+              if (currentY > touchStartY && scrollContainerRef.current.scrollTop <= 0) {
+                if (currentY - touchStartY > 60) { // 60px threshold
+                  setIsSheetExpanded(false);
+                }
+              }
+            }
+          }}
+          onWheel={(e) => {
+            if (isSheetExpanded && e.deltaY < 0 && scrollContainerRef.current && scrollContainerRef.current.scrollTop <= 0) {
+              setIsSheetExpanded(false);
+            }
+          }}
+          onPointerDown={(e) => {
+            // Stop framer-motion drag when touching the scrollable content
+            e.stopPropagation();
+          }}
+          style={{
+            height: 'calc(100% - 24px)',
+            overflowY: isSheetExpanded ? 'auto' : 'hidden',
+            touchAction: isSheetExpanded ? 'pan-y' : 'none',
+            paddingBottom: '40px'
+          }}
+        >
           {/* Left / Top: Timeline & Driver */}
           <div>
             {/* Main Status Title */}

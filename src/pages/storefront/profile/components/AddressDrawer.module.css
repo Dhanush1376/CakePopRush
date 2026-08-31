@@ -7,6 +7,9 @@
   background: rgba(43, 23, 11, 0.4);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
   z-index: 1000;
 }
 

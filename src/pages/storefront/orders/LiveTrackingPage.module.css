@@ -72,6 +72,9 @@
   background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 50%;
   width: 36px;
@@ -94,6 +97,9 @@
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
   padding: 6px 12px;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.08);
@@ -120,6 +126,9 @@
   background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
   border: 1px solid rgba(255, 255, 255, 0.5);
   color: var(--color-chocolate);
   padding: 8px 14px;
@@ -149,6 +158,9 @@
   background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 16px;
   padding: 12px 16px;
@@ -269,6 +281,9 @@
   background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 20px;
   padding: 10px 16px;

@@ -110,6 +110,9 @@
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.4) 100%);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-top: 1px solid rgba(255, 255, 255, 0.8);
   border-left: 1px solid rgba(255, 255, 255, 0.8);
@@ -200,6 +203,9 @@
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.4) 100%);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-top: 1px solid rgba(255, 255, 255, 0.8);
   border-left: 1px solid rgba(255, 255, 255, 0.8);

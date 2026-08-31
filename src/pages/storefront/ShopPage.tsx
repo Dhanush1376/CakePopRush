@@ -14,7 +14,9 @@ import { motion } from 'framer-motion'
 import { useWishlist } from '@/features/wishlist'
 import { useSearchParams } from 'react-router-dom'
 import { useMotionValue, useSpring } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import { CakePopMascot } from '@/components/mascot/CakePopMascot'
+import { getRandomThought } from '@/utils/mascotThoughts'
 import { MascotReaction, MascotRef } from '@/components/mascot/reactions/reactionTypes'
 import { useMascotOrchestrator } from '@/components/mascot/orchestration/useMascotOrchestrator'
 import { ShopFilters } from '@/components/commerce/MobileFilters'
@@ -28,6 +30,8 @@ export function ShopPage() {
   const [activeCategory, setActiveCategory] = useState(initialCategory)
   const [isHeaderHidden, setIsHeaderHidden] = useState(false)
   const [isDocked, setIsDocked] = useState(false)
+  const [thoughtMessage, setThoughtMessage] = useState<string | null>(null);
+  const thoughtTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
   
   const { currentReaction, tapMascot, prefersReducedMotion } = useMascotOrchestrator()
   
@@ -199,6 +203,22 @@ export function ShopPage() {
   const handleSelectCategory = (catId: string) => {
     setActiveCategory(catId)
     scrollToCategories()
+
+    const formattedName = catId === 'all' ? 'sweets' : catId.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    const thought = getRandomThought(formattedName);
+    
+    setThoughtMessage(thought.text);
+    if (mascotControlRef.current) {
+      mascotControlRef.current.play(thought.reaction);
+    }
+
+    if (thoughtTimeoutRef.current) {
+      clearTimeout(thoughtTimeoutRef.current);
+    }
+    
+    thoughtTimeoutRef.current = setTimeout(() => {
+      setThoughtMessage(null);
+    }, 6000);
   }
 
   // Simulate network request on category change
@@ -260,6 +280,22 @@ export function ShopPage() {
             reaction={currentReaction || 'happy'}
             speedMultiplier={prefersReducedMotion ? 1 : 2}
           />
+        </div>
+        
+        <div className={styles.thoughtBubbleWrapper}>
+          <AnimatePresence>
+            {thoughtMessage && (
+              <motion.div 
+                className={styles.thoughtBubble}
+                initial={{ opacity: 0, scale: 0.8, y: 10, rotate: -5 }}
+                animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
+                exit={{ opacity: 0, scale: 0.8, y: 10 }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
+              >
+                {thoughtMessage}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         <ShopCategories 
