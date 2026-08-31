@@ -138,6 +138,12 @@
   .imageOverlayName span {
     color: #ffffff !important;
   }
+  
+  @supports not (backdrop-filter: blur(1px)) {
+    .imageOverlayName {
+      background: rgba(25, 20, 20, 0.85); /* More opaque fallback for older browsers */
+    }
+  }
 
   .imageLink:hover .imageOverlayName {
     opacity: 1;
@@ -1096,6 +1102,12 @@
   color: var(--color-chocolate);
   margin-bottom: 8px;
   text-align: center;
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .flowCard {
+    background: rgba(255, 255, 255, 0.95); /* Opaque fallback for Android/older browsers */
+  }
 }
 
 .flowDesc {

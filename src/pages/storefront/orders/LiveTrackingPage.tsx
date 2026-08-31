@@ -181,7 +181,7 @@ export const LiveTrackingPage = () => {
           {/* Left / Top: Timeline & Driver */}
           <div>
             {/* Main Status Title */}
-            <h2 className={styles.mainStatusTitle}>Your cake is on the way!</h2>
+            <h2 className={styles.mainStatusTitle}>Your treat is on the way!</h2>
 
             {/* Driver Info */}
             <div className={styles.driverInfoRow}>

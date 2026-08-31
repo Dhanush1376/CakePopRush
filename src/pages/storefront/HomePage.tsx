@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { ShopByCategorySection, BestSellersSection, NewLaunchSection, FestiveOccasionsSection, CustomOrderSection } from './home/HomeSections'
 import styles from './home/HomePage.module.css'
 import { HomeFrosting } from './home/components/HomeFrosting'
+import { ActiveOrderBanner } from './home/components/ActiveOrderBanner'
 
 export function HomePage() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -182,6 +183,8 @@ export function HomePage() {
           ))}
         </div>
       </div>
+
+      <ActiveOrderBanner />
 
       <ShopByCategorySection />
       <NewLaunchSection />

@@ -130,6 +130,12 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
+@supports not (backdrop-filter: blur(1px)) {
+  .stickyPanel {
+    background: rgba(255, 255, 255, 0.95);
+  }
+}
+
 @media (min-width: 768px) {
   .stickyPanel {
     padding: var(--space-6);

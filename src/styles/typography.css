@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'NumberOverride';
+  src: local('Inter'), local('Helvetica Neue'), local('Arial'), local('Segoe UI');
+  unicode-range: U+0030-0039, U+20B9, U+0025, U+002E; /* 0-9, ₹, %, . */
+}
 
 body {
   font-family: var(--font-family-body);

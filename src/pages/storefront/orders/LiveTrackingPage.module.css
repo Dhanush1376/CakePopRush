@@ -1016,3 +1016,12 @@
   border-top: 1px solid rgba(0,0,0,0.05);
   margin-bottom: 0;
 }
+
+@supports not (backdrop-filter: blur(1px)) {
+  .backBtn, .helpBtn, .etaCard, .recenterBtn {
+    background: rgba(255, 255, 255, 0.95);
+  }
+  .headerTitle {
+    background: rgba(255, 255, 255, 0.98);
+  }
+}

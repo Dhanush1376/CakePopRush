@@ -1,8 +1,8 @@
 .page {
-  --font-family-display: 'Playfair Display', serif;
-  --font-family-heading: 'Playfair Display', serif;
+  --font-family-display: 'NumberOverride', 'Playfair Display', serif;
+  --font-family-heading: 'NumberOverride', 'Playfair Display', serif;
   --font-family-body: 'Inter', system-ui, sans-serif;
-  --font-family-price: 'Playfair Display', serif;
+  --font-family-price: 'NumberOverride', 'Playfair Display', serif;
   padding-bottom: 120px;
   min-height: 100vh;
 

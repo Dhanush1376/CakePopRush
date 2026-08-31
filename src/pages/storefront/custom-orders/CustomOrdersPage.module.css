@@ -118,6 +118,12 @@
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15), inset 0 0 16px rgba(255, 255, 255, 0.5);
 }
 
+@supports not (backdrop-filter: blur(1px)) {
+  .sidebarStepsCard {
+    background: rgba(255, 255, 255, 0.95);
+  }
+}
+
 .sidebarStep {
   display: flex;
   align-items: center;
@@ -201,6 +207,12 @@
   padding: 28px 32px;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15), inset 0 0 16px rgba(255, 255, 255, 0.5);
   min-height: 500px;
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .formSection {
+    background: rgba(255, 255, 255, 0.98);
+  }
 }
 
 /* Responsive */
