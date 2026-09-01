@@ -85,9 +85,10 @@ interface MapControllerProps {
   mapRef: React.MutableRefObject<L.Map | null>;
   isTrackingRef: React.MutableRefObject<boolean>;
   isSheetExpanded?: boolean;
+  riderMarkerRef: React.MutableRefObject<L.Marker | null>;
 }
 
-const MapController = forwardRef<{ recenter: () => void }, MapControllerProps>(({ state, mapRef, isTrackingRef, isSheetExpanded }, ref) => {
+const MapController = forwardRef<{ recenter: () => void }, MapControllerProps>(({ state, mapRef, isTrackingRef, isSheetExpanded, riderMarkerRef }, ref) => {
   const map = useMap();
 
   useEffect(() => {
@@ -107,14 +108,26 @@ const MapController = forwardRef<{ recenter: () => void }, MapControllerProps>((
   }, [map]);
 
   const recenter = () => {
-    if (state.rider && (state.status === 'on_the_way' || state.status === 'arriving')) {
+    isTrackingRef.current = true;
+    if (state.rider && (state.status === 'on_the_way' || state.status === 'arriving' || state.status === 'picked_up')) {
       const zoom = 17;
-      const targetOffsetRatio = isSheetExpanded ? 0.28 : 0.15;
-      const targetPoint = map.project([state.rider.latitude, state.rider.longitude], zoom);
-      targetPoint.y += window.innerHeight * targetOffsetRatio;
+      const targetOffsetYRatio = isSheetExpanded ? 0.35 : 0.15;
+      const targetOffsetXRatio = isSheetExpanded ? 0.12 : 0;
+      
+      let lat = state.rider.latitude;
+      let lng = state.rider.longitude;
+      if (riderMarkerRef.current) {
+        const pos = riderMarkerRef.current.getLatLng();
+        lat = pos.lat;
+        lng = pos.lng;
+      }
+      
+      const targetPoint = map.project([lat, lng], zoom);
+      targetPoint.y += window.innerHeight * targetOffsetYRatio;
+      targetPoint.x += window.innerWidth * targetOffsetXRatio;
       const targetLatLng = map.unproject(targetPoint, zoom);
       
-      map.flyTo(targetLatLng, zoom, { animate: true, duration: 1.5 });
+      map.setView(targetLatLng, zoom, { animate: true, duration: 0.5 });
     } else {
       const bounds = L.latLngBounds([]);
       bounds.extend([state.customer.latitude, state.customer.longitude]);
@@ -134,6 +147,17 @@ const MapController = forwardRef<{ recenter: () => void }, MapControllerProps>((
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.route, state.isLive]);
+
+  // Recenter instantly when the sheet expands or collapses
+  useEffect(() => {
+    if (state.route && state.isLive) {
+      // Small timeout to allow DOM to start animating the sheet
+      setTimeout(() => {
+        recenter();
+      }, 50);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSheetExpanded]);
 
     // Ensure map correctly sizes when the container might have changed size
     useEffect(() => {
@@ -220,12 +244,14 @@ export const DeliveryMap = forwardRef<DeliveryMapRef, DeliveryMapProps>(({ state
         nextPanTimeRef.current = now + 2000;
         
         // Use smooth panTo instead of aggressive per-frame setView to prevent map shaking
-        const targetOffsetRatio = isSheetExpanded ? 0.28 : 0.15;
+        const targetOffsetYRatio = isSheetExpanded ? 0.35 : 0.15;
+        const targetOffsetXRatio = isSheetExpanded ? 0.12 : 0;
         const zoom = mapRef.current.getZoom();
         const targetPoint = mapRef.current.project([lat, lng], zoom);
         
-        // Offset center DOWN so the marker sits securely HIGHER in the visible upper half of the screen
-        targetPoint.y += window.innerHeight * targetOffsetRatio;
+        // Offset center DOWN and RIGHT so the marker sits securely HIGHER and LEFT in the visible upper half of the screen
+        targetPoint.y += window.innerHeight * targetOffsetYRatio;
+        targetPoint.x += window.innerWidth * targetOffsetXRatio;
         
         const targetLatLng = mapRef.current.unproject(targetPoint, zoom);
         mapRef.current.panTo(targetLatLng, { animate: true, duration: 2, easeLinearity: 1 });
@@ -315,7 +341,7 @@ export const DeliveryMap = forwardRef<DeliveryMapRef, DeliveryMapProps>(({ state
         )}
 
         {/* Controller handles side-effects like panning */}
-        <MapController state={state} ref={mapControllerRef} mapRef={mapRef} isTrackingRef={isTrackingRef} isSheetExpanded={isSheetExpanded} />
+        <MapController state={state} ref={mapControllerRef} mapRef={mapRef} isTrackingRef={isTrackingRef} isSheetExpanded={isSheetExpanded} riderMarkerRef={riderMarkerRef} />
       </MapContainer>
     </div>
   );
