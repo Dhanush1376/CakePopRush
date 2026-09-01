@@ -4,8 +4,10 @@
   left: 0;
   width: 100%;
   z-index: var(--z-header);
-  background-color: #ffffff;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(242, 13, 111, 0.15);
   padding: 4px 0;
   padding-bottom: env(safe-area-inset-bottom, 12px);
 }
@@ -30,8 +32,7 @@
   align-items: center;
   justify-content: center;
   flex: 1;
-  color: #111;
-  /* Changed from brown to black */
+  color: var(--color-text-muted);
   gap: 4px;
   transition: all var(--duration-fast) var(--ease-out);
   border-radius: 16px;

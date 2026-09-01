@@ -99,9 +99,6 @@ const ProfileCard = ({ onEditProfile }: { onEditProfile?: () => void }) => (
       <div className={styles.userInfo}>
         <div className={styles.userNameRow}>
           <h2>Hey!&nbsp;<span className={styles.highlightName}>Guest!</span></h2>
-          <div className={styles.chevronRightWrapper}>
-            <ChevronRight size={18} className={styles.chevronRight} strokeWidth={2.5} />
-          </div>
         </div>
         <p className={styles.quote}>Life is better with something sweet! <Heart size={16} fill="currentColor" strokeWidth={0} style={{ display: 'inline', verticalAlign: 'middle', color: 'var(--color-brand-pink)' }} /></p>
         <div className={styles.contactInfo}>

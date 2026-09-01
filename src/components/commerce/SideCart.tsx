@@ -87,10 +87,10 @@ export const SideCart = () => {
     // Collect all categories and tags from cart
     const categories = [...new Set(items.map(i => i.product.categoryName))];
     const cartTags = items.flatMap(i => extractProductTags(i.product.name, i.product.categoryName));
-    const sameCategoryCount = categoryName 
+    const sameCategoryCount = categoryName
       ? items.filter(i => i.product.categoryName.toLowerCase() === categoryName.toLowerCase()).length
       : 0;
-    const hasDiscount = productName 
+    const hasDiscount = productName
       ? items.some(i => i.product.name === productName && i.product.compareAtPrice && i.product.compareAtPrice > i.product.basePrice)
       : false;
 
@@ -186,10 +186,10 @@ export const SideCart = () => {
   useEffect(() => {
     if (isCartOpen) {
       document.body.style.overflow = 'hidden';
-        const arrivalTimer = setTimeout(() => {
-          if (!hasMascotAppeared) {
-             triggerReaction('page:cart-opened');
-          }
+      const arrivalTimer = setTimeout(() => {
+        if (!hasMascotAppeared) {
+          triggerReaction('page:cart-opened');
+        }
       }, 600);
       return () => {
         clearTimeout(arrivalTimer);
@@ -383,13 +383,13 @@ export const SideCart = () => {
                 transition={{ type: "spring", stiffness: 200, damping: 20 }}
                 onClick={handleMascotClick}
               >
-                <CakePopMascot 
+                <CakePopMascot
                   ref={mascotControlRef}
-                  size="large" 
-                  reaction={currentReaction} 
-                  eyeX={eyeSpringX} 
-                  eyeY={eyeSpringY} 
-                  speedMultiplier={prefersReducedMotion ? 1 : 2} 
+                  size="large"
+                  reaction={currentReaction}
+                  eyeX={eyeSpringX}
+                  eyeY={eyeSpringY}
+                  speedMultiplier={prefersReducedMotion ? 1 : 2}
                   hideArms={true}
                 />
               </motion.div>
@@ -405,7 +405,7 @@ export const SideCart = () => {
                 animate={{ y: 0, opacity: 1, scale: 1 }}
                 transition={{ type: "spring", stiffness: 260, damping: 20, delay: hasAppeared ? 0 : 0.1 }}
               />
-              
+
               <div className={styles.footerContent}>
                 <div className={styles.summaryRow}>
                   <span>Subtotal</span>
@@ -417,30 +417,30 @@ export const SideCart = () => {
                     <span className={styles.totalPriceValue}>- {formatCurrency(totalDiscount)}</span>
                   </div>
                 )}
-              <div className={`${styles.summaryRow} ${styles.totalRow}`}>
-                <span>Total</span>
-                <div style={{ textAlign: 'right' }}>
-                  <div className={styles.totalPriceValue}>{formatCurrency(total)}</div>
-                  <div className={styles.calculatedText}>Calculated at checkout</div>
+                <div className={`${styles.summaryRow} ${styles.totalRow}`}>
+                  <span>Total</span>
+                  <div style={{ textAlign: 'right' }}>
+                    <div className={styles.totalPriceValue}>{formatCurrency(total)}</div>
+                    <div className={styles.calculatedText}>Calculated at checkout</div>
+                  </div>
+                </div>
+
+                <div className={styles.actions}>
+                  <Button size="sm" variant="outline" className={`${styles.actionBtn} ${styles.viewCartBtn}`} onClick={handleViewCart}>
+                    Cart
+                  </Button>
+                  <Button
+                    size="sm"
+                    className={styles.actionBtn}
+                    variant="primary"
+                    onClick={handleCheckout}
+
+                    rightIcon={<ArrowRight size={16} />}
+                  >
+                    Checkout
+                  </Button>
                 </div>
               </div>
-
-              <div className={styles.actions}>
-                <Button size="sm" variant="outline" className={`${styles.actionBtn} ${styles.viewCartBtn}`} onClick={handleViewCart}>
-                  Cart
-                </Button>
-                <Button
-                  size="sm"
-                  className={styles.actionBtn}
-                  variant="primary"
-                  onClick={handleCheckout}
-                  
-                  rightIcon={<ArrowRight size={16} />}
-                >
-                  Checkout
-                </Button>
-              </div>
-            </div>
             </div>
           </motion.div>
         </>

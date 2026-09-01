@@ -461,9 +461,9 @@
   right: 35px;
   transform: rotate(10deg);
 }
+
 @supports not (backdrop-filter: blur(1px)) {
   .overlay {
     background: rgba(43, 23, 11, 0.8);
   }
 }
-
