@@ -1,11 +1,10 @@
 .page {
-  --font-family-display: 'NumberOverride', 'Playfair Display', serif;
-  --font-family-heading: 'NumberOverride', 'Playfair Display', serif;
+  --font-family-display: 'Inter', system-ui, sans-serif;
+  --font-family-heading: 'Inter', system-ui, sans-serif;
   --font-family-body: 'Inter', system-ui, sans-serif;
-  --font-family-price: 'NumberOverride', 'Playfair Display', serif;
+  --font-family-price: 'Inter', system-ui, sans-serif;
   padding-bottom: 120px;
   min-height: 100vh;
-
   min-height: 100dvh;
   background-color: #fff;
   background-size: 32px 32px;
@@ -645,7 +644,7 @@
 .globalActions {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: 8px;
   margin-top: var(--space-2);
 }
 
@@ -654,24 +653,24 @@
   color: var(--color-chocolate);
   border: none;
   border-radius: 100px;
-  padding: 14px 24px;
+  padding: 8px 16px;
   font-family: var(--font-family-body);
   font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 1px;
+  font-size: 12px;
+  letter-spacing: 0.5px;
   cursor: pointer;
   transition: all var(--duration-fast) ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   text-transform: uppercase;
   text-decoration: none;
 }
 
 .trackBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(255, 199, 0, 0.4);
+  box-shadow: 0 4px 12px rgba(255, 199, 0, 0.35);
 }
 
 .continueBtn {
@@ -679,17 +678,17 @@
   color: var(--color-chocolate);
   border: 1px solid var(--color-border);
   border-radius: 100px;
-  padding: 14px 24px;
+  padding: 8px 16px;
   font-family: var(--font-family-body);
   font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 1px;
+  font-size: 12px;
+  letter-spacing: 0.5px;
   cursor: pointer;
   transition: all var(--duration-fast) ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   text-transform: uppercase;
   text-decoration: none;
 }
@@ -698,27 +697,29 @@
   background: var(--color-hero-cream);
   border-color: var(--color-chocolate);
 }
+
 .invoiceBtn {
   background: var(--color-brand-pink);
   color: var(--color-white);
   border: none;
   border-radius: 100px;
-  padding: 14px 24px;
+  padding: 8px 16px;
   font-family: var(--font-family-body);
   font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 1px;
+  font-size: 12px;
+  letter-spacing: 0.5px;
   cursor: pointer;
   transition: all var(--duration-fast) ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   text-transform: uppercase;
   width: 100%;
 }
+
 .invoiceBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(242, 13, 111, 0.3);
+  box-shadow: 0 4px 12px rgba(242, 13, 111, 0.3);
   filter: brightness(0.95);
 }

@@ -1,81 +1,79 @@
 .page {
-  padding: var(--space-12) 0;
+  padding: 40px 20px;
   min-height: 80vh;
+  font-family: system-ui, -apple-system, sans-serif;
+  background-color: #ffffff;
 }
 
 .header {
-  text-align: center;
-  margin-bottom: var(--space-12);
+  margin-bottom: 32px;
 }
 
 .title {
-  font-family: var(--font-family-heading);
-  font-size: var(--font-size-2xl);
-  color: var(--color-chocolate);
-  margin-bottom: var(--space-4);
-  font-weight: var(--font-weight-bold);
+  font-size: 24px;
+  color: #000000;
+  margin-bottom: 8px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 .subtitle {
-  font-family: var(--font-family-body);
-  font-size: var(--font-size-base);
-  color: var(--color-text-muted);
+  font-size: 14px;
+  color: #666666;
 }
 
 .content {
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
-  font-family: var(--font-family-body);
-  color: var(--color-text);
+  color: #333333;
   line-height: 1.6;
-  font-size: var(--font-size-sm);
+  font-size: 14px;
 }
 
 .content h2 {
-  font-family: var(--font-family-heading);
-  font-size: var(--font-size-lg);
-  color: var(--color-chocolate);
-  margin-top: var(--space-8);
-  margin-bottom: var(--space-3);
-  font-weight: var(--font-weight-bold);
+  font-size: 18px;
+  color: #000000;
+  margin-top: 32px;
+  margin-bottom: 12px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .content h3 {
-  font-family: var(--font-family-heading);
-  font-size: var(--font-size-base);
-  color: var(--color-chocolate);
-  margin-top: var(--space-6);
-  margin-bottom: var(--space-2);
-  font-weight: var(--font-weight-bold);
+  font-size: 16px;
+  color: #000000;
+  margin-top: 24px;
+  margin-bottom: 8px;
+  font-weight: 600;
 }
 
 .content p {
-  margin-bottom: var(--space-4);
+  margin-bottom: 16px;
 }
 
 .content ul, .content ol {
-  margin-bottom: var(--space-6);
-  padding-left: var(--space-6);
+  margin-bottom: 24px;
+  padding-left: 20px;
 }
 
 .content li {
-  margin-bottom: var(--space-2);
+  margin-bottom: 8px;
 }
 
 .content a {
-  color: var(--color-brand-pink);
+  color: #000000;
   text-decoration: underline;
-  transition: opacity var(--duration-fast);
+  text-underline-offset: 2px;
 }
 
 .content a:hover {
-  opacity: 0.8;
+  text-decoration: none;
 }
 
 .lastUpdated {
-  font-style: italic;
-  color: var(--color-text-muted);
-  margin-bottom: var(--space-8);
-  font-size: var(--font-size-sm);
-  text-align: center;
+  color: #666666;
+  margin-bottom: 32px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }

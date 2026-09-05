@@ -78,6 +78,8 @@ export const CustomOrderQuickModal: React.FC<CustomOrderQuickModalProps> = ({ is
                   <Input
                     label="TARGET DATE"
                     type="date"
+                    placeholder="Select target date"
+                    min={new Date().toISOString().split('T')[0]}
                     leftIcon={<Calendar size={18} />}
                     value={targetDate}
                     onChange={(e) => {
@@ -91,6 +93,7 @@ export const CustomOrderQuickModal: React.FC<CustomOrderQuickModalProps> = ({ is
                     label="QTY"
                     type="number"
                     min="1"
+                    placeholder="e.g. 12"
                     leftIcon={<Users size={18} />}
                     value={quantity}
                     onChange={(e) => {

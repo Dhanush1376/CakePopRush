@@ -61,10 +61,10 @@
   --space-16: 4rem;
 
   /* Typography */
-  --font-family-display: 'NumberOverride', 'Playfair Display', serif;
-  --font-family-heading: 'NumberOverride', 'Playfair Display', serif;
-  --font-family-body: 'Inter', system-ui, sans-serif;
-  --font-family-price: 'NumberOverride', 'Inter', system-ui, sans-serif;
+  --font-family-display: system-ui, -apple-system, sans-serif;
+  --font-family-heading: system-ui, -apple-system, sans-serif;
+  --font-family-body: system-ui, -apple-system, sans-serif;
+  --font-family-price: system-ui, -apple-system, sans-serif;
   
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;

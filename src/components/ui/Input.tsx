@@ -20,12 +20,27 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       fullWidth = false,
       id,
       disabled,
+      placeholder,
+      type,
+      value,
+      defaultValue,
+      onChange,
       ...props
     },
     ref
   ) => {
     // Generate an ID if one isn't provided but we have a label
     const inputId = id || (label ? `input-${Math.random().toString(36).substr(2, 9)}` : undefined)
+
+    const innerRef = React.useRef<HTMLInputElement | null>(null)
+    React.useImperativeHandle(ref, () => innerRef.current as HTMLInputElement)
+
+    const hasValue = Boolean(
+      (value !== undefined && value !== null && String(value).trim() !== '') ||
+      (defaultValue !== undefined && defaultValue !== null && String(defaultValue).trim() !== '')
+    )
+
+    const isDate = type === 'date'
 
     const wrapperClassName = [
       styles.wrapper,
@@ -40,9 +55,24 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       leftIcon ? styles.hasLeftIcon : '',
       rightIcon ? styles.hasRightIcon : '',
       error ? styles.hasError : '',
+      isDate && !hasValue ? styles.emptyDate : '',
     ]
       .filter(Boolean)
       .join(' ')
+
+    const handleContainerClick = () => {
+      if (isDate && innerRef.current && !disabled) {
+        try {
+          if ('showPicker' in HTMLInputElement.prototype) {
+            innerRef.current.showPicker()
+          } else {
+            innerRef.current.focus()
+          }
+        } catch {
+          innerRef.current.focus()
+        }
+      }
+    }
 
     return (
       <div className={wrapperClassName}>
@@ -52,18 +82,36 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </label>
         )}
         
-        <div className={styles.inputContainer}>
+        <div 
+          className={styles.inputContainer}
+          onClick={isDate ? handleContainerClick : undefined}
+        >
           {leftIcon && <span className={styles.leftIcon}>{leftIcon}</span>}
           
           <input
-            ref={ref}
+            ref={innerRef}
             id={inputId}
             className={inputClassName}
             disabled={disabled}
             aria-invalid={!!error}
             aria-describedby={error ? `${inputId}-error` : undefined}
+            type={type}
+            value={value}
+            defaultValue={defaultValue}
+            placeholder={isDate ? undefined : placeholder}
+            onChange={onChange}
             {...props}
           />
+
+          {/* Cross-browser placeholder overlay for date input when empty */}
+          {isDate && !hasValue && placeholder && (
+            <span 
+              className={`${styles.datePlaceholder} ${leftIcon ? styles.hasLeftIconPlaceholder : ''}`}
+              aria-hidden="true"
+            >
+              {placeholder}
+            </span>
+          )}
           
           {rightIcon && <span className={styles.rightIcon}>{rightIcon}</span>}
         </div>

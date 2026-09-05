@@ -131,23 +131,7 @@
   margin-top: 4px;
 }
 
-/* Date Picker styling */
-.customDateInput input {
-  background-color: var(--color-hero-cream) !important;
-  padding: 10px 14px !important;
-  border-radius: var(--radius-md) !important;
-  border: 1px solid rgba(92, 51, 23, 0.12) !important;
-  font-family: var(--font-family-body) !important;
-  font-size: 13px !important;
-  color: var(--color-chocolate) !important;
-  transition: all 0.2s ease !important;
-}
 
-.customDateInput input:focus {
-  background-color: var(--color-white) !important;
-  border-color: var(--color-brand-turquoise) !important;
-  box-shadow: 0 0 0 3px rgba(7, 194, 187, 0.12) !important;
-}
 
 /* Promo Banner */
 .promoBanner {
@@ -352,7 +336,13 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
+}
+
+.drawerConfirmWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .paymentDrawer::after {
@@ -440,14 +430,14 @@
   color: var(--color-text-muted);
   font-family: var(--font-family-body);
   font-weight: 500;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .summaryValue {
   color: var(--color-chocolate);
   font-weight: 600;
   font-family: var(--font-family-body);
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .discountValue {
@@ -471,14 +461,14 @@
 
 .summaryTotalLabel {
   font-family: var(--font-family-body);
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 800;
   color: var(--color-chocolate);
 }
 
 .summaryTotalValue {
   font-family: var(--font-family-body);
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 800;
   color: var(--color-chocolate);
 }
@@ -520,27 +510,65 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: var(--space-8) 0;
+  padding: 40px 16px 32px;
   width: 100%;
+  text-align: center;
 }
 
 .tickCircle {
-  width: 80px;
-  height: 80px;
-  background-color: #00d25b;
+  width: 84px;
+  height: 84px;
+  background: linear-gradient(135deg, #27AE60 0%, #2ECC71 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 0 16px rgba(0, 210, 91, 0.15);
-  margin-bottom: var(--space-6);
+  box-shadow: 
+    0 8px 24px rgba(39, 174, 96, 0.35),
+    0 0 0 14px rgba(39, 174, 96, 0.12),
+    0 0 0 28px rgba(39, 174, 96, 0.05);
+  margin-bottom: 24px;
+  animation: tickPulse 2s infinite ease-in-out;
+}
+
+@keyframes tickPulse {
+  0%, 100% {
+    box-shadow: 
+      0 8px 24px rgba(39, 174, 96, 0.35),
+      0 0 0 14px rgba(39, 174, 96, 0.12),
+      0 0 0 28px rgba(39, 174, 96, 0.05);
+  }
+  50% {
+    box-shadow: 
+      0 8px 28px rgba(39, 174, 96, 0.45),
+      0 0 0 20px rgba(39, 174, 96, 0.18),
+      0 0 0 38px rgba(39, 174, 96, 0.08);
+  }
 }
 
 .tickTitle {
   font-family: var(--font-family-display);
-  font-size: var(--font-size-xl);
+  font-size: 24px;
+  font-weight: 800;
   color: var(--color-chocolate);
-  text-align: center;
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+
+.tickSubtitle {
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin-bottom: 24px;
+  letter-spacing: 0.1px;
+}
+
+.successProgressBar {
+  width: 140px;
+  height: 4px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #FFC700, #F20D6F);
+  transform-origin: left;
 }
 
 @media (min-width: 768px) {

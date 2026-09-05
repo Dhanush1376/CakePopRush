@@ -14,8 +14,9 @@
   transition: transform 0.3s ease-in-out;
 }
 
-.header.hidden {
-  transform: translateY(-100%);
+.header.hidden,
+:global(html[data-hide-header="true"]) .header {
+  transform: translateY(-100%) !important;
 }
 
 .topBar {

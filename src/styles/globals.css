@@ -9,15 +9,7 @@
 
 html, body {
   min-height: 100vh;
-  
-
-
   background-color: var(--color-white);
-  background-image: 
-    linear-gradient(rgba(92, 51, 23, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(92, 51, 23, 0.08) 1px, transparent 1px);
-  background-size: 24px 24px;
-  background-position: -1px -1px;
   color: var(--color-text);
   -webkit-overflow-scrolling: touch;
   -webkit-tap-highlight-color: transparent;

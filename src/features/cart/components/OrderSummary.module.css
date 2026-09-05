@@ -1,4 +1,4 @@
-﻿.itemCount {
+.itemCount {
   font-family: var(--font-family-body);
   font-size: 13px;
   color: #6B5B50;
@@ -18,14 +18,14 @@
 
 .label {
   font-family: var(--font-family-body);
-  font-size: 14px;
+  font-size: 13px;
   color: #6B5B50;
   font-weight: 500;
 }
 
 .value {
   font-family: var(--font-family-body);
-  font-size: 14px;
+  font-size: 13px;
   color: #3A2E24;
   font-weight: 600;
 }
@@ -43,7 +43,7 @@
 
 .calcMsg {
   color: #6B5B50;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .totalRow {
@@ -52,14 +52,14 @@
 
 .totalLabel {
   font-family: var(--font-family-body);
-  font-size: 17px;
+  font-size: 14px;
   font-weight: 700;
   color: #3A2E24;
 }
 
 .totalValue {
   font-family: var(--font-family-body);
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 800;
   color: #3A2E24;
   letter-spacing: -0.02em;

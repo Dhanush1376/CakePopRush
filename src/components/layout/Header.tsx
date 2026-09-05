@@ -21,6 +21,11 @@ export const Header = () => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
 
+      if (document.documentElement.getAttribute('data-hide-header') === 'true') {
+        lastScrollY.current = currentScrollY
+        return
+      }
+
       if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
         setIsVisible(false) // Scrolling down past header height -> hide
         document.documentElement.style.setProperty('--header-offset', '0px')
@@ -32,8 +37,22 @@ export const Header = () => {
       lastScrollY.current = currentScrollY
     }
 
+    const handleForceVisibility = (e: any) => {
+      if (e.detail?.hide) {
+        setIsVisible(false)
+        document.documentElement.style.setProperty('--header-offset', '0px')
+      } else {
+        setIsVisible(true)
+        document.documentElement.style.setProperty('--header-offset', 'var(--header-height-desktop, 80px)')
+      }
+    }
+
     window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('app:set-header-visibility', handleForceVisibility)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('app:set-header-visibility', handleForceVisibility)
+    }
   }, [])
 
   return (

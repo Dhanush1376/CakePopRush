@@ -380,10 +380,10 @@ export function OrderSuccessPage() {
 
           <div className={styles.globalActions}>
              <Link to="/orders" className={styles.trackBtn}>
-               Track Order <Truck size={16} />
+               Track Order <Truck size={14} />
              </Link>
              <button onClick={() => setShowInvoice(true)} className={styles.invoiceBtn}>
-               <Receipt size={18} /> View Invoice
+               <Receipt size={14} /> View Invoice
              </button>
              <Link to="/shop" className={styles.continueBtn}>
                Continue Shopping

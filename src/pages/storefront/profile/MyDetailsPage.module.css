@@ -205,9 +205,25 @@
    and to ensure consistent width across browsers */
 .input[type="date"] {
   position: relative;
-  /* Sometimes iOS needs this to respect width */
+  min-height: 44px;
+  height: 44px;
+  box-sizing: border-box;
   -webkit-appearance: none;
   appearance: none;
+  display: flex;
+  align-items: center;
+}
+
+.input[type="date"]::-webkit-date-and-time-value {
+  min-height: 1.4em;
+  height: 1.4em;
+  line-height: 1.4em;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 .input[type="date"]::-webkit-calendar-picker-indicator {

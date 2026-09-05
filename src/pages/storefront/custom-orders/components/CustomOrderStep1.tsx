@@ -98,6 +98,8 @@ export const CustomOrderStep1: React.FC<Props> = ({ initialData, onNext }) => {
           <Input
             label="TARGET DATE"
             type="date"
+            placeholder="Select target date"
+            min={new Date().toISOString().split('T')[0]}
             leftIcon={<Calendar size={18} />}
             value={data.targetDate}
             onChange={(e) => handleChange('targetDate', e.target.value)}
@@ -109,6 +111,7 @@ export const CustomOrderStep1: React.FC<Props> = ({ initialData, onNext }) => {
             label="QTY"
             type="number"
             min="1"
+            placeholder="e.g. 12"
             leftIcon={<Users size={18} />}
             value={data.quantity}
             onChange={(e) => handleChange('quantity', e.target.value)}

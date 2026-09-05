@@ -35,7 +35,8 @@
 }
 
 .input {
-  width: 1.2rem;
+  width: 1.5rem;
+  min-width: 1.2rem;
   text-align: center;
   font-family: var(--font-family-body);
   font-weight: 700;

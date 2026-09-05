@@ -83,6 +83,7 @@
   cursor: pointer;
   text-decoration: none;
   color: var(--color-chocolate);
+  will-change: transform;
 }
 
 .backBtn > svg {
@@ -422,6 +423,8 @@
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .bottomSheet::-webkit-scrollbar {

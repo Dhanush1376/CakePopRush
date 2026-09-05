@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Minus, Plus, Trash2 } from 'lucide-react'
 import styles from './QuantitySelector.module.css'
 
@@ -17,6 +17,12 @@ export const QuantitySelector = ({
   max = 99,
   className = '',
 }: QuantitySelectorProps) => {
+  const [localValue, setLocalValue] = useState<string>(String(quantity))
+
+  useEffect(() => {
+    setLocalValue(String(quantity))
+  }, [quantity])
+
   const handleDecrement = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
@@ -36,11 +42,37 @@ export const QuantitySelector = ({
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = parseInt(e.target.value, 10)
-    if (isNaN(val)) return
-    if (val >= min && val <= max) {
+    const text = e.target.value.replace(/\D/g, '')
+    setLocalValue(text)
+    if (text === '') return
+    const val = parseInt(text, 10)
+    if (!isNaN(val) && val >= min && val <= max) {
       onChange(val)
     }
+  }
+
+  const handleBlur = () => {
+    const val = parseInt(localValue, 10)
+    if (isNaN(val) || val < min) {
+      setLocalValue(String(min))
+      onChange(min)
+    } else if (val > max) {
+      setLocalValue(String(max))
+      onChange(max)
+    } else {
+      setLocalValue(String(val))
+      onChange(val)
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      (e.target as HTMLInputElement).blur()
+    }
+  }
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.target.select()
   }
 
   return (
@@ -60,12 +92,21 @@ export const QuantitySelector = ({
       </button>
       
       <input
-        type="number"
+        type="text"
+        inputMode="numeric"
+        pattern="[0-9]*"
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck={false}
+        data-lpignore="true"
+        data-1p-ignore="true"
         className={styles.input}
-        value={quantity}
+        value={localValue}
         onChange={handleInputChange}
-        min={min}
-        max={max}
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
+        onFocus={handleFocus}
         aria-label="Quantity"
       />
       

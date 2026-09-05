@@ -467,3 +467,23 @@
     background: rgba(43, 23, 11, 0.8);
   }
 }
+
+/* Hide mascot and speech bubble when typing in quantity or when mobile keyboard opens */
+.content:focus-within ~ .footerWrapper .mascotContainer,
+.content:focus-within ~ .footerWrapper .mascotHandLeft,
+.content:focus-within ~ .footerWrapper .mascotHandRight,
+.content:focus-within ~ .footerWrapper .speechBubble {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+@media (max-height: 550px) {
+  .mascotContainer,
+  .mascotHandLeft,
+  .mascotHandRight,
+  .speechBubble {
+    display: none !important;
+  }
+}

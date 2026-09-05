@@ -8,17 +8,6 @@ export const CheckoutPaymentSkeleton = () => {
       {/* LEFT SIDE: Payment Details */}
       <div className={styles.skeletonMain}>
         
-        {/* Date Input Section */}
-        <div className={styles.paymentSection}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-            <Skeleton variant="circular" width={24} height={24} />
-            <Skeleton variant="text" width={200} height={24} />
-          </div>
-          <Skeleton variant="text" width={250} height={16} style={{ marginBottom: '16px' }} />
-          <Skeleton variant="rounded" width="100%" height={48} />
-          <Skeleton variant="text" width={200} height={14} style={{ marginTop: '8px' }} />
-        </div>
-
         {/* Promo Banner Skeleton */}
         <div className={styles.paymentSection} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <Skeleton variant="circular" width={24} height={24} />

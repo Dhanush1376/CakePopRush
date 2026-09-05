@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CalendarClock, CreditCard, Banknote, ShieldCheck, Loader2, X } from 'lucide-react';
+import { CreditCard, Banknote, ShieldCheck, Loader2, X } from 'lucide-react';
 import styles from './CheckoutPaymentPage.module.css';
 import { Container } from '@/components/layout/Container';
 import { CheckoutProgress, OrderSummary, MobileCheckoutBar, TrustBadges } from '@/features/cart';
@@ -12,6 +12,7 @@ import { formatCurrency } from '@/lib/formatters/currency';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { CheckoutPaymentSkeleton } from './components/CheckoutPaymentSkeleton';
+import { SlideToOrder } from './components/SlideToOrder';
 
 export const CheckoutPaymentPage = () => {
   const { items, totalItems, subtotal, totalDiscount, couponDiscountValue, shippingFee, total, isLoading, clearCart } = useCart();
@@ -86,26 +87,7 @@ export const CheckoutPaymentPage = () => {
       <Container>
         <div className={styles.layout}>
           <div className={styles.mainContent}>
-            
-            {/* Required Delivery Date */}
-            <div className={styles.sectionCard}>
-              <div className={styles.sectionHeader}>
-                <CalendarClock strokeWidth={2.5} />
-                <h2 className={styles.sectionTitle}>Required Delivery Date</h2>
-              </div>
-              <p className={styles.sectionDesc}>When do you need these items? *</p>
-              
-              <div style={{ marginTop: '16px' }}>
-                <Input 
-                  type="date"
-                  name="deliveryDate"
-                  placeholder="dd-mm-yyyy"
-                  className={styles.customDateInput}
-                  required
-                />
-                <span className={styles.sectionDesc} style={{ display: 'block', marginTop: '8px' }}>Helps us prioritize your order preparation.</span>
-              </div>
-            </div>
+
 
 
             {/* Payment Options */}
@@ -272,99 +254,122 @@ export const CheckoutPaymentPage = () => {
                 transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
                 onClick={(e) => e.stopPropagation()}
               >
-                {paymentPhase !== 'success' ? (
-                  <>
-                    <div className={styles.drawerDragHandle} />
-                    <div className={styles.drawerHeaderRow}>
-                      <h2 className={styles.drawerHeader}>Confirm Payment</h2>
-                      <button 
-                        className={styles.drawerCloseBtn} 
-                        onClick={() => setIsDrawerOpen(false)}
-                        aria-label="Close payment drawer"
-                      >
-                        <X size={20} />
-                      </button>
-                    </div>
-                    
-                    <div className={styles.summaryDetails}>
-                      <div className={styles.summaryRow}>
-                        <span className={styles.summaryLabel}>Product Cost ({totalItems} item{totalItems !== 1 ? 's' : ''})</span>
-                        <span className={styles.summaryValue}>{formatCurrency(subtotal)}</span>
+                <AnimatePresence mode="wait">
+                  {paymentPhase !== 'success' ? (
+                    <motion.div
+                      key="drawer-confirm"
+                      className={styles.drawerConfirmWrapper}
+                      initial={{ opacity: 1 }}
+                      exit={{ opacity: 0, scale: 0.96, y: -8 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <div className={styles.drawerDragHandle} />
+                      <div className={styles.drawerHeaderRow}>
+                        <h2 className={styles.drawerHeader}>Confirm Payment</h2>
+                        <button 
+                          className={styles.drawerCloseBtn} 
+                          onClick={() => paymentPhase === 'idle' && setIsDrawerOpen(false)}
+                          aria-label="Close payment drawer"
+                          disabled={paymentPhase !== 'idle'}
+                        >
+                          <X size={20} />
+                        </button>
                       </div>
                       
-                      {(totalDiscount > 0 || couponDiscountValue > 0) && (
+                      <div className={styles.summaryDetails}>
                         <div className={styles.summaryRow}>
-                          <span className={styles.summaryLabel}>Promo Discount</span>
-                          <span className={`${styles.summaryValue} ${styles.discountValue}`}>- {formatCurrency(totalDiscount + couponDiscountValue)}</span>
+                          <span className={styles.summaryLabel}>Product Cost ({totalItems} item{totalItems !== 1 ? 's' : ''})</span>
+                          <span className={styles.summaryValue}>{formatCurrency(subtotal)}</span>
                         </div>
-                      )}
-                      
-                      <div className={styles.summaryRow}>
-                        <span className={styles.summaryLabel}>Delivery Fee</span>
-                        <span className={styles.summaryValue}>
-                          {isShippingCalculated ? (shippingFee === 0 ? <span style={{ color: 'var(--color-brand-turquoise)', fontWeight: 'bold' }}>FREE</span> : formatCurrency(shippingFee)) : <span style={{ color: 'var(--color-text-muted)', fontSize: '11px' }}>Calculated at checkout</span>}
-                        </span>
+                        
+                        {(totalDiscount > 0 || couponDiscountValue > 0) && (
+                          <div className={styles.summaryRow}>
+                            <span className={styles.summaryLabel}>Promo Discount</span>
+                            <span className={`${styles.summaryValue} ${styles.discountValue}`}>- {formatCurrency(totalDiscount + couponDiscountValue)}</span>
+                          </div>
+                        )}
+                        
+                        <div className={styles.summaryRow}>
+                          <span className={styles.summaryLabel}>Delivery Fee</span>
+                          <span className={styles.summaryValue}>
+                            {isShippingCalculated ? (shippingFee === 0 ? <span style={{ color: 'var(--color-brand-turquoise)', fontWeight: 'bold' }}>FREE</span> : formatCurrency(shippingFee)) : <span style={{ color: 'var(--color-text-muted)', fontSize: '11px' }}>Calculated at checkout</span>}
+                          </span>
+                        </div>
+                        
+                        <div className={styles.summaryRow}>
+                          <span className={styles.summaryLabel}>Tax</span>
+                          <span className={styles.summaryValue} style={{ color: '#6B5B50', fontWeight: '500' }}>Included</span>
+                        </div>
                       </div>
-                      
-                      <div className={styles.summaryRow}>
-                        <span className={styles.summaryLabel}>Tax</span>
-                        <span className={styles.summaryValue} style={{ color: '#6B5B50', fontWeight: '500' }}>Included</span>
+
+                      <hr className={styles.summaryDivider} />
+
+                      <div className={styles.summaryTotalRow}>
+                        <span className={styles.summaryTotalLabel}>Total</span>
+                        <span className={styles.summaryTotalValue}>{formatCurrency(total)}</span>
                       </div>
-                    </div>
 
-                    <hr className={styles.summaryDivider} />
-
-                    <div className={styles.summaryTotalRow}>
-                      <span className={styles.summaryTotalLabel}>Total</span>
-                      <span className={styles.summaryTotalValue}>{formatCurrency(total)}</span>
-                    </div>
-
-                    <button 
-                      className={styles.payButton} 
-                      onClick={processPayment}
-                      disabled={paymentPhase === 'loading'}
-                    >
-                      {paymentPhase === 'loading' ? (
-                        <>
-                          <Loader2 size={18} className="animate-spin" />
-                          Processing...
-                        </>
-                      ) : (
-                        `Pay ${formatCurrency(total + 49)} securely`
-                      )}
-                    </button>
-                  </>
-                ) : (
-                  <motion.div 
-                    className={styles.tickContainer}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                  >
-                    <motion.div 
-                      className={styles.tickCircle}
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ type: 'spring', damping: 15, stiffness: 150 }}
-                    >
-                      <motion.svg 
-                        width="36" 
-                        height="36" 
-                        viewBox="0 0 24 24" 
-                        fill="none" 
-                        stroke="white" 
-                        strokeWidth="3" 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round"
-                        initial={{ pathLength: 0 }}
-                        animate={{ pathLength: 1 }}
-                        transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
-                      >
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </motion.svg>
+                      <SlideToOrder
+                        totalAmount={total}
+                        isLoading={paymentPhase === 'loading'}
+                        onSuccess={processPayment}
+                      />
                     </motion.div>
-                    <h2 className={styles.tickTitle}>Payment Successful!</h2>
-                  </motion.div>
-                )}
+                  ) : (
+                    <motion.div 
+                      key="drawer-success"
+                      className={styles.tickContainer}
+                      initial={{ opacity: 0, scale: 0.85, y: 15 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      transition={{ type: 'spring', damping: 20, stiffness: 220 }}
+                    >
+                      <motion.div 
+                        className={styles.tickCircle}
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: 'spring', damping: 14, stiffness: 180 }}
+                      >
+                        <motion.svg 
+                          width="40" 
+                          height="40" 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="white" 
+                          strokeWidth="3.2" 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round"
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
+                          transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
+                        >
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </motion.svg>
+                      </motion.div>
+                      <motion.h2 
+                        className={styles.tickTitle}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.25, duration: 0.3 }}
+                      >
+                        Payment Successful!
+                      </motion.h2>
+                      <motion.p
+                        className={styles.tickSubtitle}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.35, duration: 0.3 }}
+                      >
+                        Order confirmed • Preparing your sweet treats...
+                      </motion.p>
+                      <motion.div 
+                        className={styles.successProgressBar}
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 1.1, delay: 0.25, ease: 'easeInOut' }}
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             </motion.div>
           )}
