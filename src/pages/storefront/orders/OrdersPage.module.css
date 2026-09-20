@@ -1,11 +1,6 @@
 /* ─── Page Shell ─────────────────────────────────────────────── */
 .page {
-  --font-family-display: 'Inter', system-ui, sans-serif;
-  --font-family-heading: 'Inter', system-ui, sans-serif;
-  --font-family-body: 'Inter', system-ui, sans-serif;
-  --font-family-price: 'Inter', system-ui, sans-serif;
   min-height: 100vh;
-
   min-height: 100dvh;
   background-color: var(--color-background, #FAFAFA);
   background-image:
@@ -16,7 +11,7 @@
   padding-bottom: calc(var(--space-16) + 80px);
   position: relative;
   overflow-x: hidden;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: var(--font-family-body);
 }
 
 /* ─── Header ─────────────────────────────────────────────────── */

@@ -1,7 +1,32 @@
+/* Local Self-Hosted Playfair Display (Variable Font 400-900) */
 @font-face {
-  font-family: 'NumberOverride';
-  src: local('Inter'), local('Helvetica Neue'), local('Arial'), local('Segoe UI');
-  unicode-range: U+0030-0039, U+20B9, U+0025, U+002E; /* 0-9, ₹, %, . */
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: local('Playfair Display'),
+       url('/fonts/playfair-display-latin.woff2') format('woff2-variations'),
+       url('/fonts/playfair-display-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: italic;
+  font-weight: 400 900;
+  font-display: swap;
+  src: local('Playfair Display Italic'),
+       local('Playfair Display'),
+       url('/fonts/playfair-display-latin-italic.woff2') format('woff2-variations'),
+       url('/fonts/playfair-display-latin-italic.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Times New Roman override for numbers & prices */
+@font-face {
+  font-family: 'TimesNumbers';
+  src: local('Times New Roman'), local('Times');
+  unicode-range: U+0030-0039, U+20B9, U+0024, U+00A3, U+20AC, U+002E, U+002C, U+0025, U+0023, U+002D, U+002B, U+00D7, U+002F;
 }
 
 body {

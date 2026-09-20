@@ -1,8 +1,4 @@
 .page {
-  --font-family-display: 'Inter', system-ui, sans-serif;
-  --font-family-heading: 'Inter', system-ui, sans-serif;
-  --font-family-body: 'Inter', system-ui, sans-serif;
-  --font-family-price: 'Inter', system-ui, sans-serif;
   padding-bottom: 120px;
   min-height: 100vh;
   min-height: 100dvh;
