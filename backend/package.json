@@ -7,7 +7,7 @@
     "dev": "tsx watch server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "vitest run --testTimeout=15000 --hookTimeout=25000",
+    "test": "vitest run",
     "ci": "npm run build && npm test"
   },
   "dependencies": {

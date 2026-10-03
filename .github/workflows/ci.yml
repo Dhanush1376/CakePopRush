@@ -29,6 +29,13 @@ jobs:
           npm install --prefix frontend
           npm install --prefix backend
 
+      - name: Cache MongoDB Binary
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/mongodb-binaries
+          key: ${{ runner.os }}-mongodb-binaries
+
+
       - name: Run Frontend Lint
         working-directory: frontend
         run: npm run lint
