@@ -15,6 +15,7 @@ export class SessionAuthService {
       throw new ApiError(500, 'Security configuration error: JWT_SECRET missing in production');
     }
     const expiresIn = (process.env.JWT_EXPIRES_IN || '3650d') as any;
+    const userId = user.id || user._id;
 
     return jwt.sign(
       {

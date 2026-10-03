@@ -63,6 +63,7 @@ export const WishlistPage: React.FC = () => {
       <div className={styles.page}>
         <FrostingCorner position="topRight" />
         <Container>
+          <WishlistHeader itemCount={0} />
           <div className={styles.emptyWrapper}>
             <WishlistEmptyState />
           </div>

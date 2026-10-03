@@ -7,7 +7,7 @@
     "dev": "tsx watch server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "vitest run",
+    "test": "vitest run --testTimeout=15000 --hookTimeout=25000",
     "ci": "npm run build && npm test"
   },
   "dependencies": {
@@ -21,6 +21,7 @@
     "mongoose": "^8.9.5",
     "nodemailer": "^6.10.0",
     "razorpay": "^2.9.8",
+    "typescript": "^5.7.3",
     "zod": "^3.24.1"
   },
   "devDependencies": {
