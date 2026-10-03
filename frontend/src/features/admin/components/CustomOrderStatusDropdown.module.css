@@ -1,0 +1,192 @@
+.dropdownWrapper {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.fullWidth {
+  width: 100%;
+  display: flex;
+}
+
+/* Button Trigger (Matches Mobile Inquiry Card Dropdown Design) */
+.trigger {
+  width: 100%;
+  height: 36px;
+  min-width: 125px;
+  border-radius: 6px;
+  padding: 0 10px;
+  background-color: #FFFFFF;
+  border: 1px solid #D1D5DB;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #1F2937;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  box-sizing: border-box;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+  user-select: none;
+  font-family: inherit;
+}
+
+.triggerSm {
+  height: 32px;
+  min-height: 32px;
+  min-width: 120px;
+  padding: 0 10px;
+  font-size: 11px;
+}
+
+.trigger:hover:not(:disabled) {
+  background-color: #F9FAFB;
+  border-color: #9CA3AF;
+}
+
+.triggerOpen,
+.trigger:focus-visible {
+  border-color: var(--admin-pink, #F20D6F) !important;
+  box-shadow: 0 0 0 3px rgba(225, 90, 117, 0.15) !important;
+  background-color: #FFFFFF !important;
+}
+
+.trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.triggerLeft {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.triggerLabel {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.chevron {
+  color: #6B7280;
+  flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.chevronOpen {
+  color: var(--admin-pink, #F20D6F);
+  transform: rotate(180deg);
+}
+
+/* Floating Portal Menu */
+.portalMenu {
+  position: fixed;
+  z-index: 99999;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(56, 30, 16, 0.12);
+  border-radius: 10px;
+  box-shadow: 0 10px 25px -4px rgba(56, 30, 16, 0.18), 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  box-sizing: border-box;
+  animation: dropdownFadeIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.menuHeader {
+  padding: 5px 8px 3px 8px;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #9CA3AF;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  height: 34px;
+  padding: 0 10px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  text-align: left;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.menuItem:hover {
+  background-color: #F3F4F6;
+}
+
+.menuItemSelected {
+  background-color: #FFF0F5 !important;
+}
+
+.itemLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.itemDot {
+  width: 7.5px;
+  height: 7.5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.itemLabel {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.menuItemSelected .itemLabel {
+  color: var(--admin-pink, #F20D6F);
+}
+
+.checkIcon {
+  color: var(--admin-pink, #F20D6F);
+  flex-shrink: 0;
+}

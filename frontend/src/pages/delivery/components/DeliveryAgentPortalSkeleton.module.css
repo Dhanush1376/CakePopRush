@@ -1,0 +1,428 @@
+/* DeliveryAgentPortalSkeleton.module.css - Crisp White & Grey Only */
+
+@keyframes shimmerPulse {
+  0% {
+    background-position: -800px 0;
+  }
+  100% {
+    background-position: 800px 0;
+  }
+}
+
+.shimmer {
+  background: #E5E7EB;
+  background-image: linear-gradient(
+    90deg,
+    #E5E7EB 0%,
+    #F3F4F6 30%,
+    #FFFFFF 50%,
+    #F3F4F6 70%,
+    #E5E7EB 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 800px 100%;
+  animation: shimmerPulse 1.6s infinite linear;
+}
+
+.portalSkeletonContainer {
+  min-height: 100vh;
+  background: #F9FAFB;
+  color: #1F2937;
+  padding-bottom: 90px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Header */
+.topHeader {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E5E7EB;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.headerInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brandGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logoPlaceholder {
+  width: 140px;
+  height: 44px;
+  border-radius: 10px;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topNavTabsSkeleton {
+  display: none;
+}
+
+.topNavTabSkeleton {
+  width: 115px;
+  height: 34px;
+  border-radius: 9px;
+}
+
+.profileAvatarSkeleton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+@media (min-width: 641px) {
+  .topNavTabsSkeleton {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+
+  .tabBar {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .headerInner {
+    max-width: 960px;
+  }
+
+  .brandGroup,
+  .headerActions {
+    min-width: 140px;
+  }
+
+  .headerActions {
+    justify-content: flex-end;
+  }
+}
+
+@media (min-width: 1200px) {
+  .headerInner {
+    max-width: 1080px;
+  }
+}
+
+/* Main Container */
+.mainContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 18px 16px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Greeting Bar */
+.greetingBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 4px 0 2px;
+}
+
+.greetingSub {
+  width: 100px;
+  height: 14px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.greetingName {
+  width: 190px;
+  height: 28px;
+  border-radius: 6px;
+}
+
+.statusSyncWidget {
+  width: 110px;
+  height: 38px;
+  border-radius: 20px;
+}
+
+/* Operational Stats Row */
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.statCard {
+  background: #FFFFFF;
+  border-radius: 16px;
+  border: 1px solid #E5E7EB;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 82px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+.statCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.statLabel {
+  width: 72px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+.statIcon {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+}
+
+.statValue {
+  width: 48px;
+  height: 26px;
+  border-radius: 6px;
+}
+
+/* Segmented Tab Bar */
+.tabBar {
+  display: flex;
+  background: #F3F4F6;
+  border: 1px solid #E5E7EB;
+  padding: 4px;
+  border-radius: 14px;
+  gap: 4px;
+}
+
+.tabBtn {
+  flex: 1;
+  height: 40px;
+  border-radius: 10px;
+}
+
+/* Active Order Card Skeleton */
+.activeCard {
+  background: #FFFFFF;
+  border-radius: 20px;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.activeCardHeader {
+  padding: 16px 20px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E5E7EB;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.orderBadgeRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.badgePill {
+  width: 140px;
+  height: 24px;
+  border-radius: 8px;
+}
+
+.orderNumber {
+  width: 110px;
+  height: 22px;
+  border-radius: 6px;
+}
+
+.timeBadge {
+  width: 75px;
+  height: 22px;
+  border-radius: 8px;
+}
+
+/* Route Section */
+.routeSection {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #FFFFFF;
+}
+
+.routeStop {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.stopIconCircle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.stopDetails {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stopLabel {
+  width: 60px;
+  height: 11px;
+  border-radius: 3px;
+}
+
+.stopName {
+  width: 180px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.stopAddress {
+  width: 85%;
+  height: 13px;
+  border-radius: 4px;
+}
+
+/* Connector Line */
+.routeConnector {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-left: 19px;
+}
+
+.connectorLine {
+  width: 2px;
+  height: 26px;
+  background: #E5E7EB;
+  border-radius: 1px;
+}
+
+.connectorPill {
+  width: 90px;
+  height: 18px;
+  border-radius: 10px;
+}
+
+/* Card Footer Actions Strip */
+.cardFooter {
+  padding: 14px 20px;
+  background: #FFFFFF;
+  border-top: 1px solid #E5E7EB;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footerLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actionCircle {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+}
+
+.viewOrderLink {
+  width: 110px;
+  height: 18px;
+  border-radius: 4px;
+}
+
+/* Bottom Extension Strip Skeleton (OTP Button Trigger) */
+.cardExtensionStrip {
+  background: #F8FAFC;
+  border-top: 1px solid #E5E7EB;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.extensionLeftShimmer {
+  width: 170px;
+  height: 16px;
+  border-radius: 6px;
+}
+
+.extensionBadgeShimmer {
+  width: 88px;
+  height: 24px;
+  border-radius: 12px;
+}
+
+/* Mobile Bottom Nav Bar */
+.bottomNav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: #FFFFFF;
+  border-top: 1px solid #E5E7EB;
+  padding: 6px 12px calc(6px + env(safe-area-inset-bottom, 0px));
+  z-index: 50;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.bottomNavBtn {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+  .bottomNav {
+    display: flex;
+  }
+  .statsRow {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .statCard {
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .routeStop {
+    gap: 10px;
+  }
+  .stopIconCircle {
+    width: 36px;
+    height: 36px;
+  }
+}

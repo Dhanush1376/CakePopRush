@@ -1,0 +1,55 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  validate:
+    name: Lint, Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: |
+            CakePopRush/frontend/package.json
+            CakePopRush/backend/package.json
+
+      - name: Install Monorepo Dependencies
+        working-directory: CakePopRush
+        run: |
+          npm install --prefix frontend
+          npm install --prefix backend
+
+      - name: Run Frontend Lint
+        working-directory: CakePopRush/frontend
+        run: npm run lint
+
+      - name: Run Frontend Build & Typecheck
+        working-directory: CakePopRush/frontend
+        run: npm run build
+
+      - name: Run Frontend Tests
+        working-directory: CakePopRush/frontend
+        run: npm run test
+
+      - name: Run Backend Build & Typecheck
+        working-directory: CakePopRush/backend
+        run: npm run build
+
+      - name: Run Backend Integration Tests
+        working-directory: CakePopRush/backend
+        env:
+          JWT_ACCESS_SECRET: test_jwt_access_secret_key_minimum_32_chars_long
+          JWT_REFRESH_SECRET: test_jwt_refresh_secret_key_minimum_32_chars_long
+          SUPER_ADMIN_EMAIL: superadmin@cakepoprush.com
+        run: npm test

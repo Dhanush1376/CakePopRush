@@ -1,0 +1,624 @@
+.page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 0 0 150px;
+  background-color: #FFFFFF;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .layout {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    gap: var(--space-8);
+  }
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.sidebar {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    display: block;
+    width: 300px;
+    flex-shrink: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidebar {
+    width: 380px;
+  }
+}
+
+.stickyWrapper {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+@media (min-width: 768px) {
+  .mobileSummaryWrap {
+    display: none;
+  }
+}
+
+.mobileSummaryWrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* Payment Section */
+.paymentSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.sectionTitle {
+  font-family: var(--font-family-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #111827;
+  letter-spacing: -0.01em;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.sectionDesc {
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+}
+
+/* Payment Options List */
+.paymentList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.paymentCard {
+  background-color: #FFFFFF;
+  border-radius: var(--radius-lg, 16px);
+  padding: 14px 16px;
+  border: 1px solid #CBD5E1;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+  position: relative;
+}
+
+.paymentCard:hover {
+  border-color: #94A3B8;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.selectedCard {
+  border: 1.5px solid #0D9488;
+  box-shadow: 0 4px 16px rgba(13, 148, 136, 0.12), 0 1px 3px rgba(0, 0, 0, 0.04);
+  animation: cardSelectAnim 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes cardSelectAnim {
+  0% {
+    transform: scale(0.985);
+  }
+  50% {
+    transform: scale(1.012);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.radioRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.radio {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid #CBD5E1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  background-color: #FFFFFF;
+}
+
+.radioSelected {
+  border-color: #0D9488;
+  background-color: #0D9488;
+}
+
+.radioInner {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+}
+
+.paymentName {
+  font-family: var(--font-family-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.iconWrap {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  color: #64748B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.selectedCard .iconWrap {
+  background-color: #F0FDFA;
+  border-color: #CCFBF1;
+  color: #0D9488;
+}
+
+.paymentDetails {
+  padding-left: 27px;
+  margin-top: 4px;
+}
+
+.paymentSubtext {
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  color: #64748B;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.otpCardDivider {
+  border: none;
+  border-top: 1px dashed #CBD5E1;
+  margin: 12px 0 10px 0;
+  width: 100%;
+}
+
+.otpSection {
+  background-color: #F8FAFC;
+  border-radius: 12px;
+  padding: 12px 14px;
+  border: 1px solid #E2E8F0;
+}
+
+.otpLabel {
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 10px 0;
+}
+
+.otpInputGroup {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.verifyBtn {
+  background-color: var(--color-brand-turquoise, #07C2BB) !important;
+  color: #FFFFFF !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  height: 42px !important;
+  padding: 0 16px !important;
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(7, 194, 187, 0.3) !important;
+}
+
+.verifyBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.otpSuccess {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #16A34A;
+  background-color: #DCFCE7;
+  border: 1px solid #BBF7D0;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Siri Coins Info */
+.siriCoinsPromo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 12px;
+  background: linear-gradient(90deg, #FFF9EE, #FFF0F5);
+  border-radius: var(--radius-md);
+  border: 1px solid #F6A8C8;
+}
+
+.siriCoinsPromo svg {
+  color: var(--color-brand-pink);
+}
+
+.siriCoinsText {
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-chocolate);
+  margin: 0;
+}
+
+/* ─── Payment Drawer ────────────────────────────────────────── */
+.paymentDrawerOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(56, 30, 16, 0.4);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .paymentDrawerOverlay {
+    align-items: center;
+    padding: var(--space-4);
+  }
+}
+
+.paymentDrawer {
+  background: var(--color-white);
+  border-radius: 32px 32px 0 0;
+  width: 100%;
+  max-width: 500px;
+  padding: 24px var(--space-6) 40px;
+  box-shadow: 0 -8px 40px rgba(92, 51, 23, 0.15);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.drawerConfirmWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.paymentDrawer::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 600px;
+  background-color: var(--color-white);
+  pointer-events: none;
+  z-index: -1;
+}
+
+@media (min-width: 768px) {
+  .paymentDrawer {
+    border-radius: var(--radius-xl);
+    padding: var(--space-8) var(--space-6) var(--space-6);
+  }
+}
+
+.drawerDragHandle {
+  width: 40px;
+  height: 4px;
+  background-color: var(--color-border);
+  border-radius: 4px;
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.drawerHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 8px 0 20px 0; /* reduced top margin */
+}
+
+.drawerHeader {
+  font-family: var(--font-family-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #111827;
+  margin: 0;
+  text-align: left;
+}
+
+.drawerCloseBtn {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  margin-right: -4px; /* to align with edge padding */
+}
+
+.drawerCloseBtn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--color-chocolate);
+}
+
+.summaryDetails {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+  width: 100%;
+}
+
+.summaryLabel {
+  color: var(--color-text-muted);
+  font-family: var(--font-family-body);
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.summaryValue {
+  color: var(--color-chocolate);
+  font-weight: 600;
+  font-family: var(--font-family-body);
+  font-size: 13px;
+}
+
+.discountValue {
+  color: #07c2bb; /* match order summary discount green/turquoise */
+}
+
+.summaryDivider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: var(--space-4) 0;
+  width: 100%;
+}
+
+.summaryTotalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-6);
+  width: 100%;
+}
+
+.summaryTotalLabel {
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--color-chocolate);
+}
+
+.summaryTotalValue {
+  font-family: var(--font-family-body);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-chocolate);
+}
+
+.payButton {
+  width: 100%;
+  background-color: var(--color-brand-yellow);
+  color: var(--color-chocolate);
+  border: none;
+  border-radius: 100px;
+  padding: 12px 32px;
+  font-family: var(--font-family-body);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-self: center; /* Center it since it's no longer 100% width */
+}
+
+.payButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.payButton:not(:disabled):hover {
+  filter: brightness(0.95);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(246, 212, 67, 0.3);
+}
+
+/* Tick phase */
+.tickContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px 32px;
+  width: 100%;
+  text-align: center;
+}
+
+.tickCircle {
+  width: 84px;
+  height: 84px;
+  background: linear-gradient(135deg, #27AE60 0%, #2ECC71 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 8px 24px rgba(39, 174, 96, 0.35),
+    0 0 0 14px rgba(39, 174, 96, 0.12),
+    0 0 0 28px rgba(39, 174, 96, 0.05);
+  margin-bottom: 24px;
+  animation: tickPulse 2s infinite ease-in-out;
+}
+
+@keyframes tickPulse {
+  0%, 100% {
+    box-shadow: 
+      0 8px 24px rgba(39, 174, 96, 0.35),
+      0 0 0 14px rgba(39, 174, 96, 0.12),
+      0 0 0 28px rgba(39, 174, 96, 0.05);
+  }
+  50% {
+    box-shadow: 
+      0 8px 28px rgba(39, 174, 96, 0.45),
+      0 0 0 20px rgba(39, 174, 96, 0.18),
+      0 0 0 38px rgba(39, 174, 96, 0.08);
+  }
+}
+
+.tickTitle {
+  font-family: var(--font-family-display);
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-chocolate);
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+
+.tickSubtitle {
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  color: var(--color-text-muted);
+  margin-bottom: 24px;
+  letter-spacing: 0.1px;
+}
+
+.successProgressBar {
+  width: 140px;
+  height: 4px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #FFC700, #F20D6F);
+  transform-origin: left;
+}
+
+@media (min-width: 768px) {
+  .paymentDrawerOverlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .paymentDrawer {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    margin: auto;
+    width: 440px;
+    max-width: 90vw;
+    height: auto;
+    border-radius: 24px !important;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .drawerDragHandle { display: none; }
+}
+
+
+@media (min-width: 768px) {
+  .paymentDrawerOverlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .paymentDrawer {
+    position: relative;
+    top: auto;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    margin: auto;
+    width: 440px;
+    max-width: 90vw;
+    height: auto;
+    border-radius: 24px !important;
+    overflow: hidden !important;
+  }
+  .drawerDragHandle { display: none; }
+}
+

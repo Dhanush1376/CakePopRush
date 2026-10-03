@@ -1,0 +1,377 @@
+/* Shimmer Animation */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton {
+  background: #F0F1F3;
+  background-image: linear-gradient(
+    90deg,
+    #F0F1F3 0%,
+    #F8F9FA 50%,
+    #F0F1F3 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite ease-in-out;
+  border-radius: 6px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 767px) {
+  .container {
+    gap: 10px;
+  }
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-top: 6px;
+  padding-left: 4px;
+}
+
+.titleSkeleton {
+  width: 140px;
+  height: 30px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+
+.subtitleSkeleton {
+  width: 270px;
+  height: 16px;
+  border-radius: 6px;
+}
+
+/* Sticky Toolbar & Tabs Card */
+.stickyWrapper {
+  position: sticky;
+  top: -1.5rem;
+  z-index: 25;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 8px 2rem 10px 2rem;
+  margin: 0 -2rem;
+  border-bottom: 1px solid rgba(56, 30, 16, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+@media (max-width: 767px) {
+  .stickyWrapper {
+    top: -0.5rem;
+    padding: 6px 6px 8px 6px;
+    margin: 0 -6px;
+  }
+}
+
+.unifiedCard {
+  background-color: #FFFFFF !important;
+  border: 1px solid rgba(56, 30, 16, 0.12);
+  border-radius: 12px;
+  padding: 8px 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.tabBarRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.segmentedControl {
+  display: inline-flex;
+  align-items: center;
+  background-color: #FFF0F5;
+  border: 1px solid rgba(242, 13, 111, 0.16);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 3px;
+  height: 42px;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+}
+
+.tabSkeleton {
+  width: 96px;
+  height: 36px;
+  border-radius: 6px;
+}
+
+.tabSkeletonActive {
+  background-color: #FFFFFF !important;
+  border: 1px solid rgba(56, 30, 16, 0.14);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.tabBarActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.toggleSkeleton {
+  width: 76px;
+  height: 42px;
+  border-radius: 8px;
+  background-color: #FFF0F5 !important;
+  border: 1px solid rgba(242, 13, 111, 0.16);
+}
+
+.btnSkeleton {
+  width: 74px;
+  height: 42px;
+  border-radius: 8px;
+  background-color: rgba(242, 13, 111, 0.2) !important;
+}
+
+/* Table Card */
+.tableCard {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+
+.table th {
+  text-align: left;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.table th:first-child,
+.table td:first-child {
+  padding-left: 1.5rem;
+  padding-right: 0.5rem;
+  width: 48px;
+}
+
+.checkboxSkeleton {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.userCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatarSkeleton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nameSkeleton {
+  width: 120px;
+  height: 15px;
+  border-radius: 4px;
+}
+
+.emailSkeleton {
+  width: 160px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+.badgeSkeleton {
+  width: 90px;
+  height: 28px;
+  border-radius: 6px;
+  margin: 0 auto;
+}
+
+.statusSkeleton {
+  width: 60px;
+  height: 22px;
+  border-radius: 12px;
+  margin: 0 auto;
+}
+
+.dateSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.datePrimarySkeleton {
+  width: 85px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.dateSecondarySkeleton {
+  width: 55px;
+  height: 11px;
+  border-radius: 4px;
+}
+
+.actionsSkeleton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actionBtnSkeleton {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+}
+
+/* Pagination Skeleton */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+}
+
+.pageInfoSkeleton {
+  width: 160px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.pageControlsSkeleton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pageBtnSkeleton {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+}
+
+/* Mobile & Card Grid Skeletons */
+.mobileCards {
+  display: none;
+  padding: 1.5rem;
+  gap: 1.25rem;
+}
+
+.mobileCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 1.25rem;
+  border: 1px solid rgba(56, 30, 16, 0.12);
+  border-radius: 16px;
+  background-color: var(--color-white);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03), 0 4px 12px rgba(56, 30, 16, 0.03);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mcHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.mcContact {
+  margin-left: 52px;
+  margin-top: -8px;
+  margin-bottom: 8px;
+}
+
+.mcStats {
+  display: flex;
+  justify-content: space-between;
+  background-color: #FFF0F5;
+  border: 1px solid rgba(242, 13, 111, 0.16);
+  padding: 12px;
+  border-radius: var(--radius-md);
+}
+
+.mcActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.mcRoleSkeleton {
+  width: 180px;
+  height: 38px;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .tableWrapper {
+    display: none !important;
+  }
+
+  .mobileCards {
+    display: flex !important;
+    flex-direction: column;
+    padding: 0;
+    gap: 1rem;
+  }
+
+  .toggleSkeleton {
+    display: none !important;
+  }
+
+  .segmentedControl {
+    flex: 1 !important;
+    width: 100% !important;
+  }
+
+  .tabSkeleton {
+    flex: 1 !important;
+    width: auto !important;
+  }
+}

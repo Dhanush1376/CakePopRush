@@ -1,0 +1,88 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+}
+
+@media (max-width: 429px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+}
+
+/* Card wrapper in Grid Mode */
+.gridCardWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* No Filter Results State */
+.noFilterResults {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12) var(--space-4);
+  text-align: center;
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-xl);
+  margin: var(--space-4) 0;
+}
+
+.noResultsIcon {
+  color: var(--color-brand-pink);
+  margin-bottom: var(--space-3);
+  opacity: 0.85;
+}
+
+.noResultsTitle {
+  font-family: 'Urbanist', var(--font-family-display), sans-serif;
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-chocolate);
+  margin: 0 0 var(--space-2) 0;
+}
+
+.noResultsSubtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  max-width: 380px;
+  margin: 0 0 var(--space-4) 0;
+  line-height: 1.5;
+}
+
+.resetFiltersBtn {
+  background: var(--color-chocolate);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 8px 18px;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.resetFiltersBtn:hover {
+  background: #3d1c1c;
+  transform: translateY(-1px);
+}

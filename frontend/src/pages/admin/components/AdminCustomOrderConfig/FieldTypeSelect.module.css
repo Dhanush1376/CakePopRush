@@ -1,0 +1,206 @@
+.container {
+  position: relative;
+  width: 100%;
+  user-select: none;
+}
+
+.trigger {
+  width: 100%;
+  height: 36px;
+  min-height: 36px;
+  padding: 0 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(56, 30, 16, 0.14);
+  background: #FFFFFF;
+  font-size: 12px;
+  font-weight: 600;
+  color: #381E10;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(56, 30, 16, 0.05), inset 0 1px 1px #FFFFFF;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.trigger:hover {
+  border-color: rgba(242, 13, 111, 0.35);
+  box-shadow: 0 2px 6px rgba(242, 13, 111, 0.12);
+}
+
+.trigger:focus,
+.trigger.isOpen {
+  border-color: var(--admin-pink, #F20D6F);
+  box-shadow: 0 0 0 3px rgba(242, 13, 111, 0.14), 0 2px 6px rgba(56, 30, 16, 0.06);
+}
+
+.triggerLeft {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.triggerIcon {
+  color: var(--admin-pink, #F20D6F);
+  flex-shrink: 0;
+}
+
+.triggerText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.chevron {
+  flex-shrink: 0;
+  color: #9CA3AF;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.15s ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+  color: var(--admin-pink, #F20D6F);
+}
+
+/* Floating Portal Menu */
+.menu {
+  position: fixed;
+  z-index: 99999;
+  background: #FFFFFF;
+  border: 1.5px solid rgba(242, 13, 111, 0.22);
+  border-radius: 10px;
+  box-shadow: 0 12px 36px -4px rgba(56, 30, 16, 0.18), 0 4px 12px rgba(242, 13, 111, 0.08);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  box-sizing: border-box;
+}
+
+.menuBottom {
+  transform-origin: top center;
+  animation: menuFadeSlideDown 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menuTop {
+  transform-origin: bottom center;
+  animation: menuFadeSlideUp 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes menuFadeSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes menuFadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Custom Scrollbar */
+.menu::-webkit-scrollbar {
+  width: 5px;
+}
+.menu::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 4px 0;
+}
+.menu::-webkit-scrollbar-thumb {
+  background: rgba(242, 13, 111, 0.2);
+  border-radius: 6px;
+}
+.menu::-webkit-scrollbar-thumb:hover {
+  background: rgba(242, 13, 111, 0.4);
+}
+
+/* Option */
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+  transition: background-color 0.12s ease, color 0.12s ease, padding-left 0.12s ease;
+}
+
+.optionLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.optionIcon {
+  color: #524037;
+  flex-shrink: 0;
+  transition: color 0.12s ease;
+}
+
+.optionLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: #381E10;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.12s ease;
+}
+
+.option:hover {
+  background-color: #FFF0F5;
+  padding-left: 12px;
+}
+
+.option:hover .optionLabel {
+  color: var(--admin-pink, #F20D6F);
+}
+
+.option:hover .optionIcon {
+  color: var(--admin-pink, #F20D6F);
+}
+
+.optionSelected {
+  background-color: #FFEBF2;
+}
+
+.optionSelected .optionLabel {
+  color: var(--admin-pink, #F20D6F);
+  font-weight: 700;
+}
+
+.optionSelected .optionIcon {
+  color: var(--admin-pink, #F20D6F);
+}
+
+.checkIcon {
+  flex-shrink: 0;
+  color: var(--admin-pink, #F20D6F);
+}

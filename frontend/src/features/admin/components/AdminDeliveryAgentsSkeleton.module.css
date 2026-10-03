@@ -1,0 +1,430 @@
+/* ═══════════════════════════════════════════════════════
+   CakePopRush Admin Delivery Agents — Crisp White & Grey Skeleton
+   ═══════════════════════════════════════════════════════ */
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.shimmer {
+  background: #EAECEF;
+  background-image: linear-gradient(
+    90deg,
+    #EAECEF 0%,
+    #F4F5F7 50%,
+    #EAECEF 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite ease-in-out;
+  border-radius: 6px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ─── Header Skeleton ──────────────────────────────────── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 6px;
+  padding-left: 4px;
+  margin-bottom: 0.25rem;
+}
+
+.titleSkeleton {
+  width: 180px;
+  height: 30px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.statsSubtitleSkeleton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+.statPillSkeleton {
+  height: 20px;
+  border-radius: 6px;
+}
+
+/* ─── Sticky Toolbar Skeleton ──────────────────────────── */
+.stickyWrapper {
+  position: sticky;
+  top: -1.5rem;
+  z-index: 25;
+  background-color: rgba(248, 249, 250, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 12px 2rem 14px 2rem;
+  margin: 0 -2rem;
+  border-bottom: 1px solid rgba(56, 30, 16, 0.06);
+}
+
+.searchActionsBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.searchWrapper {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  background-color: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+.searchIconSkeleton {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.searchPlaceholderSkeleton {
+  width: 220px;
+  max-width: 60%;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.actionControlsGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.statusSelectSkeleton {
+  width: 140px;
+  height: 42px;
+  border-radius: 8px;
+}
+
+.exportBtnSkeleton {
+  width: 90px;
+  height: 42px;
+  border-radius: 8px;
+}
+
+.viewToggleSkeleton {
+  width: 76px;
+  height: 42px;
+  border-radius: 8px;
+}
+
+/* ─── Table / List View Skeleton ───────────────────────── */
+.tableCard {
+  background: #FFFFFF;
+  border-radius: 16px;
+  border: 1px solid #E5E7EB;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table th {
+  padding: 14px;
+  background: #F9FAFB;
+  border-bottom: 1px solid #E5E7EB;
+  white-space: nowrap;
+}
+
+.table th:first-child,
+.table td:first-child {
+  padding-left: 20px;
+}
+
+.table th:last-child,
+.table td:last-child {
+  padding-right: 20px;
+}
+
+.table td {
+  padding: 14px;
+  border-bottom: 1px solid #F3F4F6;
+  vertical-align: middle;
+}
+
+.thSkeleton {
+  height: 12px;
+  border-radius: 4px;
+}
+
+.agentInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.agentAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.nameSkeleton {
+  height: 14px;
+  border-radius: 4px;
+}
+
+.emailSkeleton {
+  height: 11px;
+  border-radius: 4px;
+}
+
+.phoneIconSkeleton {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.phoneTextSkeleton {
+  width: 95px;
+  height: 13px;
+  border-radius: 4px;
+}
+
+.badgeSkeleton {
+  width: 90px;
+  height: 24px;
+  border-radius: 9999px;
+}
+
+.countSkeleton {
+  width: 24px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.dateSkeleton {
+  width: 75px;
+  height: 13px;
+  border-radius: 4px;
+}
+
+.switchTrackSkeleton {
+  width: 38px;
+  height: 20px;
+  border-radius: 9999px;
+}
+
+.actionsGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.actionBtnPortalSkeleton {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+}
+
+.actionBtnDetailsSkeleton {
+  width: 52px;
+  height: 28px;
+  border-radius: 6px;
+}
+
+.actionBtnDeleteSkeleton {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+}
+
+/* ─── Grid View Skeleton ───────────────────────────────── */
+.gridWrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.gridCard {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.gridCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #F3F4F6;
+}
+
+.gridStatsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.gridStatBox {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statValSkeleton {
+  width: 32px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.statLblSkeleton {
+  width: 75px;
+  height: 11px;
+  border-radius: 4px;
+}
+
+.gridCardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid #F3F4F6;
+}
+
+.switchGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dutyLabelSkeleton {
+  width: 48px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+/* ─── Mobile Cards View (shown on <= 767px instead of table) */
+.mobileCardsList {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+}
+
+.mobileCard {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobileCardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.mobileCardStats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.mobileStatItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mobileCardBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid #F3F4F6;
+}
+
+/* ─── Responsive Media Queries ─────────────────────────── */
+@media (max-width: 767px) {
+  .stickyWrapper {
+    top: -0.5rem;
+    padding: 10px 1rem 12px 1rem;
+    margin: 0 -1rem;
+  }
+
+  .searchActionsBar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .actionControlsGroup {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .statusSelectSkeleton {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tableWrapper {
+    display: none;
+  }
+
+  .mobileCardsList {
+    display: flex;
+  }
+
+  .gridWrapper {
+    grid-template-columns: 1fr;
+  }
+}

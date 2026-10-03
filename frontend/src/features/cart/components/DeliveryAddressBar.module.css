@@ -1,0 +1,441 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E2E8F0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.03);
+  z-index: 40;
+}
+
+/* ─── TRIGGER BAR ─── */
+.bar {
+  display: block;
+  width: 100%;
+  background-color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+  transition: background-color 0.18s ease;
+}
+
+.bar:hover,
+.barActive {
+  background-color: #FFFBFB;
+}
+
+.innerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 16px;
+  gap: 12px;
+}
+
+.leftGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+}
+
+.iconCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 50%;
+  background-color: #FFF1F5;
+  border: 1px solid #FFE4E6;
+  color: var(--color-brand-pink, #F20D6F);
+  flex-shrink: 0;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.bar:hover .iconCircle {
+  border-color: #FDA4AF;
+  transform: scale(1.04);
+}
+
+.infoCol {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.locationTitle {
+  font-family: var(--font-family-display);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--color-chocolate, #381E10);
+  line-height: 1.25;
+}
+
+.addressSnippet {
+  font-family: var(--font-family-body);
+  font-size: 12px;
+  color: var(--color-text-muted, #8E7A6E);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 480px;
+}
+
+@media (max-width: 640px) {
+  .addressSnippet {
+    max-width: 240px;
+  }
+}
+
+.rightGroup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 4px;
+}
+
+.chevron {
+  color: #9CA3AF;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.15s ease;
+}
+
+.bar:hover .chevron {
+  color: #4B5563;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+  color: #4B5563;
+}
+
+/* ─── DROPDOWN PANEL ─── */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 12px;
+  right: 12px;
+  margin: 0 auto;
+  max-width: 520px;
+  background: #FFFFFF;
+  border: 1px solid rgba(92, 51, 23, 0.12);
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(56, 30, 16, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  z-index: 100;
+}
+
+@media (max-width: 640px) {
+  .dropdown {
+    left: 12px;
+    right: 12px;
+    border-radius: 16px;
+  }
+}
+
+.dropdownHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background-color: #FFFDFB;
+  border-bottom: 1px solid rgba(92, 51, 23, 0.07);
+}
+
+.dropdownTitleWrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.headerPin {
+  color: var(--color-brand-pink, #F20D6F);
+}
+
+.dropdownTitle {
+  font-family: var(--font-family-heading, inherit);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-chocolate, #381E10);
+  margin: 0;
+  letter-spacing: 0.2px;
+}
+
+.dropdownCloseBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: none;
+  border: none;
+  color: #8E7A6E;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.dropdownCloseBtn:hover {
+  background-color: rgba(242, 13, 111, 0.08);
+  color: var(--color-brand-pink, #F20D6F);
+}
+
+/* ─── ADDRESS LIST ─── */
+.addressList {
+  max-height: 250px;
+  overflow-y: auto;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Custom Scrollbar */
+.addressList::-webkit-scrollbar {
+  width: 4px;
+}
+.addressList::-webkit-scrollbar-thumb {
+  background-color: rgba(92, 51, 23, 0.15);
+  border-radius: 10px;
+}
+
+.loadingBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px 16px;
+  color: #8E7A6E;
+  font-size: 12px;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+  color: var(--color-brand-pink, #F20D6F);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.emptyBox {
+  padding: 20px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.emptyIconWrap {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: rgba(242, 13, 111, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-brand-pink, #F20D6F);
+  margin-bottom: 2px;
+}
+
+.emptyTitle {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--color-chocolate, #381E10);
+  margin: 0;
+}
+
+.emptySub {
+  font-size: 11px;
+  color: #8E7A6E;
+  max-width: 280px;
+  margin: 0;
+  line-height: 1.35;
+}
+
+/* ─── ADDRESS CARD ─── */
+.addressCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #EAE3D9;
+  background-color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  text-align: left;
+}
+
+.addressCard:hover {
+  border-color: rgba(242, 13, 111, 0.4);
+  background-color: #FFFDFE;
+  transform: translateY(-1px);
+}
+
+.addressCardSelected {
+  border: 1.5px solid var(--color-brand-pink, #F20D6F);
+  background-color: rgba(242, 13, 111, 0.03);
+  box-shadow: 0 2px 8px rgba(242, 13, 111, 0.06);
+}
+
+.radioIndicator {
+  padding-top: 2px;
+  flex-shrink: 0;
+}
+
+.radioOuter {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid #CBD5E1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.radioOuterActive {
+  border-color: var(--color-brand-pink, #F20D6F);
+  background-color: var(--color-brand-pink, #F20D6F);
+}
+
+.radioInner {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+}
+
+.cardContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.cardTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 3px;
+}
+
+.cardTypeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-chocolate, #381E10);
+}
+
+.typeIcon {
+  color: var(--color-brand-pink, #F20D6F);
+}
+
+.cardDefaultBadge {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #16A34A;
+  background-color: #DCFCE7;
+  padding: 1px 6px;
+  border-radius: 9999px;
+}
+
+.cardAddressText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.line1Text {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-chocolate, #381E10);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.line2Text {
+  font-size: 11.5px;
+  color: #64748B;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.cityStatePin {
+  font-size: 11px;
+  color: #8E7A6E;
+  margin: 2px 0 0 0;
+}
+
+.cityStatePin strong {
+  color: var(--color-chocolate, #381E10);
+  font-weight: 700;
+}
+
+/* ─── BOTTOM ACTIONS FOOTER ─── */
+.dropdownFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 12px;
+  background-color: #FFFDFB;
+  border-top: 1px solid rgba(92, 51, 23, 0.08);
+}
+
+.addNewBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: var(--color-brand-pink, #F20D6F);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.addNewBtn:hover {
+  background-color: rgba(242, 13, 111, 0.08);
+}
+
+.manageAddressesBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--color-chocolate, #381E10);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.manageAddressesBtn:hover {
+  color: var(--color-brand-pink, #F20D6F);
+  background-color: rgba(242, 13, 111, 0.06);
+}

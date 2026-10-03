@@ -1,0 +1,2050 @@
+/* DeliveryOrderDetailPage.module.css - Delivery Agent Order Detail & Live GPS View */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #f8f9fa;
+  overflow: hidden;
+  z-index: 9999;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+.page h1, .page h2, .page h3, .page h4, .page h5, .page h6 {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+/* Map Section */
+.mapContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #E8F5E9;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.deliveredBgImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform-origin: center center;
+  will-change: transform;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Map UI Overlays Constrained on Desktop */
+.mapOverlayWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .mapOverlayWrapper {
+    max-width: 920px;
+    margin: 0 auto;
+  }
+}
+
+/* Header */
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: transparent;
+  pointer-events: none;
+}
+
+.header > * {
+  pointer-events: auto;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  text-decoration: none;
+  color: #1F0E06;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.backBtn:hover {
+  transform: scale(1.05);
+  background: #FFFFFF;
+}
+
+.headerTitleBox {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 0 16px;
+  border-radius: 50px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.headerOrderNumber {
+  font-size: 13px;
+  font-weight: 800;
+  color: #1F0E06;
+  margin: 0;
+  letter-spacing: 0.3px;
+  line-height: 1;
+}
+
+.headerAgentBadge {
+  font-size: 10px;
+  font-weight: 600;
+  color: #F20D6F;
+  letter-spacing: 0.2px;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.helpBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  color: #1F0E06;
+  padding: 0 14px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: background 0.15s ease;
+}
+
+/* Admin Supervisor Mode - Minimal & Small Pink Banner */
+.adminSupervisorBanner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 14px;
+  min-height: 28px;
+  background: linear-gradient(90deg, #F20D6F 0%, #E00662 100%);
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(242, 13, 111, 0.22);
+  font-size: 0.70rem;
+  letter-spacing: 0.15px;
+  pointer-events: auto;
+  white-space: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.adminSupervisorLeft {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  color: #FFFFFF;
+  flex-shrink: 0;
+}
+
+.adminSupervisorLeft strong {
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.supervisorDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
+  display: inline-block;
+  flex-shrink: 0;
+  animation: supervisorPulse 2s infinite ease-in-out;
+}
+
+@keyframes supervisorPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.65;
+  }
+}
+
+.adminSupervisorBackBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 10px;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: #FFFFFF;
+  border-radius: 9999px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  line-height: 1.4;
+}
+
+.adminSupervisorBackBtn:hover {
+  background: #FFFFFF;
+  color: #F20D6F;
+  border-color: #FFFFFF;
+  transform: translateY(-0.5px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.mapOverlaySupervisor {
+  top: 28px !important;
+}
+
+.adminSupervisorExitBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  box-sizing: border-box;
+  background: rgba(31, 14, 6, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(242, 13, 111, 0.35);
+  color: #FFFFFF;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transition: all 0.15s ease;
+}
+
+.adminSupervisorExitBtn:hover {
+  background: #1F0E06;
+  border-color: #F20D6F;
+  transform: translateY(-1px);
+}
+
+.helpBtn:hover {
+  background: #FFFFFF;
+}
+
+/* Floating ETA & Delivery Metric Card */
+.etaCard {
+  position: absolute;
+  top: 72px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 16px;
+  padding: 12px 16px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 6;
+  min-width: 145px;
+}
+
+.etaLabel {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #7A5E68;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.etaTime {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1F0E06;
+}
+
+.liveTrackingStatus {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #059669;
+  margin-top: 4px;
+}
+
+.pulseDot {
+  width: 7px;
+  height: 7px;
+  background-color: #059669;
+  border-radius: 50%;
+  animation: pulseDot 1.5s infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulseDot {
+  0% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.5); }
+  70% { box-shadow: 0 0 0 6px rgba(5, 150, 105, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0); }
+}
+
+.pulseDotAmber {
+  width: 7px;
+  height: 7px;
+  background-color: #D97706;
+  border-radius: 50%;
+  animation: pulseDotAmber 1.5s infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulseDotAmber {
+  0% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.5); }
+  70% { box-shadow: 0 0 0 6px rgba(217, 119, 6, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); }
+}
+
+.pulseDotRed {
+  width: 7px;
+  height: 7px;
+  background-color: #DC2626;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Floating Action Buttons */
+.mapActionFabs {
+  position: absolute;
+  bottom: calc(58vh - 66px + 64px);
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 25;
+  pointer-events: auto;
+}
+
+.mapFab {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #059669;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.mapFab:hover {
+  transform: scale(1.08);
+  background: #ECFDF5;
+}
+
+.fullMapBtn {
+  position: absolute;
+  bottom: calc(var(--sheet-collapsed-peek, calc(58vh - 66px)) + 16px);
+  left: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #1F0E06;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 25;
+  transition: transform 0.15s ease, background 0.15s ease, bottom 0.28s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.fullMapBtn:hover {
+  transform: scale(1.04);
+  background: #FFFFFF;
+}
+
+.fullMapBtn:active {
+  transform: scale(0.96);
+}
+
+.recenterBtn {
+  position: absolute;
+  bottom: calc(var(--sheet-collapsed-peek, calc(58vh - 66px)) + 16px);
+  right: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #1F0E06;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 25;
+  transition: transform 0.15s ease, background 0.15s ease, bottom 0.28s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.recenterBtn:hover {
+  transform: scale(1.04);
+}
+
+/* Bottom Sheet */
+.bottomSheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: calc(100dvh - 66px);
+  max-height: calc(100vh - 66px);
+  background: #FFFFFF;
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.15);
+  padding: 0 16px 8px;
+  z-index: 20;
+  overflow: hidden;
+  box-sizing: border-box;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.bottomSheetCancelled {
+  overflow: visible !important;
+}
+
+/* ================= CANCELLED AMBIENT BACKGROUND ================= */
+.cancelledBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 30%, #FFF5F6 0%, #FEE2E2 45%, #F8FAFC 90%);
+  overflow: hidden;
+}
+
+.cancelledAmbientGlow {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(244, 63, 94, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ================= CANCELLED MASCOT ON PULL-OVER SHEET ================= */
+.mascotStickyContainer {
+  position: absolute;
+  bottom: calc(100% - 6px);
+  left: calc(50% + 10px);
+  transform: translateX(-50%);
+  width: 200px;
+  height: 155px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: auto;
+  z-index: -1;
+}
+
+.mascotHandLeft,
+.mascotHandRight {
+  position: absolute;
+  top: -10px;
+  width: 7.5px;
+  height: 13px;
+  background-color: #1C1C1C;
+  border-radius: 999px;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.mascotHandLeft::before,
+.mascotHandLeft::after,
+.mascotHandRight::before,
+.mascotHandRight::after {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  width: 6.5px;
+  height: 10.5px;
+  background-color: #1C1C1C;
+  border-radius: 999px;
+}
+
+.mascotHandLeft::before,
+.mascotHandRight::before {
+  left: -5.5px;
+}
+
+.mascotHandLeft::after,
+.mascotHandRight::after {
+  left: 6.5px;
+}
+
+.mascotHandLeft {
+  left: calc(50% - 46px);
+  transform: rotate(-10deg);
+}
+
+.mascotHandRight {
+  left: calc(50% + 40px);
+  transform: rotate(10deg);
+}
+
+/* Speech Bubble Floating Above Mascot (matching ProfileLayout) */
+.speechBubble {
+  position: absolute;
+  bottom: calc(100% + 118px);
+  right: calc(50% - 10px);
+  background: white;
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-family: var(--font-family-body, inherit);
+  font-size: 12px;
+  font-weight: bold;
+  box-shadow: 0 3px 10px rgba(242, 13, 111, 0.12);
+  color: var(--color-chocolate, #2A1F1D);
+  transform: rotate(-3deg);
+  border: 1.5px solid var(--color-brand-pink, #F20D6F);
+  pointer-events: none;
+  z-index: 25;
+  white-space: nowrap;
+}
+
+/* Little tail for the speech bubble */
+.speechBubble::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  right: 16px;
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-bottom: 1.5px solid var(--color-brand-pink, #F20D6F);
+  border-right: 1.5px solid var(--color-brand-pink, #F20D6F);
+  transform: rotate(45deg);
+}
+
+@media (max-width: 480px) {
+  .mascotStickyContainer {
+    width: 200px;
+    height: 145px;
+    left: calc(50% + 10px);
+    bottom: calc(100% - 5px);
+    transform: translateX(-50%) scale(0.92);
+    transform-origin: bottom center;
+    display: flex;
+    justify-content: center;
+  }
+  .mascotHandLeft {
+    left: calc(50% - 32px);
+  }
+  .mascotHandRight {
+    left: calc(50% + 52px);
+  }
+  .speechBubble {
+    bottom: calc(100% + 110px);
+    right: calc(50% - 8px);
+    padding: 5px 11px;
+    font-size: 11.5px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bottomSheet {
+    max-width: 920px;
+    margin: 0 auto;
+    border: 1px solid #CBD5E1;
+    border-bottom: none;
+    box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.dragHandleArea {
+  padding: 14px 0 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  background: #FFFFFF;
+  z-index: 11;
+  user-select: none;
+  touch-action: none;
+  border-radius: 28px 28px 0 0;
+  transition: opacity 0.15s ease;
+}
+
+.dragHandleArea:active {
+  opacity: 0.9;
+}
+
+.dragHandleAreaFullMap {
+  padding: 12px 0 14px 0;
+}
+
+.fullMapSheetHint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--color-chocolate, #2A1F1D);
+  opacity: 0.85;
+  margin-top: 6px;
+}
+
+.dragHandle {
+  width: 44px;
+  height: 5px;
+  background: #E2DCD8;
+  border-radius: 999px;
+  transition: background 0.2s ease, transform 0.2s ease, width 0.2s ease;
+  flex-shrink: 0;
+}
+
+.dragHandleArea:hover .dragHandle,
+.dragHandleArea:active .dragHandle {
+  background: #F20D6F;
+  transform: scaleX(1.15);
+}
+
+/* Scrollable Content Container - Native Buttery-Smooth Scroll */
+.scrollContent {
+  height: calc(100% - 34px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  padding-bottom: 20px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  box-sizing: border-box;
+  width: 100%;
+  contain: content;
+  transform: translateZ(0);
+  will-change: scroll-position;
+}
+
+.scrollContent::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+
+.scrollContentCollapsed {
+  overflow-y: hidden !important;
+}
+
+/* Main Layout in Sheet */
+.trackingLayout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 2px 2px 6px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.trackingLayout > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .trackingLayout {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.2fr);
+    gap: 20px;
+  }
+}
+
+
+.mainStatusTitle {
+  font-size: 19px;
+  font-weight: 800;
+  color: #1F0E06;
+  margin: 0 0 14px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.taskStatusBadge {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.taskStatusActive {
+  background: rgba(242, 13, 111, 0.1);
+  color: #F20D6F;
+  border: 1px solid rgba(242, 13, 111, 0.2);
+}
+
+.taskStatusCompleted {
+  background: #ECFDF5;
+  color: #047857;
+  border: 1px solid #A7F3D0;
+}
+
+/* Delivery Partner Card - Exact Storefront Design (Picture 2) in Delivery Man's Perspective */
+.driverInfoRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  background: #ffffff;
+  border: 1px solid #CBD5E1;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+}
+
+.driverAvatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F20D6F, #FF5F88);
+  padding: 2px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.driverAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.customerInitialsBadge {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  user-select: none;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.25);
+}
+
+.customerNameHeader {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 3px;
+}
+
+.driverNameTitle {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #2A1F1D;
+  margin: 0;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.customerRoleTag {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 10px;
+  font-weight: 700;
+  color: #F20D6F;
+  background: #FFF0F5;
+  border: 1px solid #FECDD3;
+  padding: 1px 6px;
+  border-radius: 999px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.driverDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.driverStats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 12px;
+  font-weight: 500;
+  color: #7A5E68;
+  width: 100%;
+}
+
+.statRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.statLink {
+  color: inherit;
+  text-decoration: none;
+  word-break: break-all;
+  transition: color 0.15s ease;
+}
+
+.statLink:hover {
+  color: #F20D6F;
+  text-decoration: underline;
+}
+
+.driverAddressLine {
+  display: inline-block;
+  line-height: 1.35;
+  word-break: break-word;
+  color: #4B5563;
+  font-size: 11.5px;
+}
+
+.driverActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.iconBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: #FFF0F5;
+  color: #F20D6F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 8px rgba(242, 13, 111, 0.08);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.iconBtn:hover, .iconBtn:active {
+  background: #F20D6F;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+/* Customer & Destination Card (Zomato / Swiggy Delivery Partner Style) */
+.customerCard {
+  background: #FFFFFF;
+  border: 1.5px solid #E2DCD8;
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 2px 10px rgba(56, 30, 16, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.customerCardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.customerTag {
+  font-size: 10px;
+  font-weight: 700;
+  color: #8E7A6E;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.customerName {
+  font-size: 15px;
+  font-weight: 800;
+  color: #1F0E06;
+  margin: 2px 0 0 0;
+}
+
+.addressRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #381E10;
+}
+
+.addressIcon {
+  color: #F20D6F;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.instructionsBox {
+  background: #FFF9E6;
+  border: 1px dashed #F59E0B;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 11px;
+  color: #78350F;
+  line-height: 1.4;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* Call, WhatsApp & GPS Action Buttons */
+.actionButtonsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.callCustomerBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #ECFDF5;
+  color: #047857;
+  border: 1.5px solid #A7F3D0;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.callCustomerBtn:hover {
+  background: #D1FAE5;
+  transform: translateY(-1px);
+}
+
+.navigateGpsBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #EFF6FF;
+  color: #1D4ED8;
+  border: 1.5px solid #BFDBFE;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.navigateGpsBtn:hover {
+  background: #DBEAFE;
+  transform: translateY(-1px);
+}
+
+/* Cash Collection Alert Banner (Zomato / Swiggy Style) */
+.codAlertBanner {
+  background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+  border: 1.5px solid #F59E0B;
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.codLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.codIcon {
+  color: #92400E;
+  flex-shrink: 0;
+}
+
+.codTitle {
+  font-size: 11px;
+  font-weight: 700;
+  color: #92400E;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin: 0;
+}
+
+.codAmount {
+  font-size: 16px;
+  font-weight: 900;
+  color: #78350F;
+}
+
+.codStatusPill {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: #B45309;
+  color: #FFFFFF;
+}
+
+.prepaidBanner {
+  background: #F0FDF4;
+  border: 1.5px solid #86EFAC;
+  border-radius: 14px;
+  padding: 11px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #15803D;
+}
+
+/* Storefront-Style Delivering To & Status Box */
+.statusBox {
+  background: #FFFFFF;
+  border-radius: 18px;
+  border: 1px solid #CBD5E1;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.deliveringToHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 16px 20px 14px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.deliveryHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.deliveryLabel {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 10.5px;
+  color: #7A5E68;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.deliveryAddress {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2A1F1D;
+  line-height: 1.42;
+  margin: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.gpsLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #059669;
+  text-decoration: none;
+  background: #ECFDF5;
+  padding: 3px 9px;
+  border-radius: 6px;
+  border: 1px solid #A7F3D0;
+  transition: all 0.15s ease;
+}
+
+.gpsLink:hover {
+  background: #D1FAE5;
+}
+
+.timelineAndOtpRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+}
+
+.driverTaskBadge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 18px;
+  border-radius: 16px;
+  min-width: 125px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.driverTaskCompleted {
+  background: #ECFDF5;
+  border: 1.5px solid #A7F3D0;
+}
+
+.driverTaskActive {
+  background: #FFF0F5;
+  border: 1.5px solid #FBCFE8;
+}
+
+.driverTaskIconCircle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.driverTaskCompleted .driverTaskIconCircle {
+  background: #10B981;
+  color: #FFFFFF;
+}
+
+.driverTaskActive .driverTaskIconCircle {
+  background: #F20D6F;
+  color: #FFFFFF;
+  box-shadow: 0 0 0 4px rgba(242, 13, 111, 0.15);
+}
+
+.driverTaskBadgeTitle {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.driverTaskCompleted .driverTaskBadgeTitle {
+  color: #065F46;
+}
+
+.driverTaskActive .driverTaskBadgeTitle {
+  color: #9D174D;
+}
+
+.driverTaskBadgeSub {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.driverTaskCompleted .driverTaskBadgeSub {
+  color: #047857;
+}
+
+.driverTaskActive .driverTaskBadgeSub {
+  color: #BE185D;
+}
+
+/* Card Extension: Enter OTP Button (Triggers Laptop Pop-up / Mobile App Drawer) */
+.cardExtensionStrip {
+  background: linear-gradient(90deg, #F20D6F 0%, #D8005E 100%);
+  transition: all 0.15s ease;
+  border-top: 1px solid rgba(242, 13, 111, 0.2);
+  margin-top: 8px;
+}
+
+.otpExtensionToggleBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  transition: background-color 0.15s ease;
+  box-sizing: border-box;
+}
+
+.otpExtensionToggleBtn:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.otpExtensionLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.otpExtensionIcon {
+  color: #FFFFFF;
+  flex-shrink: 0;
+}
+
+.otpExtensionText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.otpCodBadge {
+  font-size: 11px;
+  font-weight: 800;
+  color: #92400E;
+  background: #FEF3C7;
+  padding: 3px 9px;
+  border-radius: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.otpExtensionBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  padding: 3px 10px;
+  border-radius: 9999px;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.otpExtensionToggleBtn:hover .otpExtensionBadge {
+  background: #FFFFFF;
+  color: #F20D6F;
+  border-color: #FFFFFF;
+}
+
+/* OTP Verification: Mobile App Drawer (Bottom Sheet) by default */
+.otpDrawerOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(31, 14, 6, 0.58);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  z-index: 10000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.otpAppDrawer {
+  background: #FFFFFF;
+  border-radius: 28px 28px 0 0;
+  width: 100%;
+  max-width: 500px;
+  padding: 14px 20px 32px 20px;
+  box-shadow: 0 -8px 40px rgba(56, 30, 16, 0.25);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.drawerDragHandle {
+  width: 42px;
+  height: 4.5px;
+  background: #E2DCD8;
+  border-radius: 4px;
+  margin: 0 auto 16px auto;
+  flex-shrink: 0;
+}
+
+.drawerHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.drawerHeaderInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.drawerIconBadge {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #FFF0F5;
+  border: 1px solid rgba(242, 13, 111, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #F20D6F;
+  flex-shrink: 0;
+}
+
+.drawerHeaderTitle {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #381E10;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.drawerHeaderSubtitle {
+  font-size: 0.74rem;
+  color: #7D6B60;
+  margin: 2px 0 0 0;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.drawerCloseBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: #F4EFEB;
+  color: #5A3D2F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.drawerCloseBtn:hover {
+  background: #EAE4DF;
+  color: #1F0E06;
+}
+
+.drawerInstructionRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: #FAF8F6;
+  border: 1px solid #EAE4DF;
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 18px;
+}
+
+.otpDrawerSub {
+  font-size: 0.74rem;
+  color: #7A6558;
+  font-weight: 500;
+  flex: 1;
+  min-width: 180px;
+}
+
+.otpResendBtn {
+  background: none;
+  border: none;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #F20D6F;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.otpResendBtn:hover:not(:disabled) {
+  color: #D8005E;
+}
+
+.otpResendBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.otpDigitsRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 22px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.otpDigitBox {
+  flex: 1;
+  max-width: 52px;
+  min-width: 36px;
+  height: 58px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #381E10;
+  background: #FAF8F6;
+  border: 1.5px solid #E2DCD8;
+  border-radius: 14px;
+  box-sizing: border-box;
+  transition: all 0.15s ease;
+}
+
+.otpDigitBox:focus {
+  outline: none;
+  border-color: #F20D6F;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(242, 13, 111, 0.15);
+}
+
+.otpVerifySubmitBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #F20D6F 0%, #D8005E 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 14px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 14px rgba(242, 13, 111, 0.25);
+  min-height: 48px;
+}
+
+.otpVerifySubmitBtn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #E00662 0%, #C00052 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(242, 13, 111, 0.35);
+}
+
+.otpVerifySubmitBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Laptop / Desktop: Centered Pop-up Modal */
+@media (min-width: 640px) {
+  .otpDrawerOverlay {
+    align-items: center;
+    padding: 24px;
+  }
+
+  .otpAppDrawer {
+    border-radius: 24px;
+    max-width: 460px;
+    padding: 24px 24px 28px 24px;
+    box-shadow:
+      0 24px 60px rgba(56, 30, 16, 0.22),
+      0 4px 16px rgba(56, 30, 16, 0.08),
+      0 0 0 1px rgba(56, 30, 16, 0.06);
+  }
+
+  .drawerDragHandle {
+    display: none;
+  }
+}
+
+.quickVerifyBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #F20D6F;
+  color: #FFFFFF;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(242, 13, 111, 0.2);
+}
+
+.quickVerifyBtn:hover:not(:disabled) {
+  background: #D80660;
+  transform: translateY(-1px);
+}
+
+.quickVerifyBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.deliveredPill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ECFDF5;
+  border-top: 1px solid #D1FAE5;
+  padding: 12px 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #059669;
+}
+
+.statusBoxHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #FFF5F7;
+  border-bottom: 1.5px solid #F0E4EA;
+  box-sizing: border-box;
+}
+
+.statusBoxTitle {
+  font-size: 11px;
+  font-weight: 800;
+  color: #381E10;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.statusBoxBody {
+  padding: 12px 16px 10px;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.timelineStep {
+  display: flex;
+  gap: 12px;
+  position: relative;
+  min-height: 28px;
+}
+
+.stepIndicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.stepIcon {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.currentIcon {
+  width: 24px;
+  height: 24px;
+  box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.25);
+}
+
+.completedIcon, .upcomingIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.upcomingIcon {
+  background: #E5E7EB;
+  color: #9CA3AF;
+}
+
+.stepConnector {
+  flex: 1;
+  width: 2px;
+  background: #E5E7EB;
+  margin: 2px 0;
+  transition: background 0.3s ease;
+}
+
+.stepConnectorDone {
+  background: #10B981;
+}
+
+.stepContent {
+  flex: 1;
+  padding-bottom: 10px;
+}
+
+.timelineStep:last-child .stepContent {
+  padding-bottom: 0;
+}
+
+.stepLabel {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+  font-size: 13px;
+  font-weight: 600;
+  color: #7A5E68;
+}
+
+.currentStep .stepLabel {
+  font-size: 14px;
+  font-weight: 800;
+  color: #06B6D4;
+}
+
+.completedStep .stepLabel {
+  color: #2A1F1D;
+  font-weight: 600;
+}
+
+.upcomingStep .stepLabel {
+  color: #9CA3AF;
+  font-weight: 500;
+}
+
+/* OTP & Completion Section */
+.otpSection {
+  background: #FAF8F6;
+  border-radius: 14px;
+  border: 1.5px dashed #D5CDC7;
+  padding: 16px;
+  text-align: center;
+  margin-top: 14px;
+}
+
+.otpSectionTitle {
+  font-size: 11px;
+  font-weight: 800;
+  color: #7A5E68;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.otpInputsGroup {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 12px 0 14px;
+}
+
+.otpInputDigit {
+  flex: 1;
+  max-width: 48px;
+  min-width: 0;
+  height: 48px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #1F0E06;
+  border: 1.5px solid #D5CDC7;
+  border-radius: 10px;
+  background: #FFFFFF;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.otpInputDigit:focus {
+  border-color: #F20D6F;
+  box-shadow: 0 0 0 3px rgba(242, 13, 111, 0.15);
+}
+
+.verifyOtpBtn {
+  width: 100%;
+  padding: 12px;
+  background: #059669;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 800;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.verifyOtpBtn:hover:not(:disabled) {
+  background: #047857;
+  transform: translateY(-1px);
+}
+
+.verifyOtpBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.sendOtpBtn {
+  width: 100%;
+  padding: 12px;
+  background: #F20D6F;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 800;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(242, 13, 111, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.sendOtpBtn:hover:not(:disabled) {
+  background: #D90860;
+  transform: translateY(-1px);
+}
+
+.sendOtpBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Completed Delivery Banner */
+.deliveredSuccessCard {
+  background: #ECFDF5;
+  border: 1.5px solid #6EE7B7;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.deliveredSuccessIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #059669;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.deliveredSuccessTitle {
+  font-size: 14px;
+  font-weight: 800;
+  color: #065F46;
+  margin: 0;
+}
+
+.deliveredSuccessDesc {
+  font-size: 11px;
+  color: #047857;
+  margin: 2px 0 0 0;
+}
+
+/* Order Item Checklist (Verify treats before customer handover) */
+.itemCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(56, 30, 16, 0.06);
+}
+
+.itemCard:last-child {
+  border-bottom: none;
+}
+
+.itemCheckInput {
+  width: 18px;
+  height: 18px;
+  accent-color: #059669;
+  cursor: pointer;
+}
+
+.itemIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #F8F6F4;
+  border: 1px solid #EAE5E1;
+  flex-shrink: 0;
+}
+
+.itemIcon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.itemDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.itemName {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1F0E06;
+  display: block;
+}
+
+.itemMeta {
+  font-size: 11px;
+  color: #8E7A6E;
+  display: block;
+}
+
+.itemQty {
+  font-size: 11px;
+  font-weight: 700;
+  color: #F20D6F;
+}
+
+.itemSubtotal {
+  font-size: 13px;
+  font-weight: 800;
+  color: #1F0E06;
+}
+
+/* Trip Earnings Card (Swiggy / Zomato Rider View) */
+.tripEarningsCard {
+  background: linear-gradient(135deg, #ECFDF5 0%, #F0FDF4 100%);
+  border: 1.5px solid #A7F3D0;
+  border-radius: 16px;
+  padding: 14px 16px;
+}
+
+.earningsHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.earningsHeadTitle {
+  font-size: 11px;
+  font-weight: 800;
+  color: #047857;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.earningsTotalBadge {
+  font-size: 16px;
+  font-weight: 900;
+  color: #065F46;
+}
+
+.earningsRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #047857;
+  padding: 3px 0;
+}
+
+/* Price Details Summary */
+.priceBreakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.priceRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #381E10;
+}
+
+.priceTotalRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 900;
+  color: #1F0E06;
+  padding-top: 8px;
+  border-top: 1.5px dashed #E2DCD8;
+  margin-top: 4px;
+}
+
+/* Invoice Section inside Bill Breakdown */
+.invoiceSection {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1.5px dashed #E2DCD8;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.invoiceRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #5C3317;
+  padding: 2px 0;
+}
+
+.invoiceValue {
+  font-weight: 700;
+  color: #2A1F1D;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 60%;
+}
+
+.invoiceBtn {
+  background: var(--color-brand-yellow, #FFC700);
+  color: var(--color-chocolate, #381E10);
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-transform: uppercase;
+  width: 100%;
+  margin-top: 8px;
+  box-shadow: 0 2px 8px rgba(255, 199, 0, 0.25);
+}
+
+.invoiceBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(255, 199, 0, 0.35);
+  filter: brightness(0.96);
+}
+

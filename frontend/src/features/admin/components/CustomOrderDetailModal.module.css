@@ -1,0 +1,801 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(43, 27, 18, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.modal {
+  background-color: #FFFFFF;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 740px;
+  max-height: 90vh;
+  box-shadow: 0 25px 60px -15px rgba(56, 30, 16, 0.25), 0 0 1px 1px rgba(255, 255, 255, 0.8) inset;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modalSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: var(--font-family-body, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  border: 1px solid rgba(56, 30, 16, 0.1);
+}
+
+.dragHandle {
+  display: none;
+}
+
+/* Modal Header */
+.header {
+  padding: 22px 26px 18px 26px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAF8F5 100%);
+  border-bottom: 1px solid #EFEAE4;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.headerTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.headerTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.orderIdBadge {
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 800;
+  color: #381E10;
+  letter-spacing: -0.01em;
+  background-color: #FAF7F2;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid #EAE4DC;
+  font-family: inherit;
+  box-sizing: border-box;
+  line-height: 1;
+}
+
+.typeBadge {
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #6B7280;
+  background-color: #F8F9FA;
+  padding: 0 10px;
+  border-radius: 6px;
+  border: 1px solid #E5E7EB;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-sizing: border-box;
+  line-height: 1;
+}
+
+.closeBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid #E5E7EB;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #6B7280;
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+}
+
+.closeBtn:hover {
+  background-color: #FEE2E2;
+  border-color: #FCA5A5;
+  color: #DC2626;
+  transform: rotate(90deg);
+}
+
+.headerMetaRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+  color: #786960;
+  font-weight: 500;
+}
+
+.metaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.metaIcon {
+  color: #9C887B;
+  flex-shrink: 0;
+}
+
+.metaDivider {
+  color: #D1C7BD;
+  font-weight: 700;
+}
+
+/* Modal Scrollable Content Area */
+.content {
+  padding: 22px 26px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-sizing: border-box;
+}
+
+/* Custom Slim Scrollbar */
+.content::-webkit-scrollbar {
+  width: 6px;
+}
+.content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.content::-webkit-scrollbar-thumb {
+  background: #E5DDD4;
+  border-radius: 10px;
+}
+.content::-webkit-scrollbar-thumb:hover {
+  background: #C8BDB0;
+}
+
+.budgetBadge {
+  display: inline-flex;
+  align-items: center;
+  background-color: #ECFDF5;
+  color: #047857;
+  border: 1px solid #A7F3D0;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 6px;
+  letter-spacing: 0.2px;
+}
+
+.heroMainRow {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+}
+
+.heroThumbWrapper {
+  width: 170px;
+  min-width: 170px;
+  height: 170px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #EAE4DC;
+  position: relative;
+  background-color: #FAF7F2;
+  box-shadow: 0 2px 8px rgba(56, 30, 16, 0.05);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.heroThumbWrapper:hover {
+  border-color: var(--admin-pink, #F20D6F);
+  box-shadow: 0 4px 16px rgba(242, 13, 111, 0.15);
+}
+
+.heroThumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.heroThumbWrapper:hover .heroThumb {
+  transform: scale(1.05);
+}
+
+.heroThumbBadge {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
+  background: rgba(45, 24, 16, 0.82);
+  backdrop-filter: blur(4px);
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: none;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.heroThumbBadge:hover {
+  background: rgba(45, 24, 16, 0.98);
+  color: #FFFFFF;
+}
+
+.heroDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.heroSpecsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.specPill {
+  background-color: #FAF8F5;
+  border: 1px solid #EFEAE4;
+  border-radius: 9px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.specPill:hover {
+  border-color: #DFD7CC;
+  background-color: #F8F5F1;
+}
+
+.specLabelRow {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.specIcon {
+  color: #9C887B;
+  flex-shrink: 0;
+}
+
+.specLabel {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #524037;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.specValue {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #381E10;
+  line-height: 1.2;
+}
+
+/* Customer Notes / Requirements Callout */
+.heroNotesBox {
+  background-color: #FAF8F5;
+  border: 1px solid #EFEAE4;
+  border-left: 3px solid var(--admin-pink, #F20D6F);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.heroNotesHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #524037;
+}
+
+.heroNotesText {
+  font-size: 13px;
+  color: #381E10;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Dynamic Custom Form Specifications */
+.customSpecsContainer {
+  background-color: #FAF8F5;
+  border: 1px solid #EFEAE4;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.customSpecsHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #524037;
+}
+
+.customSpecsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 8px;
+}
+
+.customSpecItem {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E0D8;
+  border-radius: 6px;
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.customSpecKey {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #524037;
+  letter-spacing: 0.3px;
+}
+
+.customSpecVal {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #381E10;
+  word-break: break-word;
+}
+
+/* Customer Card */
+.cardSection {
+  background-color: #FFFFFF;
+  border: 1px solid #EBE6DF;
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 1px 4px rgba(56, 30, 16, 0.02);
+}
+
+.cardSectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardSectionTitle {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #524037;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.customerBox {
+  background-color: #FAF8F5;
+  border: 1px solid #EFEAE4;
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.customerProfile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  flex: 1;
+}
+
+.customerAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  border: 2px solid #FFFFFF;
+}
+
+.customerMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.customerName {
+  font-size: 15px;
+  font-weight: 700;
+  color: #381E10;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.customerContacts {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.contactChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #4B5563;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.contactChip:hover {
+  border-color: #D1D5DB;
+  color: var(--admin-pink, #F20D6F);
+  background-color: #FFFDFD;
+}
+
+.contactIcon {
+  color: #9CA3AF;
+  flex-shrink: 0;
+}
+
+.contactChip:hover .contactIcon {
+  color: var(--admin-pink, #F20D6F);
+}
+
+.customerActionWrapper {
+  flex-shrink: 0;
+}
+
+.whatsAppPillBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 8px;
+  background-color: #ECFDF5;
+  color: #047857;
+  border: 1px solid #A7F3D0;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(16, 185, 129, 0.08);
+}
+
+.whatsAppPillBtn:hover {
+  background-color: #D1FAE5;
+  border-color: #6EE7B7;
+  box-shadow: 0 2px 5px rgba(16, 185, 129, 0.16);
+  transform: translateY(-1px);
+}
+
+/* Instructions / Description Box */
+.instructionsBox {
+  background-color: #FAF8F5;
+  border: 1px solid #EFEAE4;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: #4B5563;
+  line-height: 1.55;
+  font-style: normal;
+}
+
+.instructionsEmpty {
+  color: #9CA3AF;
+  font-style: italic;
+}
+
+/* Order Pricing Strip */
+.pricingStrip {
+  background: linear-gradient(135deg, #FFFDFB 0%, #FBF9F7 100%);
+  border: 1px solid #EBE6DF;
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.pricingMetaGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pricingLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: #524037;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pricingAmount {
+  font-size: 22px;
+  font-weight: 800;
+  color: #381E10;
+  letter-spacing: -0.02em;
+}
+
+.pricingBadge {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid;
+}
+
+/* Modal Footer */
+.footer {
+  padding: 14px 26px;
+  background-color: #FFFFFF;
+  border-top: 1px solid #EFEAE4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.footerLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #524037;
+}
+
+.footerRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btnSecondary {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid #D1D5DB;
+  background-color: #FFFFFF;
+  color: #374151;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btnSecondary:hover {
+  background-color: #F9FAFB;
+  border-color: #9CA3AF;
+}
+
+.btnWhatsApp {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  background-color: #25D366;
+  color: #FFFFFF;
+  border: none;
+  font-size: 12.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  box-shadow: 0 2px 6px rgba(37, 211, 102, 0.25);
+}
+
+.btnWhatsApp:hover {
+  background-color: #20BD5A;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Mobile Drawer */
+@media (max-width: 640px) {
+  .overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .modal {
+    max-width: 100%;
+    border-radius: 20px 20px 0 0;
+    max-height: 92vh;
+    animation: drawerSlideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .dragHandle {
+    display: block;
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background-color: #D1D5DB;
+    margin: 8px auto 0 auto;
+  }
+
+  .header {
+    padding: 14px 18px 12px 18px;
+    gap: 8px;
+  }
+
+  .headerTitleGroup {
+    gap: 8px;
+  }
+
+  .orderIdBadge {
+    height: 28px;
+    font-size: 13.5px;
+    padding: 0 9px;
+  }
+
+  .typeBadge {
+    height: 28px;
+    font-size: 10px;
+    padding: 0 8px;
+  }
+
+  .headerMetaRow {
+    font-size: 11.5px;
+    gap: 6px;
+  }
+
+  .content {
+    padding: 16px 18px;
+    gap: 14px;
+  }
+
+  .cardSection {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .heroMainRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .heroThumbWrapper {
+    width: 100%;
+    height: 200px;
+  }
+
+  .heroSpecsGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .specPill {
+    padding: 8px 10px;
+  }
+
+  .customSpecsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .customerBox {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px 14px;
+  }
+
+  .customerProfile {
+    align-items: flex-start;
+  }
+
+  .customerActionWrapper {
+    width: 100%;
+  }
+
+  .whatsAppPillBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .footer {
+    padding: 12px 18px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .footerRight {
+    width: 100%;
+    display: flex;
+  }
+
+  .btnSecondary, .btnWhatsApp {
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+@keyframes drawerSlideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}

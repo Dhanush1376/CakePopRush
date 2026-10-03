@@ -1,0 +1,62 @@
+.container {
+  display: inline-flex;
+  align-items: center;
+  background-color: #FFFFFF;
+  border-radius: var(--radius-full);
+  padding: 3px 6px;
+  color: #111827;
+  border: 1px solid #D1D5DB;
+  gap: 4px;
+}
+
+.stepBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #F3F4F6;
+  border: 1px solid #E5E7EB;
+  color: #111827;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.stepBtn:hover:not(:disabled) {
+  background: #E5E7EB;
+  border-color: #D1D5DB;
+  color: #000000;
+}
+
+.stepBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  background: transparent;
+  border-color: transparent;
+}
+
+.input {
+  width: 1.8rem;
+  min-width: 1.4rem;
+  text-align: center;
+  font-family: var(--font-family-body);
+  font-weight: 800;
+  font-size: 13px;
+  color: #111827;
+  background: transparent;
+  border: none;
+  -moz-appearance: textfield;
+  padding: 0;
+}
+
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input:focus {
+  outline: none;
+}

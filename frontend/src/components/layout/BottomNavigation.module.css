@@ -1,0 +1,113 @@
+.container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: var(--z-header, 90);
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(142, 122, 110, 0.15);
+  box-shadow: 0 -4px 24px rgba(43, 33, 24, 0.05);
+  padding: 6px 12px;
+  padding-bottom: max(10px, env(safe-area-inset-bottom, 10px));
+}
+
+@media (min-width: 768px) {
+  .container {
+    display: none;
+  }
+}
+
+.nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 52px;
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.navItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  text-decoration: none;
+  gap: 4px;
+  padding: 4px 0;
+  position: relative;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  color: #433024;
+  transition: all 0.2s ease;
+}
+
+.navItem:active {
+  transform: scale(0.92);
+}
+
+.iconContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: #433024;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.label {
+  font-family: var(--font-family-body, system-ui, sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #433024;
+  transition: all 0.2s ease;
+  line-height: 1.2;
+}
+
+/* Hover state */
+.navItem:hover:not(.active) .iconContainer,
+.navItem:hover:not(.active) .label {
+  color: #1A0D06;
+}
+
+/* Active Minimal State - Sleek, vibrant, and razor sharp */
+.navItem.active .iconContainer {
+  color: #F20D6F;
+  transform: translateY(-1px);
+}
+
+.navItem.active .label {
+  color: #F20D6F;
+  font-weight: 700;
+}
+
+/* Subtle minimal dot indicator under active item */
+.activeDot {
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #F20D6F;
+  pointer-events: none;
+}
+
+.badgeWrapper {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  pointer-events: none;
+  transform: scale(0.75);
+}

@@ -1,0 +1,200 @@
+import React, { useEffect, useState } from 'react'
+import { useParams, Link, useNavigate } from 'react-router-dom'
+import { ChevronRight, ShoppingBag, Tag, Info } from 'lucide-react'
+import { productData } from '@/features/products'
+import { reviewData } from '@/features/reviews'
+import { Product } from '@/types/product'
+import { Review } from '@/types/review'
+
+import styles from './ProductDetailPage.module.css'
+import { Container } from '@/components/layout/Container'
+import { Accordion } from '@/components/ui/Accordion'
+import { usePDPState } from '@/features/products/hooks/usePDPState'
+import { HomeFrosting } from '../home/components/HomeFrosting'
+
+import {
+  PDPSkeleton,
+  ProductGallery,
+  ProductInfo,
+  CouponsSection,
+  PurchaseActions,
+  StickyMobileCTA,
+  IngredientsAndNutrition,
+  RelatedProducts,
+  ConfigurationRenderer
+} from '@/features/products'
+
+import { ReviewsSection } from '@/features/reviews'
+
+export function ProductDetailPage() {
+  const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
+
+  const [product, setProduct] = useState<Product | null>(null)
+  const [relatedProds, setRelatedProds] = useState<Product[]>([])
+  const [reviews, setReviews] = useState<Review[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // Use centralized state for PDP logic
+  const { state, actions } = usePDPState(product || undefined)
+
+  useEffect(() => {
+    // Reset state for new ID
+    setProduct(null)
+    setError(null)
+
+    if (!id) return;
+    productData.getProducts().then(products => {
+      const found = products.find(p => p.slug === id || p.id === id)
+      if (found) {
+        setProduct(found)
+        document.title = `${found.name} | CakePopRush`
+        
+        // Fetch related info
+        Promise.all([
+          productData.getRelatedProducts(found.id),
+          reviewData.getReviewsByProductId(found.id)
+        ]).then(([related, revs]) => {
+          setRelatedProds(related)
+          setReviews(revs)
+        }).finally(() => {
+          setIsLoading(false)
+        })
+      } else {
+        setError("We couldn't find the sweet treat you're looking for.")
+        setIsLoading(false)
+      }
+    }).catch(err => {
+      console.error('Failed to load product:', err)
+      setError("We encountered a problem loading this product.")
+      setIsLoading(false)
+    })
+
+    // Cleanup scroll to top on mount
+    window.scrollTo(0, 0)
+  }, [id])
+
+  if (isLoading) return <PDPSkeleton />
+  if (error || !product) {
+    return (
+      <Container className={styles.errorContainer}>
+        <div style={{ textAlign: 'center', padding: '4rem' }}>
+          <h2>Product Not Found</h2>
+          <p>{error || "Something went a little sideways."}</p>
+          <Link to="/shop" style={{ color: 'var(--color-brand-pink)', textDecoration: 'underline' }}>Return to Shop</Link>
+        </div>
+      </Container>
+    )
+  }
+
+  const isOutOfStock = false // Hardcoded for now, could be in product data
+
+  return (
+    <div className={styles.productPage}>
+      <HomeFrosting position="leftSideTurquoise" style={{ top: '15%', zIndex: 0 }} />
+      <HomeFrosting position="rightSidePink" style={{ top: '55%', zIndex: 0 }} />
+      <HomeFrosting position="leftSide" style={{ top: '95%', zIndex: 0 }} />
+
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <Container>
+        {/* Breadcrumbs */}
+        <nav className={styles.breadcrumbs} aria-label="Breadcrumb">
+          <Link to="/">Home</Link>
+          <ChevronRight size={14} />
+          <Link to="/shop">Shop</Link>
+          <ChevronRight size={14} />
+          <Link to={`/shop?category=${product.categoryName}`}>{product.categoryName}</Link>
+          <ChevronRight size={14} />
+          <span aria-current="page">{product.name}</span>
+        </nav>
+
+        <div className={styles.productGrid}>
+          {/* LEFT: Gallery */}
+          <div className={styles.galleryColumn}>
+            <ProductGallery
+              images={product.images}
+              productName={product.name}
+              isBestseller={true}
+              isEggless={true}
+              isWishlisted={state.isWishlisted}
+              onToggleWishlist={actions.toggleWishlist}
+            />
+          </div>
+
+          {/* RIGHT: Info & Customization */}
+          <div className={styles.infoColumn}>
+            <div className={styles.stickyPanel}>
+              {/* Header Info */}
+              <ProductInfo
+                product={product}
+                calculatedTotal={state.calculatedTotal}
+                mascotMessage={state.mascotMessage}
+              />
+
+              <CouponsSection currentTotal={state.calculatedTotal} />
+
+              <div className={styles.customizationArea}>
+                <ConfigurationRenderer 
+                  product={product} 
+                  state={state} 
+                  actions={actions} 
+                />
+
+                <Accordion
+                  title="Ingredients & Nutrition"
+                  icon={<Info size={14} />}
+                  isDefaultOpen={true}
+                  hideStatus={true}
+                >
+                  <IngredientsAndNutrition
+                    ingredients={product.ingredients}
+                    allergens={product.allergens}
+                    dietaryInfo={product.dietaryInfo}
+                    nutrition={product.nutrition}
+                  />
+                </Accordion>
+
+              </div>
+
+
+
+
+              <div className={styles.purchaseActionsWrapper}>
+                <PurchaseActions
+                  onAddToCart={actions.addToCart}
+                  onToggleSave={actions.toggleWishlist}
+                  isSaved={state.isWishlisted}
+                  isOutOfStock={isOutOfStock}
+                  onCustomize={() => navigate(`/custom-orders?productId=${encodeURIComponent(product.id)}`)}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </Container>
+
+
+
+      <ReviewsSection
+        rating={product.rating}
+        reviewCount={product.reviewCount}
+        reviews={reviews}
+        productSlug={product.slug}
+      />
+
+
+      <RelatedProducts products={relatedProds} />
+
+      {/* Temporarily hidden per user request */}
+      {false && (
+        <StickyMobileCTA
+          totalPrice={state.calculatedTotal}
+          onAddToCart={actions.addToCart}
+          onBuyNow={() => { }}
+        />
+      )}
+      </div>
+    </div>
+  )
+}

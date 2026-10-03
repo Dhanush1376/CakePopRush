@@ -1,0 +1,97 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-4) 0 var(--space-10);
+  width: 100%;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+.emptyHero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 480px;
+  margin: 0 auto var(--space-6);
+}
+
+.illustrationWrapper {
+  margin-bottom: var(--space-3);
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.textContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--space-5);
+  width: 100%;
+}
+
+.title {
+  font-family: 'Urbanist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--color-chocolate, #381E10);
+  margin: 0 0 6px 0;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 28px;
+  }
+}
+
+.subtitle {
+  font-family: 'Urbanist', var(--font-family-body), sans-serif;
+  font-size: 14px;
+  color: #7A6B63;
+  margin: 0;
+  line-height: 1.5;
+  text-align: center;
+  max-width: 440px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* PRIMARY CTA - Underlined text link with Urbanist font */
+.primaryAction {
+  background: none;
+  border: none;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-chocolate, #381E10);
+  cursor: pointer;
+  border-bottom: 2px solid var(--color-chocolate, #381E10);
+  padding-bottom: 2px;
+  transition: all var(--duration-fast, 0.2s);
+  text-decoration: none;
+}
+
+.primaryAction span {
+  font-family: 'Urbanist', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  transition: all var(--duration-fast, 0.2s);
+}
+
+.primaryAction:hover {
+  transform: translateY(-2px);
+  color: var(--color-brand-pink);
+  border-bottom-color: var(--color-brand-pink);
+}

@@ -29,14 +29,22 @@ codebase_tree.txt
 *.sln
 *.sw?
 
-# Security
+# Security & Environment
 .env
+.env.*
+!.env.example
 .env.local
+.env.development
 .env.development.local
+.env.test
 .env.test.local
+.env.production
 .env.production.local
 
-# Build & coverage
+# Build, Output & coverage
+build/
+dist/
+dist-ssr/
 coverage/
 .cache/
 *.tsbuildinfo

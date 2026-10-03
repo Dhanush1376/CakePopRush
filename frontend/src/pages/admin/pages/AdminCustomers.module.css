@@ -1,0 +1,1476 @@
+/* ═══════════════════════════════════════════════════════
+   CakePopRush Admin Customers — Inspired by Custom Orders & Admin Design System
+   ═══════════════════════════════════════════════════════ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* Header & Live Subtitle Badges */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-top: 6px;
+  padding-left: 4px;
+}
+
+.title {
+  font-family: var(--font-family-display, 'Outfit', sans-serif);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--admin-brown, #381E10);
+  margin-bottom: 4px;
+  letter-spacing: -0.3px;
+}
+
+.subtitle {
+  color: var(--color-text-muted, #524037);
+  font-size: 14px;
+}
+
+.statsSubtitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--admin-brown, #381E10);
+  margin-top: 4px;
+}
+
+.statItemTotal {
+  color: var(--admin-brown, #381E10);
+  font-weight: 700;
+}
+
+.statDotBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
+}
+
+.dotEmerald {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #10B981;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.dotAmber {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #F59E0B;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.dotPink {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--admin-pink, #F20D6F);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.statItemActive {
+  color: #059669;
+  font-weight: 600;
+}
+
+.statItemPending {
+  color: #D97706;
+  font-weight: 600;
+}
+
+.statItemCompleted {
+  color: var(--admin-pink, #F20D6F);
+  font-weight: 600;
+}
+
+/* Sticky Toolbar & Actions Bar */
+.stickyWrapper {
+  position: sticky;
+  top: -1.5rem;
+  z-index: 25;
+  background-color: rgba(248, 249, 250, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 8px 2rem 10px 2rem;
+  margin: 0 -2rem;
+  border-bottom: 1px solid rgba(56, 30, 16, 0.06);
+}
+
+/* Bulk Toolbar Row */
+.bulkToolbarRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: #FFF0F5;
+  border: 1px solid var(--admin-pink, #F20D6F);
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.btnDanger {
+  height: 38px;
+  background-color: #EF4444;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 6px;
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.15s ease;
+}
+
+.btnDanger:hover {
+  background-color: #DC2626;
+}
+
+.hideMobile {
+  display: inline;
+}
+
+.showMobileInline {
+  display: none;
+}
+
+/* Search & Actions Bar */
+.searchActionsBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.searchWrapper {
+  flex: 1;
+  min-width: 0;
+  height: 42px;
+  background-color: var(--color-white, #FFFFFF);
+  border: 1px solid var(--color-border, #E8DFD3);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 8px;
+  box-shadow: 0 1px 2px rgba(56, 30, 16, 0.04);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.searchWrapper:hover {
+  border-color: rgba(242, 13, 111, 0.4);
+}
+
+.searchWrapper:focus-within {
+  border-color: var(--admin-pink, #F20D6F);
+  box-shadow: 0 0 0 3px rgba(242, 13, 111, 0.12);
+}
+
+.searchIcon {
+  color: var(--color-text-muted, #524037);
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.searchWrapper:focus-within .searchIcon {
+  color: var(--admin-pink, #F20D6F);
+}
+
+.searchInput {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  min-width: 0;
+  font-size: 13.5px;
+  color: var(--admin-brown, #381E10);
+  font-weight: 500;
+}
+
+.searchInput::placeholder {
+  color: var(--color-text-muted, #524037);
+  font-size: 13px;
+}
+
+.clearSearchBtn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--color-text-muted, #524037);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 50%;
+  transition: all 0.15s ease;
+}
+
+.clearSearchBtn:hover {
+  color: var(--admin-pink, #F20D6F);
+  background-color: #FFF0F5;
+}
+
+/* Action Controls Group */
+.actionControlsGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.filterBtn, .exportBtn {
+  height: 42px;
+  padding: 0 14px;
+  border: 1px solid var(--color-border, #E8DFD3);
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  color: var(--admin-brown, #381E10);
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+  box-sizing: border-box;
+  box-shadow: 0 1px 2px rgba(56, 30, 16, 0.04);
+}
+
+.filterBtn:hover, .exportBtn:hover {
+  background-color: #FFF0F5;
+  border-color: var(--admin-pink, #F20D6F);
+  color: var(--admin-pink, #F20D6F);
+}
+
+.filterBtnActive {
+  background-color: var(--admin-pink, #F20D6F) !important;
+  color: #FFFFFF !important;
+  border-color: var(--admin-pink, #F20D6F) !important;
+  box-shadow: 0 2px 8px rgba(242, 13, 111, 0.25);
+}
+
+.filterBadge {
+  background: var(--admin-pink, #F20D6F);
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 1px 6px;
+  margin-left: 2px;
+}
+
+.filterBtnActive .filterBadge {
+  background: #FFFFFF;
+  color: var(--admin-pink, #F20D6F);
+}
+
+.viewToggleWrapper {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Active Filter Chips Row */
+.activeFilterChipsRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.activeChipsLabel {
+  color: var(--color-text-muted, #524037);
+  font-weight: 500;
+}
+
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #FFF0F5;
+  border: 1px solid rgba(242, 13, 111, 0.2);
+  color: var(--admin-pink, #F20D6F);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.filterChip button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--admin-pink, #F20D6F);
+  display: flex;
+  align-items: center;
+}
+
+.clearAllChipsBtn {
+  background: none;
+  border: none;
+  color: var(--color-text-muted, #524037);
+  font-size: 11px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.clearAllChipsBtn:hover {
+  color: var(--admin-pink, #F20D6F);
+}
+
+/* Table Card & Desktop Table */
+.tableCard {
+  background-color: var(--color-white, #FFFFFF);
+  border-radius: 14px;
+  border: 1px solid var(--color-border, #E8DFD3);
+  box-shadow: 0 2px 12px rgba(56, 30, 16, 0.04);
+  overflow: hidden;
+}
+
+.desktopOnlyTable {
+  display: block;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 920px;
+}
+
+.table thead {
+  background-color: #FFFFFF;
+}
+
+.table th {
+  text-align: left;
+  padding: 14px 18px;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #7A6254;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  border-bottom: 1.5px solid var(--color-border, #E8DFD3);
+  white-space: nowrap;
+  background-color: #FFFFFF;
+}
+
+.checkboxCell {
+  width: 44px;
+  padding-left: 18px !important;
+  padding-right: 0 !important;
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--admin-pink, #F20D6F);
+}
+
+.tableRow {
+  background-color: #FFFFFF;
+  transition: background-color 0.15s ease;
+  cursor: pointer;
+}
+
+.tableRow:hover {
+  background-color: #FFF5F8 !important;
+}
+
+.table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(56, 30, 16, 0.07);
+  vertical-align: middle;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Customer Cell */
+.customerCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13.5px;
+  font-weight: 700;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(56, 30, 16, 0.08);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.customerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.customerName {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--admin-brown, #381E10);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+
+.customerContact {
+  font-size: 12px;
+  color: var(--color-text-muted, #524037);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+
+.customerContactRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.customerEmailLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  color: var(--color-text-muted, #524037);
+  text-decoration: none;
+  max-width: 170px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s ease;
+}
+
+.customerEmailLink:hover {
+  color: var(--admin-pink, #F20D6F);
+  text-decoration: underline;
+}
+
+.customerPhoneLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  color: var(--color-text-muted, #524037);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.15s ease;
+}
+
+.customerPhoneLink:hover {
+  color: #2563EB;
+  text-decoration: underline;
+}
+
+/* Location Cell */
+.locationCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  color: var(--admin-brown, #381E10);
+  font-weight: 500;
+}
+
+.locationIcon {
+  color: var(--color-text-muted, #524037);
+  flex-shrink: 0;
+}
+
+/* Orders Metric Badge */
+.ordersCountWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.qtyBadge {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.qtyNumber {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--admin-brown, #381E10);
+}
+
+.qtyUnit {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-muted, #524037);
+}
+
+.customOrderPill {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background-color: #FFF0F5;
+  color: var(--admin-pink, #F20D6F);
+  border: 1px solid rgba(242, 13, 111, 0.2);
+  display: inline-block;
+  width: fit-content;
+}
+
+/* Spent Amount */
+.spentAmount {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--admin-brown, #381E10);
+}
+
+/* Loyalty Tier Pill */
+.tierBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+
+/* Last Active Date & Time */
+.lastActiveWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lastActiveDate {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--admin-brown, #381E10);
+}
+
+.lastActiveTime {
+  font-size: 11px;
+  color: var(--color-text-muted, #524037);
+}
+
+/* Status Pill Badge */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  border: 1px solid;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Actions Cell & Buttons */
+.actionsCell {
+  white-space: nowrap;
+  width: 100px;
+  vertical-align: middle;
+}
+
+.actionsGroup {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.actionBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background-color: #FFFFFF;
+  border: 1px solid var(--color-border, #E8DFD3);
+  color: var(--admin-brown, #381E10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(56, 30, 16, 0.04);
+}
+
+.actionBtn:hover {
+  background-color: #FFF0F5;
+  border-color: var(--admin-pink, #F20D6F);
+  color: var(--admin-pink, #F20D6F);
+}
+
+.actionBtnWhatsApp {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background-color: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  color: #059669;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(56, 30, 16, 0.04);
+}
+
+.actionBtnWhatsApp:hover {
+  background-color: #D1FAE5;
+  border-color: #34D399;
+  color: #047857;
+  transform: translateY(-1px);
+}
+
+.actionBtnCall {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background-color: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  color: #2563EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(56, 30, 16, 0.04);
+}
+
+.actionBtnCall:hover {
+  background-color: #DBEAFE;
+  border-color: #60A5FA;
+  color: #1D4ED8;
+  transform: translateY(-1px);
+}
+
+.actionBtnEmail {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background-color: #FFF0F5;
+  border: 1px solid rgba(242, 13, 111, 0.22);
+  color: var(--admin-pink, #F20D6F);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(56, 30, 16, 0.04);
+}
+
+.actionBtnEmail:hover {
+  background-color: #FFE4EE;
+  border-color: var(--admin-pink, #F20D6F);
+  color: #D8005A;
+  transform: translateY(-1px);
+}
+
+.actionBtnDelete {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background-color: #FEF2F2;
+  border: 1.5px solid #FECACA;
+  color: #DC2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(220, 38, 38, 0.08);
+}
+
+.actionBtnDelete:hover {
+  background-color: #FEE2E2;
+  border-color: #EF4444;
+  color: #B91C1C;
+  transform: translateY(-1px);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  background-color: #FFFFFF;
+  border-top: 1px solid var(--color-border, #E8DFD3);
+}
+
+.paginationCard {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  border: 1px solid var(--color-border, #E8DFD3);
+  box-shadow: 0 4px 16px rgba(56, 30, 16, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
+  padding: 14px 20px;
+  margin-top: 16px;
+  margin-bottom: 24px;
+}
+
+.paginationText {
+  font-size: 13px;
+  color: var(--color-text-muted, #524037);
+  font-weight: 500;
+}
+
+.pageControls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pageBtn {
+  min-width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid var(--color-border, #E8DFD3);
+  background-color: #FFFFFF;
+  color: var(--admin-brown, #381E10);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0 8px;
+  transition: all 0.15s ease;
+}
+
+.pageBtn:hover:not(:disabled):not(.active) {
+  background-color: #F8F9FA;
+  border-color: var(--admin-brown, #381E10);
+  color: var(--admin-brown, #381E10);
+}
+
+.pageBtn.active {
+  background-color: var(--admin-pink, #F20D6F);
+  color: #FFFFFF;
+  border-color: var(--admin-pink, #F20D6F);
+  font-weight: 600;
+}
+
+.pageBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background-color: #F8F9FA;
+  color: #A08D80;
+  border-color: #E8DFD3;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Grid View & Mobile Cards (Inspired by Custom Orders)
+   ═══════════════════════════════════════════════════════ */
+
+.itemsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+.hideOnDesktop {
+  display: none;
+}
+
+.customerCard {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  cursor: pointer;
+}
+
+.customerCard:hover,
+.customerCard:active,
+.customerCard:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-color: #CBD5E1;
+  outline: none;
+}
+
+/* Card Header Row */
+.cardHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.cardCustomerInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.cardAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(56, 30, 16, 0.08);
+}
+
+.cardCustomerMeta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.cardCustomerName {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0F172A;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cardCustomerSubText {
+  font-size: 12px;
+  color: #475569;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+/* Location Badge on Top Right of Customer Card */
+.cardLocationBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #F8FAFC;
+  border: 1.5px solid #CBD5E1;
+  color: #0F172A;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+  flex-shrink: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.cardLocationPin {
+  color: #E11D48;
+  flex-shrink: 0;
+}
+
+/* Card Sub Row (Quick Contact Buttons & Joined Date - strictly in 1 line) */
+.cardSubRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid #E2E8F0;
+  color: #475569;
+  gap: 6px;
+  flex-wrap: nowrap;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cardContactIconGroup {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.subRowActionBtn {
+  height: 26px;
+  padding: 0 7px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1.5px solid;
+  transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  white-space: nowrap;
+  letter-spacing: 0.1px;
+  flex-shrink: 0;
+}
+
+.cardDateText {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748B;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+@media (max-width: 480px) {
+  .cardSubRow {
+    gap: 4px;
+  }
+  .cardContactIconGroup {
+    gap: 4px;
+  }
+  .subRowActionBtn {
+    height: 25px;
+    padding: 0 6px;
+    font-size: 10.5px;
+    gap: 3px;
+  }
+  .cardDateText {
+    font-size: 10.5px;
+    gap: 3px;
+  }
+}
+
+.subRowBtnWa {
+  background-color: #ECFDF5;
+  color: #047857;
+  border-color: #10B981;
+}
+
+.subRowBtnWa:hover {
+  background-color: #059669;
+  color: #FFFFFF;
+  border-color: #047857;
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+}
+
+.subRowBtnWa:active {
+  transform: translateY(0) scale(0.96);
+  box-shadow: 0 1px 2px rgba(16, 185, 129, 0.2);
+}
+
+.subRowBtnCall {
+  background-color: #EFF6FF;
+  color: #1D4ED8;
+  border-color: #3B82F6;
+}
+
+.subRowBtnCall:hover {
+  background-color: #2563EB;
+  color: #FFFFFF;
+  border-color: #1D4ED8;
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+}
+
+.subRowBtnCall:active {
+  transform: translateY(0) scale(0.96);
+  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.2);
+}
+
+.subRowBtnEmail {
+  background-color: #FFF1F2;
+  color: #BE123C;
+  border-color: #FB7185;
+}
+
+.subRowBtnEmail:hover {
+  background-color: #E11D48;
+  color: #FFFFFF;
+  border-color: #BE123C;
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 12px rgba(225, 29, 72, 0.35);
+}
+
+.subRowBtnEmail:active {
+  transform: translateY(0) scale(0.96);
+  box-shadow: 0 1px 2px rgba(225, 29, 72, 0.2);
+}
+
+/* Faded disabled contact action button when customer details are missing */
+.btnFaded,
+.subRowActionBtn:disabled,
+.actionBtnWhatsApp:disabled,
+.actionBtnCall:disabled,
+.actionBtnEmail:disabled {
+  opacity: 0.26 !important;
+  cursor: not-allowed !important;
+  filter: grayscale(0.6) !important;
+  transform: none !important;
+  box-shadow: none !important;
+  pointer-events: none !important;
+}
+
+.cardContactLinks {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  min-width: 0;
+  flex: 1;
+}
+
+.cardContactLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #0F172A;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s ease;
+}
+
+.cardContactLink:hover {
+  color: var(--admin-pink, #F20D6F);
+  text-decoration: underline;
+}
+
+.contactLinkIcon {
+  flex-shrink: 0;
+  color: #475569;
+}
+
+.cardContactLink:hover .contactLinkIcon {
+  color: var(--admin-pink, #F20D6F);
+}
+
+.cardContactMuted {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.cardContactText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #475569;
+  max-width: 65%;
+  font-weight: 500;
+}
+
+.cardDateText {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  flex-shrink: 0;
+}
+
+/* Card Metrics Box (Scope Box Equivalent - High Contrast) */
+.cardMetricsBox {
+  background-color: #F8FAFC;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  text-align: center;
+}
+
+.metricItem {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.metricLabel {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #475569;
+}
+
+.metricValue {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0F172A;
+  font-family: var(--font-family-display, 'Outfit', sans-serif);
+}
+
+/* Quick Contact Action Bar - High Contrast Hex Tested */
+.cardContactBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding-top: 2px;
+}
+
+.contactActionBtn {
+  flex: 1;
+  min-width: 0;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: all 0.16s ease;
+  white-space: nowrap;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.btnWhatsApp {
+  background-color: #ECFDF5;
+  color: #047857;
+  border-color: #10B981;
+}
+
+.btnWhatsApp:hover {
+  background-color: #D1FAE5;
+  border-color: #059669;
+  color: #065F46;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(16, 185, 129, 0.25);
+}
+
+.btnCall {
+  background-color: #EFF6FF;
+  color: #1D4ED8;
+  border-color: #3B82F6;
+}
+
+.btnCall:hover {
+  background-color: #DBEAFE;
+  border-color: #2563EB;
+  color: #1E40AF;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(59, 130, 246, 0.25);
+}
+
+.btnEmail {
+  background-color: #FFF0F5;
+  color: #BE123C;
+  border-color: #FB7185;
+}
+
+.btnEmail:hover {
+  background-color: #FFE4EE;
+  border-color: #F43F5E;
+  color: #9F1239;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(244, 63, 94, 0.25);
+}
+
+.btnCopy {
+  background-color: #F8FAFC;
+  color: #0F172A;
+  border-color: #94A3B8;
+}
+
+.btnCopy:hover {
+  background-color: #F1F5F9;
+  border-color: #64748B;
+  color: #020617;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+.btnSms {
+  background-color: #F5F3FF;
+  color: #6D28D9;
+  border-color: #C4B5FD;
+}
+
+.btnSms:hover {
+  background-color: #EDE9FE;
+  border-color: #8B5CF6;
+  color: #5B21B6;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(139, 92, 246, 0.25);
+}
+
+/* Card Action Toolbar */
+.cardActionToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.cardActionIconsRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.cardActionBtnPrimary {
+  flex: 1;
+  height: 38px;
+  border-radius: 8px;
+  background-color: var(--admin-pink, #F20D6F);
+  border: none;
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  box-shadow: 0 2px 6px rgba(242, 13, 111, 0.25);
+}
+
+.cardActionBtnPrimary:hover {
+  background-color: #D8005A;
+  box-shadow: 0 4px 12px rgba(242, 13, 111, 0.35);
+  transform: translateY(-1px);
+}
+
+.cardDeleteBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background-color: #FEF2F2;
+  border: 1.5px solid #FECACA;
+  color: #DC2626;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  box-shadow: 0 1px 3px rgba(220, 38, 38, 0.08);
+  flex-shrink: 0;
+}
+
+.cardDeleteBtn:hover {
+  background-color: #FEE2E2;
+  border-color: #EF4444;
+  color: #B91C1C;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(220, 38, 38, 0.16);
+}
+
+/* Empty State Container */
+.emptyStateContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+}
+
+.emptyStateIconRing {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: #FFF0F5;
+  color: var(--admin-pink, #F20D6F);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  border: 1px solid rgba(242, 13, 111, 0.16);
+}
+
+.emptyStateTitle {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--admin-brown, #381E10);
+  margin-bottom: 6px;
+}
+
+.emptyStateSubtext {
+  font-size: 13px;
+  color: var(--color-text-muted, #524037);
+  max-width: 360px;
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+.emptyStateClearBtn {
+  height: 36px;
+  padding: 0 16px;
+  background-color: #FFF0F5;
+  color: var(--admin-pink, #F20D6F);
+  border: 1px solid rgba(242, 13, 111, 0.24);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.emptyStateClearBtn:hover {
+  background-color: var(--admin-pink, #F20D6F);
+  color: #FFFFFF;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Responsive Behavior
+   ═══════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+  }
+
+  .stickyWrapper {
+    padding: 8px 1rem 10px 1rem;
+    margin: 0 -1rem;
+  }
+
+  .tableCard {
+    border-radius: 12px;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .tableWrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+
+  .table th,
+  .table td {
+    padding: 12px 14px;
+    white-space: nowrap;
+  }
+
+  .hideMobile {
+    display: none !important;
+  }
+
+  .showMobileInline {
+    display: inline !important;
+  }
+
+  .searchActionsBar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .searchWrapper {
+    width: 100%;
+    order: 1;
+  }
+
+  .actionControlsGroup {
+    width: 100%;
+    order: 2;
+    justify-content: space-between;
+  }
+
+  .filterBtn, .exportBtn {
+    flex: 1;
+  }
+
+  .itemsGrid {
+    grid-template-columns: 1fr;
+  }
+}

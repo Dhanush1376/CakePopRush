@@ -1,0 +1,165 @@
+/* Container & Shimmer Animation */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.skeleton {
+  background: #F6F7F8;
+  background-image: linear-gradient(
+    to right,
+    #F6F7F8 0%,
+    #EDEEF1 20%,
+    #F6F7F8 40%,
+    #F6F7F8 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 1000px 100%; 
+  animation-duration: 2s;
+  animation-fill-mode: forwards; 
+  animation-iteration-count: infinite;
+  animation-name: shimmer;
+  animation-timing-function: linear;
+  border-radius: var(--radius-md);
+}
+
+/* Header */
+.header {
+  margin-bottom: 4px;
+}
+.titleSkeleton { width: 160px; height: 30px; margin-bottom: 6px; border-radius: 6px; }
+
+.statsSubtitleSkeleton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.statBadgeSkeleton {
+  width: 95px;
+  height: 22px;
+  border-radius: 9999px;
+}
+
+/* Toolbar */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.searchWrapper {
+  flex: 1;
+  min-width: 0;
+}
+.searchSkeleton { width: 100%; height: 42px; border-radius: 8px; }
+
+.actionButtons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.btnSkeleton { width: 90px; height: 42px; border-radius: 8px; }
+.toggleSkeleton { width: 75px; height: 42px; border-radius: 8px; }
+
+/* Table Card */
+.tableCard {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tableHeaderRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1.5px solid var(--color-border);
+  background-color: #FFFFFF;
+}
+
+.thSkeleton {
+  height: 14px;
+  flex: 1;
+  border-radius: 4px;
+}
+
+.tableRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(56, 30, 16, 0.07);
+}
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+.cell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.customerCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.avatarSkeleton {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.nameSkeleton { width: 110px; height: 14px; margin-bottom: 5px; border-radius: 4px; }
+.emailSkeleton { width: 140px; height: 11px; border-radius: 4px; }
+
+.textSkeleton { height: 14px; border-radius: 4px; }
+.badgeSkeleton { height: 22px; border-radius: 9999px; }
+
+.actionsCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+  width: 100%;
+}
+.actionSkeleton { width: 32px; height: 32px; border-radius: 6px; }
+
+@media (max-width: 768px) {
+  .toolbar {
+    flex-wrap: wrap;
+  }
+  .searchWrapper {
+    width: 100%;
+    order: 1;
+  }
+  .actionButtons {
+    width: 100%;
+    order: 2;
+    justify-content: space-between;
+  }
+  .btnSkeleton {
+    flex: 1;
+  }
+}

@@ -1,0 +1,520 @@
+/* DeliveryOrderDetailSkeleton.module.css - Pure White & Grey Theme */
+
+@keyframes shimmerPulse {
+  0% {
+    background-position: -800px 0;
+  }
+  100% {
+    background-position: 800px 0;
+  }
+}
+
+.shimmer {
+  background: #E5E7EB;
+  background-image: linear-gradient(
+    90deg,
+    #E5E7EB 0%,
+    #F3F4F6 30%,
+    #FFFFFF 50%,
+    #F3F4F6 70%,
+    #E5E7EB 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 800px 100%;
+  animation: shimmerPulse 1.6s infinite linear;
+}
+
+.pageSkeleton {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: #F9FAFB;
+  overflow-x: hidden;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* 1. Map Section Skeleton (Top Half) */
+.mapSkeleton {
+  position: relative;
+  width: 100%;
+  height: 48vh;
+  min-height: 340px;
+  background: #EEF2F6;
+  overflow: hidden;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+/* Header Bar Overlay */
+.headerOverlay {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.backBtnSkeleton {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backBtnIcon {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.headerTitleBox {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 50px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+}
+
+.headerOrderText {
+  width: 110px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+}
+
+.headerSupportBtn {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 50px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+}
+
+.headerSupportText {
+  width: 55px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+/* Floating ETA Card (Top Left below header) */
+.etaCardSkeleton {
+  position: absolute;
+  top: 68px;
+  left: 16px;
+  width: 136px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 16px;
+  padding: 10px 14px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 10;
+}
+
+.etaLabel {
+  width: 70px;
+  height: 11px;
+  border-radius: 3px;
+}
+
+.etaTime {
+  width: 95px;
+  height: 18px;
+  border-radius: 4px;
+}
+
+.etaStatus {
+  width: 85px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+/* Floating Map Action Controls (Bottom Right - situated safely above the sheet) */
+.floatingMapControls {
+  position: absolute;
+  bottom: 38px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  z-index: 10;
+}
+
+.mapFabsRow {
+  display: flex;
+  gap: 8px;
+}
+
+.mapFabSkeleton {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fabIcon {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.recenterBtnSkeleton {
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 50px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.recenterIcon {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+}
+
+.recenterText {
+  width: 80px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+/* 2. Sliding Bottom Sheet Skeleton */
+.sheetContainer {
+  position: relative;
+  margin-top: -20px;
+  background: #FFFFFF;
+  border-top-left-radius: 26px;
+  border-top-right-radius: 26px;
+  border-top: 1px solid #E5E7EB;
+  box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.06);
+  padding: 12px 18px 60px;
+  max-width: 920px;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 20;
+}
+
+.dragHandleArea {
+  display: flex;
+  justify-content: center;
+  padding: 6px 0 16px;
+}
+
+.dragHandle {
+  width: 44px;
+  height: 5px;
+  border-radius: 4px;
+  background: #D1D5DB;
+}
+
+.sheetContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Status Title Row */
+.statusTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.statusTitle {
+  width: 220px;
+  height: 22px;
+  border-radius: 6px;
+}
+
+.statusBadge {
+  width: 80px;
+  height: 22px;
+  border-radius: 12px;
+}
+
+/* Customer Profile Card */
+.customerCard {
+  background: #FFFFFF;
+  border-radius: 18px;
+  border: 1px solid #E5E7EB;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.customerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatarCircle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.customerDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.customerName {
+  width: 140px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.customerPhone {
+  width: 100px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+.customerActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actionBtnSkeleton {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+}
+
+/* Delivery Status & Destination Card */
+.addressBox {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.addressHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.addressLabel {
+  width: 100px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+.gpsLinkSkeleton {
+  width: 50px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.addressLine1 {
+  width: 90%;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.addressLine2 {
+  width: 65%;
+  height: 14px;
+  border-radius: 4px;
+}
+
+/* 4-Step Vertical Timeline */
+.timelineBox {
+  margin-top: 6px;
+  padding-top: 14px;
+  border-top: 1px solid #F3F4F6;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.timelineRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  position: relative;
+}
+
+.timelineDotCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 24px;
+}
+
+.timelineDot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.timelineConnector {
+  width: 2px;
+  height: 22px;
+  background: #E5E7EB;
+}
+
+.timelineLabel {
+  width: 150px;
+  height: 14px;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+/* 4-Box Customer Delivery OTP Verification Strip */
+.otpVerifyStrip {
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.otpStripHeader {
+  width: 160px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.otpDigitsRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.otpBoxWrapper {
+  display: flex;
+}
+
+.otpBoxSkeleton {
+  width: 44px;
+  height: 48px;
+  border-radius: 12px;
+}
+
+.verifyBtnSkeleton {
+  width: 110px;
+  height: 48px;
+  border-radius: 12px;
+  margin-left: 4px;
+}
+
+/* Order Items Summary Card */
+.itemsBox {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.itemsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.itemsTitle {
+  width: 120px;
+  height: 15px;
+  border-radius: 4px;
+}
+
+.itemsBadge {
+  width: 60px;
+  height: 15px;
+  border-radius: 4px;
+}
+
+.itemRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #F3F4F6;
+}
+
+.itemRow:last-child {
+  border-bottom: none;
+}
+
+.itemThumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.itemMeta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.itemName {
+  width: 160px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.itemPrice {
+  width: 60px;
+  height: 12px;
+  border-radius: 4px;
+}

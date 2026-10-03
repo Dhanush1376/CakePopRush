@@ -1,0 +1,42 @@
+[
+  {
+    "id": "all",
+    "name": "All Items"
+  },
+  {
+    "id": "cake-pops",
+    "name": "Cake Pops"
+  },
+  {
+    "id": "cupcakes",
+    "name": "Cupcakes"
+  },
+  {
+    "id": "cookies",
+    "name": "Cookies"
+  },
+  {
+    "id": "brownies",
+    "name": "Brownies"
+  },
+  {
+    "id": "desserts",
+    "name": "Desserts"
+  },
+  {
+    "id": "cakes",
+    "name": "Cakes"
+  },
+  {
+    "id": "macarons",
+    "name": "Macarons"
+  },
+  {
+    "id": "cake-jars",
+    "name": "Cake Jars"
+  },
+  {
+    "id": "gift-boxes",
+    "name": "Gift Boxes"
+  }
+]

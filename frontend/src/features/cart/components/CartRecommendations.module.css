@@ -1,0 +1,142 @@
+.container {
+  margin-top: 10px;
+}
+
+@media (min-width: 1024px) {
+  .container {
+    margin-top: 0;
+  }
+}
+
+.scrollContainer {
+  margin: 0 calc(var(--space-4) * -1);
+  padding: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scrollContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.productGrid {
+  display: flex;
+  gap: var(--space-4);
+  width: max-content;
+  padding: 0 var(--space-4);
+}
+
+/* This creates a fake invisible element at the end so the scroll padding works in all browsers */
+.productGrid::after {
+  content: '';
+  width: 1px;
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .scrollContainer {
+    margin: 0;
+    padding: 0;
+  }
+  .productGrid {
+    padding: 0;
+  }
+}
+
+.productWrapper {
+  width: 140px;
+  flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .productWrapper {
+    width: 160px;
+  }
+}
+
+.sectionHeading {
+  font-family: var(--font-family-body) !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #111827 !important;
+  letter-spacing: -0.01em !important;
+  text-transform: none !important;
+  margin: 0 !important;
+  line-height: 1.4 !important;
+}
+
+.productWrapper div[class*="imageContainer"] {
+  background-color: transparent !important;
+  border: 1px solid #CBD5E1;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
+  overflow: hidden !important;
+  transform: translateZ(0);
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  mask-image: radial-gradient(white, black);
+}
+
+.productWrapper div[class*="imageContainer"] > div:first-child {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: unset !important;
+  border-radius: 0 !important;
+  background-color: transparent !important;
+}
+
+.productWrapper div[class*="imageContainer"] img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.productWrapper [class*="content"] {
+  padding: 8px 2px 2px 2px !important;
+}
+
+.productWrapper [class*="title"] {
+  font-size: 13px !important;
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+  line-height: 1.25 !important;
+  font-weight: 600 !important;
+}
+
+.productWrapper [class*="header"],
+.productWrapper [class*="category"],
+.productWrapper [class*="rating"] {
+  display: none !important;
+}
+
+.productWrapper [class*="wishlistWrapper"] {
+  position: absolute !important;
+  top: 8px !important;
+  right: 8px !important;
+  left: auto !important;
+  bottom: auto !important;
+  width: auto !important;
+  height: auto !important;
+  z-index: 10 !important;
+  display: block !important;
+}
+
+.productWrapper [class*="badgesContainer"] {
+  position: absolute !important;
+  top: 8px !important;
+  left: 8px !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: auto !important;
+  height: auto !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  z-index: 10 !important;
+}
+
+.productWrapper [class*="scallopedBadge"] {
+  width: 22px !important;
+  height: 22px !important;
+  font-size: 5px !important;
+}

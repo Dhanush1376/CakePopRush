@@ -1,0 +1,185 @@
+.fallbackWrapper {
+  width: 100%;
+  min-height: 80vh;
+  padding: 1.5rem 1rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .fallbackWrapper {
+    padding: 0.75rem 0.5rem;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(56, 30, 16, 0.04) 25%,
+    rgba(56, 30, 16, 0.09) 37%,
+    rgba(56, 30, 16, 0.04) 63%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite ease-in-out;
+  border-radius: 8px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ─── Admin Skeleton ────────────────────────── */
+.adminLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.adminHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.adminHeaderLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.adminTitle {
+  width: 220px;
+  height: 28px;
+}
+
+.adminSubtitle {
+  width: 150px;
+  height: 16px;
+}
+
+.adminActionBtn {
+  width: 110px;
+  height: 38px;
+  border-radius: 8px;
+}
+
+.adminStatsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .adminStatsRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.adminStatCard {
+  height: 80px;
+  border-radius: 12px;
+}
+
+.adminToolbar {
+  height: 52px;
+  border-radius: 12px;
+  width: 100%;
+}
+
+.adminCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.adminCardItem {
+  height: 110px;
+  border-radius: 16px;
+  border: 1px solid rgba(56, 30, 16, 0.08);
+}
+
+/* ─── Storefront Skeleton ────────────────────── */
+.storefrontLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.storefrontHero {
+  width: 100%;
+  height: 220px;
+  border-radius: 16px;
+}
+
+@media (max-width: 768px) {
+  .storefrontHero {
+    height: 160px;
+  }
+}
+
+.storefrontCategories {
+  display: flex;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.storefrontPill {
+  width: 90px;
+  height: 36px;
+  border-radius: 100px;
+  flex-shrink: 0;
+}
+
+.storefrontGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1024px) {
+  .storefrontGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .storefrontGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+
+.storefrontCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(56, 30, 16, 0.08);
+  padding: 10px;
+  background-color: #FFFFFF;
+}
+
+.storefrontCardImage {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+}
+
+.storefrontCardTitle {
+  width: 80%;
+  height: 14px;
+}
+
+.storefrontCardPrice {
+  width: 45%;
+  height: 16px;
+}

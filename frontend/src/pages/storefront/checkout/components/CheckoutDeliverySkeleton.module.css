@@ -1,0 +1,128 @@
+.skeletonWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.savedHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.addressList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.addressCard {
+  background-color: #FFFFFF;
+  border-radius: var(--radius-lg, 16px);
+  padding: 14px 16px;
+  border: 1px solid #CBD5E1;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+
+.selectedCard {
+  border: 1.5px solid var(--color-brand-pink, #F20D6F);
+  box-shadow: 0 8px 24px rgba(242, 13, 111, 0.12), 0 2px 6px rgba(242, 13, 111, 0.06);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 7px;
+}
+
+.radioRow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.radio {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid #CBD5E1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background-color: #FFFFFF;
+}
+
+.radioSelected {
+  border-color: var(--color-brand-pink, #F20D6F);
+}
+
+.radioInner {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-brand-pink, #F20D6F);
+}
+
+.addressDetails {
+  padding-left: 27px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 6px;
+}
+
+.cardDivider {
+  border: none;
+  border-top: 1px dashed #CBD5E1;
+  margin: 9px 0 8px 0;
+  width: 100%;
+}
+
+.mobileContact {
+  padding-left: 27px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.addAddressPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 16px;
+  border-radius: var(--radius-lg, 16px);
+  border: 1.5px dashed #CBD5E1;
+  background-color: rgba(255, 255, 255, 0.6);
+  margin-top: 2px;
+}
+
+/* Premium Light Shimmer */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    #F1F5F9 0%,
+    #E2E8F0 45%,
+    #F1F5F9 90%
+  );
+  background-size: 200% 100%;
+  animation: shimmerSweep 1.6s ease-in-out infinite;
+  display: block;
+  flex-shrink: 0;
+}
+
+@keyframes shimmerSweep {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

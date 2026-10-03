@@ -1,0 +1,204 @@
+.container {
+  position: relative;
+}
+
+.trigger {
+  height: 38px;
+  min-height: 38px;
+  width: 100%;
+  padding: 8px 14px;
+  border: 1.5px solid #CBD5E1;
+  border-radius: var(--radius-md, 10px);
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  box-sizing: border-box;
+  background-color: var(--color-white);
+  color: var(--admin-brown, #381E10);
+  font-weight: 500;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.trigger:focus, .trigger[aria-expanded="true"] {
+  /* Box shadow handled by variants */
+}
+
+.triggerText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  flex: 1;
+}
+
+.icon {
+  flex-shrink: 0;
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.iconOpen {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--color-white);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: 0 10px 32px rgba(43, 33, 24, 0.2), 0 2px 8px rgba(0, 0, 0, 0.06);
+  z-index: 1000;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  animation: fadeInMenu 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeInMenu {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.menuBottom {
+  top: calc(100% + 6px);
+  transform-origin: top center;
+}
+
+.menuTop {
+  bottom: calc(100% + 6px);
+  transform-origin: bottom center;
+}
+
+.dropdown::-webkit-scrollbar {
+  width: 5px;
+}
+.dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+.dropdown::-webkit-scrollbar-thumb {
+  background: rgba(142, 122, 110, 0.3);
+  border-radius: 10px;
+}
+
+.option {
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--color-chocolate, #381E10);
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  box-sizing: border-box;
+  transition: background-color 0.12s, color 0.12s;
+}
+
+.optionLabel {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.checkmark {
+  font-size: 12px;
+  font-weight: 700;
+  color: inherit;
+  flex-shrink: 0;
+}
+
+.option:hover {
+  background-color: rgba(242, 13, 111, 0.06);
+}
+
+.option.selected {
+  font-weight: 600;
+}
+
+/* Color Variants */
+.variant-pink .trigger {
+  height: 36px;
+  background-color: #FFF0F5;
+  border-color: #D81B60;
+  color: #D81B60;
+  font-weight: 500;
+}
+.variant-pink .icon {
+  color: #D81B60;
+}
+.variant-pink .trigger:focus, .variant-pink .trigger[aria-expanded="true"] {
+  border-color: #C2185B;
+  box-shadow: 0 0 0 2px rgba(233, 30, 99, 0.15);
+}
+.variant-pink .option:hover, .variant-pink .option.selected {
+  background-color: #FFF0F5;
+  color: #D81B60;
+}
+
+.variant-yellow .trigger {
+  height: 36px;
+  background-color: #FFF8E1;
+  border-color: #B45309;
+  color: #B45309;
+  font-weight: 500;
+}
+.variant-yellow .icon {
+  color: #B45309;
+}
+.variant-yellow .trigger:focus, .variant-yellow .trigger[aria-expanded="true"] {
+  border-color: #92400E;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.15);
+}
+.variant-yellow .option:hover, .variant-yellow .option.selected {
+  background-color: #FFF8E1;
+  color: #B45309;
+}
+
+.variant-turquoise .trigger {
+  height: 36px;
+  background-color: #E0FAFC;
+  border-color: #0E7490;
+  color: #0E7490;
+  font-weight: 500;
+}
+.variant-turquoise .icon {
+  color: #0E7490;
+}
+.variant-turquoise .trigger:focus, .variant-turquoise .trigger[aria-expanded="true"] {
+  border-color: #083344;
+  box-shadow: 0 0 0 2px rgba(0, 188, 212, 0.15);
+}
+.variant-turquoise .option:hover, .variant-turquoise .option.selected {
+  background-color: #E0FAFC;
+  color: #0E7490;
+}
+
+@media (max-width: 576px) {
+  .trigger {
+  height: 36px;
+    padding: 8px 10px;
+    font-size: 13px;
+    min-width: 0;
+    gap: 4px;
+  }
+}

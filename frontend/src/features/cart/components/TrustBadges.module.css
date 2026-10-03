@@ -1,0 +1,65 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background-color: #FFFFFF;
+  border-radius: var(--radius-lg);
+  border: 1px solid #CBD5E1;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+    justify-content: space-around;
+    padding: var(--space-5) var(--space-4);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: var(--space-4);
+  }
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: #374151;
+}
+
+@media (min-width: 768px) {
+  .badge {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-2);
+  }
+}
+
+@media (min-width: 1024px) {
+  .badge {
+    flex-direction: row;
+    text-align: left;
+    gap: var(--space-3);
+  }
+}
+
+.icon {
+  color: #D97706;
+  flex-shrink: 0;
+}
+
+.text {
+  font-family: var(--font-family-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.turquoise .icon {
+  color: var(--color-brand-turquoise);
+}

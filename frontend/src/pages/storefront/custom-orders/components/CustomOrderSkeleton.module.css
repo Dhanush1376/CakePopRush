@@ -1,0 +1,520 @@
+/* ==========================================================================
+   CustomOrderSkeleton.module.css
+   Modern, high-fidelity light shimmer skeleton system for Custom Orders.
+   ========================================================================== */
+
+/* Base Shimmer Gradient */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    #F1F5F9 0%,
+    #E2E8F0 45%,
+    #F1F5F9 90%
+  );
+  background-size: 200% 100%;
+  animation: shimmerSweep 1.6s ease-in-out infinite;
+  display: block;
+  flex-shrink: 0;
+}
+
+@keyframes shimmerSweep {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ==========================================================================
+   FORM SECTION SKELETON (Step 1 Form)
+   ========================================================================== */
+.formSkeletonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: 100%;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Step Header */
+.stepHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.stepBadge {
+  width: 96px;
+  height: 22px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    #FCE7F3 0%,
+    #F3E8FF 45%,
+    #FCE7F3 90%
+  );
+  background-size: 200% 100%;
+  animation: shimmerSweep 1.6s ease-in-out infinite;
+}
+
+.stepTitle {
+  width: 44%;
+  height: 24px;
+  border-radius: 8px;
+}
+
+.stepSubtitle {
+  width: 72%;
+  height: 14px;
+  border-radius: 6px;
+}
+
+/* Form Fields Grid */
+.formGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.fieldWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.labelDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #CBD5E1;
+}
+
+.labelText {
+  height: 11px;
+  border-radius: 4px;
+}
+
+/* Select Dropdown Skeleton */
+.selectBox {
+  height: 48px;
+  border-radius: 16px;
+  background: #FFFFFF;
+  border: 1px solid rgba(56, 30, 16, 0.12);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.selectText {
+  width: 140px;
+  height: 13px;
+  border-radius: 4px;
+}
+
+.chevronIcon {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+/* Upload Dropzone Skeleton */
+.dropzoneBox {
+  height: 120px;
+  border-radius: 16px;
+  border: 1.5px dashed #CBD5E1;
+  background-color: #FAFBFD;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 16px;
+}
+
+.dropzoneIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+}
+
+.dropzoneText {
+  width: 150px;
+  height: 13px;
+  border-radius: 4px;
+}
+
+.dropzoneSubtext {
+  width: 100px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+/* Textarea Skeleton */
+.textareaBox {
+  height: 92px;
+  border-radius: 16px;
+  background: #FFFFFF;
+  border: 1px solid rgba(56, 30, 16, 0.12);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.textareaLine1 {
+  width: 82%;
+  height: 11px;
+  border-radius: 4px;
+}
+
+.textareaLine2 {
+  width: 58%;
+  height: 11px;
+  border-radius: 4px;
+}
+
+/* Row with 2 Columns */
+.twoColRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Standard Input Box */
+.inputBox {
+  height: 48px;
+  border-radius: 16px;
+  background: #FFFFFF;
+  border: 1px solid rgba(56, 30, 16, 0.12);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+}
+
+.inputIcon {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+}
+
+.inputText {
+  height: 13px;
+  border-radius: 4px;
+}
+
+/* Action Footer */
+.actionsRow {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 14px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(56, 30, 16, 0.08);
+}
+
+.nextBtnSkeleton {
+  width: 200px;
+  height: 46px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    #FCE7F3 0%,
+    #FBCFE8 45%,
+    #FCE7F3 90%
+  );
+  background-size: 200% 100%;
+  animation: shimmerSweep 1.6s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   SIDEBAR STEPS SKELETON (Left Rail)
+   ========================================================================== */
+.sidebarList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+}
+
+.sidebarStepItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stepCircle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.stepCircleActive {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid rgba(242, 13, 111, 0.35);
+  flex-shrink: 0;
+}
+
+.stepTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.stepTitleLine {
+  height: 14px;
+  border-radius: 4px;
+}
+
+.stepDividerLine {
+  width: 2px;
+  height: 22px;
+  background-color: #E2E8F0;
+  margin: 4px 0 4px 15px;
+  border-radius: 1px;
+}
+
+/* ==========================================================================
+   TAB 2: MY REQUESTS SKELETON (Tracking Cards)
+   ========================================================================== */
+.trackList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.trackCard {
+  background: #FFFFFF;
+  border-radius: 20px;
+  border: 1px solid rgba(56, 30, 16, 0.09);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.trackHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 18px;
+  background: rgba(245, 247, 250, 0.6);
+  border-bottom: 1px solid #EAEAEA;
+}
+
+.trackHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.trackStatusChip {
+  width: 90px;
+  height: 22px;
+  border-radius: 6px;
+}
+
+.trackDate {
+  width: 75px;
+  height: 12px;
+  border-radius: 4px;
+}
+
+.trackActionBtn {
+  width: 65px;
+  height: 22px;
+  border-radius: 4px;
+}
+
+.trackBody {
+  display: flex;
+  align-items: center;
+  padding: 18px;
+  gap: 16px;
+}
+
+.trackImage {
+  width: 88px;
+  height: 88px;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+
+.trackContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.trackTag {
+  width: 75px;
+  height: 11px;
+  border-radius: 4px;
+}
+
+.trackTitle {
+  width: 55%;
+  height: 17px;
+  border-radius: 4px;
+}
+
+.trackSub {
+  width: 40%;
+  height: 12px;
+  border-radius: 4px;
+}
+
+.trackChipsRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 3px;
+  flex-wrap: wrap;
+}
+
+.trackChip {
+  width: 95px;
+  height: 20px;
+  border-radius: 6px;
+}
+
+.trackChevron {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   CUSTOM ORDER DETAIL PAGE SKELETON (Overview + Chat)
+   ========================================================================== */
+.detailSkeletonContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.chatSkeletonBox {
+  background: #FFFFFF;
+  border-radius: 20px;
+  border: 1px solid rgba(56, 30, 16, 0.09);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.chatHeaderSkeleton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: #F8FAFC;
+  border-bottom: 1px solid #EAEAEA;
+}
+
+.chatAvatarSkeleton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.chatHeaderText {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.chatBodySkeleton {
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-height: 220px;
+  background: #FAF8F5;
+}
+
+.chatBubbleLeft {
+  width: 58%;
+  height: 54px;
+  border-radius: 18px 18px 18px 4px;
+  align-self: flex-start;
+}
+
+.chatBubbleRight {
+  width: 48%;
+  height: 46px;
+  border-radius: 18px 18px 4px 18px;
+  align-self: flex-end;
+}
+
+/* ==========================================================================
+   RESPONSIVE QUERIES
+   ========================================================================== */
+@media (max-width: 768px) {
+  .stepTitle {
+    width: 65%;
+  }
+
+  .stepSubtitle {
+    width: 90%;
+  }
+
+  .twoColRow {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .actionsRow {
+    justify-content: stretch;
+  }
+
+  .nextBtnSkeleton {
+    width: 100%;
+  }
+
+  .trackBody {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .trackImage {
+    width: 72px;
+    height: 72px;
+  }
+
+  .trackTitle {
+    width: 80%;
+  }
+}
